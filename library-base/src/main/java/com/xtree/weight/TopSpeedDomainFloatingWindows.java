@@ -1,14 +1,17 @@
 package com.xtree.weight;
 
 import static android.content.Context.WINDOW_SERVICE;
+import static com.xtree.base.net.fastest.FastestConfigKt.FASTEST_GOURP_NAME;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.drake.net.Net;
 import com.xtree.base.R;
 import com.xtree.base.adapter.MainDomainAdapter;
 import com.xtree.base.databinding.MainLayoutTopSpeedDomainBinding;
@@ -18,8 +21,10 @@ import com.xtree.base.widget.FloatingWindows;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import me.xtree.mvvmhabit.utils.ConvertUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class TopSpeedDomainFloatingWindows extends FloatingWindows {
     MainLayoutTopSpeedDomainBinding mBinding;
@@ -46,6 +51,10 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
         secondaryLayout.setVisibility(View.GONE);
         mBinding.rvAgent.setLayoutManager(new LinearLayoutManager(mContext));
         floatView.setOnClickListener(v -> {
+
+            Net.INSTANCE.cancelGroup(FASTEST_GOURP_NAME);
+            FastestTopDomainUtil.Companion.setMIsFinish(true);
+
             if(secondaryLayout.getVisibility() == VISIBLE){
                 secondaryLayout.setVisibility(GONE);
             }else {
@@ -66,20 +75,26 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
             }
         });
         mBinding.tvSpeedCheck.setOnClickListener(v -> {
-            List<TopSpeedDomain> datas = new ArrayList<>();
-            for (int i = 0; i < 4; i++) {
-                datas.add(new TopSpeedDomain());
+
+            if (FastestTopDomainUtil.Companion.getMIsFinish()) {
+                List<TopSpeedDomain> datas = new ArrayList<>();
+                for (int i = 0; i < 4; i++) {
+                    datas.add(new TopSpeedDomain());
+                }
+                mainDomainAdapter.setChecking(true);
+                mainDomainAdapter.setNewData(datas);
+                FastestTopDomainUtil.getInstance().start();
+            } else {
+                ToastUtils.show("测速过于频繁，请稍后再试!", Toast.LENGTH_SHORT, 0);
             }
-            mainDomainAdapter.setChecking(true);
-            mainDomainAdapter.setNewData(datas);
-            FastestTopDomainUtil.getInstance().start();
         });
     }
 
     public void refresh() {
         if(mainDomainAdapter != null) {
             mainDomainAdapter.setChecking(false);
-            List<TopSpeedDomain> topSpeedDomain = FastestTopDomainUtil.getInstance().getTopSpeedDomain();
+
+            CopyOnWriteArrayList<TopSpeedDomain> topSpeedDomain = new CopyOnWriteArrayList<>(FastestTopDomainUtil.getInstance().getTopSpeedDomain());
 
             if (topSpeedDomain.isEmpty()) {
                 onError();
