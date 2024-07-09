@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="@drawable/bg_dialog_choose_list">
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                 android:id="@+id/lv_choose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_dialog_choose_list"
+                android:background="@color/white"
                 android:divider="@null"
                 android:listSelector="@android:color/transparent"
                 android:visibility="gone"

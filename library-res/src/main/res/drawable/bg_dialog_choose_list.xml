@@ -3,16 +3,15 @@
     android:shape="rectangle">
 
     <corners
-
         android:radius="20dp"/>
     <gradient
         android:angle="180"
-        android:startColor="@color/clr_main"
-        android:centerColor="@color/clr_main"
-        android:endColor="@color/clr_main"/>
+        android:startColor="@color/clr_blue_04"
+        android:centerColor="@color/clr_blue_07"
+        android:endColor="@color/clr_short_btn_end"/>
     <stroke
-        android:width="2dp"
-        android:color="@color/clr_fund_psw_top"
+        android:width="1dp"
+        android:color="@color/clr_withdrawal_stroke"
         />
 
 </shape>
