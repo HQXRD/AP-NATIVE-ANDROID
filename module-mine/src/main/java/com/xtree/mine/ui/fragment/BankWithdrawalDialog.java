@@ -671,8 +671,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
         binding.llShowNoticeInfo.setVisibility(View.GONE); //顶部提示信息隐藏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.tvSetWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
-            binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
+            binding.tvSetWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_blue_07));
+            binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_blue_07));
         }
         binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
         binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
@@ -745,9 +745,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.llShowNoticeInfo.setVisibility(View.GONE); //顶部提示信息隐藏
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                binding.tvSetWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
-                binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
-                binding.tvOverWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
+                binding.tvSetWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_blue_07));
+                binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_blue_07));
+                binding.tvOverWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_blue_07));
             }
             binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
             binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示

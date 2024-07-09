@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/txt_set_withdrawal_request"
-                        android:textColor="@color/clr_choose_20" />
+                        android:textColor="@color/clr_blue_07" />
 
                     <TextView
                         android:id="@+id/tv_confirm_withdrawal_request"
