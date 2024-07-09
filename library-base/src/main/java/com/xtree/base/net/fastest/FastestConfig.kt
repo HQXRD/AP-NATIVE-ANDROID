@@ -10,6 +10,8 @@ import com.drake.net.request.UrlRequest
 
 //测速API
 const val FASTEST_API = "/?speedTest=1"
+//测速请求组
+const val FASTEST_GOURP_NAME = "fstestaRequest"
 
 //测速接口配置
 val FASTEST_BLOCK: (UrlRequest.() -> Unit) = {

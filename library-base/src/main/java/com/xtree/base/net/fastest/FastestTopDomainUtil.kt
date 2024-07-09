@@ -1,7 +1,9 @@
 package com.xtree.base.net.fastest
 
+import android.widget.Toast
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
+import com.drake.net.Net
 import com.drake.net.okhttp.trustSSLCertificate
 import com.drake.net.transform.transform
 import com.drake.net.utils.runMain
@@ -17,6 +19,8 @@ import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
 import com.xtree.base.vo.TopSpeedDomain
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -45,7 +49,9 @@ class FastestTopDomainUtil private constructor() {
         private lateinit var mCurApiDomainList: MutableList<String>
         private lateinit var mThirdDomainList: MutableList<String>
         private lateinit var mTopSpeedDomainList: MutableList<TopSpeedDomain>
-        private var mIsFinish: Boolean = true
+        @set:Synchronized
+        @get:Synchronized
+        var mIsFinish: Boolean = true
     }
 
     fun start() {
@@ -54,7 +60,7 @@ class FastestTopDomainUtil private constructor() {
             EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FAILED, ""))
             return
         }
-        if(mIsFinish) {
+        if (mIsFinish) {
             CfLog.e("=====开始线路测速========")
             mIsFinish = false
             index = 0
@@ -64,6 +70,8 @@ class FastestTopDomainUtil private constructor() {
             mTopSpeedDomainList.clear()
             setThirdFasterDomain()
             setFasterApiDomain()
+        } else {
+            ToastUtils.show("测速过于频繁，请稍后再试!", Toast.LENGTH_SHORT, 0)
         }
     }
 
@@ -101,7 +109,10 @@ class FastestTopDomainUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             var curTime: Long = System.currentTimeMillis()
             val domainTasks = mCurApiDomainList.map { host ->
-                Get<String>(getFastestAPI(host), block = FASTEST_BLOCK)
+                Get<String>(getFastestAPI(host), block = {
+                    setGroup(FASTEST_GOURP_NAME)
+                    FASTEST_BLOCK
+                })
                     .transform { data ->
                         CfLog.i("$host")
                         var topSpeedDomain = TopSpeedDomain()
@@ -113,20 +124,28 @@ class FastestTopDomainUtil private constructor() {
                         //debug模式 显示所有测速线路 release模式 只显示4条
                         if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {
                             mTopSpeedDomainList.add(topSpeedDomain)
-                            mIsFinish = true
                             mTopSpeedDomainList.sort()
                             DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
                             EventBus.getDefault()
                                 .post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
                         }
 
+                        if (!BuildConfig.DEBUG) {
+                            if (mTopSpeedDomainList.size >= 4 && !mIsFinish) {
+                                Net.cancelGroup(FASTEST_GOURP_NAME)
+                                mIsFinish = true
+                            }
+                        }
+
                         data
                     }
             }
             try {
+                val jobs = mutableListOf<Job>()
+
                 val mutex = Mutex()
                 domainTasks.forEach {
-                    launch(Dispatchers.IO) {
+                    val job = launch(Dispatchers.IO) {
                         try {
                             val result = it.deferred.await()
                             mutex.withLock {
@@ -136,7 +155,12 @@ class FastestTopDomainUtil private constructor() {
                             it.deferred.cancel()
                         }
                     }
+                    jobs.add(job)
                 }
+
+                jobs.joinAll()
+                mIsFinish = true
+
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
