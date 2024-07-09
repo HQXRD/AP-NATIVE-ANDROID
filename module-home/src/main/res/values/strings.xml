@@ -5,6 +5,7 @@
     <string name="hm_txt_deposit">充值</string>
     <string name="hm_txt_withdraw">提款</string>
     <string name="hm_txt_trans">转账</string>
+    <string name="hm_txt_cs">客服</string>
     <string name="hm_txt_member">会员</string>
     <string name="hm_txt_vip">VIP</string>
     <string name="hm_txt_maintaining">平台于: %1$s\n维护至: %2$s</string>
