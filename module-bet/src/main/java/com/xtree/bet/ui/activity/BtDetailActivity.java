@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -38,7 +37,6 @@ import com.xtree.bet.BR;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.contract.BetContract;
@@ -157,10 +155,10 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tabPos = tab.getPosition();
-                for(int i = 0; i < binding.tabCategoryType.getTabCount(); i ++){
-                    if(tabPos == i){
+                for (int i = 0; i < binding.tabCategoryType.getTabCount(); i++) {
+                    if (tabPos == i) {
                         binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.drawable.bt_bg_detail_tab_selected);
-                    }else {
+                    } else {
                         binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.drawable.bt_bg_detail_tab);
                     }
                 }
@@ -446,41 +444,41 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 binding.llEnd.llEmpty.setVisibility(View.GONE);
             }
             //if (mCategories.size() != categories.size()) {
-                mCategories = categories;
-                if(binding.tabCategoryType.getTabCount() == 0) {
-                    for (int i = 0; i < categories.size(); i++) {
-                        View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
-                        TextView tvName = view.findViewById(R.id.tab_item_name);
-                        String name = categories.get(i) == null ? "" : categories.get(i).getName();
+            mCategories = categories;
+            if (binding.tabCategoryType.getTabCount() == 0) {
+                for (int i = 0; i < categories.size(); i++) {
+                    View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
+                    TextView tvName = view.findViewById(R.id.tab_item_name);
+                    String name = categories.get(i) == null ? "" : categories.get(i).getName();
 
-                        tvName.setText(name);
-                        ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
-                        tvName.setTextColor(colorStateList);
+                    tvName.setText(name);
+                    ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
+                    tvName.setTextColor(colorStateList);
 
-                        binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
+                    binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
 
-                    }
-                }else{
-                    for (int i = 0; i < categories.size(); i++) {
-                        try {
-                            if (binding.tabCategoryType == null) {
-                                CfLog.e("=========binding.tabCategoryType == null=========");
-                            }
-                            if (categories.get(i) == null && binding.tabCategoryType != null && i < binding.tabCategoryType.getTabCount()) {
-                                binding.tabCategoryType.removeTabAt(i);
-                                if (binding.tabCategoryType.getTabCount() == 0) {
-                                    binding.rlPlayMethod.setVisibility(View.GONE);
-                                    binding.flOption.setVisibility(View.GONE);
-                                    binding.llEnd.llEmpty.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }catch (Exception e){
-                            CfLog.e("binding.tabCategoryType.getTabCount()-------" + binding.tabCategoryType.getTabCount() + "-----" + i);
-                            CfLog.e(e.getMessage());
-                        }
-                    }
-                    viewModel.updateCategoryData();
                 }
+            } else {
+                for (int i = 0; i < categories.size(); i++) {
+                    try {
+                        if (binding.tabCategoryType == null) {
+                            CfLog.e("=========binding.tabCategoryType == null=========");
+                        }
+                        if (categories.get(i) == null && binding.tabCategoryType != null && i < binding.tabCategoryType.getTabCount()) {
+                            binding.tabCategoryType.removeTabAt(i);
+                            if (binding.tabCategoryType.getTabCount() == 0) {
+                                binding.rlPlayMethod.setVisibility(View.GONE);
+                                binding.flOption.setVisibility(View.GONE);
+                                binding.llEnd.llEmpty.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    } catch (Exception e) {
+                        CfLog.e("binding.tabCategoryType.getTabCount()-------" + binding.tabCategoryType.getTabCount() + "-----" + i);
+                        CfLog.e(e.getMessage());
+                    }
+                }
+                viewModel.updateCategoryData();
+            }
             updateOptionData();
             /*} else {
                 mCategories = categories;
@@ -522,7 +520,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 ToastUtils.showLong(getText(R.string.bt_bt_must_have_two_match));
                 return;
             }
-            if(ClickUtil.isFastClick()){
+            if (ClickUtil.isFastClick()) {
                 return;
             }
             BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
