@@ -4,7 +4,6 @@ import android.widget.Toast
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
 import com.drake.net.Net
-import com.drake.net.okhttp.trustSSLCertificate
 import com.drake.net.transform.transform
 import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
@@ -117,7 +116,7 @@ class FastestTopDomainUtil private constructor() {
                         CfLog.i("$host")
                         var topSpeedDomain = TopSpeedDomain()
                         topSpeedDomain.url = host
-                        topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
+                        topSpeedDomain.speedSec = data.toLong() - curTime
                         CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
                         mCurApiDomainList.remove(host)
 
@@ -147,12 +146,16 @@ class FastestTopDomainUtil private constructor() {
                 domainTasks.forEach {
                     val job = launch(Dispatchers.IO) {
                         try {
-                            val result = it.deferred.await()
+                            it.deferred.await()
                             mutex.withLock {
-                                it.block(result)
+                                it.block(System.currentTimeMillis().toString())
                             }
                         } catch (e: Exception) {
-                            it.deferred.cancel()
+                            try {
+                                it.deferred.cancel()
+                            } catch (e: CancellationException) {
+                                CfLog.e(e.toString())
+                            }
                         }
                     }
                     jobs.add(job)
