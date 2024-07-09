@@ -405,7 +405,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
 
-        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.ivwClose.setOnClickListener(view -> {
             binding.llNotice.setVisibility(View.GONE);
             binding.ivwNotice.setVisibility(View.VISIBLE);
