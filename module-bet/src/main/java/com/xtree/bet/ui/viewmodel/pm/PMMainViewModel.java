@@ -417,6 +417,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         Flowable flowable = model.getPMApiService().matchesPagePB(pmListReq);
+        if(isStepSecond){
+            flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
+        }
         pmListReq.setCps(mPageSize);
         if (type == 1) {// 滚球
             if (needSecondStep) {
