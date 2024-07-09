@@ -3,10 +3,12 @@
     android:shape="rectangle">
 
     <gradient
+        android:angle="270"
         android:endColor="@color/clr_white"
-        android:startColor="@color/clr_white" />
+        android:startColor="@color/clr_blue_09" />
 
     <corners
+        android:radius="20dp"
         android:bottomLeftRadius="12dp"
         android:bottomRightRadius="12dp" />
 

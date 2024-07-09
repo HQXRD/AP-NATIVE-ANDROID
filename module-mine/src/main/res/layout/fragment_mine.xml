@@ -11,7 +11,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/clr_main_08"
+            android:background="@drawable/bg_mine_clr"
             android:orientation="vertical">
 
             <LinearLayout
@@ -90,13 +90,13 @@
                     android:id="@+id/tvw_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_btn_selector"
+                    android:background="@drawable/bg_btn_login_selector"
                     android:paddingLeft="45dp"
                     android:paddingTop="5dp"
                     android:paddingEnd="45dp"
                     android:paddingBottom="5dp"
                     android:text="@string/me_login_hint"
-                    android:textColor="@color/clr_white"
+                    android:textColor="@color/clr_blue_07"
                     android:textSize="@dimen/mine_text_size" />
             </LinearLayout>
 
@@ -107,7 +107,7 @@
                 android:layout_marginStart="@dimen/layout_margin"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_marginEnd="@dimen/layout_margin"
-                android:background="@drawable/bg_me_main_frame_2"
+                android:background="@drawable/bg_me_main_frame"
                 android:padding="@dimen/layout_margin"
                 android:visibility="visible">
 
@@ -252,7 +252,8 @@
                     android:elevation="1dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:id="@+id/ll_menu_2"
@@ -483,16 +484,16 @@
 
             <Button
                 android:id="@+id/btn_logout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="36dp"
+                android:layout_marginStart="46dp"
+                android:layout_marginEnd="46dp"
                 android:layout_marginTop="48dp"
-                android:layout_marginEnd="36dp"
                 android:layout_marginBottom="24dp"
-                android:background="@color/clr_transparent"
+                android:background="@drawable/bg_btn_logout"
                 android:text="@string/me_logout_login"
-                android:textColor="@color/clr_txt"
+                android:textColor="@color/clr_blue_02"
                 android:textSize="@dimen/bt_text_16sp"
                 android:textStyle="bold" />
 
