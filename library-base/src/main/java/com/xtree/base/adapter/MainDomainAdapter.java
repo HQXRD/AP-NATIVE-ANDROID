@@ -17,12 +17,14 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.functions.Consumer;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
     private boolean mChecking = true;
     private boolean mFailed = false;
+    private Consumer<String> callBack = null;
     private List<TopSpeedDomain> tmpTopSpeedDomainList = new ArrayList<>();
 
     public void setChecking(boolean isChecking) {
@@ -31,6 +33,10 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
 
     public void setFailed(boolean isFailed) {
         mFailed = isFailed;
+    }
+
+    public void setCallBack(Consumer<String> callBack) {
+        this.callBack = callBack;
     }
 
     @Override
@@ -91,6 +97,14 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
             Activity activity = AppManager.getAppManager().currentActivity();
             activity.startActivity(new Intent(activity, activity.getClass()));
             notifyDataSetChanged();
+
+            if (callBack != null) {
+                try {
+                    callBack.accept(domain.url);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
         });
     }
 }
