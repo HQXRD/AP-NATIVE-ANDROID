@@ -164,6 +164,17 @@
                 android:text="@string/txt_confirm"
                 android:textSize="14sp" />
         </LinearLayout>
-
+        <TextView
+            android:id="@+id/dialog_update_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_update_bottom_error_tip"
+            android:textColor="@color/clr_purple_12"
+            android:textSize="14sp"
+            android:layout_marginTop="-20dp"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout"
+            app:layout_constraintEnd_toEndOf="@id/linearLayout"
+            app:layout_constraintStart_toStartOf="@id/linearLayout"
+            android:visibility="invisible"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

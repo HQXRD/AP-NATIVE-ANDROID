@@ -267,6 +267,8 @@
     <string name="txt_withdraw_input_mix_tip">提款金额不能小于最小提款金额</string>
     <string name="txt_withdraw_input_max_tip">提款金额不能大于最大提款金额</string>
     <string name="txt_withdraw_address_tip">请选择提款地址</string>
-    <string name="txt_withdraw_submit_tip">账户提款申请成功</string>、
+    <string name="txt_withdraw_submit_tip">账户提款申请成功</string>
     <string name="txt_withdrawal_usdt_title">USDT提款</string>
+    <string name="txt_update_bottom_tip">打开浏览器下载安装</string>
+    <string name="txt_update_bottom_error_tip">如更新失败，点击此处下载安装</string>
 </resources>
