@@ -156,7 +156,7 @@
                 <TextView
                     android:id="@+id/tvw_cs"
                     style="@style/style_hm_recharge"
-                    android:drawableTop="@mipmap/hm_ic_member"
+                    android:drawableTop="@mipmap/hm_ic_cs"
                     android:text="@string/hm_txt_cs" />
 
             </LinearLayout>
