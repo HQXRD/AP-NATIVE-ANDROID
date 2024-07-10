@@ -1055,7 +1055,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         ppw = new XPopup.Builder(getContext())
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(false)
-                .asCustom(new MsgDialog(getContext(), title, msg, false, new MsgDialog.ICallBack() {
+                .asCustom(new MsgDialog(getContext(), title, String.valueOf(msg), false, 300, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
                         ppw.dismiss();

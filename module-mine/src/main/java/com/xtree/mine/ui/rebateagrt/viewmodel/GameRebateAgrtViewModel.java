@@ -220,6 +220,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
             MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips),
                     content,
                     true,
+                    300,
                     new TipDialog.ICallBack() {
                         @Override
                         public void onClickLeft() {
