@@ -5,6 +5,7 @@ import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LOTTERI
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
@@ -267,7 +268,9 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                 //total
                                 GameDividendAgrtTotalModel totalModel = new GameDividendAgrtTotalModel();
                                 totalModel.setItemType(3);
-                                totalModel.setCycle(headModel.cyclyData.get().getShowName());
+                                if (headModel.cyclyData.get() != null && !TextUtils.isEmpty(headModel.cyclyData.get().getShowName())) {
+                                    totalModel.setCycle(headModel.cyclyData.get().getShowName());
+                                }
 
                                 //自己的契约数据
                                 GameDividendAgrtResponse.SelfBillDTO selfBill = vo.getSelfBill();
