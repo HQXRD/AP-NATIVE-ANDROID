@@ -56,7 +56,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
- * 投注确认页面
+ * 投注提交页面
  */
 public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding, TemplateBtCarViewModel> {
     public final static String KEY_BT_OPTION = "KEY_BT_OPTION";
@@ -132,6 +132,8 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         keyboardView.setVisibility(View.GONE);
         keyboardView.setKeyBoardListener(mKeyBoardListener);
         keyboardView.setParent(binding.nsvOption);
+        mBanlance = SPUtils.getInstance().getString(SPKeyGlobal.WLT_CENTRAL_BLC, "-1");
+        binding.tvBalance.setText(NumberUtils.format(Double.valueOf(mBanlance), 2));
         binding.ivConfirm.setCallBack(() -> {
             int acceptOdds = binding.cbAccept.isChecked() ? 1 : 2;
             if (TextUtils.equals(mBanlance, "-1")) {
