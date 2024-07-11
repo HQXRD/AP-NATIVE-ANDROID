@@ -371,8 +371,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         if (mProfileVo == null || TextUtils.isEmpty(token)) {
             CfLog.i("****** not login");
-            binding.llLogin.setVisibility(View.VISIBLE);
-            binding.clAlreadyLogin.setVisibility(View.GONE);
+            binding.tvwLogin.setVisibility(View.VISIBLE);
+            binding.clMoney.setVisibility(View.GONE);
             //binding.llMenu.setVisibility(View.GONE);
             //binding.llMenu2.setVisibility(View.GONE);
             binding.btnLogout.setVisibility(View.GONE);
@@ -384,6 +384,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             //getActivity().finish();
         } else {
             CfLog.i("****** already login");
+            binding.tvwLogin.setVisibility(View.INVISIBLE);
             //binding.llLogin.setVisibility(View.GONE);
             //binding.clAlreadyLogin.setVisibility(View.VISIBLE);
             resetView();
@@ -482,8 +483,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         viewModel.liveDataLogout.observe(this, isLogout -> {
             if (isLogout) {
-                binding.llLogin.setVisibility(View.VISIBLE);
-                binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
+                binding.tvwLogin.setVisibility(View.VISIBLE);
+                binding.clMoney.setVisibility(View.GONE);
                 mProfileVo = null;
                 ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)

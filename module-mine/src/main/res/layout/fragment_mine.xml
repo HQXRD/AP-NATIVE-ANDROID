@@ -11,7 +11,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_mine_clr"
+            android:background="@mipmap/bg_mine"
             android:orientation="vertical">
 
             <LinearLayout
@@ -25,9 +25,9 @@
 
                 <ImageView
                     android:id="@+id/ivw_head"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/me_icon_name" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/ic_app" />
 
                 <TextView
                     android:id="@+id/tvw_name"
@@ -71,8 +71,7 @@
                     android:visibility="gone" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_login"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin"
@@ -83,8 +82,89 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="@dimen/layout_margin"
-                android:visibility="gone"
+                android:visibility="visible"
                 tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvw_money_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/me_money_total"
+                        android:textColor="@color/clr_white"
+                        android:textSize="@dimen/mine_text_size"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvw_1k_recycle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvw_1k_recycle" />
+
+                    <TextView
+                        android:id="@+id/tvw_1k_recycle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_white_6"
+                        android:paddingStart="16dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="6dp"
+                        android:text="@string/me_get_all_money"
+                        android:textColor="@color/clr_txt_01"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <CheckBox
+                        android:id="@+id/ckb_eye"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:button="@drawable/ic_eye_white_selector"
+                        android:checked="true"
+                        android:paddingEnd="@dimen/layout_margin"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvw_money_hint"
+                        app:layout_constraintStart_toEndOf="@+id/tvw_money_hint"
+                        app:layout_constraintTop_toTopOf="@+id/tvw_money_hint" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="@+id/tvw_money_hint"
+                        app:layout_constraintTop_toBottomOf="@+id/tvw_money_hint">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="0dp"
+                            android:src="@mipmap/cm_ic_rmb" />
+
+                        <TextView
+                            android:id="@+id/tvw_balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="0.00"
+                            android:textColor="@color/clr_white"
+                            android:textSize="32sp"
+                            android:textStyle="bold"
+                            tools:text="1000,000.00" />
+
+                        <ImageView
+                            android:id="@+id/ivw_refresh_blc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="2dp"
+                            android:padding="6dp"
+                            android:src="@mipmap/cm_ic_refresh" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/tvw_login"
@@ -97,8 +177,12 @@
                     android:paddingBottom="5dp"
                     android:text="@string/me_login_hint"
                     android:textColor="@color/clr_blue_07"
-                    android:textSize="@dimen/mine_text_size" />
-            </LinearLayout>
+                    android:textSize="@dimen/mine_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_already_login"
@@ -111,80 +195,6 @@
                 android:padding="@dimen/layout_margin"
                 android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/tvw_money_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/me_money_total"
-                    android:textColor="@color/clr_white"
-                    android:textSize="@dimen/mine_text_size"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvw_1k_recycle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvw_1k_recycle" />
-
-                <TextView
-                    android:id="@+id/tvw_1k_recycle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_white_6"
-                    android:paddingStart="16dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="6dp"
-                    android:text="@string/me_get_all_money"
-                    android:textColor="@color/clr_txt_01"
-                    android:textSize="10sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <CheckBox
-                    android:id="@+id/ckb_eye"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin"
-                    android:button="@drawable/ic_eye_white_selector"
-                    android:checked="true"
-                    android:paddingEnd="@dimen/layout_margin"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvw_money_hint"
-                    app:layout_constraintStart_toEndOf="@+id/tvw_money_hint"
-                    app:layout_constraintTop_toTopOf="@+id/tvw_money_hint" />
-
-                <LinearLayout
-                    android:id="@+id/ll_balance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="@+id/tvw_money_hint"
-                    app:layout_constraintTop_toBottomOf="@+id/tvw_money_hint">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="0dp"
-                        android:src="@mipmap/cm_ic_rmb" />
-
-                    <TextView
-                        android:id="@+id/tvw_balance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="0.00"
-                        android:textColor="@color/clr_white"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        tools:text="1000,000.00" />
-
-                    <ImageView
-                        android:id="@+id/ivw_refresh_blc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="2dp"
-                        android:padding="6dp"
-                        android:src="@mipmap/cm_ic_refresh" />
-                </LinearLayout>
-
                 <LinearLayout
                     android:id="@+id/ll_menu"
                     android:layout_width="match_parent"
@@ -193,7 +203,7 @@
                     android:orientation="horizontal"
                     android:padding="@dimen/layout_margin"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_balance">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/tvw_wallet"
@@ -250,10 +260,10 @@
                     android:layout_height="wrap_content"
                     android:background="@mipmap/bg_me_title"
                     android:elevation="1dp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:id="@+id/ll_menu_2"
@@ -488,8 +498,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="46dp"
-                android:layout_marginEnd="46dp"
                 android:layout_marginTop="48dp"
+                android:layout_marginEnd="46dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/bg_btn_logout"
                 android:text="@string/me_logout_login"
