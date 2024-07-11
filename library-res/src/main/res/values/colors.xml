@@ -383,4 +383,8 @@
     <color name="clr_withdrawal_usdt_tip">#4B4B4B</color>
     <!-- 提款流水边框颜色 -->
     <color name="clr_flow_item_stroke">#87C6C5C7</color>
+    <color name="clr_white_80">#80FFFFFF</color>
+    <color name="clr_security_line">#EFEFEF</color>
+    <!-- 安全中心底部颜色 -->
+    <color name="clr_security_bg">#FAF8FF</color>
 </resources>
