@@ -640,7 +640,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
             } else if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
                 TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
-                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getH5Domain2() + vo.op_thiriframe_url;
+                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getApiUrl() + vo.op_thiriframe_url;
                 showWebPayDialog(vo.title, url);
             } else if (vo.paycode.contains(ONE_PAY_FIX)) {
                 // 极速充值
@@ -1455,7 +1455,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
-                url = DomainUtil.getH5Domain2() + url;
+                url = DomainUtil.getApiUrl() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
             showWebPayDialog(vo.title, url);
@@ -1645,7 +1645,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (vo.domainList.size() > 0) {
                     url = vo.domainList.get(0) + url;
                 } else {
-                    url = DomainUtil.getH5Domain2() + url;
+                    url = DomainUtil.getApiUrl() + url;
                 }
             }
             CfLog.i(vo.payname + ", jump: " + url);
