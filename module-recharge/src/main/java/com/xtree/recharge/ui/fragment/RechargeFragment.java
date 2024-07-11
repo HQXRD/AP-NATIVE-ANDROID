@@ -593,7 +593,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    return;
         //}
         //if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
-        if (vo.phone_needbind) {
+        // 加个 isNeedPhone, 解决偶现用户绑手机后,再次点击还会提示绑手机(充值列表接口响应慢,最新的列表还没有回来) 2024-07-11
+        boolean isNeedPhone = mProfileVo != null && !mProfileVo.is_binding_phone; // && isNeedPhone
+        if (vo.phone_needbind && isNeedPhone) {
             binding.llBindInfo.setVisibility(View.VISIBLE);
             binding.tvwBindPhone.setVisibility(View.VISIBLE);
         }
@@ -602,7 +604,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwBindYhk.setVisibility(View.VISIBLE);
         }
 
-        if (vo.op_thiriframe_use && vo.phone_needbind) {
+        if (vo.op_thiriframe_use && vo.phone_needbind && isNeedPhone) {
             // 绑定手机
             CfLog.i("****** 绑定手机");
             toBindPhoneNumber();
