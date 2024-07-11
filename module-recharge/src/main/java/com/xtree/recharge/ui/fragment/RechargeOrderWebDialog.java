@@ -56,7 +56,7 @@ public class RechargeOrderWebDialog extends BottomPopupView {
         binding = DialogRcOrderWebBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
-        binding.tvwTitle.setText(mRechargePayVo.payname);
+        binding.tvwTitle.setText(mRechargePayVo.payname + getResources().getString(R.string.txt_recharge));
         binding.tvwMoney.setText(mRechargePayVo.money);
         String key = mRechargePayVo.payname.replace(getContext().getString(R.string.txt_rc_kw_recharge), "");
         String tip = getContext().getString(R.string.txt_rc_only_x_card, key);
