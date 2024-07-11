@@ -44,6 +44,7 @@
     <color name="clr_main">#f2f3f7</color>
     <!-- 主-渐变色 -->
     <color name="clr_main_start">@color/clr_blue_03</color>
+    <color name="clr_main_center">@color/clr_blue_07</color>
     <color name="clr_main_end">@color/clr_blue_04</color>
     <color name="clr_main_end_2">@color/clr_blue_04</color>
 

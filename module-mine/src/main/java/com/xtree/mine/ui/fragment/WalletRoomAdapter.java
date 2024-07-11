@@ -62,9 +62,15 @@ public class WalletRoomAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
             binding.llRoot.setSelected(true);
             binding.ivwCheck.setSelected(true);
 
+            binding.tvwTitle.setTextColor(ctx.getResources().getColor(R.color.clr_white));
+            binding.tvwBalance.setTextColor(ctx.getResources().getColor(R.color.clr_white));
+
             curRoot = binding.llRoot;
             curCheck = binding.ivwCheck;
         } else {
+            binding.tvwTitle.setTextColor(ctx.getResources().getColor(R.color.clr_black));
+            binding.tvwBalance.setTextColor(ctx.getResources().getColor(R.color.clr_black));
+
             binding.llRoot.setSelected(false);
             binding.ivwCheck.setSelected(false);
         }

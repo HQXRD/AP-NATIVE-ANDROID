@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_my_wallet"
+    android:background="@drawable/bg_transfer_wallet"
     android:orientation="vertical"
     android:paddingStart="@dimen/layout_margin">
 
@@ -22,16 +22,16 @@
 
         <TextView
             android:id="@+id/tvw_1k_recycle"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
             android:background="@mipmap/me_bg_wd_1k"
             android:drawableStart="@mipmap/cm_ic_cny"
-            android:drawablePadding="4dp"
+            android:drawablePadding="3dp"
             android:gravity="center_vertical"
             android:paddingStart="4dp"
             android:text="@string/txt_1k_recycle"
-            android:textColor="@color/clr_white"
+            android:textColor="@color/clr_blue_08"
             android:textSize="11sp" />
 
         <View
@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0.0000"
-        android:textColor="@color/clr_main_02"
+        android:textColor="@color/clr_white"
         android:textSize="24sp"
         tools:text="9,999.0000" />
 
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0.0000"
-        android:textColor="@color/clr_main_02"
+        android:textColor="@color/clr_white"
         android:textSize="16sp"
         tools:text="999.0000" />
 </LinearLayout>
