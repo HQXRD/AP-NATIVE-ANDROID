@@ -70,8 +70,6 @@ class FastestTopDomainUtil private constructor() {
             mTopSpeedDomainList.clear()
             setThirdFasterDomain()
             setFasterApiDomain()
-        } else {
-            ToastUtils.show("测速过于频繁，请稍后再试!", Toast.LENGTH_SHORT, 0)
         }
     }
 
