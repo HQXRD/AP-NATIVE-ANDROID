@@ -2,8 +2,9 @@ package com.xtree.base.widget;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
@@ -19,6 +20,7 @@ public class TipDialog extends CenterPopupView {
     CharSequence msg;
     CharSequence txtLeft;
     boolean isSingleBtn;
+    int height = 0;
     CharSequence txtRight;
     ICallBack mCallBack;
 
@@ -55,6 +57,20 @@ public class TipDialog extends CenterPopupView {
         this.title = title;
         this.msg = msg;
         this.isSingleBtn = isSingleBtn;
+        this.mCallBack = mCallBack;
+    }
+
+    public TipDialog(@NonNull Context context,
+                     String title,
+                     CharSequence msg,
+                     boolean isSingleBtn,
+                     int heigh,
+                     ICallBack mCallBack) {
+        super(context);
+        this.title = title;
+        this.msg = msg;
+        this.isSingleBtn = isSingleBtn;
+        this.height = heigh;
         this.mCallBack = mCallBack;
     }
 
@@ -151,6 +167,17 @@ public class TipDialog extends CenterPopupView {
             }
         });
 
+        if (height != 0) {
+            ViewGroup.LayoutParams params = binding.ivwBg.getLayoutParams();
+            params.height = dp2px(height);
+            binding.ivwBg.setLayoutParams(params);
+        }
     }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getContext().getResources().getDisplayMetrics());
+    }
+
 
 }
