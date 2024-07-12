@@ -1,6 +1,5 @@
 package com.xtree.base.net.fastest
 
-import android.widget.Toast
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
 import com.drake.net.Net
@@ -208,7 +207,7 @@ class FastestTopDomainUtil private constructor() {
                 } catch (e: Exception) {
                     CfLog.e("getThirdFastestDomain fail")
                     index++
-                    getThirdFastestDomain(true)
+                    getThirdFastestDomain(needClear)
                 }
             }
         } else if (mCurApiDomainList.isEmpty()) {
@@ -225,11 +224,12 @@ class FastestTopDomainUtil private constructor() {
         val apiList = listOf(*apis.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addApiDomainList(apiList)
-        if (mCurApiDomainList.size >= 4) {
-            getFastestApiDomain(false)
-        } else {
-            getThirdFastestDomain(false)
-        }
+        getThirdFastestDomain(false)
+//        if (mCurApiDomainList.size >= 4) {
+//            getFastestApiDomain(false)
+//        } else {
+//            getThirdFastestDomain(false)
+//        }
     }
 
     /**
