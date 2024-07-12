@@ -148,6 +148,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 ToastUtils.showLong(getResources().getString(R.string.txt_insufficient_balance));
                 return;
             }
+            //viewModel.showLoading(requireContext());
             viewModel.bet(betConfirmOptionList, cgOddLimitList, acceptOdds);
         });
         binding.llRoot.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
