@@ -3,23 +3,30 @@
 
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <corners android:radius="80dp" />
+            <corners android:radius="10dp" />
             <solid android:color="@color/clr_withdrawal_btn_bg" />
-            <stroke android:width="2dp" android:color="@color/clr_withdrawal_btn_stroke" />
+            <stroke android:width="2dp" android:color="@color/cl_over_tip" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <gradient android:angle="270" android:endColor="@color/clr_main_11" android:startColor="@color/clr_main_03" />
-            <corners android:radius="80dp" />
+            <gradient android:angle="270"
+                android:endColor="@color/clr_blue_04"
+                android:centerColor="@color/clr_short_btn_center"
+                android:startColor="@color/clr_blue_03" />
+            <corners android:radius="10dp" />
         </shape>
     </item>
 
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="80dp" />
-            <solid android:color="@color/clr_withdrawal_btn_bg" />
-            <stroke android:width="2dp" android:color="@color/clr_withdrawal_btn_stroke" />
+            <corners android:radius="10dp" />
+           <!-- <solid android:color="@color/clr_withdrawal_btn_bg" />-->
+            <gradient android:angle="270"
+                android:endColor="@color/clr_gray_7"
+                android:centerColor="@color/clr_main_10"
+                android:startColor="@color/clr_gray_9" />
+            <stroke android:width="0.5px" android:color="@color/cl_over_tip" />
         </shape>
     </item>
 </selector>
