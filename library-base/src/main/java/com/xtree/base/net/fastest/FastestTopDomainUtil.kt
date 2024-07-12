@@ -12,6 +12,7 @@ import com.xtree.base.utils.AESUtil
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.EventConstant
+import com.xtree.base.utils.TagUtils
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
 import com.xtree.base.vo.TopSpeedDomain
@@ -69,6 +70,12 @@ class FastestTopDomainUtil private constructor() {
             mTopSpeedDomainList.clear()
             setThirdFasterDomain()
             setFasterApiDomain()
+
+            TagUtils.tagEvent(
+                Utils.getContext(),
+                TagUtils.EVENT_FASTEST,
+                TagUtils.KEY_FASTEST_START
+            )
         }
     }
 
@@ -160,6 +167,13 @@ class FastestTopDomainUtil private constructor() {
 
             } catch (e: Exception) {
                 CfLog.e(e.toString())
+                TagUtils.tagEvent(
+                    Utils.getContext(),
+                    TagUtils.EVENT_FASTEST,
+                    TagUtils.KEY_FASTEST_ERROR,
+                    e.message
+                )
+
                 if (e !is CancellationException) {
                     if (isThird) { // 失败
                         mIsFinish = true
@@ -204,8 +218,22 @@ class FastestTopDomainUtil private constructor() {
                     getFastestApiDomain(true)
                     CfLog.e("getThirdFastestDomain success")
 
+                    TagUtils.tagEvent(
+                        Utils.getContext(),
+                        TagUtils.EVENT_FASTEST,
+                        TagUtils.KEY_FASTEST_GETTHIRDDOMAIN,
+                        mThirdDomainList[index]
+                    )
+
                 } catch (e: Exception) {
                     CfLog.e("getThirdFastestDomain fail")
+                    TagUtils.tagEvent(
+                        Utils.getContext(),
+                        TagUtils.EVENT_FASTEST,
+                        TagUtils.KEY_FASTEST_GETTHIRDDOMAIN_ERROR,
+                        mThirdDomainList[index]
+                    )
+
                     index++
                     getThirdFastestDomain(needClear)
                 }

@@ -154,7 +154,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 }
                 SpeedApiLine.INSTANCE.start();
             } else{
-                TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
+                TagUtils.tagEvent(Utils.getContext(), TagUtils.EVENT_FASTEST_KEY_FAIL, DomainUtil.getApiUrl());
                 TagUtils.tagEvent(Utils.getContext(), "event_network_error", DomainUtil.getApiUrl() + "：" + t.getMessage());
                 TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名无法访问，切换线路开始...");
                 if(!SpeedApiLine.INSTANCE.isRunning()) {
