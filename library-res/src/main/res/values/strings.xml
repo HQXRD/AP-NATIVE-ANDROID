@@ -271,4 +271,9 @@
     <string name="txt_withdrawal_usdt_title">USDT提款</string>
     <string name="txt_update_bottom_tip">打开浏览器下载安装</string>
     <string name="txt_update_bottom_error_tip">如更新失败，点击此处下载安装</string>
+    <string name="txt_rc_skip_boot">跳过引导</string>
+    <string name="txt_rc_enter_boot">进入引导</string>
+    <string name="txt_recharge_guide">充值引导</string>
+    <string name="txt_senior_player">资深玩家</string>
+    <string name="txt_new_player">新手玩家</string>
 </resources>
