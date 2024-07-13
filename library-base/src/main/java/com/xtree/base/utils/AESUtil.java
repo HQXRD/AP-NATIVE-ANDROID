@@ -47,6 +47,7 @@ public class AESUtil {
         byte[] encryptedBytes = Base64.decode(data, Base64.DEFAULT);
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
 
+        CfLog.d("Base64 encrypted data : " + Base64.encodeToString(encryptedBytes,Base64.DEFAULT));
         CfLog.d(new String(decryptedBytes, StandardCharsets.UTF_8));
         return new String(decryptedBytes);
     }
