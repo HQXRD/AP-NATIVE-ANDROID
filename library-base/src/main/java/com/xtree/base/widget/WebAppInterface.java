@@ -1,11 +1,22 @@
 package com.xtree.base.widget;
 
+import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+
+import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
@@ -19,6 +30,12 @@ import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -37,6 +54,7 @@ public class WebAppInterface {
     final String TYPE_GAME = "goGame";
     final String TYPE_ACTIVITY_DETAIL = "goActivityDetail"; // 打开活动详情
     final String TYPE_BROWSER = "goBrowser";
+    final String TYPE_SAVE_IMAGE = "goSaveImage";
     final String TYPE_BACK = "goBack";
     final String TYPE_CLOSE = "close";
     final String TYPE_ERROR_MSG = "errorMsg";
@@ -61,6 +79,12 @@ public class WebAppInterface {
     @JavascriptInterface
     public void nativeFunction(String type) {
         CfLog.i("****** type: " + type);
+        if (!TextUtils.isEmpty(type) && type.startsWith("{")) {
+            JsParameterVo vo = new Gson().fromJson(type, JsParameterVo.class);
+            goApp(vo.type, vo);
+            return;
+        }
+
         goApp(type, null);
     }
 
@@ -135,7 +159,7 @@ public class WebAppInterface {
             case TYPE_GAME:
                 if (isLogin) {
                     if (!BtDomainUtil.hasDefaultLine(BtDomainUtil.PLATFORM_FBXC)) {
-                        ToastUtils.showShort("场馆初始化中，请稍候...");
+                        ToastUtils.showLong(context.getString(R.string.txt_venue_initializing));
                     } else {
                         ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                                 withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_FBXC).navigation();
@@ -152,6 +176,9 @@ public class WebAppInterface {
                     new XPopup.Builder(context).moveUpToKeyboard(false).asCustom(BrowserDialog.newInstance(context, url)).show();
                 });
                 //close(); // 不能close,否则上级页面关闭,弹窗也被关闭
+                break;
+            case TYPE_SAVE_IMAGE:
+                base64ToBitmap(String.valueOf(vo.data));
                 break;
             case TYPE_BROWSER:
                 AppUtil.goBrowser(context, vo.data.toString());
@@ -213,14 +240,58 @@ public class WebAppInterface {
         context.startActivity(intent);
     }
 
+    private void base64ToBitmap(String base64Str) {
+        CfLog.i("****** ");
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+                && ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ToastUtils.showLong(context.getString(R.string.txt_permission_write));
+            return;
+        }
+
+        // "data":"data:image/png;base64,iVBORw***
+        if (base64Str.startsWith("data:image/") && base64Str.contains(",")) {
+            base64Str = base64Str.split(",")[1];
+        }
+
+        byte[] decodedString = Base64.decode(base64Str, Base64.DEFAULT);
+        InputStream inputStream = new ByteArrayInputStream(decodedString);
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        try {
+            inputStream.close();
+        } catch (IOException e) {
+            CfLog.e(e.toString());
+        }
+        Uri saveUri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+
+        if (TextUtils.isEmpty(saveUri.toString())) {
+            ToastUtils.showLong(context.getString(R.string.txt_save_fail_pls_screenshot));
+            return;
+        }
+        ToastUtils.showLong(context.getString(R.string.txt_saving));
+        try {
+            OutputStream os = context.getContentResolver().openOutputStream(saveUri);
+            boolean result = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            CfLog.i("****** result: " + result);
+            if (result) {
+                ToastUtils.showLong(context.getString(R.string.txt_ok));
+            } else {
+                ToastUtils.showLong(context.getString(R.string.txt_save_fail_pls_screenshot));
+            }
+        } catch (FileNotFoundException e) {
+            CfLog.e(e.toString());
+        }
+
+    }
+
     private class JsParameterVo {
-        //public String type;
+        public String type;
         public Object data;
         public String msg = "";
 
         @Override
         public String toString() {
             return "JsParameterVo { " +
+                    "  type='" + type + '\'' +
                     ", data='" + data + '\'' +
                     ", msg='" + msg + '\'' +
                     '}';

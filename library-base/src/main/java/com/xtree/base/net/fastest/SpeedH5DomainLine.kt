@@ -1,6 +1,7 @@
-package com.xtree.base.utils
+package com.xtree.base.net.fastest
 
 import com.drake.net.utils.runMain
+import com.xtree.base.utils.TagUtils
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 
@@ -31,6 +32,6 @@ object SpeedH5DomainLine : ChangeLine() {
      * 开始域名竞速
      */
     fun start(){
-        super.start("api/settings/?&fields=customer_service_url", false)
+        super.start(FASTEST_API, false)
     }
 }

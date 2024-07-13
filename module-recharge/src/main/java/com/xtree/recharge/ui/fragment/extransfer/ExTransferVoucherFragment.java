@@ -46,7 +46,7 @@ public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVo
 
     @Override
     public void initView() {
-        binding.ivwBack.setOnClickListener(v -> getActivity().finish());
+        binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         serviceChatFlow = new Comm100ChatWindows(requireActivity());
         serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
