@@ -51,6 +51,7 @@ import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
+import com.xtree.recharge.ui.fragment.guide.GuideDialog;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
@@ -123,6 +124,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     List<String> payCodeList = new ArrayList<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
     long lastRefresh = System.currentTimeMillis(); // 上次刷新时间
 
+
+    private BasePopupView showGuideView;//显示充值引导
+
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -189,7 +193,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         viewModel.readCache(); // 先读取缓存数据
         //viewModel.getPayments(); // 调用接口
-        viewModel.getPaymentsTypeList(); // 调用接口
+        viewModel.getPaymentsTypeList(); // 调用接口 获取 充值列表
         viewModel.get1kEntry(); // 一键进入
         viewModel.getRechargeBanners(); // 获取广告轮播图
     }
@@ -513,7 +517,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
     }
 
+    /**
+     * 显示充值引导弹窗
+     */
+    private void  showGuideDialog(){
+        if (showGuideView == null){
+            showGuideView = new  XPopup.Builder(getContext())
+                    .asCustom(GuideDialog.newInstance(getContext()));
+        }
+        showGuideView.show();
+    }
     private void onClickPaymentType(PaymentTypeVo vo) {
+      /*  //Test 显示充值引导弹窗
+        showGuideDialog();*/
+
+        //
         CfLog.i(vo.toInfo());
         CfLog.d("size: " + vo.payChannelList.size());
         curPaymentTypeVo = vo;
@@ -1403,7 +1421,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             showProcessDialog(vo.processingData); // 检查弹窗 充值次数
             setTipBottom(null); // 恢复底部的默认提示
             setHiWallet(vo); // 显示/隐藏底部的 下载嗨钱包
-
+            if (vo.showOnepayfixGuide == 1){
+                //显示引导View
+                showGuideDialog();
+            }
             // 查询某些充值渠道的详情
             //for (PaymentTypeVo typeVo : vo.chongzhiList) {
             //    for (RechargeVo vo3 : typeVo.payChannelList) {

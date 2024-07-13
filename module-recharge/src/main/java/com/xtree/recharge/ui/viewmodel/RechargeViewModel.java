@@ -72,6 +72,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<ExRechargeOrderCheckResponse> liveDataCurOrder = new SingleLiveData<>(); // 极速充值 未完成的订单(跳到订单页)
     public SingleLiveData<Boolean> liveDataExpNoOrder = new SingleLiveData<>(); // 极速充值 没有未完成的订单 (显示银行/姓名/金额/下一步)
     public SingleLiveData<String> liveDataExpTitle = new SingleLiveData<>(); // 极速充值流程渠道标题
+    public SingleLiveData<Object>liveSkipGuideData = new SingleLiveData<>();//跳过引导接口
 
     public RechargeViewModel(@NonNull Application application) {
         super(application);
@@ -590,6 +591,23 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     @Override
                     public void onResult(Object o) {
                         feedbackAddSingleLiveData.setValue(o);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 新增跳过引导接口
+     * 点击跳过引导时 使用【需要与账号配合联调 暂未联调】
+     */
+    public void skipGuide(){
+        Disposable disposable = (Disposable) model.getApiService().skipGuide().
+                compose(RxUtils.schedulersTransformer()).
+                compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Object>() {
+                    @Override
+                    public void onResult(Object o) {
+                        liveSkipGuideData.setValue(o);
                     }
                 });
         addSubscribe(disposable);
