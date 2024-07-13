@@ -171,6 +171,15 @@
         <item name="android:textColor">@color/clr_txt_black_01</item>
         <item name="android:textSize">17sp</item>
     </style>
+    <!-- 我的-安全中心-验证 标题 2 -->
+    <style name="style_security_title2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:textColor">@color/clr_sec_verify_normal</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 
     <!-- 我的-安全中心-验证 分割线 -->
     <style name="style_dividing_line">

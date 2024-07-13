@@ -128,6 +128,8 @@
     <string name="txt_phone_num">手机号码</string>
     <string name="txt_email_addr">邮箱地址</string>
     <string name="txt_email">邮箱</string>
+    <string name="txt_phone_num_already">已绑定手机</string>
+    <string name="txt_email_addr_already">已绑定邮箱</string>
     <string name="txt_change_phone_num">"更新手机号 "</string>
     <string name="txt_change_email">"更新邮箱地址 "</string>
     <string name="txt_pwd_cannot_empty">密码不能为空</string>
