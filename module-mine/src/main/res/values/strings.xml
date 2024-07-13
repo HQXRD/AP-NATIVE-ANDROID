@@ -500,4 +500,5 @@
     <string name="txt_title_code">如何获取%s个人收款码</string>
     <string name="txt_no_data_tip">暂无数据</string>
     <string name="txt_check_detail">查看详情</string>
+    <string name="txt_transfer_money_type">转账类型:</string>
 </resources>
