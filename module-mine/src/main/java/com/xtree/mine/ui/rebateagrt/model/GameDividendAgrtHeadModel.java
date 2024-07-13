@@ -119,7 +119,9 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
         if (statusList != null) {
             //插入一条所有状态
             statusList.add(0, new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
-            statuData.set(new StatusVo(statusList.get(0).getShowId(), statusList.get(0).getShowName()));
+            if (statuData.get() == null) {
+                statuData.set(new StatusVo(statusList.get(0).getShowId(), statusList.get(0).getShowName()));
+            }
             this.statusList = statusList;
         }
     }

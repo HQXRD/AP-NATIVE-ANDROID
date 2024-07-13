@@ -211,6 +211,9 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         if (headModel.cyclyData.get() != null) {
             gameDividendAgrtRequest.cycle_id = headModel.cyclyData.get().getShowId();
         }
+        if (headModel.statuData.get() != null && !TextUtils.isEmpty(headModel.statuData.get().getShowId())) {
+            gameDividendAgrtRequest.pay_status = headModel.statuData.get().getShowId();
+        }
         gameDividendAgrtRequest.type = headModel.type;
         gameDividendAgrtRequest.username = headModel.userNameData.get();
         gameDividendAgrtRequest.p = headModel.p;
