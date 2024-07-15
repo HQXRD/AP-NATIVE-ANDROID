@@ -26,7 +26,7 @@
     <color name="clr_main_09">#FCF9F6</color>
     <color name="clr_main_10">#FCFCFF</color>
 
-    <color name="clr_main_11">#D0B190</color>
+    <color name="clr_main_11">@color/clr_main</color>
     <color name="clr_main_12">#B69C82</color>
     <color name="clr_main_13">#AA927A</color>
     <color name="clr_main_14">#665849</color>

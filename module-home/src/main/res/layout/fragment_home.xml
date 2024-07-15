@@ -38,6 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/hm_bnr_01"
+                    android:adjustViewBounds="true"
                     android:visibility="invisible"
                     tools:visibility="visible" />
 
@@ -169,6 +170,7 @@
                 android:layout_gravity="start|bottom"
                 android:layout_marginEnd="@dimen/page_margin"
                 android:gravity="center_vertical"
+                android:background="@mipmap/hm_bg_msg"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/ll_menu"
                 tools:visibility="visible">
@@ -205,7 +207,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
                 android:layout_marginStart="20dp"
-                android:src="@mipmap/hm_notice"
+                android:src="@mipmap/hm_notice_close"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/ll_menu"
                 app:layout_constraintStart_toStartOf="parent"
@@ -222,8 +224,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="@dimen/page_margin"
-            android:paddingEnd="8dp">
+            android:paddingStart="@dimen/page_margin">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="wrap_content"
