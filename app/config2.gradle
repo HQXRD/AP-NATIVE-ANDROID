@@ -29,15 +29,48 @@ android {
             versionName "1.0.6"
             versionCode 106
             resValue "string", "app_name", "意昂1R${versionCode}"
-            resValue "string", "domain_api", "https://huidu.eon6.com"
-            resValue "string", "domain_url", "https://huidu.eon6.com"
+            resValue "string", "domain_api", "http://43.129.17.50:36804"
+            resValue "string", "domain_url", "https://www.eon6.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "https://huidu.eon6.com;"
-            resValue "string", "domain_url_list", "https://huidu.eon6.com;"
+            resValue "string", "domain_api_list", "http://43.129.17.50:36804;" +
+                    "http://43.137.39.194:36803;" +
+                    "http://118.195.251.125:36803;" +
+                    "http://101.43.19.60:36803;" +
+                    "https://app.12x.top:36803;" +
+                    "https://app.fei8meng.top:36803;" +
+                    "http://43.128.11.58:36801;" +
+                    "https://app1.ghxzeem.xyz;" +
+                    "https://app1.ndlyceg.xyz;" +
+                    "https://app1.wwamilt.xyz;" +
+                    "https://app1.ciaefui.xyz;" +
+                    "https://app1.qudyvvx.xyz;" +
+                    "https://app1.kgdsk.vip;" +
+                    "https://app1.fgucj.vip;" +
+                    "https://app1.jxiuk.vip;" +
+                    "https://app3.ahyyclq.xyz;" +
+                    "https://app3.xbpafmh.xyz;" +
+                    "https://app3.ggcexrv.xyz;" +
+                    "https://app3.bjqcwvr.xyz;" +
+                    "https://app3.ysctryy.xyz;" +
+                    "https://app3.tkxavgj.xyz;" +
+                    "https://app4.twfmfct.xyz;" +
+                    "https://app5.lgmhs.vip;"
+            resValue "string", "domain_url_list", "https://h51.lyczf.vip;" +
+                    "https://h51.bskxq.vip;" +
+                    "https://h51.xycxi.vip;" +
+                    "https://h52.xijzl.vip;" +
+                    "https://h52.xjyjf.vip;" +
+                    "https://h52.qgutr.vip;" +
+                    "https://h53.qvnal.vip;" +
+                    "https://h53.bftjw.vip;" +
+                    "https://h53.vpagk.vip;" +
+                    "https://h54.ibmhh.vip;" +
+                    "https://h55.dvbwe.vip;" +
+                    "https://www.eon6.com;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -47,16 +80,47 @@ android {
             versionName "1.0.6"
             versionCode 106
             resValue "string", "app_name", "意昂体育1"
-            resValue "string", "domain_api", "https://www.eon6.com"
+            resValue "string", "domain_api", "http://43.129.17.50:36804"
             resValue "string", "domain_url", "https://www.eon6.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
-            resValue "string", "domain_api_list", "https://www.eon6.com;" +
-                    "https://www.eon6.com;"
-            resValue "string", "domain_url_list", "https://www.eon6.com;" +
+            resValue "string", "domain_api_list", "http://43.129.17.50:36804;" +
+                    "http://43.137.39.194:36803;" +
+                    "http://118.195.251.125:36803;" +
+                    "http://101.43.19.60:36803;" +
+                    "https://app.12x.top:36803;" +
+                    "https://app.fei8meng.top:36803;" +
+                    "http://43.128.11.58:36801;" +
+                    "https://app1.ghxzeem.xyz;" +
+                    "https://app1.ndlyceg.xyz;" +
+                    "https://app1.wwamilt.xyz;" +
+                    "https://app1.ciaefui.xyz;" +
+                    "https://app1.qudyvvx.xyz;" +
+                    "https://app1.kgdsk.vip;" +
+                    "https://app1.fgucj.vip;" +
+                    "https://app1.jxiuk.vip;" +
+                    "https://app3.ahyyclq.xyz;" +
+                    "https://app3.xbpafmh.xyz;" +
+                    "https://app3.ggcexrv.xyz;" +
+                    "https://app3.bjqcwvr.xyz;" +
+                    "https://app3.ysctryy.xyz;" +
+                    "https://app3.tkxavgj.xyz;" +
+                    "https://app4.twfmfct.xyz;" +
+                    "https://app5.lgmhs.vip;"
+            resValue "string", "domain_url_list", "https://h51.lyczf.vip;" +
+                    "https://h51.bskxq.vip;" +
+                    "https://h51.xycxi.vip;" +
+                    "https://h52.xijzl.vip;" +
+                    "https://h52.xjyjf.vip;" +
+                    "https://h52.qgutr.vip;" +
+                    "https://h53.qvnal.vip;" +
+                    "https://h53.bftjw.vip;" +
+                    "https://h53.vpagk.vip;" +
+                    "https://h54.ibmhh.vip;" +
+                    "https://h55.dvbwe.vip;" +
                     "https://www.eon6.com;"
             multiDexEnabled true
             dimension "channelName"
