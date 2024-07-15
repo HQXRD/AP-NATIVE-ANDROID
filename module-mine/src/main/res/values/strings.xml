@@ -398,7 +398,7 @@
     <string name="txt_transfer_member">下级转账</string>
     <string name="txt_member_account">用户账号:</string>
     <string name="txt_account_balance">您的余额:</string>
-    <string name="txt_transfer_money">充值金额:</string>
+    <string name="txt_transfer_money">转帐金额:</string>
     <string name="txt_check_money">请仔细核对转账金额后提交</string>
     <string name="txt_sort">排序</string>
     <string name="txt_username">用户名</string>
