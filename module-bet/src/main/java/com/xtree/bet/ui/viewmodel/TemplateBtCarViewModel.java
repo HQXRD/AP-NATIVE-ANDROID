@@ -13,7 +13,6 @@ import com.xtree.bet.manager.BtCarManager;
 
 import java.util.List;
 
-import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 
@@ -27,37 +26,56 @@ public abstract class TemplateBtCarViewModel extends BaseBtViewModel implements 
         super(application, model);
     }
 
-    public int getOrderBy(int index){
+    public int getOrderBy(int index) {
         return index == 1 ? 0 : 1;
     }
 
-    public int getOrderByPosition(int orderBy){
+    public int getOrderByPosition(int orderBy) {
         return orderBy == 1 ? 0 : 1;
     }
 
-    public int getMarket(int index){
+    public int getMarket(int index) {
         return index == 0 ? 1 : 2;
     }
 
-    public int getMarketPosition(int market){
+    public int getMarketPosition(int market) {
         return market == 2 ? 1 : 0;
     }
 
     /**
-     * 单关投注
+     * 投注
      */
-    public void bet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList, int acceptOdds){
-        if(betConfirmOptionList.size() > 1){
+    public void bet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList, int acceptOdds) {
+        if (betConfirmOptionList.size() > 1) {
             betMultiple(betConfirmOptionList, cgOddLimitList, acceptOdds);
-        }else{
+        } else {
             singleBet(betConfirmOptionList, cgOddLimitList, acceptOdds);
         }
     }
 
+    //投注后续有需要加个投注弹窗
+    //private BasePopupView loadingDialog = null;
+    //
+    //public void showLoading(Context context) {
+    //    if (loadingDialog == null) {
+    //        loadingDialog = new XPopup.Builder(context)
+    //                .dismissOnTouchOutside(false)
+    //                .dismissOnBackPressed(true)
+    //                .asCustom(new LoadingDialog(context));
+    //    }
+    //
+    //    loadingDialog.show();
+    //}
+    //
+    ///*关闭loading*/
+    //public void dismissLoading() {
+    //    loadingDialog.dismiss();
+    //}
+
     /**
      * 打开今日
      */
-    public void gotoToday(){
+    public void gotoToday() {
         BtCarManager.setIsCg(false);
         //BtCarManager.clearBtCar();
         RxBus.getDefault().postSticky(new BetContract(BetContract.ACTION_OPEN_TODAY));
@@ -65,9 +83,10 @@ public abstract class TemplateBtCarViewModel extends BaseBtViewModel implements 
 
     /**
      * 打开串关
+     *
      * @param betConfirmOption
      */
-    public void gotoCg(BetConfirmOption betConfirmOption){
+    public void gotoCg(BetConfirmOption betConfirmOption) {
         BtCarManager.addBtCar(betConfirmOption);
         BtCarManager.setIsCg(true);
         RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPEN_CG));
