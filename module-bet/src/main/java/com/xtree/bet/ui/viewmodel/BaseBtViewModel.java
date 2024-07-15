@@ -57,7 +57,7 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                     public void onResult(BalanceVo vo) {
                         CfLog.d(vo.toString());
                         SPUtils.getInstance().put(SPKeyGlobal.WLT_CENTRAL_BLC, vo.balance);
-                        userBalanceData.postValue(NumberUtils.format(Double.valueOf(vo.balance), 2));
+                        userBalanceData.postValue(NumberUtils.formatDown(Double.valueOf(vo.balance), 2));
                     }
 
                     @Override
