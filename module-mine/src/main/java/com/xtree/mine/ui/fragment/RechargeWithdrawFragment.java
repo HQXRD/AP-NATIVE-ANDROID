@@ -7,10 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.router.RouterFragmentPath;
@@ -48,6 +51,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
     CachedAutoRefreshAdapter<WithdrawOrderVo> mAdapter2; // 主列表
     CachedAutoRefreshAdapter<FeedbackOrderVo> mAdapter3; // 主列表
 
+    BasePopupView ppw;
     int curPage = 0;
     //RechargeOrderVo mReportVo;
 
@@ -140,6 +144,13 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                 binding2.tvwAcceptTime.setText(vo.accepttime);
                 binding2.tvwFinishTime.setText(vo.finishtime);
 
+                if (vo.split_order_if.equals("1")) {
+                    binding2.btnDetail.setVisibility(View.VISIBLE);
+                } else {
+                    binding2.btnDetail.setVisibility(View.GONE);
+                }
+
+                binding2.btnDetail.setOnClickListener(v -> showDetail(vo.entry));
             }
         };
 
@@ -401,4 +412,8 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
         }
     }
 
+    private void showDetail(String id) {
+        ppw = new XPopup.Builder(getContext()).asCustom(new SplitDetailDialog(getContext(), (LifecycleOwner) getContext(), id));
+        ppw.show();
+    }
 }
