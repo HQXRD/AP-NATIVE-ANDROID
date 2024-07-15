@@ -696,6 +696,12 @@ public interface HttpApiService {
     @GET("/api/app/version?platform=android")
     Flowable<BaseResponse<AppUpdateVo>> getUpdate();
 
+    /**
+     * 彩票撤单
+     */
+    @GET("/?controller=gameinfo&action=cancelgame&client=m")
+    Flowable<BaseResponse2> cancelGame(@QueryMap Map<String, String> map);
+
     @POST("/api/user/verifylastbind?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<Map<String, String>> verifyAcc(@QueryMap Map<String, Object> qMap, @Body Map<String, Object> map);
