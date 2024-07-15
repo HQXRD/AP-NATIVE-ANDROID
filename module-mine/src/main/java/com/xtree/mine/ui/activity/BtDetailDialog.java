@@ -116,6 +116,7 @@ public class BtDetailDialog extends BottomPopupView {
         // content 类型会变化, 大部分情况是BtContentVo, 少数情况是String.
         if (vo.content instanceof Map) {
             BtDetailVo.BtContentVo mBtContentVo = new Gson().fromJson(new Gson().toJson(vo.content), BtDetailVo.BtContentVo.class);
+            binding.tvwBetTitle.setText(mBtContentVo.title);
             if (mBtContentVo.list != null && !mBtContentVo.list.isEmpty()) {
                 for (int i = 0; i < mBtContentVo.list.size(); i++) {
                     BtDetailVo.BtContentItemVo t = mBtContentVo.list.get(i);
@@ -136,6 +137,7 @@ public class BtDetailDialog extends BottomPopupView {
         if (TextUtils.isEmpty(t.SportsName)) {
             // 有4个字段
             binding.llBetContent.setVisibility(View.VISIBLE); // 显示出来
+            binding.tvwBetTitle.setVisibility(View.VISIBLE);
             binding.tvwBetContent.append(t.bet_content + "\n" + t.competition_name + "\n" + t.game_type + "\n" + t.match_name + "\n\n");
             //binding.tvwBetContent.setText(t.bet_content);
             //binding.tvwCompetitionName.setText(t.competition_name);
@@ -152,7 +154,7 @@ public class BtDetailDialog extends BottomPopupView {
             //binding.llDetail.tvwPlaycontent.setText(t.playcontent);
             //binding.llDetail.tvwBetContent.setText(t.bet_content);
             //binding.llDetail.tvwOdds.setText(t.Odds);
-
+            binding.tvwBetTitle.setVisibility(View.VISIBLE);
             LayoutBtDetailMatchBinding binding2 = LayoutBtDetailMatchBinding.inflate(LayoutInflater.from(getContext()));
             binding2.llRoot.setVisibility(View.VISIBLE); // 显示出来
             binding2.tvwSportsName.setText(t.SportsName);
