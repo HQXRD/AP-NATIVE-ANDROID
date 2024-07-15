@@ -117,7 +117,7 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
                     binding2.tvwAmount.setSelected(false); // +
                     binding2.tvwInOut.setText(R.string.txt_income); // 收入
                 }
-                String notes = TextUtils.isEmpty(vo.cntitle) ? "--" : vo.cntitle;
+                String notes = TextUtils.isEmpty(vo.description) ? "--" : vo.description;
 
                 binding2.tvwUsername.setText(mReportVo.username); //
                 binding2.tvwTimes.setText(vo.times);
