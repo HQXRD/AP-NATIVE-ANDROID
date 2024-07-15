@@ -271,8 +271,8 @@ public class FBConstants {
         if(hotFootBallLeagueTopList.isEmpty()){
             Gson gson = new Gson();
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [], code: \"allleague\", name:\"全部\"}", HotLeague.class));
-            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [19788], code: \"EURO\", name: \"欧洲杯\"}", HotLeague.class));
-            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [19831], code: \"CONMEBOL\", name: \"美洲杯\"}", HotLeague.class));
+            //hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [19788], code: \"EURO\", name: \"欧洲杯\"}", HotLeague.class));
+            //hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [19831], code: \"CONMEBOL\", name: \"美洲杯\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [2,11140], code: \"UCL\", name: \"欧冠\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [3,11062,11264], code: \"EPL\", name: \"英超\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [4,11018], code: \"SEA\", name: \"意甲\"}", HotLeague.class));
