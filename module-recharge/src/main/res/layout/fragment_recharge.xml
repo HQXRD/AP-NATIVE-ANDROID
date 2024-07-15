@@ -14,7 +14,7 @@
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_main_08"
+        android:background="@color/bg_main"
         android:orientation="vertical">
 
         <View
@@ -461,6 +461,7 @@
                     <TextView
                         android:id="@+id/btn_next"
                         style="@style/style_cm_btn_round"
+                        android:background="@drawable/bg_main_r22"
                         android:text="@string/txt_next_step" />
 
                     <TextView

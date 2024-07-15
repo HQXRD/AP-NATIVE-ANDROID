@@ -849,10 +849,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void setHiWallet(PaymentVo vo) {
-        binding.llHiWallet.setVisibility(View.GONE);
+        //binding.llHiWallet.setVisibility(View.GONE);
         for (RechargeVo t : vo.chongzhiList) {
             if (!TextUtils.isEmpty(t.paycode) && t.paycode.contains("hiwallet")) {
-                binding.llHiWallet.setVisibility(View.VISIBLE);
+                //binding.llHiWallet.setVisibility(View.VISIBLE);
                 return;
             }
         }
