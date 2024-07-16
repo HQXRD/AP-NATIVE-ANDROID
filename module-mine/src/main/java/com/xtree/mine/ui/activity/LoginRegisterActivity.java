@@ -141,7 +141,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     refreshLoginVerView();
                     break;
                 case HANDLER_REFRESH_REG_VER_VIEW:
-                    refreshRegVerView();
+                   // refreshRegVerView();
                     break;
             }
         }
