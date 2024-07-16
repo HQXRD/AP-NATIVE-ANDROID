@@ -102,6 +102,34 @@
                                 android:id="@+id/ckb_eye"
                                 style="@style/style_cm_ckb_eye" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll_login_verification"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            tools:visibility="gone">
+
+                            <EditText
+                                android:id="@+id/edt_login_verification"
+                                style="@style/style_cm_verification"
+                                android:hint="@string/txt_verification_hint"
+                                android:layout_weight="5"/>
+                            <ImageView
+                                android:id="@+id/iv_login_verification"
+                                style="@style/style_cm_image_verification"
+                                android:hint="@string/txt_verification_hint" />
+
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvw_pwd_check_login_verification"
+                            style="@style/style_cm_tip_small_orange"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/txt_verification_is_empty"
+                            android:visibility="invisible"
+                            tools:visibility="visible" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -328,9 +356,12 @@
                             tools:visibility="visible" />
 
                         <LinearLayout
+                            android:id="@+id/ll_edt_verification"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            tools:visibility="visible">
 
                             <EditText
                                 android:id="@+id/edt_verification"

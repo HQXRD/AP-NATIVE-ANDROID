@@ -100,6 +100,16 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<LoginResultVo>> login(@Body Map<String, String> map);
 
+    /**
+     * 验证码登录
+     * @param map
+     * @return
+     */
+    @POST("/api/auth/login")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<LoginResultVo>> loginAndVer(@Body Map<String, String> map);
+
+
     @POST("/api/register/kygprka")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<LoginResultVo>> register(@Body Map<String, String> map);
