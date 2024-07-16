@@ -395,6 +395,27 @@
                     android:ellipsize="end"
                     android:maxLines="4"
                     tools:text="Demo" />
+
+
+                <LinearLayout style="@style/style_item_ll_row_0">
+
+                    <TextView
+                        style="@style/style_item_report_title"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:layout_weight="0"
+                        android:text="测速日志：" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvw_log"
+                    style="@style/style_item_report_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_margin"
+                    android:layout_marginEnd="@dimen/layout_margin"
+                    android:ellipsize="end"
+                    tools:text="LOG" />
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
