@@ -1,5 +1,8 @@
 package com.xtree.home.ui.fragment;
 
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -15,17 +18,27 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.EventVo;
+import com.xtree.base.vo.TopSpeedDomain;
 import com.xtree.home.BR;
 import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentDebugBinding;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.weight.TopSpeedDomainFloatingWindows;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -34,6 +47,8 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewModel> {
 
     private int clickCount = 0; // 点击次数 debug model
+
+    private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -90,11 +105,12 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         binding.tvwTag.setText(TagUtils.isTag() + "");
         binding.tvwApiList.setText(getString(R.string.domain_api_list).replace(";", "\n").trim());
         binding.tvwH5List.setText(getString(R.string.domain_url_list).replace(";", "\n").trim());
-
     }
-
     @Override
     public void initView() {
+        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(getContext());
+        mTopSpeedDomainFloatingWindows.show();
+
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
 
@@ -122,6 +138,38 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
         return new ViewModelProvider(this, factory).get(HomeViewModel.class);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventVo event) {
+        switch (event.getEvent()) {
+            case EVENT_TOP_SPEED_FINISH:
+                CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
+                mTopSpeedDomainFloatingWindows.refresh();
+
+                binding.tvwLog.setText("");
+
+                CopyOnWriteArrayList<TopSpeedDomain> topSpeedDomain = new CopyOnWriteArrayList<>(FastestTopDomainUtil.getInstance().getTopSpeedDomain());
+                for (TopSpeedDomain speedDomain : topSpeedDomain) {
+                    binding.tvwLog.append("url: " + speedDomain.url + "  耗时：" + speedDomain.speedSec + "ms" + "\n");
+                }
+                break;
+            case EVENT_TOP_SPEED_FAILED:
+                mTopSpeedDomainFloatingWindows.onError();
+                break;
+        }
     }
 
 }
