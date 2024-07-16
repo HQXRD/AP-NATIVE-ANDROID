@@ -144,6 +144,9 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mTopSpeedDomainFloatingWindows != null) {
+            mTopSpeedDomainFloatingWindows.removeView();
+        }
     }
 
     @Override
