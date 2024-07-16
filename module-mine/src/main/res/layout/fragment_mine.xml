@@ -16,8 +16,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/head_area"
                 android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="307dp"
+                android:layout_height="296dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -37,7 +36,7 @@
                         android:id="@+id/icon_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/champion_avatar" />
+                        android:src="@mipmap/me_icon_name" />
 
                     <TextView
                         android:id="@+id/tvw_name"
@@ -80,8 +79,9 @@
                 <RelativeLayout
                     android:id="@+id/middle_area"
                     android:layout_width="match_parent"
-                    android:layout_height="155dp"
+                    android:layout_height="150dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="20dp"
                     android:background="@mipmap/me_bg_top_00"
                     app:layout_constraintLeft_toLeftOf="@+id/topArea"
@@ -155,20 +155,12 @@
                             android:id="@+id/total_money_hint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="18dp"
                             android:text="@string/me_money_total"
                             android:textColor="@color/me_text_color"
                             android:textSize="@dimen/mine_text_size"
+                            app:layout_constraintBottom_toBottomOf="@+id/tvw_1k_recycle"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="58dp"
-                            android:adjustViewBounds="true"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:src="@mipmap/mn_1k_recycle" />
+                            app:layout_constraintTop_toTopOf="@+id/tvw_1k_recycle" />
 
                         <TextView
                             android:id="@+id/tvw_1k_recycle"
@@ -183,10 +175,8 @@
                             android:text="@string/me_get_all_money"
                             android:textColor="@color/clr_txt_black02"
                             android:textSize="12sp"
-                            android:alpha="0"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:visibility="visible" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <CheckBox
                             android:id="@+id/ckb_eye"
@@ -337,7 +327,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
                     android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@+id/middle_area"
                     app:layout_constraintTop_toBottomOf="@+id/middle_area">
 
@@ -396,7 +385,7 @@
                 android:scaleType="fitXY"
                 android:src="@mipmap/me_second_bg"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/head_area" />
+                app:layout_constraintTop_toTopOf="@id/ll_menu2" />
 
             <LinearLayout
                 android:id="@+id/ll_menu2"

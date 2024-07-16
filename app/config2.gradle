@@ -45,35 +45,7 @@ android {
             dimension "channelName"
         }*/
         // 生产环境 发布用
-        /*xingCai_OL {
-            applicationId "com.xcsport.app" //
-            versionName "1.2.0"
-            versionCode 120
-            resValue "string", "app_name", "杏彩体育"
-            resValue "string", "domain_url", "https://www.weres.bar"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
-            resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
-            resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
-            resValue "string", "domain_url_list", "https://www.weres.bar" +
-                    ";https://app.cpmuseumdimsum.com:16801" +
-                    ";https://app.zgntcpgxds.com:16801" +
-                    ";https://app.jyuelab.com:16801" +
-                    ";https://app.eyoumoban.com:16801"
-            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
-                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
-                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
-                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
-                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
-                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
-                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
-                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
-            multiDexEnabled true
-            dimension "channelName"
-        }*/
-        // 生产环境 欧洲杯发布用
-        xingCai_EC {
+        xingCai_OL {
             applicationId "com.sptxc.app" // xcsport
             versionName "1.2.7"
             versionCode 127
