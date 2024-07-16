@@ -78,17 +78,24 @@ android {
                     ";https://app4.f4w3f2.com" +
                     ";https://app4.e4a9z6.com" +
                     ";https://app5.s6r9x3.com"
-            resValue "string", "domain_url_list", "https://h51.h2b4u5.com" +
-                    ";https://h51.y3n9w6.com" +
-                    ";https://h51.y7d8c5.com" +
-                    ";https://h52.u5d2u3.com" +
-                    ";https://h52.c3h4z1.com" +
-                    ";https://h52.p3g6t7.com" +
-                    ";https://h53.k6y1y7.com" +
-                    ";https://h53.v4h6o3.com" +
-                    ";https://h53.h7y7p2.com" +
-                    ";https://h54.y7g2n9.com" +
-                    ";https://h55.y7t9j5.com"
+            resValue "string", "domain_url_list", "https://h11.w4m8w1.com" +
+                    ";https://h11.x4r7u1.com" +
+                    ";https://h11.o4j3u6.com" +
+                    ";https://h21.x9a3w2.com" +
+                    ";https://h21.z9j4v5.com" +
+                    ";https://h21.t3n3n3.com" +
+                    ";https://h31.v8g8z5.com" +
+                    ";https://h31.h9m1a9.com" +
+                    ";https://h31.r4c2q6.com" +
+                    ";https://h41.y4v8i4.com" +
+                    ";https://h51.i7q7y2.com" +
+                    ";https://h61.saaen.com:16801" +
+                    ";https://h61.caaau.com:16801" +
+                    ";https://h61.baafj.com:16801" +
+                    ";https://h61.aaagx.com:16801" +
+                    ";https://h61.xuanwujx.com:16801" +
+                    ";https://h61.yhlims.com:16801" +
+                    ";https://h61.bfangwang.com:16801"
             resValue "string", "domain_url_list_third", "https://cn2app.e2f9f5.com/xc/app_config.json" +
                     ";https://cn2app.q5o4v3.com/xc/app_config.json" +
                     ";https://cn2app.e9f6s7.com/xc/app_config.json" +
