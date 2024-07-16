@@ -340,6 +340,9 @@ public class MatchFb implements Match{
      */
     @Override
     public String getSportId() {
+        if (this.matchInfo == null) {
+            return "";
+        }
         return String.valueOf(this.matchInfo.sid);
     }
     /**
