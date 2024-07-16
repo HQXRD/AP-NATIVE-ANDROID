@@ -933,7 +933,32 @@
         <item name="android:hint">@string/txt_enter_login_pwd</item>
         <item name="android:inputType">textPassword</item>
     </style>
-
+    <!-- 登录页 输入验证码框 -->
+    <style name="style_cm_verification" >
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@mipmap/me_input_bg</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">4</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+        <item name="android:textColorHint">@color/clr_grey_2</item>
+    </style>
+    <!-- 登录页 验证码图片样式 -->
+    <style name="style_cm_image_verification" >
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
     <!-- 登录页 眼睛 睁开/关闭 -->
     <style name="style_cm_ckb_eye">
         <item name="android:layout_width">wrap_content</item>

@@ -50,6 +50,7 @@ import com.xtree.mine.vo.UserBankProvinceVo;
 import com.xtree.mine.vo.UserBindBaseVo;
 import com.xtree.mine.vo.UserUsdtConfirmVo;
 import com.xtree.mine.vo.UserUsdtTypeVo;
+import com.xtree.mine.vo.RegisterVerificationCodeVo;
 import com.xtree.mine.vo.VerificationCodeVo;
 import com.xtree.mine.vo.VerifyVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
@@ -102,6 +103,11 @@ public interface HttpApiService {
     @POST("/api/register/kygprka")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<LoginResultVo>> register(@Body Map<String, String> map);
+    /**
+    *获取注册验证码
+     */
+    @GET("/api/captcha")
+    Flowable<BaseResponse<RegisterVerificationCodeVo>> getCaptcha();
 
     @GET("/api/settings/?")
     Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);
