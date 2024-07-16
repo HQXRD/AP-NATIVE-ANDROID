@@ -190,14 +190,20 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onFail(BusinessException t) {
                         //super.onFail(t); // 弹提示 (改成弹窗提示了)
                         KLog.e(t.toString());
-
                         if (t.code == HttpCallBack.CodeRule.CODE_20208) {
                             HashMap<String, Object> map2 = new HashMap<>();
                             map2.put("loginArgs", new Gson().toJson(map));
                             map2.put("data", t.data);
                             t.data = map2;
                             liveDataLoginFail.setValue(t);
-                        } else {
+                        } else if (t.code == HttpCallBack.CodeRule.CODE_20204
+                                ||t.code == HttpCallBack.CodeRule.CODE_20205
+                                ||t.code == HttpCallBack.CodeRule.CODE_20206) {
+                            HashMap<String, Object> map2 = new HashMap<>();
+                            map2.put("loginArgs", new Gson().toJson(map));
+                            map2.put("data", t.data);
+                            t.data = map2;
+                            liveDataLoginVerFail.setValue(t);
                             super.onFail(t);
                         }
 
@@ -267,13 +273,21 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         //super.onFail(t); // 弹提示 (改成弹窗提示了)
                         KLog.e(t.toString());
 
+                        KLog.e(t.toString());
                         if (t.code == HttpCallBack.CodeRule.CODE_20208) {
                             HashMap<String, Object> map2 = new HashMap<>();
                             map2.put("loginArgs", new Gson().toJson(map));
                             map2.put("data", t.data);
                             t.data = map2;
                             liveDataLoginFail.setValue(t);
-                        } else {
+                        } else if (t.code == HttpCallBack.CodeRule.CODE_20204
+                                ||t.code == HttpCallBack.CodeRule.CODE_20205
+                                ||t.code == HttpCallBack.CodeRule.CODE_20206) {
+                            HashMap<String, Object> map2 = new HashMap<>();
+                            map2.put("loginArgs", new Gson().toJson(map));
+                            map2.put("data", t.data);
+                            t.data = map2;
+                            liveDataLoginVerFail.setValue(t);
                             super.onFail(t);
                         }
 
