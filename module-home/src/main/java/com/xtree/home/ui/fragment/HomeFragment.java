@@ -25,8 +25,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -565,23 +563,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             });
         }
 
-        initFootball();
     }
 
     @Override
     public void initData() {
 
-    }
-
-    private void initFootball() {
-        RequestOptions options = new RequestOptions()
-                .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.DATA);
-        Glide.with(this)
-                .asGif()
-                .load(R.mipmap.hm_football_gif)
-                .apply(options)
-                .into(binding.ivGif);
     }
 
     private String getString(String result) {

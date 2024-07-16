@@ -45,35 +45,7 @@ android {
             dimension "channelName"
         }*/
         // 生产环境 发布用
-        /*xingCai_OL {
-            applicationId "com.xcsport.app" //
-            versionName "1.2.0"
-            versionCode 120
-            resValue "string", "app_name", "杏彩体育"
-            resValue "string", "domain_url", "https://www.weres.bar"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
-            resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
-            resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
-            resValue "string", "domain_url_list", "https://www.weres.bar" +
-                    ";https://app.cpmuseumdimsum.com:16801" +
-                    ";https://app.zgntcpgxds.com:16801" +
-                    ";https://app.jyuelab.com:16801" +
-                    ";https://app.eyoumoban.com:16801"
-            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
-                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
-                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
-                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
-                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
-                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
-                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
-                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
-            multiDexEnabled true
-            dimension "channelName"
-        }*/
-        // 生产环境 欧洲杯发布用
-        xingCai_EC {
+        xingCai_OL {
             applicationId "com.sptxc.app" // xcsport
             versionName "1.2.6"
             versionCode 126
@@ -128,6 +100,62 @@ android {
             multiDexEnabled true
             dimension "channelName"
         }
+        // 生产环境 欧洲杯发布用
+        /*xingCai_EC {
+            applicationId "com.sptxc.app" // xcsport
+            versionName "1.2.6"
+            versionCode 126
+            resValue "string", "app_name", "XC Sports"
+            resValue "string", "domain_api", "https://app4.f4w3f2.com"
+            resValue "string", "domain_url", "https://h51.h2b4u5.com"
+            resValue "string", "channel_name", "xingcai"  // 渠道名称
+            resValue "string", "build_time", "${buildTime()}"
+            resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
+            resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
+            resValue "string", "sentry_dsn", "https://78cf4cf46e69206c1ddc741b9ab7edca@o4507447554539520.ingest.us.sentry.io/4507456764706816"
+            resValue "bool", "is_tag", "true" // 是否开启统计
+            resValue "string", "domain_api_list", "https://app.zgntcpgxds.com:16801" +
+                    ";http://43.128.11.58:16804" +
+                    ";http://43.137.39.194:16803" +
+                    ";http://101.43.19.60:16803" +
+                    ";http://139.186.248.198:16803" +
+                    ";https://app1.g7c5e4.com" +
+                    ";https://app1.l1x7u3.com" +
+                    ";https://app1.d7u3z2.com" +
+                    ";https://app1.n6g1c2.com" +
+                    ";https://app2.y9s6f4.com" +
+                    ";https://app2.e7y4m2.com" +
+                    ";https://app2.u6z2r8.com" +
+                    ";https://app2.z3w1j8.com" +
+                    ";https://app3.g7d3w3.com" +
+                    ";https://app3.n9f4b7.com" +
+                    ";https://app3.o7o9x1.com" +
+                    ";https://app3.a8y7u9.com" +
+                    ";https://app4.f4w3f2.com" +
+                    ";https://app4.e4a9z6.com" +
+                    ";https://app5.s6r9x3.com"
+            resValue "string", "domain_url_list", "https://h51.h2b4u5.com" +
+                    ";https://h51.y3n9w6.com" +
+                    ";https://h51.y7d8c5.com" +
+                    ";https://h52.u5d2u3.com" +
+                    ";https://h52.c3h4z1.com" +
+                    ";https://h52.p3g6t7.com" +
+                    ";https://h53.k6y1y7.com" +
+                    ";https://h53.v4h6o3.com" +
+                    ";https://h53.h7y7p2.com" +
+                    ";https://h54.y7g2n9.com" +
+                    ";https://h55.y7t9j5.com"
+            resValue "string", "domain_url_list_third", "https://cn2app.e2f9f5.com/xc/app_config.json" +
+                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
+                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
+                    ";https://cn2app.v2a1c6.com/xc/app_config.json" +
+                    ";https://scdnapp.i2q9r4.com/xc/app_config.json" +
+                    ";https://scdnapp.o6j6r6.com/xc/app_config.json" +
+                    ";https://aliapp.v9u4a4.com/xc/app_config.json" +
+                    ";https://aliapp.l2r1l7.com/xc/app_config.json"
+            multiDexEnabled true
+            dimension "channelName"
+        }*/
 
     }
 
