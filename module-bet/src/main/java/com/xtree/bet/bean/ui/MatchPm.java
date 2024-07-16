@@ -362,7 +362,7 @@ public class MatchPm implements Match {
      */
     @Override
     public String getIconVisitor() {
-        if (matchInfo == null || matchInfo.malu == null || matchInfo.malu.isEmpty()) {
+        if (matchInfo == null || matchInfo.malu == null || matchInfo.malu.isEmpty() || TextUtils.isEmpty(matchInfo.malu.get(0))) {
             return "";
         }
         String logoUrl = matchInfo.malu.get(0);
