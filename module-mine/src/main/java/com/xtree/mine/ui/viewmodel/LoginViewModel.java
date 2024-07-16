@@ -38,6 +38,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<LoginResultVo> liveDataLogin = new SingleLiveData<>();
     public SingleLiveData<BusinessException> liveDataLoginFail = new SingleLiveData<>();
     public SingleLiveData<LoginResultVo> liveDataReg = new SingleLiveData<>();
+    public SingleLiveData<BusinessException> regErrorLiveData = new SingleLiveData<>();//验证码注册 异常
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
     public MutableLiveData<PromotionCodeVo> promotionCodeVoMutableLiveData = new MutableLiveData<>();
     public MutableLiveData<RegisterVerificationCodeVo> verificationCodeMutableLiveData = new MutableLiveData<RegisterVerificationCodeVo>();//获取注册验证码
@@ -265,6 +266,32 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         KLog.e(t.toString());
                         super.onError(t);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        //super.onFail(t); // 弹提示 (改成弹窗提示了)
+                        KLog.e(t.toString());
+
+                        if (t.code == HttpCallBack.CodeRule.CODE_20208) {
+                            HashMap<String, Object> map2 = new HashMap<>();
+                            map2.put("loginArgs", new Gson().toJson(map));
+                            map2.put("data", t.data);
+                            t.data = map2;
+                            regErrorLiveData.setValue(t);
+                        } else if (t.code == HttpCallBack.CodeRule.CODE_20204
+                                ||t.code == HttpCallBack.CodeRule.CODE_20205
+                                ||t.code == HttpCallBack.CodeRule.CODE_20206) {
+                            HashMap<String, Object> map2 = new HashMap<>();
+                            map2.put("loginArgs", new Gson().toJson(map));
+                            map2.put("data", t.data);
+                            t.data = map2;
+                            regErrorLiveData.setValue(t);
+                            super.onFail(t);
+                        } else {
+                            super.onFail(t);
+                        }
+
                     }
                 });
         addSubscribe(disposable);

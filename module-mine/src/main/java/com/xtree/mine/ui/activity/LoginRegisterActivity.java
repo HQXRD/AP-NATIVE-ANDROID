@@ -209,7 +209,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private boolean mIsAcc = false;
     private boolean mIsPwd1 = false;
     private boolean mIsPwd2 = false;
-    private boolean mIsVer = true;//验证码
+   // private boolean mIsVer = true;//验证码
     private BasePopupView verifyPopView;//认证PoPView
     private SettingsVo settingsVo;
     private PromotionCodeVo promotionCodeVo;
@@ -555,22 +555,29 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_is_empty);
                 mIsPwd2 = false;
             }
-            //验证码不能为空
-            if (verificationTxt.isEmpty()) {
-                binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
-                binding.tvwPwdCheckVerification.setText(R.string.txt_otp_can_not_null);
-                ToastUtils.showError(this.getText(R.string.txt_otp_can_not_null));
-                mIsVer = false;
-            }
-            //验证码不是数字 验证码长度不是4位
-            if (!StringUtils.isNumber(verificationTxt) || verificationTxt.length() != 4) {
-                binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
-                binding.tvwPwdCheckVerification.setText(R.string.txt_otp_not_four_number);
-                ToastUtils.showError(this.getText(R.string.txt_otp_not_four_number));
-                mIsVer = false;
+            //注册页面需要判断Seting 状态 1需要判断
+            if (TextUtils.equals("1",settingsVo.register_captcha_switch)){
+                //验证码不能为空
+                if (verificationTxt.isEmpty()) {
+                    binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
+                    binding.tvwPwdCheckVerification.setText(R.string.txt_otp_can_not_null);
+                    ToastUtils.showError(this.getText(R.string.txt_otp_can_not_null));
+                   // mIsVer = false;
+                    return;
+                }
+                //验证码不是数字 验证码长度不是4位
+                if (verificationTxt.length() != 4) {
+                    binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
+                    binding.tvwPwdCheckVerification.setText(R.string.txt_otp_not_four_number);
+                    ToastUtils.showError(this.getText(R.string.txt_otp_not_four_number));
+                    //mIsVer = false;
+                    return;
+                }
+
             }
 
-            if (!mIsAcc || !mIsPwd1 || !mIsPwd2 || !mIsVer) {
+
+            if (!mIsAcc || !mIsPwd1 || !mIsPwd2 ) {
                 return;
             }
 
@@ -675,6 +682,16 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     vo.code  == HttpCallBack.CodeRule.CODE_20206){
                 Message msg = new Message();
                 msg.what = HANDLER_REFRESH_VER_LOGIN_VIEW;
+                sendMessage(msg);
+            }
+        });
+        //通过验证码注册 返回异常
+        viewModel.regErrorLiveData.observe(this, vo->{
+            if (vo.code  == HttpCallBack.CodeRule.CODE_20204 ||
+                    vo.code  == HttpCallBack.CodeRule.CODE_20205||
+                    vo.code  == HttpCallBack.CodeRule.CODE_20206){
+                Message msg = new Message();
+                msg.what = HANDLER_REFRESH_VER;
                 sendMessage(msg);
             }
         });
