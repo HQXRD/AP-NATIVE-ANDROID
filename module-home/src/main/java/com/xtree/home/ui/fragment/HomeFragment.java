@@ -25,8 +25,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -473,39 +471,50 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
-        GameAdapter.ICallBack mCallBack = vo -> {
-            if (ClickUtil.isFastClick()) {
-                return;
+        GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
+            @Override
+            public void onClick(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                CfLog.i(vo.toString());
+                if (vo.cid == 7) {
+                    startContainerFragment(RouterFragmentPath.Home.AUG);
+                    return;
+                }
+                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("vo", vo);
+                    startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
+                    return;
+                }
+
+                LoadingDialog.show(getContext());
+                viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
             }
-            CfLog.i(vo.toString());
-            if (vo.cid == 7) {
-                startContainerFragment(RouterFragmentPath.Home.AUG);
-                return;
+
+            @Override
+            public void getToken(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
+                    viewModel.getFBXCGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
+                    viewModel.getFBGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
+                    viewModel.getPMXCGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_PM)) {
+                    viewModel.getPMGameTokenApi(false);
+                    return;
+                }
             }
-            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("vo", vo);
-                startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
-                viewModel.getFBXCGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
-                viewModel.getFBGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
-                viewModel.getPMXCGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_PM)) {
-                viewModel.getPMGameTokenApi(false);
-                return;
-            }
-            LoadingDialog.show(getContext());
-            viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
         };
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
@@ -565,23 +574,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             });
         }
 
-        initFootball();
     }
 
     @Override
     public void initData() {
 
-    }
-
-    private void initFootball() {
-        RequestOptions options = new RequestOptions()
-                .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.DATA);
-        Glide.with(this)
-                .asGif()
-                .load(R.mipmap.hm_football_gif)
-                .apply(options)
-                .into(binding.ivGif);
     }
 
     private String getString(String result) {

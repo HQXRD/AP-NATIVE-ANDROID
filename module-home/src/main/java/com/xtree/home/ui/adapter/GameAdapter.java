@@ -22,16 +22,14 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.TipGameDialog;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.ui.custom.view.TipPMDialog;
 import com.xtree.home.vo.GameVo;
 
-import me.xtree.mvvmhabit.base.AppManager;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     Context ctx;
@@ -47,6 +45,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
     public interface ICallBack {
         void onClick(GameVo vo); // String gameAlias, String gameId
+        void getToken(GameVo vo);
     }
 
     public GameAdapter(Context ctx, ICallBack mCallBack) {
@@ -75,7 +74,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             binding.tvwMaintenance.setVisibility(View.GONE);
             binding.ivwGreyCover.setVisibility(View.GONE);
             binding.rlSpace.setVisibility(View.GONE);
-            setTwoImage(vo);
+            setTwo(vo);
 
             return;
         } else {
@@ -101,12 +100,12 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             binding.ivwGreyCover.setVisibility(View.GONE);
         }
 
-        //if (vo.twoImage) {
-        //    binding.layoutFc.setVisibility(View.VISIBLE);
-        //    setFastCommon(position, vo);
-        //} else {
-        //    binding.layoutFc.setVisibility(View.GONE);
-        //}
+        if (vo.twoImage) {
+            binding.layoutFc.setVisibility(View.VISIBLE);
+            setFastCommon(position, vo);
+        } else {
+            binding.layoutFc.setVisibility(View.GONE);
+        }
 
         CfLog.i(getData().size() + "  " + position);
         if ((getData().size() - 1) > position) {
@@ -116,10 +115,12 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    private void setTwoImage(GameVo vo) {
+    /**
+     * 设置杏彩官方与杏彩旗舰
+     */
+    private void setTwo(GameVo vo) {
         binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
         binding.ivwCoverRight.setOnClickListener(view -> jump(vo.twoVo, false));
-        KLog.i(vo);
         if (vo.twoVo == null) {
             return;
         }
@@ -158,40 +159,41 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     /**
      * 极速版普通版切换
      */
-    //private void setFastCommon(int position, GameVo vo) {
-    //    String key;
-    //    if (vo.cid == 5) {
-    //        //熊猫体育
-    //        key = SPKeyGlobal.PM_FAST_COMMON;
-    //    } else if (vo.cid == 26) {
-    //        //FB体育
-    //        key = SPKeyGlobal.FB_FAST_COMMON;
-    //    } else {
-    //        key = "";
-    //    }
-    //    boolean isFast = SPUtils.getInstance().getBoolean(key, true);
-    //    if (isFast) {
-    //        //如果是极速版
-    //        binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
-    //        binding.ivwImg.setOnClickListener(view -> jump(vo, true));
-    //        binding.ivLeft.setOnClickListener(null);
-    //        binding.ivRight.setOnClickListener(view -> {
-    //            CfLog.i("ivRight");
-    //            SPUtils.getInstance().put(key, false);
-    //            notifyItemChanged(position);
-    //        });
-    //    } else {
-    //        //普通版
-    //        binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
-    //        binding.ivwImg.setOnClickListener(view -> jump(vo, false));
-    //        binding.ivRight.setOnClickListener(null);
-    //        binding.ivLeft.setOnClickListener(view -> {
-    //            CfLog.i("ivLeft");
-    //            SPUtils.getInstance().put(key, true);
-    //            notifyItemChanged(position);
-    //        });
-    //    }
-    //}
+    private void setFastCommon(int position, GameVo vo) {
+        String key;
+        if (vo.cid == 5) {
+            //熊猫体育
+            key = SPKeyGlobal.PM_FAST_COMMON;
+        } else if (vo.cid == 26) {
+            //FB体育
+            key = SPKeyGlobal.FB_FAST_COMMON;
+        } else {
+            key = "";
+        }
+        boolean isFast = SPUtils.getInstance().getBoolean(key, true);
+        if (isFast) {
+            //如果是极速版
+            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
+            binding.ivwImg.setOnClickListener(view -> jump(vo, true));
+            binding.ivLeft.setOnClickListener(null);
+            binding.ivRight.setOnClickListener(view -> {
+                CfLog.i("ivRight");
+                SPUtils.getInstance().put(key, false);
+                notifyItemChanged(position);
+            });
+        } else {
+            //普通版
+            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
+            binding.ivwImg.setOnClickListener(view -> jump(vo, false));
+            binding.ivRight.setOnClickListener(null);
+            binding.ivLeft.setOnClickListener(view -> {
+                CfLog.i("ivLeft");
+                SPUtils.getInstance().put(key, true);
+                notifyItemChanged(position);
+            });
+        }
+    }
+
     private void jump(GameVo vo) {
         jump(vo, true);
     }
@@ -217,9 +219,18 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             mCallBack.onClick(vo);
             return;
         }
-        //熊猫场馆弹窗判断
-        if (TextUtils.equals(PLATFORM_PM, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
-            showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY);
+        if (vo.twoImage) {
+            //熊猫场馆弹窗判断
+            if (TextUtils.equals(PLATFORM_PM, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
+                showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY, isLeft);
+                return;
+            }
+
+            if (isLeft) {
+                goApp(vo);
+            } else {
+                goWeb(vo);
+            }
             return;
         }
 
@@ -228,7 +239,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
                 //杏彩体育旗舰场馆弹窗判断
                 //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
                 if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
-                    showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY);
+                    showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY, true);
                     return;
                 }
             }
@@ -253,7 +264,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    private void showPMDialog(GameVo vo, String key) {
+    private void showPMDialog(GameVo vo, String key, boolean isApp) {
         if (basePopupView != null && basePopupView.isShow()) {
             return;
         }
@@ -264,7 +275,12 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
                     @Override
                     public void onClickPM() {
                         //熊猫体育
-                        goApp(vo);
+                        if (isApp) {
+                            goApp(vo);
+                        } else {
+                            LoadingDialog.show(ctx);
+                            goWeb(vo);
+                        }
                         basePopupView.dismiss();
 
                     }
@@ -306,8 +322,6 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    int time;
-
     private void goApp(GameVo vo) {
         String cgToken;
         if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
@@ -322,7 +336,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
         if (TextUtils.isEmpty(cgToken) || !BtDomainUtil.hasDefaultLine(vo.alias)) {
             CfLog.e("无法获取到场馆地址");
-            mCallBack.onClick(vo);
+            mCallBack.getToken(vo);
         } else {
             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                     withString("KEY_PLATFORM", vo.alias).navigation();
