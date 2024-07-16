@@ -18,7 +18,7 @@
                 android:id="@+id/login_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="30dp"
                 android:src="@mipmap/me_login_header"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -330,7 +330,31 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/edt_verification"
+                                style="@style/style_cm_verification"
+                                android:hint="@string/txt_verification_hint"
+                                android:layout_weight="5"/>
+                            <ImageView
+                                android:id="@+id/iv_verification"
+                                style="@style/style_cm_image_verification"
+                                android:hint="@string/txt_verification_hint" />
+
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvw_pwd_check_verification"
+                            style="@style/style_cm_tip_small_orange"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/txt_verification_is_empty"
+                            android:visibility="invisible"
+                            tools:visibility="visible" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
                             <CheckBox

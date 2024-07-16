@@ -1,12 +1,14 @@
 package com.xtree.mine.ui.activity;
 
-import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
-import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
 import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
 import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -17,7 +19,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -31,13 +32,16 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AESUtil;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.BitmapUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.ClipboardUtil;
 import com.xtree.base.utils.SPUtil;
+import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.PromotionCodeVo;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -49,6 +53,7 @@ import com.xtree.mine.ui.viewmodel.LoginViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.mine.vo.RegisterVerificationCodeVo;
 import com.xtree.weight.TopSpeedDomainFloatingWindows;
 
 import org.greenrobot.eventbus.EventBus;
@@ -68,6 +73,57 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
 public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
+    private static final int HANDLER_INIT_VER = 0;//初始化获取注册验证码
+    private static final int HANDLER_REFRESH_VER = 1;//手动点击获取注册验证码
+    private static final int HANDLER_ERR_VER = 2;//获取验证码异常
+    private static final int HANDLER_REFRESH_IMAGE_VER = 3;//刷新图片UI
+
+    private RegisterVerificationHandler mRegisterHandler;
+    protected Handler mainThreadHandler;
+    private class RegisterVerificationHandler extends Handler {
+
+        RegisterVerificationHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case HANDLER_INIT_VER:
+                case HANDLER_REFRESH_VER:
+                    viewModel.getCaptcha();//获取注册验证码
+                    break;
+                case HANDLER_ERR_VER:
+                    if (msg.obj.toString() != null || !TextUtils.isEmpty(msg.obj.toString())) {
+                        ToastUtils.showError(msg.obj.toString());
+                        binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
+                        binding.tvwPwdCheckVerification.setText(msg.obj.toString());
+
+                    } else {
+                        CfLog.e("*******************RegisterVerificationHandler  Error *******************  ");
+                    }
+
+                    break;
+                case HANDLER_REFRESH_IMAGE_VER:
+
+                    refreshVeriImage((RegisterVerificationCodeVo) msg.obj);
+                    break;
+            }
+        }
+
+    }
+
+    private void refreshVeriImage(final RegisterVerificationCodeVo vo) {
+        if (!TextUtils.isEmpty(vo.image_url)) {
+            binding.tvwPwdCheckVerification.setVisibility(View.INVISIBLE);
+            Bitmap bitmap = BitmapUtil.base64StrToBitmap(vo.image_url);
+            binding.ivVerification.setImageBitmap(bitmap);
+        }else{
+
+        }
+
+    }
 
     public static final String ENTER_TYPE = "enter_type";
     public static final int LOGIN_TYPE = 0x1001;
@@ -77,11 +133,14 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private boolean mIsAcc = false;
     private boolean mIsPwd1 = false;
     private boolean mIsPwd2 = false;
+    private boolean mIsVer = true;//验证码
     private BasePopupView verifyPopView;//认证PoPView
     private SettingsVo settingsVo;
     private PromotionCodeVo promotionCodeVo;
     private String code;//剪切板获取的code
     private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
+
+    private RegisterVerificationCodeVo registerVerificationCodeVo;//注册验证码
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -118,6 +177,10 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initView() {
+
+        mRegisterHandler = new RegisterVerificationHandler((Looper.getMainLooper()));
+        mainThreadHandler = new Handler();
+
         mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
         mTopSpeedDomainFloatingWindows.show();
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
@@ -209,6 +272,12 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             binding.loginArea.setVisibility(View.GONE);
             binding.tvwRegisterWarning.setVisibility(View.VISIBLE);
             binding.ivwRegisterWarning.setVisibility(View.VISIBLE);
+            //显示注册页面 刷新 获取 注册验证码
+           // viewModel.getCaptcha();
+            Message msg = new Message();
+            msg.what = HANDLER_INIT_VER;
+            sendMessage(msg);
+
         });
         binding.toLoginArea.setOnClickListener(v -> {
             binding.toRegisterArea.setVisibility(View.VISIBLE);
@@ -358,6 +427,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             String account = binding.edtAccReg.getText().toString().trim();
             String pwd1 = binding.edtPwd1.getText().toString();
             String pwd2 = binding.edtPwd2.getText().toString();
+            String verificationTxt = binding.edtVerification.getText().toString();
             if (!binding.registerAgreementCheckbox.isChecked()) {
                 ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
                 showAgreementDialog(binding.registerAgreementCheckbox);
@@ -381,23 +451,43 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_is_empty);
                 mIsPwd2 = false;
             }
+            //验证码不能为空
+            if (verificationTxt.isEmpty()) {
+                binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
+                binding.tvwPwdCheckVerification.setText(R.string.txt_otp_can_not_null);
+                ToastUtils.showError(this.getText(R.string.txt_otp_can_not_null));
+                mIsVer = false;
+            }
+            //验证码不是数字 验证码长度不是4位
+            if (!StringUtils.isNumber(verificationTxt) || verificationTxt.length() != 4) {
+                binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
+                binding.tvwPwdCheckVerification.setText(R.string.txt_otp_not_four_number);
+                ToastUtils.showError(this.getText(R.string.txt_otp_not_four_number));
+                mIsVer = false;
+            }
 
-            if (!mIsAcc || !mIsPwd1 || !mIsPwd2) {
+            if (!mIsAcc || !mIsPwd1 || !mIsPwd2 || !mIsVer) {
                 return;
             }
 
             final String netCode =
                     SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
             if (code != null && !TextUtils.isEmpty(code)) {
-                viewModel.register(account, pwd1, code);
-            } else if ((code != null && !TextUtils.isEmpty(code)) &&(netCode != null &&!TextUtils.isEmpty(netCode))) {
-                viewModel.register(account, pwd1, netCode);
+                viewModel.register(account, pwd1, code, registerVerificationCodeVo.key,verificationTxt);
+            } else if ((code != null && !TextUtils.isEmpty(code)) && (netCode != null && !TextUtils.isEmpty(netCode))) {
+                viewModel.register(account, pwd1, netCode,  registerVerificationCodeVo.key,verificationTxt);
             } else {
                 //为获取推广码 使用默认的推广码
-                viewModel.register(account, pwd1, "kygprka");
+                viewModel.register(account, pwd1, "kygprka",  registerVerificationCodeVo.key,verificationTxt);
             }
         });
-
+        //点击验证码图片 手动刷新验证码图片
+        binding.ivVerification.setOnClickListener(v -> {
+            LoadingDialog.show(this);
+            Message msg = new Message();
+            msg.what = HANDLER_REFRESH_VER;
+            sendMessage(msg);
+        });
     }
 
     private void showAgreementDialog(CheckBox checkBox) {
@@ -473,8 +563,26 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         viewModel.promotionCodeVoMutableLiveData.observe(this, vo -> {
             promotionCodeVo = vo;
         });
+        //获取注册验证码
+        viewModel.verificationCodeMutableLiveData.observe(this, vo -> {
+            registerVerificationCodeVo = vo;
+            if ( !TextUtils.isEmpty(registerVerificationCodeVo.image_url)) {
+                Message msg = new Message();
+                msg.what = HANDLER_REFRESH_IMAGE_VER;
+                msg.obj = registerVerificationCodeVo;
+                sendMessage(msg);
+            } else  {
+                Message msg = new Message();
+                msg.what = HANDLER_ERR_VER;
+                msg.obj = registerVerificationCodeVo;
+                sendMessage(msg);
+            }
+        });
     }
 
+    protected void sendMessage(Message message) {
+        mRegisterHandler.sendMessage(message);
+    }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);

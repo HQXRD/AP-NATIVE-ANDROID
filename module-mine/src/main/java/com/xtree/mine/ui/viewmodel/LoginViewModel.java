@@ -19,6 +19,7 @@ import com.xtree.base.vo.PromotionCodeVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.mine.vo.RegisterVerificationCodeVo;
 
 import java.util.HashMap;
 
@@ -38,6 +39,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<LoginResultVo> liveDataReg = new SingleLiveData<>();
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
     public MutableLiveData<PromotionCodeVo> promotionCodeVoMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<RegisterVerificationCodeVo> verificationCodeMutableLiveData = new MutableLiveData<RegisterVerificationCodeVo>();//获取注册验证码
+
     String public_key;
 
     public LoginViewModel(@NonNull Application application, MineRepository repository) {
@@ -125,7 +128,13 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         RetrofitClient.init();
     }
 
-    public void register(String userName, String pwd, String code) {
+    /**
+     * @param userName
+     * @param pwd
+     * @param code
+     * @param validcode
+     */
+    public void register(String userName, String pwd, String code, final String key,final String validcode) {
         HashMap<String, String> map = new HashMap();
         map.put("carryAuth", "false");
 
@@ -143,8 +152,9 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         map.put("nonce", UuidUtil.getID16());
         map.put("username", userName);
         map.put("userpass", pwd); // 明文
+        map.put("validcode", key+":"+validcode);//注册验证码
 
-        CfLog.e("code1=" + map);
+        CfLog.e("*********** register  code1=" + map);
         Disposable disposable = (Disposable) model.getApiService().register(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
@@ -218,6 +228,29 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(PromotionCodeVo promotionCodeVo) {
                         SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, promotionCodeVo.domian);//推广code
                         promotionCodeVoMutableLiveData.setValue(promotionCodeVo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取注册 图形验证码头
+     */
+    public void getCaptcha() {
+        Disposable disposable = (Disposable) model.getApiService().getCaptcha()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<RegisterVerificationCodeVo>() {
+
+                    @Override
+                    public void onResult(RegisterVerificationCodeVo vo) {
+                        CfLog.e("captcha = " + vo.toString());
+                        verificationCodeMutableLiveData.setValue(vo);
                     }
 
                     @Override
