@@ -115,10 +115,11 @@
                                 android:id="@+id/edt_login_verification"
                                 style="@style/style_cm_verification"
                                 android:hint="@string/txt_verification_hint"
-                                android:layout_weight="5"/>
+                                android:layout_weight="4"/>
                             <ImageView
                                 android:id="@+id/iv_login_verification"
                                 style="@style/style_cm_image_verification"
+                                android:layout_marginLeft="10dp"
                                 android:hint="@string/txt_verification_hint" />
 
                         </LinearLayout>
@@ -367,10 +368,11 @@
                                 android:id="@+id/edt_verification"
                                 style="@style/style_cm_verification"
                                 android:hint="@string/txt_verification_hint"
-                                android:layout_weight="5"/>
+                                android:layout_weight="4"/>
                             <ImageView
                                 android:id="@+id/iv_verification"
                                 style="@style/style_cm_image_verification"
+                                android:layout_marginLeft="10dp"
                                 android:hint="@string/txt_verification_hint" />
 
                         </LinearLayout>
