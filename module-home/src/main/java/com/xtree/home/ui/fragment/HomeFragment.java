@@ -471,39 +471,50 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
-        GameAdapter.ICallBack mCallBack = vo -> {
-            if (ClickUtil.isFastClick()) {
-                return;
+        GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
+            @Override
+            public void onClick(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                CfLog.i(vo.toString());
+                if (vo.cid == 7) {
+                    startContainerFragment(RouterFragmentPath.Home.AUG);
+                    return;
+                }
+                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("vo", vo);
+                    startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
+                    return;
+                }
+
+                LoadingDialog.show(getContext());
+                viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
             }
-            CfLog.i(vo.toString());
-            if (vo.cid == 7) {
-                startContainerFragment(RouterFragmentPath.Home.AUG);
-                return;
+
+            @Override
+            public void getToken(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
+                    viewModel.getFBXCGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
+                    viewModel.getFBGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
+                    viewModel.getPMXCGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_PM)) {
+                    viewModel.getPMGameTokenApi(false);
+                    return;
+                }
             }
-            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("vo", vo);
-                startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
-                viewModel.getFBXCGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
-                viewModel.getFBGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
-                viewModel.getPMXCGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_PM)) {
-                viewModel.getPMGameTokenApi(false);
-                return;
-            }
-            LoadingDialog.show(getContext());
-            viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
         };
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
