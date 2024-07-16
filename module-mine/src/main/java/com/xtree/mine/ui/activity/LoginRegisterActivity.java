@@ -554,7 +554,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 mIsPwd2 = false;
             }
             //注册页面需要判断Seting 状态 1需要判断
-            if (TextUtils.equals("1", settingsVo.register_captcha_switch)) {
+            if (settingsVo !=null &&
+                    settingsVo.register_captcha_switch != null
+                    &&TextUtils.equals("1", settingsVo.register_captcha_switch)) {
                 //验证码不能为空
                 if (verificationTxt.isEmpty()) {
                     binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
