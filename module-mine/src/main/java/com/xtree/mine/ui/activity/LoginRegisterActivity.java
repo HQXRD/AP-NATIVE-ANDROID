@@ -73,10 +73,21 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
 public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
+
+
+    private boolean loginRegType =false;//登录状态获取验证码 状态 默认不需要获取验证码状态
     private static final int HANDLER_INIT_VER = 0;//初始化获取注册验证码
     private static final int HANDLER_REFRESH_VER = 1;//手动点击获取注册验证码
     private static final int HANDLER_ERR_VER = 2;//获取验证码异常
     private static final int HANDLER_REFRESH_IMAGE_VER = 3;//刷新图片UI
+    private static final int HANDLER_REFRESH_REG_VER_VIEW=9;//刷新显示注册二维码View
+
+
+    private static final int HANDLER_INIT_VER_LOGIN = 4;//初始化登录获取验证码
+    private static final int HANDLER_REFRESH_VER_LOGIN = 5;//手动点击获取登录获取验证码
+    private static final int HANDLER_ERR_VER_LOGIN  = 6;//获取验证码异常
+    private static final int HANDLER_REFRESH_IMAGE_VER_LOGIN  = 7;//刷新图片UI
+    private static final int HANDLER_REFRESH_VER_LOGIN_VIEW  = 8;//刷新显示登录二维码UI
 
     private RegisterVerificationHandler mRegisterHandler;
     protected Handler mainThreadHandler;
@@ -92,7 +103,12 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             switch (msg.what) {
                 case HANDLER_INIT_VER:
                 case HANDLER_REFRESH_VER:
+
+                case HANDLER_REFRESH_VER_LOGIN:
                     viewModel.getCaptcha();//获取注册验证码
+                    break;
+                case HANDLER_INIT_VER_LOGIN:
+                    viewModel.getLoginCaptcha();//获取登录验证码
                     break;
                 case HANDLER_ERR_VER:
                     if (msg.obj.toString() != null || !TextUtils.isEmpty(msg.obj.toString())) {
@@ -105,15 +121,75 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     }
 
                     break;
+                case HANDLER_ERR_VER_LOGIN:
+                    if (msg.obj.toString() != null || !TextUtils.isEmpty(msg.obj.toString())) {
+                        ToastUtils.showError(msg.obj.toString());
+                        binding.tvwPwdCheckLoginVerification.setVisibility(View.VISIBLE);
+                        binding.tvwPwdCheckLoginVerification.setText(msg.obj.toString());
+
+                    } else {
+                        CfLog.e("*******************RegisterVerificationHandler  Error *******************  ");
+                    }
+                    break;
                 case HANDLER_REFRESH_IMAGE_VER:
 
                     refreshVeriImage((RegisterVerificationCodeVo) msg.obj);
+                    break;
+                case HANDLER_REFRESH_IMAGE_VER_LOGIN:
+                    refreshLoginVeriImage((RegisterVerificationCodeVo) msg.obj);
+                    break;
+                case HANDLER_REFRESH_VER_LOGIN_VIEW:
+                    refreshLoginVerView();
+                    break;
+                case HANDLER_REFRESH_REG_VER_VIEW:
+                    refreshRegVerView();
                     break;
             }
         }
 
     }
 
+    private void  refreshLoginVerView(){
+            binding.toRegisterArea.setVisibility(View.VISIBLE);
+            binding.loginArea.setVisibility(View.VISIBLE);
+            binding.llLoginVerification.setVisibility(View.VISIBLE);//显示登录二维码
+            binding.toLoginArea.setVisibility(View.GONE);
+            binding.meRegisterArea.setVisibility(View.GONE);
+            binding.tvwRegisterWarning.setVisibility(View.GONE);
+            binding.ivwRegisterWarning.setVisibility(View.GONE);
+
+
+            Message msg = new Message();
+            msg.what = HANDLER_INIT_VER_LOGIN;
+            sendMessage(msg);
+
+    }
+
+    private void refreshRegVerView(){
+        binding.toLoginArea.setVisibility(View.VISIBLE);
+        binding.meRegisterArea.setVisibility(View.VISIBLE);
+        binding.llEdtVerification.setVisibility(View.VISIBLE);
+        hideRegister();
+        binding.toRegisterArea.setVisibility(View.GONE);
+        binding.loginArea.setVisibility(View.GONE);
+        binding.tvwRegisterWarning.setVisibility(View.VISIBLE);
+        binding.ivwRegisterWarning.setVisibility(View.VISIBLE);
+
+
+        Message msg = new Message();
+        msg.what = HANDLER_REFRESH_VER;
+        sendMessage(msg);
+
+    }
+    private void refreshLoginVeriImage(final RegisterVerificationCodeVo vo){
+        if (!TextUtils.isEmpty(vo.image_url)) {
+            binding.tvwPwdCheckVerification.setVisibility(View.INVISIBLE);
+            Bitmap bitmap = BitmapUtil.base64StrToBitmap(vo.image_url);
+            binding.ivLoginVerification.setImageBitmap(bitmap);
+        }else{
+
+        }
+    }
     private void refreshVeriImage(final RegisterVerificationCodeVo vo) {
         if (!TextUtils.isEmpty(vo.image_url)) {
             binding.tvwPwdCheckVerification.setVisibility(View.INVISIBLE);
@@ -141,6 +217,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
 
     private RegisterVerificationCodeVo registerVerificationCodeVo;//注册验证码
+    private RegisterVerificationCodeVo loginRegCodeVo ;//登录验证码
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -193,6 +270,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         Intent intent = getIntent();
         int viewType = intent.getIntExtra(ENTER_TYPE, LOGIN_TYPE);
+        //登录页面
         if (viewType == LOGIN_TYPE) {
             binding.toRegisterArea.setVisibility(View.VISIBLE);
             binding.loginArea.setVisibility(View.VISIBLE);
@@ -201,6 +279,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             binding.tvwRegisterWarning.setVisibility(View.GONE);
             binding.ivwRegisterWarning.setVisibility(View.GONE);
         }
+        //注册页面
         if (viewType == REGISTER_TYPE) {
             binding.toLoginArea.setVisibility(View.VISIBLE);
             binding.meRegisterArea.setVisibility(View.VISIBLE);
@@ -237,6 +316,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(this));
 
         binding.btnLogin.setOnClickListener(v -> {
+
             if (!ifAgree()) {
                 ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
                 showAgreementDialog(binding.ckbAgreement);
@@ -254,7 +334,27 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
                 return;
             }
-            viewModel.login(acc, pwd);
+            if (!loginRegType){
+                viewModel.login(acc, pwd);
+            }else{
+                String loginVerText = binding.edtLoginVerification.getText().toString();
+                //验证码不能为空
+                if (TextUtils.isEmpty(loginVerText)) {
+                    binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
+                    binding.tvwPwdCheckVerification.setText(R.string.txt_otp_can_not_null);
+                    ToastUtils.showError(this.getText(R.string.txt_otp_can_not_null));
+                    return;
+                }
+                //验证码不是数字 验证码长度不是4位
+                if (!StringUtils.isNumber(loginVerText) || loginVerText.length() != 4) {
+                    binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
+                    binding.tvwPwdCheckVerification.setText(R.string.txt_otp_not_four_number);
+                    ToastUtils.showError(this.getText(R.string.txt_otp_not_four_number));
+                    return;
+                }
+                viewModel.loginAndVer(acc, pwd, loginRegCodeVo.key , loginVerText);
+            }
+
         });
 
         binding.tvwAgreement.setOnClickListener(v -> {
@@ -272,11 +372,15 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             binding.loginArea.setVisibility(View.GONE);
             binding.tvwRegisterWarning.setVisibility(View.VISIBLE);
             binding.ivwRegisterWarning.setVisibility(View.VISIBLE);
-            //显示注册页面 刷新 获取 注册验证码
-           // viewModel.getCaptcha();
-            Message msg = new Message();
-            msg.what = HANDLER_INIT_VER;
-            sendMessage(msg);
+            //读取Seting接口 获取是否展示注册二维码View
+            if (settingsVo !=null && TextUtils.equals("1",settingsVo.register_captcha_switch)){
+                binding.llEdtVerification.setVisibility(View.VISIBLE);
+                //显示注册页面 刷新 获取 注册验证码
+                Message msg = new Message();
+                msg.what = HANDLER_INIT_VER;
+                sendMessage(msg);
+            }
+
 
         });
         binding.toLoginArea.setOnClickListener(v -> {
@@ -481,11 +585,19 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 viewModel.register(account, pwd1, "kygprka",  registerVerificationCodeVo.key,verificationTxt);
             }
         });
-        //点击验证码图片 手动刷新验证码图片
+        //点击 注册 验证码图片 手动刷新验证码图片
         binding.ivVerification.setOnClickListener(v -> {
             LoadingDialog.show(this);
             Message msg = new Message();
             msg.what = HANDLER_REFRESH_VER;
+            sendMessage(msg);
+        });
+
+        //点击 登录页面 刷新验证码
+        binding.ivLoginVerification.setOnClickListener(v -> {
+            LoadingDialog.show(this);
+            Message msg = new Message();
+            msg.what = HANDLER_INIT_VER_LOGIN;
             sendMessage(msg);
         });
     }
@@ -508,6 +620,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     @Override
     public void initViewObservable() {
         viewModel.liveDataLogin.observe(this, vo -> {
+
             SPUtil.get(getApplication()).put(Spkey.REMEMBER_PWD, binding.ckbRememberPwd.isChecked());
             if (binding.ckbRememberPwd.isChecked()) {
                 try {
@@ -548,16 +661,32 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 goMain(false);
             }
         });
-
+        //登录异常
         viewModel.liveDataLoginFail.observe(this, vo -> {
             if (vo.code == HttpCallBack.CodeRule.CODE_20208) {
                 showVerifyDialog(vo);
             }
 
         });
+        //登录异常 需要刷新出 登录二维码
+        viewModel.liveDataLoginVerFail.observe(this,vo->{
+            if (vo.code  == HttpCallBack.CodeRule.CODE_20204 ||
+                    vo.code  == HttpCallBack.CodeRule.CODE_20205||
+                    vo.code  == HttpCallBack.CodeRule.CODE_20206){
+                Message msg = new Message();
+                msg.what = HANDLER_REFRESH_VER_LOGIN_VIEW;
+                sendMessage(msg);
+            }
+        });
         //获取seting接口数据
         viewModel.liveDataSettings.observe(this, vo -> {
             settingsVo = vo;
+            //注册页面是否显示 验证码
+            if (TextUtils.equals("1",settingsVo.register_captcha_switch)){
+                Message msg = new Message();
+                msg.what = HANDLER_REFRESH_REG_VER_VIEW;
+                sendMessage(msg);
+            }
         });
         //获取pro接口数据
         viewModel.promotionCodeVoMutableLiveData.observe(this, vo -> {
@@ -575,6 +704,22 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 Message msg = new Message();
                 msg.what = HANDLER_ERR_VER;
                 msg.obj = registerVerificationCodeVo;
+                sendMessage(msg);
+            }
+        });
+        // 获取登录验证码
+        viewModel.verLoginCodeMutableLiveData.observe(this,vo -> {
+            loginRegType = true;// 登录状态获取验证码
+            loginRegCodeVo = vo;
+            if ( !TextUtils.isEmpty(loginRegCodeVo.image_url)) {
+                Message msg = new Message();
+                msg.what = HANDLER_REFRESH_IMAGE_VER_LOGIN;
+                msg.obj = loginRegCodeVo;
+                sendMessage(msg);
+            } else  {
+                Message msg = new Message();
+                msg.what = HANDLER_ERR_VER_LOGIN;
+                msg.obj = loginRegCodeVo;
                 sendMessage(msg);
             }
         });
