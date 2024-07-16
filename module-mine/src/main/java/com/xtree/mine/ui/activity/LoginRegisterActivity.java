@@ -585,13 +585,16 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             } else if ((code != null && !TextUtils.isEmpty(code)) && (netCode != null && !TextUtils.isEmpty(netCode))) {
                 viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt);
             } else {
-                if (registerVerificationCodeVo != null&&!TextUtils.isEmpty(registerVerificationCodeVo.key) && verificationTxt != null) {
+                //增加
+                if (registerVerificationCodeVo != null
+                        &&registerVerificationCodeVo.key !=null
+                        &&!TextUtils.isEmpty(registerVerificationCodeVo.key)
+                        && verificationTxt != null) {
                     //为获取推广码 使用默认的推广码
                     viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt);
                 } else {
                     viewModel.register(account, pwd1, "kygprka", "", "");
                 }
-
             }
         });
         //点击 注册 验证码图片 手动刷新验证码图片
