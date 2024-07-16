@@ -170,8 +170,8 @@ public class MatchPm implements Match {
                 if (!TextUtils.isEmpty(score) && score.contains("|")) {
                     score = score.substring(score.indexOf("|") + 1, score.length());
                     if (!TextUtils.isEmpty(score) && score.contains(":") && score.split(":").length > 1) {
-                        sc.add(Integer.valueOf(score.split(":")[0]));
-                        sc.add(Integer.valueOf(score.split(":")[1]));
+                        sc.add(Double.valueOf(score.split(":")[0]).intValue()); // 修复小数转换整数异常
+                        sc.add(Double.valueOf(score.split(":")[1]).intValue());
                     }
                 }
                 return sc;
