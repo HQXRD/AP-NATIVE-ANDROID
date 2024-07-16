@@ -662,7 +662,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             TagUtils.tagEvent(getBaseContext(), "reg");
             //注册成功后直接登录
             if (vo != null && vo.userName != null && vo.userpass != null) {
-                viewModel.login(vo.userName, vo.userpass);
+                //viewModel.login(vo.userName, vo.userpass);
+                viewModel.loginAndVerAuto(vo.userName, vo.userpass ,vo.captcha);
             } else {
                 CfLog.e("*********** userName /userpass is Null");
                 goMain(false);
