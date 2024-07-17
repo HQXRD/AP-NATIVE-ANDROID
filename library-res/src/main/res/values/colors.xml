@@ -13,8 +13,8 @@
     <!-- AA927A -->
 
     <!-- 主色参考 -->
-    <color name="clr_main_01">#D0B292</color>
-    <color name="clr_main_02">#E3C3A2</color>
+    <color name="clr_main_01">#415AB0</color>
+    <color name="clr_main_02">#A4BAF0</color>
     <color name="clr_main_03">#E3CBB2</color>
     <color name="clr_main_04">#F7DFD1</color>
     <color name="clr_main_05">#F6ECE2</color>
@@ -23,7 +23,7 @@
     <color name="clr_main_07">@color/clr_blue_01</color>
     <color name="clr_main_08">#F9F8F4</color>
     <color name="clr_main_08a">#FBF6F1</color>
-    <color name="clr_main_09">#FCF9F6</color>
+    <color name="clr_main_09">#F2F3F7</color>
     <color name="clr_main_10">#FCFCFF</color>
 
     <color name="clr_main_11">@color/clr_main</color>
@@ -52,7 +52,7 @@
     <color name="clr_main_21">#2D2D2D</color>
     <color name="clr_main_22">#49453F</color>
     <!-- 辅色 -->
-    <color name="clr_main_23">#AA927A</color>
+    <color name="clr_main_23">#121B47</color>
     <!-- 背景色 -->
     <!--<color name="clr_bg_main">#EBEDF0</color>-->
 
@@ -76,7 +76,7 @@
     <!-- 通用字颜色 主色/1级字 -->
     <color name="clr_txt_01">@color/clr_blue_03</color>
     <!-- 通用字颜色 主色/2级字 -->
-    <color name="clr_txt_02">#665849</color>
+    <color name="clr_txt_02">#99A0B1</color>
     <!-- 通用字颜色 主色/3级字 -->
     <color name="clr_txt_03">#5C5C5C</color>
     <!-- 通用字颜色 主色/4级字 -->
