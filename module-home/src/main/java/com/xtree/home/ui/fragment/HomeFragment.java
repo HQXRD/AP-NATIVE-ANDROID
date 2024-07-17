@@ -482,7 +482,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startContainerFragment(RouterFragmentPath.Home.AUG);
                 return;
             }
-            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
+            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1|| vo.cid == 43) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("vo", vo);
                 startContainerFragment(RouterFragmentPath.Home.ELE, bundle);

@@ -20,6 +20,7 @@ import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.EleItemBinding;
@@ -76,10 +77,11 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
         gameVo = getArguments().getParcelable("gameVo");
         binding.refreshLayout.setEnableRefresh(false);
         binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            requestData(curPage + 1);
+            requestData();
         });
         binding.rvEleChild.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rvEleChild.addItemDecoration(new SpacesItemDecoration(10));
+
         adapter = new CachedAutoRefreshAdapter<Ele>() {
             @NonNull
             @Override
@@ -110,7 +112,9 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
             }
 
         };
-        requestData(1);
+        //第一次加载时，显示加载圈
+        LoadingDialog.show(requireContext());
+        requestData();
         binding.rvEleChild.setAdapter(adapter);
     }
 
@@ -119,6 +123,9 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
         super.initViewObservable();
         viewModel.liveDataEle.observe(getViewLifecycleOwner(), eleVo -> {
             if (eleVo.getList() == null || eleVo.getList().isEmpty()) {
+                if (curPage == 1) {
+                    binding.tvwNoData.setVisibility(View.VISIBLE);
+                }
                 binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 return;
             } else {
@@ -132,8 +139,8 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
     /**
      * 加载更多
      */
-    private void requestData(int page) {
-        viewModel.getEle(gameVo.cid, page, 20, gameVo.cateId, position);
+    private void requestData() {
+        viewModel.getEle(gameVo.cid, curPage, 20, gameVo.cateId, position);
     }
 
     private static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
