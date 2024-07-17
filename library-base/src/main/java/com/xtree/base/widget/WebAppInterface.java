@@ -55,6 +55,8 @@ public class WebAppInterface {
     final String TYPE_ACTIVITY_DETAIL = "goActivityDetail"; // 打开活动详情
     final String TYPE_BROWSER = "goBrowser";
     final String TYPE_SAVE_IMAGE = "goSaveImage";
+    final String TYPE_CAPTCHA_VERIFY_OK = "captchaVerifySucceed";
+    final String TYPE_CAPTCHA_VERIFY_FAIL = "captchaVerifyFail";
     final String TYPE_BACK = "goBack";
     final String TYPE_CLOSE = "close";
     final String TYPE_ERROR_MSG = "errorMsg";
@@ -68,6 +70,9 @@ public class WebAppInterface {
         void close();
 
         void goBack();
+
+        void callBack(String type, Object obj);
+
     }
 
     public WebAppInterface(Context context, View mView, ICallBack mCallBack) {
@@ -179,6 +184,16 @@ public class WebAppInterface {
                 break;
             case TYPE_SAVE_IMAGE:
                 base64ToBitmap(String.valueOf(vo.data));
+                break;
+            case TYPE_CAPTCHA_VERIFY_OK:
+                // 获取到验证结果后，可以进行不同的业务操作
+                CfLog.i("verifyResult: " + vo.data);
+                mCallBack.callBack(type, vo.data);
+                break;
+            case TYPE_CAPTCHA_VERIFY_FAIL:
+                // 获取到验证结果后，可以进行不同的业务操作
+                CfLog.e("verifyResult: " + vo.data);
+                mCallBack.callBack(type, vo.data);
                 break;
             case TYPE_BROWSER:
                 AppUtil.goBrowser(context, vo.data.toString());

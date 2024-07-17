@@ -272,4 +272,7 @@
     <string name="txt_withdrawal_usdt_title">USDT提款</string>
     <string name="txt_update_bottom_tip">打开浏览器下载安装</string>
     <string name="txt_update_bottom_error_tip">如更新失败，点击此处下载安装</string>
+
+    <!--  全局验证页 -->
+    <string name="txt_vf_failed_retry">验证失败，请重试</string>
 </resources>
