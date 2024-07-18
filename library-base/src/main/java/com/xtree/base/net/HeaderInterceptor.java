@@ -3,12 +3,14 @@ package com.xtree.base.net;
 import android.text.TextUtils;
 
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.HmacSHA256Utils;
 import com.xtree.base.utils.TagUtils;
 
 import java.io.IOException;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -23,6 +25,7 @@ public class HeaderInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        HttpUrl fullUrl = chain.request().url();
         Request.Builder builder = chain.request()
                 .newBuilder();
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
@@ -37,7 +40,25 @@ public class HeaderInterceptor implements Interceptor {
         builder.addHeader("Source", "9");
         builder.addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
         builder.addHeader("X-Crypto", "yes");
+
+        long sign1Ts = System.currentTimeMillis() / 1000;
+        String query = fullUrl.encodedQuery();
+        String path = fullUrl.encodedPath();
+        StringBuilder encodeData = new StringBuilder();
+        encodeData.append(sign1Ts).append("\n").append(path);
+        if (!TextUtils.isEmpty(query)) {
+            encodeData.append("?").append(query);
+        }
+
+        String sign1 = HmacSHA256Utils.calculateHmacSHA256(HmacSHA256Utils.HMAC_KEY, encodeData.toString());
+
+        //加密签名
+        builder.addHeader("X-Sign1", sign1);
+        builder.addHeader("X-Sign1-Ts", String.valueOf(sign1Ts));
+
         //请求信息
         return chain.proceed(builder.build());
     }
+
+
 }
