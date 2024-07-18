@@ -377,6 +377,11 @@
     <color name="clr_rc_exp_choose_bank_bg">@color/clr_main_33</color>
     <color name="clr_rc_exp_choose_bank_txt">@color/clr_red_24</color>
 
+    <!-- 安全中心 安全验证 -->
+    <color name="clr_sec_verify_normal">#0C0319</color>
+    <color name="clr_sec_verify_grey">#992F2747</color>
+    <color name="clr_sec_verify_warn">#F35A4E</color>
+
     <color name="clr_edt_auth_focused">@color/clr_white</color>
     <!-- 绑定谷歌验证文字颜色 -->
     <color name="clr_google_txt_black">#0C0319</color>
