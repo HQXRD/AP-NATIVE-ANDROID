@@ -82,7 +82,7 @@ public interface HomeApiService {
      * 获取 配置信息（主要是公钥,客服链接）
      */
     @GET("/api/settings/?")
-    Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);
+    Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap(encoded = true) Map<String, String> filters);
 
     /**
      * 登录

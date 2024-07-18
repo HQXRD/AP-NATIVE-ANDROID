@@ -120,7 +120,7 @@ public interface HttpApiService {
     Flowable<BaseResponse<RegisterVerificationCodeVo>> getCaptcha();
 
     @GET("/api/settings/?")
-    Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);
+    Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap(encoded = true) Map<String, String> filters);
 
     /**
      * 获取 默认 推荐 code

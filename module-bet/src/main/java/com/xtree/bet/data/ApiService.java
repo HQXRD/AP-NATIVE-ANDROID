@@ -6,7 +6,6 @@ import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 
 import java.util.Map;
-import java.util.Objects;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -28,7 +27,7 @@ public interface ApiService {
      * @return
      */
     @GET("/api/settings/?")
-    Flowable<BaseResponse<HotLeagueInfo>> getSettings(@QueryMap Map<String, String> filters);
+    Flowable<BaseResponse<HotLeagueInfo>> getSettings(@QueryMap(encoded = true) Map<String, String> filters);
 
     /**
      * 获取 FB体育请求服务地址
