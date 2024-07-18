@@ -395,6 +395,20 @@
                     android:ellipsize="end"
                     android:maxLines="4"
                     tools:text="Demo" />
+
+                <TextView
+                    android:id="@+id/tvw_vf_globe"
+                    style="@style/style_item_report_value"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/layout_margin"
+                    android:layout_marginEnd="@dimen/layout_margin"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="全局验证"
+                    android:textColor="@color/clr_blue_03" />
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
