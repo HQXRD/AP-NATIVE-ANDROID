@@ -69,7 +69,7 @@
             <EditText
                 android:id="@+id/et_phone"
                 style="@style/style_cm_edt"
-                android:hint="11位手机号码"
+                android:hint="请输入11位手机号码或电子邮箱"
                 android:maxLength="30"
                 />
 
@@ -137,9 +137,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:background="@drawable/bg_btn_selector"
-                android:paddingLeft="10dp"
-                android:paddingTop="4dp"
+                android:background="@mipmap/mine_bind_add_check"
+                android:paddingLeft="20dp"
+                android:paddingTop="6dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="4dp"
                 android:textColor="@color/clr_text_code_selector"
@@ -152,7 +152,25 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:background="@mipmap/cm_btn_next" />
+                android:background="@mipmap/cm_btn_next"
+                android:visibility="gone"/>
+            <LinearLayout
+                android:id="@+id/layout_tvw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvw_bind_back"
+                    style="@style/style_btn_short_cancel"
+                    android:text="@string/txt_back" />
+
+                <TextView
+                    android:id="@+id/tvw_bind_next"
+                    style="@style/style_btn_short"
+                    android:text="@string/txt_next" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -234,11 +252,12 @@
 
                 <TextView
                     android:id="@+id/tvw_back"
-                    style="@style/style_btn_back" />
+                    style="@style/style_btn_short_cancel"
+                    android:text="@string/txt_back" />
 
                 <TextView
                     android:id="@+id/tvw_submit"
-                    style="@style/style_btn"
+                    style="@style/style_btn_short"
                     android:text="@string/text_confirm" />
             </LinearLayout>
         </LinearLayout>
@@ -264,13 +283,12 @@
                 tools:text="绑定微信成功"
                 android:layout_marginTop="20dp"
                 android:textStyle="bold"
-                android:textColor="@color/clr_txt_black_04"
+                android:textColor="@color/clr_awards_txt_black"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tvType"
-                style="@style/style_btn"
-                android:layout_width="140dp"
+                style="@style/style_btn_long2"
                 android:textSize="@dimen/bt_text_16sp"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
