@@ -16,7 +16,9 @@ import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
 import com.just.agentweb.WebViewClient;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -229,6 +231,10 @@ public class BrowserDialog extends BottomPopupView {
                     @Override
                     public void goBack() {
                         ivwClose.post(() -> dismiss());
+                    }
+
+                    @Override
+                    public void callBack(String type, Object obj) {
                     }
                 }))
                 .setWebChromeClient(new com.just.agentweb.WebChromeClient() {

@@ -120,6 +120,10 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
                 binding.llMain.setVisibility(View.VISIBLE);
             }
         });
+        binding.tvwVfGlobe.setOnClickListener(v -> {
+            CfLog.i("**************");
+            AppUtil.goGlobeVerify();
+        });
 
     }
 

@@ -260,20 +260,7 @@ public class BrowserActivity extends AppCompatActivity {
                 .useDefaultIndicator() // 使用默认的加载进度条
                 .additionalHttpHeader(url, header)
                 .setWebViewClient(new CustomWebViewClient()) // 设置 WebViewClient
-                .addJavascriptInterface("android", new WebAppInterface(this, ivwBack, new WebAppInterface.ICallBack() {
-                    @Override
-                    public void close() {
-                        String url2 = getIntent().getStringExtra("url") + "";
-                        if (!url2.contains(Constant.URL_VIP_CENTER)) {
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void goBack() {
-                        finish();
-                    }
-                }))
+                .addJavascriptInterface("android", new WebAppInterface(this, ivwBack, getCallBack()))
                 .setWebChromeClient(new WebChromeClient() {
                     @Override
                     public void onProgressChanged(WebView view, int newProgress) {
@@ -283,7 +270,6 @@ public class BrowserActivity extends AppCompatActivity {
                             LoadingDialog.finish();
                         }
                     }
-
 
                     /**
                      * For Android >= 4.1
@@ -314,6 +300,36 @@ public class BrowserActivity extends AppCompatActivity {
                 .ready()
                 .go(url); // 加载网页
 
+    }
+
+    /**
+     * 重新加载网页
+     */
+    public void reload() {
+        //mWebView.reload();
+        agentWeb.getUrlLoader().reload();
+    }
+
+    public WebAppInterface.ICallBack getCallBack() {
+
+        return new WebAppInterface.ICallBack() {
+            @Override
+            public void close() {
+                String url2 = getIntent().getStringExtra("url") + "";
+                if (!url2.contains(Constant.URL_VIP_CENTER)) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void goBack() {
+                finish();
+            }
+
+            @Override
+            public void callBack(String type, Object obj) {
+            }
+        };
     }
 
     private void initRight() {

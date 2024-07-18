@@ -54,6 +54,15 @@ public class AppUtil {
                 .withString("url", url).navigation();
     }
 
+    public static void goGlobeVerify() {
+        CfLog.i("*********");
+        AppManager.getAppManager().AppExit();
+        String url = DomainUtil.getH5Domain2() + Constant.URL_PAGE_GLOBE_VERIFY;
+        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_GLOBE_VERIFY)
+                .withString("title", "安全验证")
+                .withString("url", url).navigation();
+    }
+
     /**
      * 今日是否弹窗
      *
