@@ -49,9 +49,6 @@ public class GlobeVerifyActivity extends BrowserActivity {
                 CfLog.i("type: " + type);
                 if (TextUtils.equals(type, "captchaVerifySucceed")) {
                     TagUtils.tagEvent(getBaseContext(), "captchaVerifyOK");
-                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            .navigation();
                     finish();
                 } else if (TextUtils.equals(type, "captchaVerifyFail")) {
                     TagUtils.tagEvent(getBaseContext(), "captchaVerifyFail");
@@ -64,6 +61,16 @@ public class GlobeVerifyActivity extends BrowserActivity {
                 }
             }
         };
+    }
+
+    @Override
+    public void finish() {
+        CfLog.i("******");
+        ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .navigation();
+
+        super.finish();
     }
 
     private void doFail(String type, Object obj) {
@@ -86,6 +93,9 @@ public class GlobeVerifyActivity extends BrowserActivity {
         } else {
             ToastUtils.showShort(getResources().getString(R.string.txt_vf_failed_retry));
         }
+
+        CfLog.i("reload... ");
+        reload(); // 重新加载 webView (H5端加载了)
     }
 
 }

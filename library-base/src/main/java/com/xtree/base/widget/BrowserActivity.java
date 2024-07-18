@@ -302,6 +302,14 @@ public class BrowserActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 重新加载网页
+     */
+    public void reload() {
+        //mWebView.reload();
+        agentWeb.getUrlLoader().reload();
+    }
+
     public WebAppInterface.ICallBack getCallBack() {
 
         return new WebAppInterface.ICallBack() {
