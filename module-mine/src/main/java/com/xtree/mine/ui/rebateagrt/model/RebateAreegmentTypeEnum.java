@@ -7,7 +7,7 @@ import java.util.List;
 
 public enum RebateAreegmentTypeEnum {
     //真人
-    LIVE("真人返水契约", R.mipmap.icon_rebateagrt_all, new String[]{"344351", "344352", "344354"}),
+    LIVE("真人返水契约", R.mipmap.icon_rebateagrt_live, new String[]{"344351", "344352", "344354"}),
     //体育
     SPORT("体育返水契约", R.mipmap.icon_rebateagrt_sport, new String[]{"344359", "344361", "344362"}),
     //棋牌
@@ -15,18 +15,18 @@ public enum RebateAreegmentTypeEnum {
     //电竞
     EGAME("电竞返水契约", R.mipmap.icon_rebateagrt_game, new String[]{"403228", "403775", "-18"}),
     //时薪
-    USER("日薪", R.mipmap.icon_rebateagrt_all, new String[]{"340726", "340725"}),
-    DAYREBATE("日分红", R.mipmap.icon_rebateagrt_all, new String[]{"403796"}),
+    USER("日薪", R.mipmap.icon_rebateagrt_user, new String[]{"340726", "340725"}),
+    DAYREBATE("日分红", R.mipmap.icon_rebateagrt_dayrebate, new String[]{"403796"}),
     //彩票
-    LOTTERIES("彩票契约分红", R.mipmap.icon_rebateagrt_all, new String[]{"347883"}),
+    LOTTERIES("彩票契约分红", R.mipmap.icon_rebateagrt_lotteries, new String[]{"347883"}),
     //游戏推荐报表
-    GAMEREPORTS("游戏推荐报表", R.mipmap.icon_rebateagrt_all, new String[]{"406322"}),
+    GAMEREPORTS("游戏推荐报表", R.mipmap.icon_rebateagrt_gamereports, new String[]{"406322"}),
     //彩票推荐报表
-    LOTTERIESREPORTS("彩票推荐报表", R.mipmap.icon_rebateagrt_all, new String[]{"406323"}),
+    LOTTERIESREPORTS("彩票推荐报表", R.mipmap.icon_rebateagrt_lotteriesreports, new String[]{"406323"}),
     //游戏分红
-    GAMEREBATE("游戏分红", R.mipmap.icon_rebateagrt_all, new String[]{"406320"}),
+    GAMEREBATE("游戏分红", R.mipmap.icon_rebateagrt_gamerebate, new String[]{"406320"}),
     //佣金报表
-    COMMISSIONSREPORTS("月度佣金", R.mipmap.icon_rebateagrt_all, new String[]{"400870"}),
+    COMMISSIONSREPORTS("月度佣金", R.mipmap.icon_rebateagrt_commissions, new String[]{"400870"}),
     ;
 
     private final String name;
