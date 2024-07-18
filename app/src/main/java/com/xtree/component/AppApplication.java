@@ -1,6 +1,7 @@
 package com.xtree.component;
 
 import com.xtree.base.config.ModuleLifecycleConfig;
+import com.xtree.base.net.fastest.FastestConfigKt;
 import com.xtree.base.utils.TagUtils;
 
 import io.reactivex.functions.Consumer;
@@ -27,5 +28,14 @@ public class AppApplication extends BaseApplication {
 
             }
         });
+
+        initNet();
+    }
+
+    /**
+     * 全局配置Net网络库
+     */
+    private void initNet() {
+        FastestConfigKt.initNet();
     }
 }
