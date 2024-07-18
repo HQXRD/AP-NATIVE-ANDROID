@@ -13,6 +13,7 @@ android {
             resValue "string", "domain_api", "https://preyiang.oxldkm.com"
             resValue "string", "domain_url", "https://preyiang.oxldkm.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
+            resValue "string", "platform_set", "35"  // 平台代号,升级用 35-意昂, 38-意昂2
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
@@ -32,6 +33,7 @@ android {
             resValue "string", "domain_api", "http://43.129.17.50:36804"
             resValue "string", "domain_url", "https://www.eon6.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
+            resValue "string", "platform_set", "35"  // 平台代号,升级用 35-意昂, 38-意昂2
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
@@ -83,6 +85,7 @@ android {
             resValue "string", "domain_api", "http://43.129.17.50:36804"
             resValue "string", "domain_url", "https://www.eon6.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
+            resValue "string", "platform_set", "35"  // 平台代号,升级用 35-意昂, 38-意昂2
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
             resValue "bool", "is_tag", "true" // 是否开启统计

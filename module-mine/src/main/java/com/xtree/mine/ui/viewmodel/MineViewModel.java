@@ -31,6 +31,7 @@ import com.xtree.mine.vo.VipUpgradeInfoVo;
 import com.xtree.mine.vo.request.AdduserRequest;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -396,8 +397,8 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     /**
      * App更新接口
      */
-    public void getUpdate() {
-        Disposable disposable = (Disposable) model.getApiService().getUpdate()
+    public void getUpdate(Map<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().getUpdate(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<AppUpdateVo>() {
