@@ -62,6 +62,7 @@ public interface FBApiService {
     Flowable<BaseResponse<BtConfirmInfo>> batchBetMatchMarketOfJumpLine(@Body BtCarReq btCarReq);
     /**
      * 按运动、分类类型统计可投注的赛事个数
+     * 按运动、分类类型获取单个赛事详情及玩法
      * @return
      */
     @POST("/v1/match/getMatchDetail")
