@@ -36,6 +36,7 @@ import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.VerticalSpaceItemDecoration;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
@@ -59,6 +60,7 @@ import java.util.List;
 import java.util.Objects;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -423,6 +425,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.rcvList.setAdapter(gameAdapter);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
+        int spaceHeight = ConvertUtils.dp2px(10); // 间距高度（像素）
+        VerticalSpaceItemDecoration itemDecoration = new VerticalSpaceItemDecoration(spaceHeight);
+        binding.rcvList.addItemDecoration(itemDecoration);
 
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
