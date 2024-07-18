@@ -376,7 +376,7 @@
     <style name="style_cm_btn_r16">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/btn_main_r16_selector</item>
+        <item name="android:background">@drawable/bg_main_r22</item>
         <item name="android:gravity">center</item>
         <item name="android:minEms">1</item>
         <item name="android:paddingStart">12dp</item>
