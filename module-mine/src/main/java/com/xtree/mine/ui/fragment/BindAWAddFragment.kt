@@ -212,7 +212,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         }
         when (mark) {
             getString(R.string.txt_bind_zfb_type) -> {
-                if (!(AppUtil.isPhone(phone) || AppUtil.isEmail(phone))) {
+                //增加邮箱多端式判断
+                if (!(AppUtil.isPhone(phone) || AppUtil.isMultiSegmentEmail(phone))) {
                     ToastUtils.showLong(R.string.txt_tip_account, ToastUtils.ShowType.Fail)
                     return
                 }

@@ -69,7 +69,7 @@
             <EditText
                 android:id="@+id/et_phone"
                 style="@style/style_cm_edt"
-                android:hint="11位手机号码"
+                android:hint="请输入11位手机号码或电子邮箱"
                 android:maxLength="30"
                 />
 
@@ -137,9 +137,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:background="@drawable/bg_btn_selector"
-                android:paddingLeft="10dp"
-                android:paddingTop="4dp"
+                android:background="@mipmap/mine_bind_add_check"
+                android:paddingLeft="20dp"
+                android:paddingTop="6dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="4dp"
                 android:textColor="@color/clr_text_code_selector"

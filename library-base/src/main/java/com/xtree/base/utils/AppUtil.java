@@ -89,6 +89,19 @@ public class AppUtil {
         return num.matches(regex);
     }
 
+    /**
+     * 检测邮箱是否符合多端(HQAP2-4526)
+     *
+     * 依据Email正则表达式 ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$
+     *
+     * @param num 邮箱
+     * @return true:是 false:否
+     */
+    public static boolean isMultiSegmentEmail(String num){
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(?:\\.[a-zA-Z]{2,})?$ "; // 多段邮箱
+        return num.matches(regex);
+    }
+
     public static void setTypeFaceDin(Context ctx, TextView tvw) {
         AssetManager am = ctx.getAssets();
         Typeface tf = Typeface.createFromAsset(am, "fonts/D-DIN-PRO-500-Medium.ttf");
