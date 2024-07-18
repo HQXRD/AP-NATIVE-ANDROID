@@ -8,9 +8,10 @@
     android:layout_marginStart="10dp"
     android:layout_marginTop="@dimen/layout_margin"
     android:layout_marginEnd="10dp"
-    android:background="@drawable/bg_item_aw_list"
+    android:background="@mipmap/mine_bind_item_bg"
     android:gravity="center_vertical"
     android:orientation="vertical">
+    <!--    android:background="@drawable/bg_item_aw_list"-->
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -35,7 +36,8 @@
             android:layout_gravity="center_vertical"
             android:text="@string/txt_bind_time_c"
             android:textColor="@color/clr_grey_40"
-            android:textSize="@dimen/bt_text_12sp" />
+            android:textSize="@dimen/bt_text_12sp"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/tvw_bind_time"

@@ -79,6 +79,16 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         binding.llRemittanceScreenshot.setOnClickListener { gotoSelectMedia() }
 
         binding.ivwNext.setOnClickListener { doNext() }
+        //新增返回、 下一部按钮
+        binding.tvwBindNext.setOnClickListener { doNext() }
+        binding.tvwBindBack.setOnClickListener {
+            if (binding.llConfirm.visibility == View.VISIBLE) {
+                binding.llAdd.visibility = View.VISIBLE
+                binding.llConfirm.visibility = View.GONE
+            } else {
+                requireActivity().finish()
+            }
+        }
         binding.tvwSubmit.setOnClickListener { doSubmit() }
         binding.tvwBack.setOnClickListener {
             if (binding.llConfirm.visibility == View.VISIBLE) {
@@ -167,6 +177,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         viewModel.liveDataBindAWResult.observe(this) { vo: UserBankConfirmVo ->
             CfLog.i("******")
             binding.layoutRecharge.visibility = View.VISIBLE
+            binding.ivAwIcon.setImageResource(R.mipmap.bind_success)
             binding.llConfirm.visibility = View.GONE
             val type = SPUtils.getInstance().getString(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge))
             binding.tvType.text = type
