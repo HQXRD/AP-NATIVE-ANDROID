@@ -41,6 +41,8 @@ import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.VipInfoVo;
 
+import java.util.HashMap;
+
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -311,11 +313,17 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //检查更新
         binding.tvwUpgrade.setOnClickListener(v -> {
             //LoadingDialog.show(getContext());
-            viewModel.getUpdate();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("platform", "android");
+            map.put("platform_set", getResources().getString(R.string.platform_set));
+            viewModel.getUpdate(map);
         });
         binding.tvwUpgradeClient.setOnClickListener(v -> {
             //LoadingDialog.show(getContext());
-            viewModel.getUpdate();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("platform", "android");
+            map.put("platform_set", getResources().getString(R.string.platform_set));
+            viewModel.getUpdate(map);
         });
 
         binding.tvwRegProm.setOnClickListener(v -> {

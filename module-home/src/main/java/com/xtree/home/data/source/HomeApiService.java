@@ -136,8 +136,8 @@ public interface HomeApiService {
     /**
      * 获取更新
      */
-    @GET("/api/app/version?platform=android")
-    Flowable<BaseResponse<AppUpdateVo>> getUpdate();
+    @GET("/api/app/version?")
+    Flowable<BaseResponse<AppUpdateVo>> getUpdate(@QueryMap Map<String, String> map);
 
     /**
      * 获取是否有红包

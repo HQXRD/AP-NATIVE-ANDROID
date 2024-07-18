@@ -54,6 +54,7 @@ import com.youth.banner.listener.OnBannerListener;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -237,7 +238,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //App更新
         viewModel.liveDataUpdate.observe(getViewLifecycleOwner(), vo -> {
             updateVo = vo;
-            if (updateVo != null){
+            if (updateVo != null) {
                 //存储服务器设置时间间隔
                 SPUtils.getInstance().put(SPKeyGlobal.APP_INTERVAL_TIME, updateVo.interval_duration);
                 //请求更新服务时间
@@ -262,7 +263,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     }
                 }
             }
-
 
         });
 
@@ -633,7 +633,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         int intervalTime = SPUtils.getInstance().getInt(SPKeyGlobal.APP_INTERVAL_TIME, 30);
         long lastCheckTime = SPUtils.getInstance().getLong(SPKeyGlobal.APP_LAST_CHECK_TIME, 0);
         if (System.currentTimeMillis() - lastCheckTime >= (intervalTime * 60 * 1000)) {
-            viewModel.getUpdate();
+            HashMap<String, String> map = new HashMap<>();
+            map.put("platform", "android");
+            map.put("platform_set", getResources().getString(R.string.platform_set));
+            viewModel.getUpdate(map);
         }
     }
 
