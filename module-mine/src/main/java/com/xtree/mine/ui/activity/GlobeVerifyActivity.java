@@ -3,19 +3,16 @@ package com.xtree.mine.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.WebAppInterface;
 import com.xtree.mine.R;
-
-import java.util.HashMap;
 
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -29,6 +26,7 @@ public class GlobeVerifyActivity extends BrowserActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CfLog.i("******");
+        findViewById(R.id.ivw_back).setVisibility(View.INVISIBLE); // 隐藏掉返回按钮
     }
 
     public WebAppInterface.ICallBack getCallBack() {
@@ -49,6 +47,9 @@ public class GlobeVerifyActivity extends BrowserActivity {
                 CfLog.i("type: " + type);
                 if (TextUtils.equals(type, "captchaVerifySucceed")) {
                     TagUtils.tagEvent(getBaseContext(), "captchaVerifyOK");
+                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .navigation();
                     finish();
                 } else if (TextUtils.equals(type, "captchaVerifyFail")) {
                     TagUtils.tagEvent(getBaseContext(), "captchaVerifyFail");
@@ -63,37 +64,9 @@ public class GlobeVerifyActivity extends BrowserActivity {
         };
     }
 
-    @Override
-    public void finish() {
-        CfLog.i("******");
-        ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .navigation();
-
-        super.finish();
-    }
-
     private void doFail(String type, Object obj) {
-        CfLog.e("type: " + type);
-        String json = "";
-        HashMap<String, String> map = new HashMap<>();
-        if (obj != null) {
-            if (obj instanceof String) {
-                CfLog.i("obj is String.");
-                json = (String) obj;
-            } else {
-                json = new Gson().toJson(obj);
-            }
-            map = new Gson().fromJson(json, new TypeToken<HashMap<String, String>>() {
-            }.getType());
-        }
-
-        if (map.containsKey("message")) {
-            ToastUtils.showShort(map.get("message"));
-        } else {
-            ToastUtils.showShort(getResources().getString(R.string.txt_vf_failed_retry));
-        }
-
+        CfLog.e("type: " + type + ", obj: " + obj);
+        ToastUtils.showShort(getResources().getString(R.string.txt_vf_failed));
         CfLog.i("reload... ");
         reload(); // 重新加载 webView (H5端加载了)
     }
