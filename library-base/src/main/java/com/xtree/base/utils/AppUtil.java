@@ -54,10 +54,10 @@ public class AppUtil {
                 .withString("url", url).navigation();
     }
 
-    public static void goGlobeVerify() {
+    public static void goGlobeVerify(String ip) {
         CfLog.i("*********");
         AppManager.getAppManager().AppExit();
-        String url = DomainUtil.getH5Domain2() + Constant.URL_PAGE_GLOBE_VERIFY;
+        String url = DomainUtil.getH5Domain2() + Constant.URL_PAGE_GLOBE_VERIFY + "?ip=" + ip;
         ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_GLOBE_VERIFY)
                 .withString("title", "安全验证")
                 .withString("url", url).navigation();
