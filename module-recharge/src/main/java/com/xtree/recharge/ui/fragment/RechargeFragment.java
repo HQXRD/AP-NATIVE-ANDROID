@@ -1,6 +1,7 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.binioter.guideview.Guide;
+import com.binioter.guideview.GuideBuilder;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -52,6 +56,7 @@ import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
 import com.xtree.recharge.ui.fragment.guide.GuideDialog;
+import com.xtree.recharge.ui.fragment.guide.RechargeBankComponent;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
@@ -198,6 +203,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.getRechargeBanners(); // 获取广告轮播图
     }
 
+    private static final String  TAG ="+++++++++++++++++++++";
     @Override
     public void initView() {
         isShowBack = getArguments().getBoolean("isShowBack");
@@ -425,6 +431,30 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.d(url);
             AppUtil.goBrowser(getContext(), url);
         });
+
+        //监听ScrollView滚动事件
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.mainScrollview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    if (scrollY > oldScrollY) {//向下滚动
+                        Log.i(TAG, "Scroll DOWN");
+                        CfLog.e("+++++++++++++++++++++++++ croll DOWN");
+                    }
+                    if (scrollY < oldScrollY) {//向上滚动
+                        Log.i(TAG, "Scroll UP");
+                        CfLog.e("+++++++++++++++++++++++++ croll UP");
+                    }
+
+                    if (scrollY == 0) {// 滚动到顶
+                        Log.i(TAG, "TOP SCROLL");
+                        CfLog.e("+++++++++++++++++++++++++ croll SCROLL");
+                    }
+                    // 滚动到底
+                }
+            });
+        }
+
     }
 
     /**
@@ -678,8 +708,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         onClickPayment3(vo);
     }
 
+    /**
+     * 极速充值
+     * @param vo
+     */
     private void onClickPayment3(RechargeVo vo) {
-        CfLog.i("****** llDown is visible");
+        CfLog.i("****** llDown is visible -------> 极速充值");
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
 
         // 人工充值
@@ -699,6 +733,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 显示/隐藏银行卡 userBankList
         if (vo.view_bank_card) {
             binding.llBankCard.setVisibility(View.VISIBLE);
+            binding.mainScrollview.scrollTo(0 ,800);
+
+            //
             binding.tvwBankCard.setOnClickListener(v -> showBankCard(vo)); // 选择银行卡
             if (isOnePayFix(vo)) {
                 if (vo.getOpBankList() != null && vo.getOpBankList().getUsed() != null
@@ -731,6 +768,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
             binding.llName.setVisibility(View.VISIBLE);
             binding.tvwTipName.setVisibility(View.GONE);
+
+            showGuideByBank();
         } else {
             binding.edtName.setText("");
             binding.edtName.setEnabled(true);
@@ -1901,5 +1940,61 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //CfLog.d("amount: " + amount);
         return amount;
     }
+    /*  显示充值引导页面流程*/
 
+    /**
+     *  显示付款银行卡引导页面
+     */
+    private void showGuideByBank(){
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.llBankCard)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+                ToastUtils.showError("showGuideByBank --> 取消");
+            }
+        });
+
+        builder.addComponent(new RechargeBankComponent(new RechargeBankComponent.IRechargeBankCallback() {
+            @Override
+            public void rechargeBankJump() {
+                //跳过
+                ToastUtils.showError("RechargeBankComponent 跳过");
+            }
+
+            @Override
+            public void rechargeBankNext() {
+                //下一步
+                ToastUtils.showError("RechargeBankComponent 下一步");
+            }
+        }));
+        Guide guide = builder.createGuide();
+        guide.show(getActivity());
+    }
+
+    /**
+     * 显示充值引导页面
+     */
+    private void showGuideByName(){
+
+    }
+    /**
+     * 显示充值金额页面
+     */
+    private void showGuideByMoney(){
+
+    }
+    /**
+     * 显示充值 下一步 引导页面
+     */
+    private void showGuideByNext(){
+
+    }
 }

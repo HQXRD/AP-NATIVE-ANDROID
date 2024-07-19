@@ -276,4 +276,12 @@
     <string name="txt_recharge_guide">充值引导</string>
     <string name="txt_senior_player">资深玩家</string>
     <string name="txt_new_player">新手玩家</string>
+
+    <!--充值引导  -->
+    <string name="txt_recharge_bank">请选择付款银行卡</string>
+    <string name="txt_recharge_name">充值项目需要和您绑定提款银行卡时的姓名一致</string>
+    <string name="txt_recharge_money">请输入充值金额，建议使用下方快捷金额按钮</string>
+    <string name="txt_recharge_nex">点击【下一步】进行充值订单匹配</string>
+    <string name="txt_recharge_view_jump">跳过</string>
+    <string name="txt_recharge_view_next">下一步</string>
 </resources>
