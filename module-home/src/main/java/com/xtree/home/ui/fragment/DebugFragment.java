@@ -106,7 +106,8 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         });
         binding.tvwVfGlobe.setOnClickListener(v -> {
             CfLog.i("**************");
-            AppUtil.goGlobeVerify();
+            String ip = binding.edtVfIp.getText().toString().trim();
+            AppUtil.goGlobeVerify(ip);
         });
 
     }

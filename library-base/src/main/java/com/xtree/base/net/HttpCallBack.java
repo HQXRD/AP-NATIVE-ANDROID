@@ -3,6 +3,8 @@ package com.xtree.base.net;
 import static me.xtree.mvvmhabit.http.ExceptionHandle.ERROR.HIJACKED_ERROR;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
@@ -11,6 +13,8 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.net.fastest.SpeedApiLine;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.LoadingDialog;
+
+import java.util.HashMap;
 
 import io.reactivex.subscribers.DisposableSubscriber;
 import io.sentry.Sentry;
@@ -120,7 +124,13 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 onFail(ex);
                 break;
             case CodeRule.CODE_900001:
-                AppUtil.goGlobeVerify();
+                HashMap<String, String> map = new Gson().fromJson(new Gson().toJson(baseResponse.getData()), new TypeToken<HashMap>() {
+                }.getType());
+                if (map.containsKey("ip")) {
+                    AppUtil.goGlobeVerify(map.get("ip"));
+                } else {
+                    AppUtil.goGlobeVerify("");
+                }
                 break;
             case HttpCallBack.CodeRule.CODE_100002:
                 TagUtils.tagEvent(Utils.getContext(), "API JSON数据转换失败", DomainUtil.getApiUrl());
