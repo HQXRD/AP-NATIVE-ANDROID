@@ -105,10 +105,10 @@
     <color name="clr_bg_frame_23">#D0B190</color>
 
     <!-- 按钮 主 -->
-    <color name="clr_btn_01">#D0B292</color>
-    <color name="clr_btn_02">#E3C3A2</color>
+    <color name="clr_btn_01">#385B8F</color>
+    <color name="clr_btn_02">#DBEAFF</color>
     <!-- 按钮 按下 -->
-    <color name="clr_btn_press">#B69C82</color>
+    <color name="clr_btn_press">@color/clr_blue_02</color>
     <color name="clr_btn_press_stroke">#F7DFD1</color>
     <color name="clr_btn_stroke">@color/clr_blue_02</color>
 

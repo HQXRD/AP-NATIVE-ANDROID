@@ -52,10 +52,10 @@
             app:layout_constraintTop_toBottomOf="@id/cl_title"
             app:tabBackground="@color/white"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/clr_main"
+            app:tabIndicatorColor="@color/clr_main_02"
             app:tabIndicatorFullWidth="false"
-            app:tabSelectedTextColor="@color/clr_main"
-            app:tabTextColor="@color/black" />
+            app:tabSelectedTextColor="@color/clr_txt_black_cm"
+            app:tabTextColor="@color/clr_txt_02" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_main"
