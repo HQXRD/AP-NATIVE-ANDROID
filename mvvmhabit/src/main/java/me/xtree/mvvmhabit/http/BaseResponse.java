@@ -16,6 +16,12 @@ public class BaseResponse<T> {
     private AuthVo authorization;
     public int timestamp; // 1700702751
     private T data;
+//    //原数据
+//    @SerializedName("data")
+//    private Object data;
+//    //转换数据
+//    private T dataBean;
+    private String dataString;
 
     public class AuthVo {
         public String token; // "eyJ0eXAiOi***NTViMg"
@@ -60,6 +66,42 @@ public class BaseResponse<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+//        public T getData() {
+//        if (dataBean == null) {
+//            Gson gson = new Gson();
+//            String json = gson.toJson(data);
+//
+//            ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
+//            Class<T> actualTypeArgument = (Class<T>) parameterizedType.getActualTypeArguments()[0];
+//
+//            ResultParameterType jsonType = new ResultParameterType(actualTypeArgument);
+//
+//            try {
+//                dataBean = new Gson().fromJson(json, jsonType);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+////            dataBean = gson.fromJson(json, new TypeToken<T>() {
+////            }.getType());
+//        }
+//        return dataBean;
+//    }
+//
+//    public void setData(T data) {
+//        this.dataBean = data;
+//    }
+
+    public String getDataString() {
+//        if (dataString == null) {
+//            dataString = new Gson().toJson(data);
+//        }
+        return dataString;
+    }
+
+    public void setDataString(String dataString) {
+        this.dataString = dataString;
     }
 
     public boolean isOk() {
