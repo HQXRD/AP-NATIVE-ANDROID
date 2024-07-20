@@ -3,7 +3,6 @@ package com.xtree.base.net;
 import static me.xtree.mvvmhabit.http.ExceptionHandle.ERROR.HIJACKED_ERROR;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.fastest.ChangeApiLineUtil;
 import com.xtree.base.net.fastest.SpeedApiLine;
@@ -19,7 +18,6 @@ import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.http.HijackedException;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
-import me.xtree.mvvmhabit.http.ValidateResponse;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -123,13 +121,13 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 break;
             case CodeRule.CODE_900001:
 
-                ValidateResponse validateResponse = new Gson().fromJson(baseResponse.getDataString(), ValidateResponse.class);
-
-                if (validateResponse != null && validateResponse.getData() != null && validateResponse.getData().containsKey("ip")) {
-                    AppUtil.goGlobeVerify(validateResponse.getData().get("ip"));
-                } else {
-                    AppUtil.goGlobeVerify("");
-                }
+//                ValidateResponse validateResponse = new Gson().fromJson(baseResponse.getDataString(), ValidateResponse.class);
+//
+//                if (validateResponse != null && validateResponse.getData() != null && validateResponse.getData().containsKey("ip")) {
+//                    AppUtil.goGlobeVerify(validateResponse.getData().get("ip"));
+//                } else {
+//                    AppUtil.goGlobeVerify("");
+//                }
                 break;
             case HttpCallBack.CodeRule.CODE_100002:
                 TagUtils.tagEvent(Utils.getContext(), "API JSON数据转换失败", DomainUtil.getApiUrl());
@@ -241,7 +239,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         public static final int CODE_20204 = 20204;//需要用户获取登录验证码
         public static final int CODE_20205 = 20205;
         public static final int CODE_20206 = 20206;
-        static final int CODE_900001 = 900001; // 全局验证
+        public static final int CODE_900001 = 900001; // 全局验证
     }
 
 }
