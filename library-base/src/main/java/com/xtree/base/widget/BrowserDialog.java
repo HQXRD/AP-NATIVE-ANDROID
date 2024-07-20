@@ -3,6 +3,7 @@ package com.xtree.base.widget;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -16,18 +17,17 @@ import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-
-import com.just.agentweb.WebViewClient;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.just.agentweb.AgentWeb;
+import com.just.agentweb.WebViewClient;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -36,8 +36,10 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 
 import java.io.File;
 import java.net.UnknownHostException;
@@ -46,7 +48,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
-import okhttp3.dnsoverhttps.DnsOverHttps;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 浏览器底部弹窗<p/>
@@ -164,8 +166,8 @@ public class BrowserDialog extends BottomPopupView {
             header.put("Cache-Control", "no-cache");
             header.put("Pragme", "no-cache");
         }
-        header.put("Content-Type", "application/vnd.sc-api.v1.json");
-        header.put("App-RNID", "87jumkljo");
+//        header.put("Content-Type", "application/vnd.sc-api.v1.json");
+//        header.put("App-RNID", "87jumkljo");
 
         //header.put("Source", "8");
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
@@ -221,22 +223,7 @@ public class BrowserDialog extends BottomPopupView {
                 .useDefaultIndicator() // 使用默认的加载进度条
                 .additionalHttpHeader(url, header)
                 .setWebViewClient(new CustomWebViewClient()) // 设置 WebViewClient
-                .addJavascriptInterface("android", new WebAppInterface(mContext, ivwClose, new WebAppInterface.ICallBack() {
-                    @Override
-                    public void close() {
-                        //dismiss(); // only the original thread that created a view hierarchy can touch its views.
-                        ivwClose.post(() -> dismiss());
-                    }
-
-                    @Override
-                    public void goBack() {
-                        ivwClose.post(() -> dismiss());
-                    }
-
-                    @Override
-                    public void callBack(String type, Object obj) {
-                    }
-                }))
+                .addJavascriptInterface("android", new WebAppInterface(mContext, ivwClose, getCallBack()))
                 .setWebChromeClient(new com.just.agentweb.WebChromeClient() {
                     @Override
                     public void onProgressChanged(WebView view, int newProgress) {
@@ -278,6 +265,48 @@ public class BrowserDialog extends BottomPopupView {
                 .ready()
                 .go(url); // 加载网页
 
+    }
+
+    public WebAppInterface.ICallBack getCallBack() {
+
+        return new WebAppInterface.ICallBack() {
+            @Override
+            public void close() {
+                //dismiss(); // only the original thread that created a view hierarchy can touch its views.
+                ivwClose.post(() -> dismiss());
+            }
+
+            @Override
+            public void goBack() {
+                ivwClose.post(() -> dismiss());
+            }
+
+            @Override
+            public void callBack(String type, Object obj) {
+                CfLog.i("type: " + type);
+                if (TextUtils.equals(type, "captchaVerifySucceed")) {
+                    TagUtils.tagEvent(getContext(), "captchaVerifyOK");
+                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .navigation();
+                } else if (TextUtils.equals(type, "captchaVerifyFail")) {
+                    TagUtils.tagEvent(getContext(), "captchaVerifyFail");
+                    CfLog.e("type error... type: " + type);
+                    doFail(type, obj);
+                } else {
+                    TagUtils.tagEvent(getContext(), "captchaVerifyError");
+                    CfLog.e("type error... type: " + type);
+                    doFail(type, obj);
+                }
+            }
+        };
+    }
+
+    private void doFail(String type, Object obj) {
+        CfLog.e("type: " + type + ", obj: " + obj);
+        ToastUtils.showShort(getResources().getString(R.string.txt_vf_failed));
+        CfLog.i("reload... ");
+        agentWeb.getUrlLoader().reload(); // 重新加载 webView (H5端加载了)
     }
 
     private void hideLoading() {

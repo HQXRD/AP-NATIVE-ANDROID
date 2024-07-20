@@ -32,6 +32,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.just.agentweb.AgentWeb;
@@ -49,6 +50,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.EventVo;
 import com.xtree.weight.TopSpeedDomainFloatingWindows;
 
@@ -64,7 +66,7 @@ import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import okhttp3.dnsoverhttps.DnsOverHttps;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 浏览器页面 <p/>
@@ -175,8 +177,8 @@ public class BrowserActivity extends AppCompatActivity {
             header.put("Cache-Control", "no-cache");
             header.put("Pragme", "no-cache");
         }
-        header.put("Content-Type", "application/vnd.sc-api.v1.json");
-        header.put("App-RNID", "87jumkljo"); //
+//        header.put("Content-Type", "application/vnd.sc-api.v1.json");
+//        header.put("App-RNID", "87jumkljo"); //
 
         //header.put("Source", "8");
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
@@ -328,8 +330,31 @@ public class BrowserActivity extends AppCompatActivity {
 
             @Override
             public void callBack(String type, Object obj) {
+                CfLog.i("type: " + type);
+                if (TextUtils.equals(type, "captchaVerifySucceed")) {
+                    TagUtils.tagEvent(getBaseContext(), "captchaVerifyOK");
+                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .navigation();
+                    finish();
+                } else if (TextUtils.equals(type, "captchaVerifyFail")) {
+                    TagUtils.tagEvent(getBaseContext(), "captchaVerifyFail");
+                    CfLog.e("type error... type: " + type);
+                    doFail(type, obj);
+                } else {
+                    TagUtils.tagEvent(getBaseContext(), "captchaVerifyError");
+                    CfLog.e("type error... type: " + type);
+                    doFail(type, obj);
+                }
             }
         };
+    }
+
+    private void doFail(String type, Object obj) {
+        CfLog.e("type: " + type + ", obj: " + obj);
+        ToastUtils.showShort(getResources().getString(R.string.txt_vf_failed));
+        CfLog.i("reload... ");
+        reload(); // 重新加载 webView (H5端加载了)
     }
 
     private void initRight() {
