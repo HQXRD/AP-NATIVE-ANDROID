@@ -17,11 +17,24 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * 充值引导 Dialog
  */
 public class GuideDialog extends CenterPopupView {
+    /*充值引导回调接口*/
+    public interface  IGuideDialogCallback{
+        /**
+         * 跳过引导
+         */
+        public  void  guideJump();
+        /**
+         * 进入引导
+         */
+        public void guideEnter();
+    }
+
     DialogRechargeGuideBinding binding ;
 
-
-    public static GuideDialog newInstance(Context context) {
+    private IGuideDialogCallback iGuideDialogCallback;
+    public static GuideDialog newInstance(Context context, final  IGuideDialogCallback iGuideDialogCallback) {
         GuideDialog dialog = new GuideDialog(context);
+        dialog.iGuideDialogCallback = iGuideDialogCallback;
         return dialog;
     }
     public GuideDialog(@NonNull Context context) {
@@ -41,15 +54,21 @@ public class GuideDialog extends CenterPopupView {
     private void  initView(){
         binding = DialogRechargeGuideBinding.bind(findViewById(R.id.ll_root_recharge_guide));
         binding.ivwClose.setOnClickListener(v -> {
-            dismiss();
+            if (iGuideDialogCallback !=null){
+                iGuideDialogCallback.guideJump();
+            }
         });
         //跳过引导
         binding.tvSeniorBoot.setOnClickListener(v->{
-            dismiss();
+            if (iGuideDialogCallback !=null){
+                iGuideDialogCallback.guideJump();
+            }
         });
         //进入引导
         binding.tvEnterBoot.setOnClickListener(v->{
-            ToastUtils.showError("进入引导");
+            if (iGuideDialogCallback !=null){
+                iGuideDialogCallback.guideEnter();
+            }
         });
     }
 }

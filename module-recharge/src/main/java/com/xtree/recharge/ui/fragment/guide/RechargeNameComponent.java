@@ -2,6 +2,7 @@ package com.xtree.recharge.ui.fragment.guide;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,18 +49,58 @@ public class RechargeNameComponent implements Component {
                         LinearLayout.LayoutParams.WRAP_CONTENT);
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setLayoutParams(param);
+
+        ImageView imageView = new ImageView(inflater.getContext());
+        imageView.setImageResource(R.mipmap.re_bank_down_left_arrow);
+
         TextView textView = new TextView(inflater.getContext());
         textView.setText(R.string.txt_recharge_name);
         textView.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
-        textView.setTextSize(20);
-        ImageView imageView = new ImageView(inflater.getContext());
-        imageView.setImageResource(R.mipmap.re_name_down_right_arrow);
+        textView.setTextSize(14);
+        // 上一步
+        Button previousBtn =  new Button(inflater.getContext());
+        previousBtn.setText(R.string.txt_recharge_view_pro);
+        previousBtn.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
+        previousBtn.setTextSize(12);
+        previousBtn.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_jump));
+        //跳过
+        Button jumpBt = new Button(inflater.getContext());
+        jumpBt.setText(R.string.txt_recharge_view_jump);
+        jumpBt.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
+        jumpBt.setTextSize(12);
+        jumpBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_jump));
+
+        // 下一步
+        Button nextBt = new Button(inflater.getContext());
+        nextBt.setText(R.string.txt_recharge_view_next);
+        nextBt.setTextColor(inflater.getContext().getResources().getColor(R.color.clr_edt_focused2));
+        nextBt.setTextSize(12);
+        nextBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_next));
+
         ll.removeAllViews();
-        ll.addView(textView);
+
         ll.addView(imageView);
-        ll.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                ToastUtils.showError("引导层被点击了");
+        ll.addView(textView);
+        ll.addView(previousBtn);
+        ll.addView(jumpBt);
+        ll.addView(nextBt);
+        //上一步
+        previousBtn.setOnClickListener(v->{
+            if (this.iRechargeNameCallback !=null){
+                this.iRechargeNameCallback.rechargeNamePrevious();
+            }
+        });
+
+        //跳过点击事件
+        jumpBt.setOnClickListener(v -> {
+            if (this.iRechargeNameCallback !=null){
+                this.iRechargeNameCallback.rechargeNameJump();
+            }
+        });
+        //下一步
+        nextBt.setOnClickListener(v -> {
+            if (this.iRechargeNameCallback !=null){
+                this.iRechargeNameCallback.rechargeNameNext();
             }
         });
         return ll;

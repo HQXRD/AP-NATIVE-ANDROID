@@ -39,22 +39,6 @@ public class RechargeBankComponent  implements Component {
     }
     @Override
     public View getView(LayoutInflater inflater) {
-        /*LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.dialog_recharge_component_bank, null);
-        jumpBtn = ll.findViewById(R.id.tvw_jump);
-        nextBtn = ll.findViewById(R.id.tvw_next);
-
-        //跳过点击事件
-        jumpBtn.setOnClickListener(v -> {
-            if (this.iRechargeBankCallback !=null){
-                this.iRechargeBankCallback.rechargeBankJump();
-            }
-        });
-        //下一步
-        nextBtn.setOnClickListener(v -> {
-            if (this.iRechargeBankCallback !=null){
-                this.iRechargeBankCallback.rechargeBankNext();
-            }
-        });*/
 
         LinearLayout ll = new LinearLayout(inflater.getContext());
         LinearLayout.LayoutParams param =
@@ -70,17 +54,9 @@ public class RechargeBankComponent  implements Component {
         textView.setText(R.string.txt_recharge_bank);
         textView.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
         textView.setTextSize(14);
-        //button承载View
-        LinearLayout llBtn = new LinearLayout(inflater.getContext());
-        LinearLayout.LayoutParams paramBtn =
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-        llBtn.setOrientation(LinearLayout.HORIZONTAL);
-        llBtn.setBackgroundColor(inflater.getContext().getResources().getColor(R.color.red));
-        llBtn.setLayoutParams(paramBtn);
 
         //跳过
-        /*Button jumpBt = new Button(inflater.getContext());
+        Button jumpBt = new Button(inflater.getContext());
         jumpBt.setText(R.string.txt_recharge_view_jump);
         jumpBt.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
         jumpBt.setTextSize(12);
@@ -91,27 +67,16 @@ public class RechargeBankComponent  implements Component {
         nextBt.setText(R.string.txt_recharge_view_next);
         nextBt.setTextColor(inflater.getContext().getResources().getColor(R.color.clr_edt_focused2));
         nextBt.setTextSize(12);
-        nextBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_next));*/
-
-       /* llBtn.removeAllViews();
-        llBtn.addView(jumpBt);
-        llBtn.addView(nextBt);*/
+        nextBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_next));
 
         ll.removeAllViews();
 
         ll.addView(imageView);
         ll.addView(textView);
-        llBtn.removeAllViews();
-        ll.addView(llBtn);
-       /* ll.addView(jumpBt);
-        ll.addView(nextBt);*/
+        ll.addView(jumpBt);
+        ll.addView(nextBt);
 
-        ll.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
-                ToastUtils.showError("引导层被点击了");
-            }
-        });
-       /* //跳过点击事件
+        //跳过点击事件
         jumpBt.setOnClickListener(v -> {
             if (this.iRechargeBankCallback !=null){
                 this.iRechargeBankCallback.rechargeBankJump();
@@ -122,7 +87,7 @@ public class RechargeBankComponent  implements Component {
             if (this.iRechargeBankCallback !=null){
                 this.iRechargeBankCallback.rechargeBankNext();
             }
-        });*/
+        });
         return ll;
     }
 

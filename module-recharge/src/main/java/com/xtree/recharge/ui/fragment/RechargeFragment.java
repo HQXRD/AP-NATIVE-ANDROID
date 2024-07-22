@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.text.HtmlCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -57,6 +58,9 @@ import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
 import com.xtree.recharge.ui.fragment.guide.GuideDialog;
 import com.xtree.recharge.ui.fragment.guide.RechargeBankComponent;
+import com.xtree.recharge.ui.fragment.guide.RechargeMoneyComponent;
+import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
+import com.xtree.recharge.ui.fragment.guide.RechargeNextComponent;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
@@ -553,7 +557,19 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private void  showGuideDialog(){
         if (showGuideView == null){
             showGuideView = new  XPopup.Builder(getContext())
-                    .asCustom(GuideDialog.newInstance(getContext()));
+                    .asCustom(GuideDialog.newInstance(getContext(), new GuideDialog.IGuideDialogCallback() {
+                        @Override
+                        public void guideJump() {
+                            //跳过引导
+                            LoadingDialog.show(getContext());
+                            viewModel.skipGuide();
+                        }
+
+                        @Override
+                        public void guideEnter() {
+                            showGuideByBank();
+                        }
+                    }));
         }
         showGuideView.show();
     }
@@ -733,7 +749,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 显示/隐藏银行卡 userBankList
         if (vo.view_bank_card) {
             binding.llBankCard.setVisibility(View.VISIBLE);
-            binding.mainScrollview.scrollTo(0 ,800);
+            //向上滑动ScrollView 展出时付款银行卡、存款人姓名、存款金额View
+            binding.mainScrollview.scrollTo(0 ,1400);
+
 
             //
             binding.tvwBankCard.setOnClickListener(v -> showBankCard(vo)); // 选择银行卡
@@ -769,7 +787,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.llName.setVisibility(View.VISIBLE);
             binding.tvwTipName.setVisibility(View.GONE);
 
-            showGuideByBank();
+            //showGuideByBank();
+            showGuideDialog();
         } else {
             binding.edtName.setText("");
             binding.edtName.setEnabled(true);
@@ -1951,6 +1970,47 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
+       /* builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+                ToastUtils.showError("showGuideByBank --> 取消");
+            }
+        });*/
+
+        builder.addComponent(new RechargeBankComponent(new RechargeBankComponent.IRechargeBankCallback() {
+            @Override
+            public void rechargeBankJump() {
+                //跳过
+                ToastUtils.showError("RechargeBankComponent 跳过");
+            }
+
+            @Override
+            public void rechargeBankNext() {
+                dismissDialog();
+                //下一步
+                ToastUtils.showError("RechargeBankComponent 下一步");
+                showGuideByName();
+            }
+        }));
+        Guide guide = builder.createGuide();
+        guide.show(getActivity());
+        guide.setShouldCheckLocInWindow(false);
+
+    }
+
+    /**
+     * 显示充值引导页面
+     */
+    private void showGuideByName(){
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.llName)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10);
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
             @Override
             public void onShown() {
@@ -1962,39 +2022,111 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
         });
 
-        builder.addComponent(new RechargeBankComponent(new RechargeBankComponent.IRechargeBankCallback() {
+        builder.addComponent(new RechargeNameComponent(new RechargeNameComponent.IRechargeNameCallback() {
             @Override
-            public void rechargeBankJump() {
-                //跳过
-                ToastUtils.showError("RechargeBankComponent 跳过");
+            public void rechargeNamePrevious() {
+                ToastUtils.showError("RechargeNameComponent 上一步");
             }
 
             @Override
-            public void rechargeBankNext() {
-                //下一步
-                ToastUtils.showError("RechargeBankComponent 下一步");
+            public void rechargeNameJump() {
+                //跳过
+                ToastUtils.showError("RechargeNameComponent 跳过");
+
             }
+
+            @Override
+            public void rechargeNameNext() {
+                ToastUtils.showError("RechargeNameComponent 下一步");
+                showGuideByMoney();
+            }
+
         }));
         Guide guide = builder.createGuide();
         guide.show(getActivity());
-    }
-
-    /**
-     * 显示充值引导页面
-     */
-    private void showGuideByName(){
-
     }
     /**
      * 显示充值金额页面
      */
     private void showGuideByMoney(){
+        GuideBuilder builder = new GuideBuilder();
+        //存款金额
+        builder.setTargetView( binding.llAmount)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
 
+            @Override
+            public void onDismiss() {
+                ToastUtils.showError("showGuideByBank --> 取消");
+            }
+        });
+
+        builder.addComponent(new RechargeMoneyComponent(new RechargeMoneyComponent.IRechargeMoneyCallback() {
+            @Override
+            public void rechargeMoneyPrevious() {
+                ToastUtils.showError("RechargeMoneyComponent 上一步");
+            }
+
+            @Override
+            public void rechargeMoneyJump() {
+                ToastUtils.showError("RechargeMoneyComponent 跳过");
+            }
+
+            @Override
+            public void rechargeMoneyNext() {
+                ToastUtils.showError("RechargeMoneyComponent 下一步一步");
+                showGuideByNext();
+            }
+
+
+        }));
+        Guide guide = builder.createGuide();
+        guide.show(getActivity());
     }
     /**
      * 显示充值 下一步 引导页面
      */
     private void showGuideByNext(){
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.btnNext)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
 
+            @Override
+            public void onDismiss() {
+                ToastUtils.showError("showGuideByBank --> 取消");
+            }
+        });
+
+        builder.addComponent(new RechargeNextComponent(new RechargeNextComponent.IRechargeNextCallback() {
+            @Override
+            public void rechargeNextPrevious() {
+                ToastUtils.showError("RechargeNextComponent 上一步");
+            }
+
+            @Override
+            public void rechargeNextJump() {
+                ToastUtils.showError("RechargeNextComponent 跳过");
+            }
+
+            @Override
+            public void rechargeNextNext() {
+                ToastUtils.showError("RechargeNextComponent 上一步");
+            }
+
+
+        }));
+        Guide guide = builder.createGuide();
+        guide.show(getActivity());
     }
 }

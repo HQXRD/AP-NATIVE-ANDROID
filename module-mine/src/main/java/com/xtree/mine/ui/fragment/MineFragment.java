@@ -239,11 +239,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwUsdtJiaocheng.setOnClickListener(v -> {
             goWebView(v, Constant.URL_TUTORIAL, false);
         });
+        //跳转登录注册页面 登录状态
         binding.textViewLogin.setOnClickListener(v -> {
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
             startActivity(toLogin);
         });
+        //跳转登录注册页面 注册状态
         binding.textViewRegister.setOnClickListener(v -> {
             Intent toRegister = new Intent(getContext(), LoginRegisterActivity.class);
             toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.REGISTER_TYPE);
