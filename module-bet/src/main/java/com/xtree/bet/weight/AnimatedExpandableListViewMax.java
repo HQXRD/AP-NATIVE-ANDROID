@@ -764,12 +764,7 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //解决childRecyclerView只能显示一屏幕，不能显示超出一屏幕的内容 (HQAP2-4509)
-        int heightMeasureSpec_custom = MeasureSpec.makeMeasureSpec(
-                Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec_custom);
-        ViewGroup.LayoutParams params = getLayoutParams();
-        params.height = getMeasuredHeight();
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if (mHeader == null) {
             return;
         }
