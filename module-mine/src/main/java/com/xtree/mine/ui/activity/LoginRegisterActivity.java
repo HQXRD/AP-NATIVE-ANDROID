@@ -141,13 +141,15 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     refreshLoginVerView();
                     break;
                 case HANDLER_REFRESH_REG_VER_VIEW:
-                   // refreshRegVerView();
+                   refreshRegVerView();
                     break;
             }
         }
 
     }
-
+    /**
+     * 刷新登录页面验证码 View
+     */
     private void refreshLoginVerView() {
         binding.toRegisterArea.setVisibility(View.VISIBLE);
         binding.loginArea.setVisibility(View.VISIBLE);
@@ -162,7 +164,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         sendMessage(msg);
 
     }
-
+    /**
+     * 刷新注册页面验证码 View
+     */
     private void refreshRegVerView() {
         binding.toLoginArea.setVisibility(View.VISIBLE);
         binding.meRegisterArea.setVisibility(View.VISIBLE);
@@ -178,6 +182,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         sendMessage(msg);
 
     }
+
 
     private void refreshLoginVeriImage(final RegisterVerificationCodeVo vo) {
         if (!TextUtils.isEmpty(vo.image_url)) {
