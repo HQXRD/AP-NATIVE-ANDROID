@@ -141,7 +141,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     refreshLoginVerView();
                     break;
                 case HANDLER_REFRESH_REG_VER_VIEW:
-                   // refreshRegVerView();
+                    //refreshRegVerView();
                     break;
             }
         }
@@ -429,13 +429,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     binding.btnRegister.setBackgroundResource(R.drawable.bg_register_unable);
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
             }
         });
-
         binding.edtPwd1.addTextChangedListener(new TextWatcher() {
 
             @Override
