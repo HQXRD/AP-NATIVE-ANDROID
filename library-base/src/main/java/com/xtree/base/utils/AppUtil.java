@@ -56,7 +56,7 @@ public class AppUtil {
 
     public static void goGlobeVerify(String ip) {
         CfLog.i("*********");
-        AppManager.getAppManager().AppExit();
+//        AppManager.getAppManager().AppExit();
         String url = DomainUtil.getH5Domain2() + Constant.URL_PAGE_GLOBE_VERIFY + "?ip=" + ip;
         ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_GLOBE_VERIFY)
                 .withString("title", "安全验证")
