@@ -1,18 +1,14 @@
 package com.xtree.bet.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.stx.xhb.androidx.XBanner;
 import com.xtree.bet.R;
@@ -21,13 +17,10 @@ import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.databinding.BtFbDetailItemPlayTypeChildBinding;
 import com.xtree.bet.databinding.BtFbDetailItemPlayTypeGroupBinding;
-import com.xtree.bet.weight.AnimatedExpandableListView;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.PageHorizontalScrollView;
 
 import java.util.List;
-
-import me.xtree.mvvmhabit.utils.ConvertUtils;
 
 public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedExpandableListAdapter {
     private List<PlayType> mDatas;
@@ -59,7 +52,7 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         PageHorizontalScrollView hsvPlayTypeGroup;
         LinearLayout llPointer;
 
-        ConstraintLayout itemView;
+        NestedScrollView itemView;
 
         public ChildHolder(View view) {
             tvTeamNameMain = view.findViewById(R.id.tv_team_name_main);
