@@ -288,4 +288,5 @@
     <string name="txt_recharge_view_jump">跳过</string>
     <string name="txt_recharge_view_next">下一步</string>
     <string name="txt_recharge_view_pro">上一步</string>
+    <string name="txt_guide_ex_tran_commit">匹配成功后自动会自动进入下一步</string>
 </resources>
