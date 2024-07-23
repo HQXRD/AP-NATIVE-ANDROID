@@ -226,6 +226,9 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         static final int CODE_30713 = 30713;
         static final int CODE_20203 = 20203; //用户名或密码错误
         static final int CODE_20217 = 20217; //已修改密码或被踢出
+        public static final int CODE_20204 = 20204;//需要用户获取登录验证码
+        public static final int CODE_20205 = 20205;
+        public static final int CODE_20206 = 20206;
     }
 
 }

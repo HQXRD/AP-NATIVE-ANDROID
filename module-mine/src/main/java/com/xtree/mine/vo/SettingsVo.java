@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import java.util.Arrays;
 
 public class SettingsVo implements Parcelable {
-
+    public String register_captcha_switch;//1：注册页面需要显示验证码 0 注册页面不需要显示验证码
     public String public_key; // "-----BEGIN PUBLIC KEY-----MIGf***AQAB-----END PUBLIC KEY-----"
     public String barrage_api_url; // "wss://www.shenbofilm.com/wss/"
     public String promption_code; // "kygprka"

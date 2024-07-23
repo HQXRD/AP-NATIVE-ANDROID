@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class LoginResultVo implements Parcelable {
-
+    public String captcha;//后台组织的验证码
     public String token; // "eyJ0eXAi***E2NTY1Ng",
 
     public String token_type; // "bearer",

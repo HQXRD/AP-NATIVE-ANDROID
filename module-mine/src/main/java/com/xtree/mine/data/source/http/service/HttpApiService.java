@@ -36,6 +36,7 @@ import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
+import com.xtree.mine.vo.RegisterVerificationCodeVo;
 import com.xtree.mine.vo.RewardVo;
 import com.xtree.mine.vo.SettingsVo;
 import com.xtree.mine.vo.SpiltDetailVo;
@@ -98,6 +99,14 @@ public interface HttpApiService {
     @POST("/api/auth/login")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<LoginResultVo>> login(@Body Map<String, String> map);
+    /**
+     * 验证码登录
+     * @param map
+     * @return
+     */
+    @POST("/api/auth/login")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<LoginResultVo>> loginAndVer(@Body Map<String, String> map);
 
     @POST("/api/register/kygprka")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
@@ -111,6 +120,11 @@ public interface HttpApiService {
      */
     @GET("/default/promotioncode")
     Flowable<BaseResponse<PromotionCodeVo>> getPromotion();
+    /**
+     *获取注册验证码
+     */
+    @GET("/api/captcha")
+    Flowable<BaseResponse<RegisterVerificationCodeVo>> getCaptcha();
 
     /**
      * 获取 个人信息

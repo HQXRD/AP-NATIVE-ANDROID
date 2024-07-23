@@ -276,6 +276,9 @@
     <string name="txt_recharge_guide">充值引导</string>
     <string name="txt_senior_player">资深玩家</string>
     <string name="txt_new_player">新手玩家</string>
+    <string name="txt_otp_not_four_number">请输入4位数字的验证码</string>
+    <string name="txt_verification_hint">请输入验证码</string>
+    <string name="txt_verification_is_empty">验证码不能为空</string>
 
     <!--充值引导  -->
     <string name="txt_recharge_bank">请选择付款银行卡</string>
