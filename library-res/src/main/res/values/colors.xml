@@ -15,7 +15,7 @@
     <!-- 主色参考 -->
     <color name="clr_main_01">#415AB0</color>
     <color name="clr_main_02">#A4BAF0</color>
-    <color name="clr_main_03">#E3CBB2</color>
+    <color name="clr_main_03">#121B47</color>
     <color name="clr_main_04">#F7DFD1</color>
     <color name="clr_main_05">#F6ECE2</color>
     <color name="clr_main_06">#F5EDE7</color>
@@ -30,7 +30,7 @@
     <color name="clr_main_12">#B69C82</color>
     <color name="clr_main_13">#AA927A</color>
     <color name="clr_main_14">#665849</color>
-    <color name="clr_main_15">#4F4439</color>
+    <color name="clr_main_15">#415AB0</color>
     <color name="clr_main_16">#49453F</color>
     <color name="clr_main_17">#2D2D2D</color>
     <color name="clr_main_18">#1E1E1E</color>
