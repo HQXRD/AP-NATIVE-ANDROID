@@ -32,6 +32,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.just.agentweb.AgentWeb;
@@ -49,6 +50,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.EventVo;
 import com.xtree.weight.TopSpeedDomainFloatingWindows;
 
@@ -64,7 +66,7 @@ import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import okhttp3.dnsoverhttps.DnsOverHttps;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 浏览器页面 <p/>
@@ -175,8 +177,8 @@ public class BrowserActivity extends AppCompatActivity {
             header.put("Cache-Control", "no-cache");
             header.put("Pragme", "no-cache");
         }
-        header.put("Content-Type", "application/vnd.sc-api.v1.json");
-        header.put("App-RNID", "87jumkljo"); //
+//        header.put("Content-Type", "application/vnd.sc-api.v1.json");
+//        header.put("App-RNID", "87jumkljo"); //
 
         //header.put("Source", "8");
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
@@ -260,20 +262,7 @@ public class BrowserActivity extends AppCompatActivity {
                 .useDefaultIndicator() // 使用默认的加载进度条
                 .additionalHttpHeader(url, header)
                 .setWebViewClient(new CustomWebViewClient()) // 设置 WebViewClient
-                .addJavascriptInterface("android", new WebAppInterface(this, ivwBack, new WebAppInterface.ICallBack() {
-                    @Override
-                    public void close() {
-                        String url2 = getIntent().getStringExtra("url") + "";
-                        if (!url2.contains(Constant.URL_VIP_CENTER)) {
-                            finish();
-                        }
-                    }
-
-                    @Override
-                    public void goBack() {
-                        finish();
-                    }
-                }))
+                .addJavascriptInterface("android", new WebAppInterface(this, ivwBack, getCallBack()))
                 .setWebChromeClient(new WebChromeClient() {
                     @Override
                     public void onProgressChanged(WebView view, int newProgress) {
@@ -283,7 +272,6 @@ public class BrowserActivity extends AppCompatActivity {
                             LoadingDialog.finish();
                         }
                     }
-
 
                     /**
                      * For Android >= 4.1
@@ -314,6 +302,59 @@ public class BrowserActivity extends AppCompatActivity {
                 .ready()
                 .go(url); // 加载网页
 
+    }
+
+    /**
+     * 重新加载网页
+     */
+    public void reload() {
+        //mWebView.reload();
+        agentWeb.getUrlLoader().reload();
+    }
+
+    public WebAppInterface.ICallBack getCallBack() {
+
+        return new WebAppInterface.ICallBack() {
+            @Override
+            public void close() {
+                String url2 = getIntent().getStringExtra("url") + "";
+                if (!url2.contains(Constant.URL_VIP_CENTER)) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void goBack() {
+                finish();
+            }
+
+            @Override
+            public void callBack(String type, Object obj) {
+                CfLog.i("type: " + type);
+                if (TextUtils.equals(type, "captchaVerifySucceed")) {
+                    TagUtils.tagEvent(getBaseContext(), "captchaVerifyOK");
+                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .navigation();
+                    finish();
+                } else if (TextUtils.equals(type, "captchaVerifyFail")) {
+                    TagUtils.tagEvent(getBaseContext(), "captchaVerifyFail");
+                    CfLog.e("type error... type: " + type);
+                    doFail(type, obj);
+                } else {
+                    TagUtils.tagEvent(getBaseContext(), "captchaVerifyError");
+                    CfLog.e("type error... type: " + type);
+                    doFail(type, obj);
+                }
+            }
+        };
+    }
+
+    private void doFail(String type, Object obj) {
+        CfLog.e("type: " + type + ", obj: " + obj);
+        ToastUtils.showShort(getResources().getString(R.string.txt_vf_failed));
+        CfLog.i("reload... ");
+        reload(); // 重新加载 webView (H5端加载了)
     }
 
     private void initRight() {
