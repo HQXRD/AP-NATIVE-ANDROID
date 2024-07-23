@@ -61,6 +61,7 @@
     <string name="txt_cancel">取消</string>
     <string name="txt_back">返回</string>
     <string name="txt_submit">提交</string>
+    <string name="txt_next">下一步</string>
     <string name="txt_note_asterisks_cannot_empty">说明：*为必填信息！</string>
     <string name="txt_i_know">我知道了</string>
 
