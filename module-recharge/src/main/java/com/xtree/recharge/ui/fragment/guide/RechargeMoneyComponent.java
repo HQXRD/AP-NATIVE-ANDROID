@@ -44,47 +44,10 @@ public class RechargeMoneyComponent implements Component {
     public View getView(LayoutInflater inflater) {
 
 
-        LinearLayout ll = new LinearLayout(inflater.getContext());
-        LinearLayout.LayoutParams param =
-                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-        ll.setOrientation(LinearLayout.VERTICAL);
-        ll.setLayoutParams(param);
-
-        ImageView imageView = new ImageView(inflater.getContext());
-        imageView.setImageResource(R.mipmap.re_money_up_left_arrow);
-
-        TextView textView = new TextView(inflater.getContext());
-        textView.setText(R.string.txt_recharge_money);
-        textView.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
-        textView.setTextSize(14);
-        // 上一步
-        Button previousBtn =  new Button(inflater.getContext());
-        previousBtn.setText(R.string.txt_recharge_view_pro);
-        previousBtn.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
-        previousBtn.setTextSize(12);
-        previousBtn.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_jump));
-        //跳过
-        Button jumpBt = new Button(inflater.getContext());
-        jumpBt.setText(R.string.txt_recharge_view_jump);
-        jumpBt.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
-        jumpBt.setTextSize(12);
-        jumpBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_jump));
-
-        // 下一步
-        Button nextBt = new Button(inflater.getContext());
-        nextBt.setText(R.string.txt_recharge_view_next);
-        nextBt.setTextColor(inflater.getContext().getResources().getColor(R.color.clr_edt_focused2));
-        nextBt.setTextSize(12);
-        nextBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_next));
-
-        ll.removeAllViews();
-
-        ll.addView(imageView);
-        ll.addView(textView);
-        ll.addView(previousBtn);
-        ll.addView(jumpBt);
-        ll.addView(nextBt);
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_money_item , null);
+        ImageView jumpBt  = ll.findViewById(R.id.iv_guide_bank_jump);
+        ImageView nextBt  = ll.findViewById(R.id.iv_guide_bank_next);
+        ImageView previousBtn  = ll.findViewById(R.id.iv_guide_bank_pro);
         //上一步
         previousBtn.setOnClickListener(v->{
             if (this.iRechargeMoneyCallback !=null){
@@ -109,7 +72,7 @@ public class RechargeMoneyComponent implements Component {
 
 
     @Override public int getAnchor() {
-        return Component.ANCHOR_BOTTOM;
+        return Component.ANCHOR_TOP;
     }
 
     @Override public int getFitPosition() {
@@ -121,6 +84,6 @@ public class RechargeMoneyComponent implements Component {
     }
 
     @Override public int getYOffset() {
-        return 20;
+        return 0;
     }
 }

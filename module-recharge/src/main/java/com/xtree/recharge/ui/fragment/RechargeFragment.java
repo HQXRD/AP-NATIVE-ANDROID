@@ -1966,14 +1966,15 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      */
     private void showGuideByBank(RechargeVo vo){
         if (vo.fixedamount_info.length>8){
-            binding.mainScrollview.scrollTo(0 , 800);
+
         }
+        binding.mainScrollview.scrollTo(0 , 800);
         GuideBuilder builder = new GuideBuilder();
         builder.setTargetView( binding.llBankCard)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
-        builder.addComponent(new RechargeBankComponent(new RechargeBankComponent.IRechargeBankCallback() {
+        builder.addComponent(new RechargeBankComponent(getContext(),new RechargeBankComponent.IRechargeBankCallback() {
             @Override
             public void rechargeBankJump() {
                 //跳过
@@ -1985,7 +1986,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             public void rechargeBankNext() {
                 dismissBankGuide();
                 //下一步
-                showGuideByName(vo);
+                showGuideByName(vo ,false);
             }
         }));
         bankGuide = builder.createGuide();
@@ -2002,10 +2003,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     /**
      * 显示充值引导页面
      */
-    private void showGuideByName(RechargeVo vo){
-        if (vo.fixedamount_info.length>8){
-            binding.mainScrollview.scrollTo(0 , 1000);
+    private void showGuideByName(RechargeVo vo , boolean isShowBack){
+        if (isShowBack){
+            if (vo.fixedamount_info.length>8){
+                binding.mainScrollview.scrollTo(0 , -1000);
+            }
+        }else{
+            if (vo.fixedamount_info.length>8){
+                binding.mainScrollview.scrollTo(0 , 1000);
+            }
         }
+
         GuideBuilder builder = new GuideBuilder();
         builder.setTargetView( binding.llName)
                 .setAlpha(150)
@@ -2015,7 +2023,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         builder.addComponent(new RechargeNameComponent(new RechargeNameComponent.IRechargeNameCallback() {
             @Override
             public void rechargeNamePrevious() {
-                ToastUtils.showError("RechargeNameComponent 上一步");
+                showGuideByBank(vo);
+                dismissNameGuide();
+
             }
 
             @Override
@@ -2028,7 +2038,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             @Override
             public void rechargeNameNext() {
                 dismissNameGuide();
-                showGuideByMoney(vo);
+                showGuideByMoney(vo , false);
             }
 
         }));
@@ -2046,31 +2056,30 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     /**
      * 显示充值金额页面
      */
-    private void showGuideByMoney(RechargeVo vo){
-        if (vo.fixedamount_info.length>8){
-            binding.mainScrollview.scrollTo(0 , 2000);
+    private void showGuideByMoney(RechargeVo vo , boolean isBackShow){
+        if (isBackShow){
+            if (vo.fixedamount_info.length>8){
+                binding.mainScrollview.scrollTo(0 , -1000);
+            }
+        }else {
+            if (vo.fixedamount_info.length>8){
+                binding.mainScrollview.scrollTo(0 , 1000);
+            }
         }
+
         GuideBuilder builder = new GuideBuilder();
         //存款金额
         builder.setTargetView( binding.llAmount)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
-        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
-            @Override
-            public void onShown() {
-            }
-
-            @Override
-            public void onDismiss() {
-                ToastUtils.showError("showGuideByBank --> 取消");
-            }
-        });
 
         builder.addComponent(new RechargeMoneyComponent(new RechargeMoneyComponent.IRechargeMoneyCallback() {
             @Override
             public void rechargeMoneyPrevious() {
+                showGuideByName(vo , true);
                 dismissMoneyGuide();
+
             }
 
             @Override
@@ -2104,28 +2113,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      */
     private void showGuideByNext(RechargeVo vo){
         if (vo.fixedamount_info.length>8){
-            binding.mainScrollview.scrollTo(0 , 800);
+            binding.mainScrollview.scrollTo(0 , 2000);
         }
         GuideBuilder builder = new GuideBuilder();
         builder.setTargetView( binding.btnNext)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
-        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
-            @Override
-            public void onShown() {
-            }
-
-            @Override
-            public void onDismiss() {
-                ToastUtils.showError("showGuideByBank --> 取消");
-            }
-        });
 
         builder.addComponent(new RechargeNextComponent(new RechargeNextComponent.IRechargeNextCallback() {
             @Override
             public void rechargeNextPrevious() {
+                showGuideByMoney(vo , true);
                 dismissNextGuide();
+
             }
 
             @Override

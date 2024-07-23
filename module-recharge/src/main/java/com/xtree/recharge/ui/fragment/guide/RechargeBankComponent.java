@@ -1,11 +1,15 @@
 package com.xtree.recharge.ui.fragment.guide;
 
+import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.binioter.guideview.Component;
 import com.xtree.recharge.R;
@@ -30,17 +34,37 @@ public class RechargeBankComponent  implements Component {
         public void rechargeBankNext();
     }
     private IRechargeBankCallback iRechargeBankCallback ;
-    private TextView jumpBtn ;
-    private TextView nextBtn;
+    private Context context;
 
-    public RechargeBankComponent(IRechargeBankCallback iRechargeBankCallback){
+    public RechargeBankComponent(final Context context ,IRechargeBankCallback iRechargeBankCallback){
         super();
+        this.context = context;
         this.iRechargeBankCallback = iRechargeBankCallback ;
     }
     @Override
     public View getView(LayoutInflater inflater) {
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_bank_item , null);
+        /*TextView showTv = (TextView) ll.findViewById(R.id.tv_guide_bank_arr);
+        showTv.setText(R.string.txt_recharge_view_jump);
 
-        LinearLayout ll = new LinearLayout(inflater.getContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            showTv.setTextColor(this.context.getColor(R.color.red));
+        }*/
+        ImageView jumpBt  = ll.findViewById(R.id.iv_guide_bank_jump);
+        ImageView nextBt  = ll.findViewById(R.id.iv_guide_bank_next);
+        //跳过点击事件
+        jumpBt.setOnClickListener(v -> {
+            if (this.iRechargeBankCallback !=null){
+                this.iRechargeBankCallback.rechargeBankJump();
+            }
+        });
+        //下一步
+        nextBt.setOnClickListener(v -> {
+            if (this.iRechargeBankCallback !=null){
+                this.iRechargeBankCallback.rechargeBankNext();
+            }
+        });
+        /*LinearLayout ll = new LinearLayout(inflater.getContext());
         LinearLayout.LayoutParams param =
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -76,18 +100,7 @@ public class RechargeBankComponent  implements Component {
         ll.addView(jumpBt);
         ll.addView(nextBt);
 
-        //跳过点击事件
-        jumpBt.setOnClickListener(v -> {
-            if (this.iRechargeBankCallback !=null){
-                this.iRechargeBankCallback.rechargeBankJump();
-            }
-        });
-        //下一步
-        nextBt.setOnClickListener(v -> {
-            if (this.iRechargeBankCallback !=null){
-                this.iRechargeBankCallback.rechargeBankNext();
-            }
-        });
+        */
         return ll;
     }
 
@@ -105,6 +118,6 @@ public class RechargeBankComponent  implements Component {
     }
 
     @Override public int getYOffset() {
-        return 20;
+        return 0;
     }
 }
