@@ -7,11 +7,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowMetrics;
+import android.widget.CompoundButton;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,7 +44,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterFragmentPath.Home.PG_DEBUG)
 public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewModel> {
@@ -106,6 +107,9 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         binding.tvwTag.setText(TagUtils.isTag() + "");
         binding.tvwApiList.setText(getString(R.string.domain_api_list).replace(";", "\n").trim());
         binding.tvwH5List.setText(getString(R.string.domain_url_list).replace(";", "\n").trim());
+
+        String debugUrl = SPUtils.getInstance().getString(SPKeyGlobal.DEBUG_APPLY_DOMAIN);
+        binding.tvwVfGlobe.setChecked(!TextUtils.isEmpty(debugUrl));
     }
     @Override
     public void initView() {
@@ -121,14 +125,20 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
                 binding.llMain.setVisibility(View.VISIBLE);
             }
         });
-        binding.tvwVfGlobe.setOnClickListener(v -> {
-            CfLog.i("**************");
-            String url = binding.edtVfIp.getText().toString().trim();
-            DomainUtil.setApiUrl(url);
-            DomainUtil.setH5Url(url);
-            ToastUtils.showSuccess("配置成功");
-        });
 
+        binding.tvwVfGlobe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                CfLog.i("**************");
+
+                if (isChecked) {
+                    String url = binding.edtVfIp.getText().toString().trim();
+                    SPUtils.getInstance().put(SPKeyGlobal.DEBUG_APPLY_DOMAIN, url);
+                } else {
+                    SPUtils.getInstance().remove(SPKeyGlobal.DEBUG_APPLY_DOMAIN);
+                }
+            }
+        });
     }
 
     @Override
