@@ -209,7 +209,7 @@
     <color name="bt_bg_color_playtype">@color/clr_main_05</color>
 
     <!-- 投注项默认背影颜色 -->
-    <color name="bt_option_bg_default">#FBF6F1</color>
+    <color name="bt_option_bg_default">@color/bg_main</color>
 
     <!-- 投注项选中背影颜色 -->
     <color name="bt_option_bg_selected">@color/clr_main_05</color>
@@ -236,7 +236,7 @@
     <color name="bt_color_hine_color">#5B5B6A</color>
 
     <!-- 阴影颜色 -->
-    <color name="bt_color_shadow">#1AAD7851</color>
+    <color name="bt_color_shadow">@color/clr_blue_02</color>
 
     <!-- 键盘背景颜色 -->
     <color name="bt_bg_color_keyboard">@color/clr_main</color>
@@ -254,7 +254,7 @@
     <color name="bt_color_league_line_top">#80E3C3A2</color>
 
     <!-- 赛事列表联赛顶部背景线颜色 -->
-    <color name="bt_color_league_top">#80D0B292</color>
+    <color name="bt_color_league_top">@color/clr_blue_02</color>
 
     <!-- 注单为赢的字体颜色 -->
     <color name="bt_color_option_win">#F74E15</color>
@@ -286,7 +286,7 @@
     <color name="bt_color_bt_pay">#80FFFFFF</color>
 
     <!-- 选择联赛页面联赛分组背景颜色 -->
-    <color name="bt_color_league_group">#E3CBB2</color>
+    <color name="bt_color_league_group">@color/clr_main_01</color>
 
     <!-- 投注确认页倒计时背景颜色 -->
     <color name="bt_color_bt_timer">#66FFFFFF</color>
