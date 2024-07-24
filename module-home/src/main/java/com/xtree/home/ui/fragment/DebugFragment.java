@@ -42,6 +42,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterFragmentPath.Home.PG_DEBUG)
 public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewModel> {
@@ -122,8 +123,10 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         });
         binding.tvwVfGlobe.setOnClickListener(v -> {
             CfLog.i("**************");
-            String ip = binding.edtVfIp.getText().toString().trim();
-            AppUtil.goGlobeVerify(ip);
+            String url = binding.edtVfIp.getText().toString().trim();
+            DomainUtil.setApiUrl(url);
+            DomainUtil.setH5Url(url);
+            ToastUtils.showSuccess("配置成功");
         });
 
     }

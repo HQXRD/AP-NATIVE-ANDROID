@@ -430,7 +430,7 @@
                         android:maxLines="2"
                         android:paddingTop="6dp"
                         android:paddingBottom="6dp"
-                        android:text="全局验证"
+                        android:text="配置域名"
                         android:textColor="@color/clr_blue_03" />
 
                     <EditText
@@ -439,10 +439,10 @@
                         android:layout_width="match_parent"
                         android:layout_marginStart="@dimen/layout_margin"
                         android:layout_marginEnd="@dimen/layout_margin"
-                        android:hint="请输入IP"
+                        android:hint="请输入域名"
                         android:paddingTop="6dp"
                         android:paddingBottom="6dp"
-                        android:text="114.114.114.114" />
+                        android:text="https://apptest.oxldkm.com" />
                 </LinearLayout>
 
             </LinearLayout>
