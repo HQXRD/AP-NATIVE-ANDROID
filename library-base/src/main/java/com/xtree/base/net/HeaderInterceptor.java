@@ -7,6 +7,8 @@ import com.xtree.base.utils.HmacSHA256Utils;
 import com.xtree.base.utils.TagUtils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
@@ -50,7 +52,15 @@ public class HeaderInterceptor implements Interceptor {
             encodeData.append("?").append(query);
         }
 
-        String sign1 = HmacSHA256Utils.calculateHmacSHA256(HmacSHA256Utils.HMAC_KEY, encodeData.toString());
+        //对签名数据反编码
+        String decode = encodeData.toString();
+        try {
+            decode = URLDecoder.decode(encodeData.toString(), "UTF-8");
+        }catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        String sign1 = HmacSHA256Utils.calculateHmacSHA256(HmacSHA256Utils.HMAC_KEY, decode);
 
         //加密签名
         builder.addHeader("X-Sign1", sign1);
