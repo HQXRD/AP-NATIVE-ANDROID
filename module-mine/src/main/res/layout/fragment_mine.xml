@@ -258,7 +258,6 @@
                     android:id="@+id/imv_menu_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/bg_me_title"
                     android:elevation="1dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"

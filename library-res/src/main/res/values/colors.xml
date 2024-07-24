@@ -170,7 +170,7 @@
     <color name="bt_text_color_primary_4">@color/clr_txt_04</color>
 
     <!-- 投注页页面背颜色 -->
-    <color name="bt_page_bg">#F9F8F4</color>
+    <color name="bt_page_bg">@color/clr_main</color>
 
     <!-- 投注页页面各区块背景颜色 -->
     <color name="bt_page_up_bg">#FFFFFF</color>
@@ -239,7 +239,7 @@
     <color name="bt_color_shadow">#1AAD7851</color>
 
     <!-- 键盘背景颜色 -->
-    <color name="bt_bg_color_keyboard">#F6ECE2</color>
+    <color name="bt_bg_color_keyboard">@color/clr_main</color>
 
     <!-- 赛事详情页顶部栏背景颜色 -->
     <color name="bt_color_detail_top_toolbar">#4D000000</color>

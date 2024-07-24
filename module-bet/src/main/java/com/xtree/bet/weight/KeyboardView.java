@@ -78,7 +78,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             @Override
             protected void convert(ViewHolder holder, Integer textValue, int position) {
                 holder.setText(R.id.tv_item, String.valueOf(textValue));
-                holder.setTextColor(R.id.tv_item, getResources().getColor(R.color.bt_color_keyboard_quick));
+                holder.setTextColor(R.id.tv_item, getResources().getColor(R.color.bt_text_color_deep_primary));
                 holder.getView(R.id.tv_item).setBackgroundResource(R.drawable.bt_bg_keyboard_quick_item_selector);
                 if(currentPos == position){
                     holder.getView(R.id.tv_item).setSelected(true);
