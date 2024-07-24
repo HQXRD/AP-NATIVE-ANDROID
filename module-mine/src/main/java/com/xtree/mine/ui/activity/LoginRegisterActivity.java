@@ -74,6 +74,8 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 @Route(path = RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
 public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
 
+    private int viewType;//页面跳转状态
+
     private boolean loginRegType = false;//登录状态获取验证码 状态 默认不需要获取验证码状态
     private static final int HANDLER_INIT_VER = 0;//初始化获取注册验证码
     private static final int HANDLER_REFRESH_VER = 1;//手动点击获取注册验证码
@@ -141,15 +143,18 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     refreshLoginVerView();
                     break;
                 case HANDLER_REFRESH_REG_VER_VIEW:
-                   refreshRegVerView();
+                    if (viewType == LOGIN_TYPE) {
+                        //登录状态不刷新注册页面验证码
+                    } else {
+                        refreshRegVerView();
+                    }
+                    //
                     break;
             }
         }
 
     }
-    /**
-     * 刷新登录页面验证码 View
-     */
+
     private void refreshLoginVerView() {
         binding.toRegisterArea.setVisibility(View.VISIBLE);
         binding.loginArea.setVisibility(View.VISIBLE);
@@ -164,9 +169,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         sendMessage(msg);
 
     }
-    /**
-     * 刷新注册页面验证码 View
-     */
+
     private void refreshRegVerView() {
         binding.toLoginArea.setVisibility(View.VISIBLE);
         binding.meRegisterArea.setVisibility(View.VISIBLE);
@@ -182,7 +185,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         sendMessage(msg);
 
     }
-
 
     private void refreshLoginVeriImage(final RegisterVerificationCodeVo vo) {
         if (!TextUtils.isEmpty(vo.image_url)) {
@@ -273,7 +275,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         });
 
         Intent intent = getIntent();
-        int viewType = intent.getIntExtra(ENTER_TYPE, LOGIN_TYPE);
+        viewType = intent.getIntExtra(ENTER_TYPE, LOGIN_TYPE);
         //登录页面
         if (viewType == LOGIN_TYPE) {
             binding.toRegisterArea.setVisibility(View.VISIBLE);
@@ -440,7 +442,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             }
         });
-
         binding.edtPwd1.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -559,9 +560,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 mIsPwd2 = false;
             }
             //注册页面需要判断Seting 状态 1需要判断
-            if (settingsVo !=null &&
+            if (settingsVo != null &&
                     settingsVo.register_captcha_switch != null
-                    &&TextUtils.equals("1", settingsVo.register_captcha_switch)) {
+                    && TextUtils.equals("1", settingsVo.register_captcha_switch)) {
                 //验证码不能为空
                 if (verificationTxt.isEmpty()) {
                     binding.tvwPwdCheckVerification.setVisibility(View.VISIBLE);
@@ -594,8 +595,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             } else {
                 //增加
                 if (registerVerificationCodeVo != null
-                        &&registerVerificationCodeVo.key !=null
-                        &&!TextUtils.isEmpty(registerVerificationCodeVo.key)
+                        && registerVerificationCodeVo.key != null
+                        && !TextUtils.isEmpty(registerVerificationCodeVo.key)
                         && verificationTxt != null) {
                     //为获取推广码 使用默认的推广码
                     viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt);
