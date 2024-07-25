@@ -189,6 +189,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getVipInfo(); // 获取VIP信息
             //viewModel.getFBGameTokenApi();
             //viewModel.getPMGameTokenApi();
+
+            initRechargeFloatingWindows();
         });
 
         viewModel.liveDataBanner.observe(getViewLifecycleOwner(), list -> {
@@ -343,16 +345,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     public void initView() {
-        if (!isFloating) {
-            CfLog.i("rechargeFloatingWindows.show");
-            mRechargeFloatingWindows = new RechargeFloatingWindows(getActivity());
-            mRechargeFloatingWindows.show();
-            isFloating = true;
-        }
-        if (TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
-            mRechargeFloatingWindows.removeView();
-            isFloating = false;
-        }
         //用户余额点击
         binding.clLoginYet.setOnClickListener(v -> {
             selectUpdate = true;
@@ -579,6 +571,22 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void initData() {
 
+    }
+
+    /**
+     * 启动充提记录悬浮窗
+     */
+    private void initRechargeFloatingWindows() {
+        if (!isFloating) {
+            CfLog.i("rechargeFloatingWindows.show");
+            mRechargeFloatingWindows = new RechargeFloatingWindows(getActivity());
+            mRechargeFloatingWindows.show();
+            isFloating = true;
+        }
+        if (TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
+            mRechargeFloatingWindows.removeView();
+            isFloating = false;
+        }
     }
 
     private String getString(String result) {
