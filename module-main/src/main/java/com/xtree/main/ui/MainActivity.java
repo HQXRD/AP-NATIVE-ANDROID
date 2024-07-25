@@ -101,6 +101,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mTopSpeedDomainFloatingWindows != null) {
+            mTopSpeedDomainFloatingWindows.removeView();
+        }
     }
 
     private void initFragment() {
