@@ -55,7 +55,7 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
-        binding.mainScrollview.scrollTo(0, 100);
+        binding.mainScrollview.scrollTo(0, 800);
 
         showGuideByNext();
 
@@ -184,7 +184,7 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
     private void showGuideByNext(){
 
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(binding.tvRcExpBankStatus)
+        builder.setTargetView(binding.ivRcExpBankTop)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
@@ -203,11 +203,12 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
             @Override
             public void rechargeNameNext() {
                 dismissNextGuide();
+                startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE_GUI);
             }
 
         }));
         nextGuide = builder.createGuide();
-        nextGuide.show(getActivity());
+        nextGuide.show(requireActivity());
     }
     private void  dismissNextGuide(){
         if (nextGuide !=null){

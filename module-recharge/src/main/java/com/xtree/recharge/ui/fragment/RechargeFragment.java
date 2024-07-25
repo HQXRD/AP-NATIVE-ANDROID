@@ -2052,7 +2052,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
     }
 
-    private Guide moneyGuide ;
+    private Guide moneyGuide  ;
     /**
      * 显示充值金额页面
      */
@@ -2073,6 +2073,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
+        GuideBuilder builder1 = new GuideBuilder();
+
 
         builder.addComponent(new RechargeMoneyComponent(new RechargeMoneyComponent.IRechargeMoneyCallback() {
             @Override

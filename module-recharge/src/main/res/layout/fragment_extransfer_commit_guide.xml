@@ -30,7 +30,7 @@
                 android:id="@+id/v_top"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -97,11 +97,13 @@
                 <ImageView
                     android:id="@+id/iv_rc_exp_bank_top"
                     style="@style/style_rc_exp_bank_top"
+                    android:layout_gravity="center"
                     android:src="@mipmap/rc_exp_bank_step_1" />
 
                 <TextView
                     android:id="@+id/tv_rc_exp_bank_status"
                     style="@style/style_rc_exp_bank_status"
+                    android:layout_gravity="center"
                     android:drawableStart="@mipmap/rc_exp_bank_rst_1"
                     android:text="订单已提交" />
 
@@ -110,6 +112,7 @@
                 <TextView
                     android:id="@+id/tv_rc_exp_bank_info_title"
                     style="@style/style_rc_exp_bank_info_title"
+                    android:layout_gravity="center"
                     android:text="匹配账号中，请稍等..." />
 
                 <LinearLayout style="@style/style_rc_dlg_ll">
@@ -144,6 +147,7 @@
                     android:id="@+id/ll_commit_guide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="wrap_content"
@@ -202,155 +206,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
-    <!--
-    <?xml version="1.0" encoding="utf-8"?>
-    <layout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
-
-                <ImageView
-                    android:id="@+id/ivw_back"
-                    style="@style/style_ic_title_back"
-                    android:layout_gravity="center"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"/>
-
-                <TextView
-                    android:id="@+id/tvw_title"
-                    style="@style/style_cm_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="银行卡充值"
-                    tools:text="小额网银"
-                    android:layout_centerInParent="true"/>
-
-                <ImageView
-                    android:id="@+id/ivw_cs"
-                    style="@style/style_ic_title_right"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/cm_ic_cs"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"/>
-            </RelativeLayout>
-            <View
-                style="@style/style_dividing_line"
-                android:layout_margin="0dp" />
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/sl_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:id="@+id/ll_main"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-                        <ImageView
-                            android:id="@+id/iv_rc_exp_bank_top"
-                            style="@style/style_rc_exp_bank_top"
-                            android:src="@mipmap/rc_exp_bank_step_1" />
-
-                        <TextView
-                            android:id="@+id/tv_rc_exp_bank_status"
-                            style="@style/style_rc_exp_bank_status"
-                            android:drawableStart="@mipmap/rc_exp_bank_rst_1"
-                            android:text="订单已提交" />
-
-                        <View style="@style/style_dividing_line" />
-
-                        <TextView
-                            android:id="@+id/tv_rc_exp_bank_info_title"
-                            style="@style/style_rc_exp_bank_info_title"
-                            android:text="匹配账号中，请稍等..." />
-
-                        <LinearLayout style="@style/style_rc_dlg_ll">
-
-                            <TextView
-                                android:id="@+id/tv_rc_dlg_key"
-                                style="@style/style_rc_dlg_key"
-                                android:text="订单号" />
-                            &lt;!&ndash;android:text="@{model.payOrderData.merchantOrder}"&ndash;&gt;
-                            <TextView
-                                android:id="@+id/tv_rc_dlg_value"
-                                style="@style/style_rc_dlg_value"
-                                android:text="PAY0123456789"
-                                android:textColor="@color/clr_black"
-                                tools:text="PAY00123456789" />
-                        </LinearLayout>
-
-                        <LinearLayout style="@style/style_rc_dlg_ll">
-
-                            <TextView
-                                android:id="@+id/tv_rc_dlg_key1"
-                                style="@style/style_rc_dlg_key"
-                                android:text="金额" />
-
-                            <TextView
-                                android:id="@+id/tv_rc_dlg_value1"
-                                style="@style/style_rc_dlg_value"
-                                android:text="100"
-                                android:textColor="@color/clr_black"
-                                tools:text="100" />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/ll_commit_guide"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/layout_margin"
-                                android:layout_marginBottom="@dimen/layout_margin"
-                                android:layout_gravity="center_horizontal"
-                                android:text="*系统正在加急安排您本次充值申请，请耐心等候"
-                                android:textColor="@color/clr_grey_09" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/layout_margin"
-                                android:layout_marginBottom="@dimen/layout_margin"
-                                android:layout_gravity="center_horizontal"
-                                android:drawableStart="@mipmap/cm_ic_countdown"
-                                android:drawablePadding="6dp"
-                                android:gravity="center"
-                                android:text="05:32"
-                                android:textColor="@color/clr_purple_02"
-                                android:visibility="visible"/>
-
-                            <TextView
-                                android:id="@+id/tvw_ok"
-                                style="@style/style_btn_long"
-                                android:text="取消等待"
-                                android:visibility="visible"/>
-                        </LinearLayout>
-
-
-                    &lt;!&ndash;</LinearLayout>&ndash;&gt;
-
-                    <include
-                        android:id="@+id/ll_step_bottom"
-                        layout="@layout/layout_rc_exp_bank_bottom" />
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
-        </LinearLayout>
-    </layout>-->

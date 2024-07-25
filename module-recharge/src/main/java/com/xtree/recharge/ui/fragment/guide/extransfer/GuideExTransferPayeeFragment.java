@@ -24,6 +24,7 @@ import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentExtransferPayeeBinding;
+import com.xtree.recharge.databinding.FragmentExtransferPayeeGuideBinding;
 import com.xtree.recharge.ui.fragment.RechargeFragment;
 import com.xtree.recharge.ui.viewmodel.ExTransferViewModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
@@ -43,8 +44,8 @@ import me.xtree.mvvmhabit.bus.RxBus;
  * Created by KAKA on 2024/5/28.
  * Describe: 极速转账-转账汇款程
  */
-@Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE)
-public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransferPayeeBinding, ExTransferViewModel> {
+@Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE_GUI)
+public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransferPayeeGuideBinding, ExTransferViewModel> {
 
     private Comm100ChatWindows serviceChatFlow;
 
@@ -52,6 +53,10 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+
+        binding.slMain.scrollTo(0 , 1000);
+
+
         /*serviceChatFlow = new Comm100ChatWindows(requireActivity());
         serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
             @Override

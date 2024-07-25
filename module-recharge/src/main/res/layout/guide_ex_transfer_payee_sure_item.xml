@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_guide_bank_arr"
             android:text="@string/txt_guide_ex_pay_sure"
-            android:textColor="@color/white"
+            android:textColor="@color/red"
             android:gravity="center"
             android:textSize="14sp"/>
         <!--上一步-->

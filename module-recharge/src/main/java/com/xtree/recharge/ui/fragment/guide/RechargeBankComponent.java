@@ -44,12 +44,6 @@ public class RechargeBankComponent  implements Component {
     @Override
     public View getView(LayoutInflater inflater) {
         LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_bank_item , null);
-        /*TextView showTv = (TextView) ll.findViewById(R.id.tv_guide_bank_arr);
-        showTv.setText(R.string.txt_recharge_view_jump);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            showTv.setTextColor(this.context.getColor(R.color.red));
-        }*/
         ImageView jumpBt  = ll.findViewById(R.id.iv_guide_bank_jump);
         ImageView nextBt  = ll.findViewById(R.id.iv_guide_bank_next);
         //跳过点击事件
