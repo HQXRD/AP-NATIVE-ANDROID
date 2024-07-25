@@ -26,6 +26,7 @@ import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentExtransferPayeeBinding;
 import com.xtree.recharge.databinding.FragmentExtransferPayeeGuideBinding;
 import com.xtree.recharge.ui.fragment.RechargeFragment;
+import com.xtree.recharge.ui.fragment.guide.RechargeBankComponent;
 import com.xtree.recharge.ui.viewmodel.ExTransferViewModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
@@ -41,8 +42,7 @@ import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
- * Created by KAKA on 2024/5/28.
- * Describe: 极速转账-转账汇款程
+ * 上传凭证
  */
 @Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE_GUI)
 public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransferPayeeGuideBinding, ExTransferViewModel> {
@@ -54,32 +54,8 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
         binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
 
-        binding.slMain.scrollTo(0 , 1000);
+        //binding.slMain.scrollTo(0 , 1000);
 
-
-        /*serviceChatFlow = new Comm100ChatWindows(requireActivity());
-        serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
-            @Override
-            public void onClick(View view, String url) {
-
-                String chatUrl = url;
-                if (viewModel != null && viewModel.payOrderData.getValue() != null) {
-                    String merchantOrder = viewModel.payOrderData.getValue().getMerchantOrder();
-                    if (!TextUtils.isEmpty(merchantOrder)) {
-                        chatUrl += merchantOrder;
-                    }
-                }
-
-                VisitorClientInterface.setChatUrl(chatUrl);
-
-                Intent intent = new Intent(getContext(), ContainerActivity.class);
-                intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CHAT);
-                requireActivity().startActivity(intent);
-
-                viewModel.close();
-            }
-        });
-        serviceChatFlow.show();*/
     }
 
     @Override
@@ -179,9 +155,31 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
      * 显示充值 充值银行卡信息 下一步 引导页面
      */
     private void showPayeeInfoGuide(){
-
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(binding.llStep1.clMain)
+        builder.setTargetView( binding.iv)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10);
+        builder.addComponent(new RechargeBankComponent(getContext(),new RechargeBankComponent.IRechargeBankCallback() {
+            @Override
+            public void rechargeBankJump() {
+                dismissNextGuide();
+            }
+
+            @Override
+            public void rechargeBankNext() {
+                dismissNextGuide();
+                //下一步
+
+            }
+        }));
+        nextGuide = builder.createGuide();
+        nextGuide.show(getActivity());
+        nextGuide.setShouldCheckLocInWindow(false);
+
+/*
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(binding.iv)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
@@ -190,6 +188,7 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
             @Override
             public void rechargeNamePrevious() {
                 dismissNextGuide();
+                getActivity().finish();
             }
 
             @Override
@@ -200,11 +199,13 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
             @Override
             public void rechargeNameNext() {
                 dismissNextGuide();
+                //showPayeeUploadGuide();
             }
 
         }));
         nextGuide = builder.createGuide();
         nextGuide.show(getActivity());
+        nextGuide.setShouldCheckLocInWindow(false);*/
     }
     private void  dismissNextGuide(){
         if (nextGuide !=null){
@@ -220,15 +221,16 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
     private void showPayeeUploadGuide(){
 
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(binding.llStep1.tvwUploadCertificate)
+       /* builder.setTargetView(binding.llStep1.tvwUploadCertificate)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
+                .setHighTargetPadding(10);*/
 
         builder.addComponent(new ExTransferPayeeComponent(new ExTransferPayeeComponent.IExTransferPayeeCallback() {
             @Override
             public void rechargeNamePrevious() {
                 dismissUploadGuide();
+                showPayeeInfoGuide();
             }
 
             @Override
@@ -239,6 +241,8 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
             @Override
             public void rechargeNameNext() {
                 dismissUploadGuide();
+                //跳转充值银行卡上传凭证信息页面
+                startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_VOUCHER_GUI);
             }
 
         }));

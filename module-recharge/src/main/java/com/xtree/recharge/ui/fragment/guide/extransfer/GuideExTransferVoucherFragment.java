@@ -15,24 +15,17 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.binioter.guideview.Guide;
-import com.binioter.guideview.GuideBuilder;
 import com.comm100.livechat.VisitorClientInterface;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
-import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
-import com.xtree.recharge.databinding.FragmentExtransferCommitBinding;
-import com.xtree.recharge.databinding.FragmentExtransferCommitGuideBinding;
+import com.xtree.recharge.databinding.FragmentExtransferVoucherBinding;
 import com.xtree.recharge.ui.fragment.RechargeFragment;
-import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
-import com.xtree.recharge.ui.fragment.guide.RechargeNextComponent;
 import com.xtree.recharge.ui.viewmodel.ExTransferViewModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.ui.widget.Comm100ChatWindows;
-import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.Map;
 import java.util.Stack;
@@ -41,13 +34,13 @@ import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.base.ContainerActivity;
-import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
- * 银行卡充值 引导页面
+ * Created by KAKA on 2024/5/28.
+ * Describe: 极速转账-上传凭证流程
  */
-@Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI)
-public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransferCommitGuideBinding, ExTransferViewModel> {
+@Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_VOUCHER_GUI)
+public class GuideExTransferVoucherFragment extends BaseFragment<FragmentExtransferVoucherBinding, ExTransferViewModel> {
 
     private Comm100ChatWindows serviceChatFlow;
 
@@ -55,12 +48,8 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
-       // binding.mainScrollview.scrollTo(0, 800);
-
-        showGuideByNext();
-
-        serviceChatFlow = new Comm100ChatWindows(requireActivity());
-       /* serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
+       /* serviceChatFlow = new Comm100ChatWindows(requireActivity());
+        serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
             @Override
             public void onClick(View view, String url) {
 
@@ -86,7 +75,7 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return R.layout.fragment_extransfer_commit_guide;
+        return R.layout.fragment_extransfer_voucher_guide;
     }
 
     @Override
@@ -96,7 +85,6 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
 
     @Override
     public ExTransferViewModel initViewModel() {
-        //以充值页作为共享载体
         Stack<Activity> activityStack = AppManager.getActivityStack();
         FragmentActivity fragmentActivity = requireActivity();
         for (Activity activity : activityStack) {
@@ -121,19 +109,9 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
     @Override
     public void initData() {
         super.initData();
-
-
-
-     /*   binding.getModel().setActivity(getActivity());
+        binding.getModel().setActivity(getActivity());
         binding.getModel().setFlowWindow(serviceChatFlow);
-        binding.getModel().canonicalName = getClass().getCanonicalName();*/
-
-        ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
-        if (createOrderInfo != null) {
-            RxBus.getDefault().removeAllStickyEvents();
-          /*  binding.getModel().initData(getActivity(),createOrderInfo);
-            binding.getModel().serviceChatTimeKeeping();*/
-        }
+        binding.getModel().canonicalName = getClass().getCanonicalName();
     }
 
     @Override
@@ -146,16 +124,14 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
                 String canonicalName = (String) params.get(BaseViewModel.ParameterField.CANONICAL_NAME);
                 Bundle bundle = (Bundle) params.get(BaseViewModel.ParameterField.BUNDLE);
                 startContainerFragment(canonicalName, bundle);
-                getActivity().finish();
             }
         });
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        /*binding.getModel().setActivity(getActivity());*/
+        binding.getModel().setActivity(getActivity());
     }
 
     @Override
@@ -164,91 +140,6 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
         if (serviceChatFlow != null) {
             serviceChatFlow.removeView();
             serviceChatFlow = null;
-        }
-    }
-
-    @Override
-    public boolean isBackPressed() {
-
-        if (viewModel != null) {
-            viewModel.finish();
-        }
-
-        return true;
-    }
-
-    private Guide nextGuide;
-    /**
-     * 显示银行卡 充值 下一步 引导页面
-     */
-    private void showGuideByNext(){
-
-        GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView( binding.ivRcExpBankTop)
-                .setAlpha(150)
-                .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
-
-        builder.addComponent(new RechargeNameComponent(new RechargeNameComponent.IRechargeNameCallback() {
-            @Override
-            public void rechargeNamePrevious() {
-                //showGuideByBank(vo);
-                dismissNextGuide();
-
-            }
-
-            @Override
-            public void rechargeNameJump() {
-                //跳过
-                //shipGuide();
-                dismissNextGuide();
-            }
-
-            @Override
-            public void rechargeNameNext() {
-                dismissNextGuide();
-                //showGuideByMoney(vo , false);
-            }
-
-        }));
-        nextGuide = builder.createGuide();
-        nextGuide.show(getActivity());
-        nextGuide.setShouldCheckLocInWindow(true);
-
-      /*  GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(binding.vTop)
-                .setAlpha(150)
-                .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
-
-        builder.addComponent(new ExTransferCommitComponent(new ExTransferCommitComponent.IExTransferCommitCallback() {
-            @Override
-            public void rechargeNamePrevious() {
-                dismissNextGuide();
-                getActivity().finish();
-            }
-
-            @Override
-            public void rechargeNameJump() {
-                dismissNextGuide();
-
-            }
-
-            @Override
-            public void rechargeNameNext() {
-                dismissNextGuide();
-                //跳转充值银行卡上传凭证信息页面
-                startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE_GUI);
-            }
-
-        }));
-        nextGuide = builder.createGuide();
-        nextGuide.show(requireActivity());*/
-    }
-    private void  dismissNextGuide(){
-        if (nextGuide !=null){
-            nextGuide.dismiss();;
-            nextGuide = null;
         }
     }
 }

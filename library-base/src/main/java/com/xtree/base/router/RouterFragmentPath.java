@@ -106,6 +106,8 @@ public class RouterFragmentPath {
         public static final String PAGER_TRANSFER_EX_COMMIT_GUI = Transfer + "/GuideExTransferCommitFragment";
         //极速转账-转账汇款
         public static final String PAGER_TRANSFER_EX_PAYEE_GUI = Transfer + "/GuideExTransferPayeeFragment";
+        //极速转账-上传凭证
+        public static final String PAGER_TRANSFER_EX_VOUCHER_GUI = Transfer + "/GuiExTransferVoucherFragment";
 
     }
 

@@ -50,7 +50,7 @@ public class GuideExTransferConfirmFragment extends BaseFragment<FragmentExtrans
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
-        serviceChatFlow = new Comm100ChatWindows(requireActivity());
+       /* serviceChatFlow = new Comm100ChatWindows(requireActivity());
         serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
             @Override
             public void onClick(View view, String url) {
@@ -72,12 +72,12 @@ public class GuideExTransferConfirmFragment extends BaseFragment<FragmentExtrans
                 viewModel.close();
             }
         });
-        serviceChatFlow.show();
+        serviceChatFlow.show();*/
     }
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return R.layout.fragment_extransfer_confirm;
+        return R.layout.fragment_extransfer_confirm_guide;
     }
 
     @Override

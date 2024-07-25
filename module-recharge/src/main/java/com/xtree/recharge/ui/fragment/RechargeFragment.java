@@ -1,6 +1,7 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,6 +62,7 @@ import com.xtree.recharge.ui.fragment.guide.RechargeBankComponent;
 import com.xtree.recharge.ui.fragment.guide.RechargeMoneyComponent;
 import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
 import com.xtree.recharge.ui.fragment.guide.RechargeNextComponent;
+import com.xtree.recharge.ui.fragment.guide.extransfer.CommotActivity;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
@@ -2140,7 +2142,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             @Override
             public void rechargeNextNext() {
                 dismissNextGuide();
-                startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
+                //startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
+                Intent startInteger = new Intent(getContext() , CommotActivity.class);
+                startActivity(startInteger);
             }
 
 

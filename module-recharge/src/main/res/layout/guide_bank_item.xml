@@ -5,17 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp">
-    <!--  android:background="@color/bt_bg_common_cover"-->
-  <!--  <TextView
-        android:id="@+id/tv_guide_bank_arr123"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/iv_guide_bank_arr"
-        android:layout_toLeftOf="@id/iv_guide_bank_arr"
-        android:text="@string/txt_withdraw_input_mix_tip"
-        android:textColor="@color/black"
-        android:background="@color/red"
-        android:textSize="14sp"/>-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
