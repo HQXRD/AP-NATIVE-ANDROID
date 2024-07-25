@@ -63,12 +63,12 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
             binding.tvSpeed.setText("");
             binding.tvRecomment.setText("测速中...");
             binding.tvRecomment.setVisibility(View.VISIBLE);
-        }else if(mFailed){
+        } else if (mFailed && TextUtils.isEmpty(domain.url)) {
             binding.tvAgentChange.setVisibility(View.INVISIBLE);
             binding.tvSpeed.setText("");
             binding.tvRecomment.setText("测速失败");
             binding.tvRecomment.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             binding.tvAgentChange.setVisibility(!TextUtils.equals(domain.url, DomainUtil.getApiUrl()) ? View.VISIBLE : View.INVISIBLE);
             binding.tvRecomment.setText("推荐");
             binding.tvSpeed.setText(domain.speedSec + "ms");

@@ -16,6 +16,7 @@ import com.xtree.base.R;
 import com.xtree.base.adapter.MainDomainAdapter;
 import com.xtree.base.databinding.MainLayoutTopSpeedDomainBinding;
 import com.xtree.base.net.fastest.FastestTopDomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.TopSpeedDomain;
 import com.xtree.base.widget.FloatingWindows;
 
@@ -26,6 +27,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import io.reactivex.rxjava3.functions.Consumer;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 public class TopSpeedDomainFloatingWindows extends FloatingWindows {
     MainLayoutTopSpeedDomainBinding mBinding;
@@ -86,6 +88,13 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
         mBinding.tvSpeedCheck.setOnClickListener(v -> {
 
             if (FastestTopDomainUtil.Companion.getMIsFinish()) {
+
+                TagUtils.tagEvent(
+                        Utils.getContext(),
+                        TagUtils.EVENT_FASTEST,
+                        TagUtils.KEY_FASTEST_RESTART
+                );
+
                 List<TopSpeedDomain> datas = new ArrayList<>();
                 for (int i = 0; i < 4; i++) {
                     datas.add(new TopSpeedDomain());
