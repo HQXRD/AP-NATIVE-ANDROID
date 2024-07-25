@@ -38,7 +38,7 @@ class ECAnimDialog(context: Context, private val url: String) : BasePopupView(co
             ConvertUtils.dp2px((103 + 20).toFloat()) - XPopupUtils.getScreenHeight(context) / 2f
 
         KLog.i(
-            "height", "$height1     $height2" + "      " + XPopupUtils.getScreenHeight(context) + "     " + XPopupUtils.getNavBarHeight() +
+            "height", "$height1     $height2" + "      " + XPopupUtils.getScreenHeight(context) + "     " + XPopupUtils.getNavBarHeight(hostWindow) +
                     "   " + getNavigationBarHeight(context)
         )
         val objectAnimatorX = ObjectAnimator.ofFloat(layoutTop, "translationY", height1)
