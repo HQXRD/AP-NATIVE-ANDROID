@@ -112,7 +112,7 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
     public void initData() {
         super.initData();
 
-        binding.getModel().setActivity(requireActivity());
+      /*  binding.getModel().setActivity(requireActivity());
         binding.getModel().setFlowWindow(serviceChatFlow);
         binding.getModel().canonicalName = getClass().getCanonicalName();
 
@@ -121,7 +121,7 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
             RxBus.getDefault().removeAllStickyEvents();
             binding.getModel().initData(requireActivity(),createOrderInfo);
             binding.getModel().serviceChatTimeKeeping();
-        }
+        }*/
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
     @Override
     public void onResume() {
         super.onResume();
-        binding.getModel().setActivity(getActivity());
+        //binding.getModel().setActivity(getActivity());
     }
 
     @Override

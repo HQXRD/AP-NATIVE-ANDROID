@@ -292,4 +292,7 @@
     <string name="txt_guide_ex_tran_confirm">已匹配到我们的收款银行卡信息，请通过 \n您的银行卡进行转账汇款</string>
     <string name="txt_guide_ex_pay_upload">转账后请及时点击【上传凭证】将充值 \n的回执单完成流程，否则是为充值失败</string>
     <string name="txt_guide_ex_pay_upload1">不予上分损失自负</string>
+    <string name="txt_guide_ex_pay_sure">回执单成功完成上传后， \n点击【确定】按钮</string>
+    <string name="txt_guide_ex_confirm1">充值已完成，请耐心等候上分。</string>
+    <string name="txt_guide_ex_confirm2">若有疑问可联系客服。</string>
 </resources>

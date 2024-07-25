@@ -114,16 +114,16 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
     public void initData() {
         super.initData();
 
-        binding.getModel().setActivity(requireActivity());
+      /*  binding.getModel().setActivity(requireActivity());
         binding.getModel().setFlowWindow(serviceChatFlow);
-        binding.getModel().canonicalName = getClass().getCanonicalName();
+        binding.getModel().canonicalName = getClass().getCanonicalName();*/
 
         ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
-        if (createOrderInfo != null) {
+       /* if (createOrderInfo != null) {
             RxBus.getDefault().removeAllStickyEvents();
             binding.getModel().initData(requireActivity(),createOrderInfo);
             binding.getModel().serviceChatTimeKeeping();
-        }
+        }*/
     }
 
     @Override
@@ -146,7 +146,7 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
     @Override
     public void onResume() {
         super.onResume();
-        binding.getModel().setActivity(getActivity());
+        //binding.getModel().setActivity(getActivity());
     }
 
     @Override
