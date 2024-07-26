@@ -176,7 +176,7 @@ public class BrowserDialog extends BottomPopupView {
 
         if (isFirstOpenBrowser && !TextUtils.isEmpty(token)) {
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
-            url = DomainUtil.getH5Domain() + "/static/sessionkeeper.html?token=" + token
+            url = DomainUtil.getH5Domain2() + "/static/sessionkeeper.html?token=" + token
                     + "&tokenExpires=3600&url=" + urlBase64;
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
