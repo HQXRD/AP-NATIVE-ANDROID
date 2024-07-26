@@ -213,7 +213,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         String gameId = vo.alias == null ? "xccp" : vo.alias.equals("ag") ? "ag_" + vo.id : vo.alias;
         TagUtils.tagEvent(ctx, "gm", gameId);
 
-        if (vo.cid == 7 || vo.cid == 19 || vo.cid == 34 || (vo.cid == 1 && vo.cateId.equals("4"))) {
+        if (vo.cid == 7 || vo.cid == 19 || vo.cid == 34 || vo.cid == 43 || (vo.cid == 1 && vo.cateId.equals("4"))) {
             mCallBack.onClick(vo);
             return;
         }
