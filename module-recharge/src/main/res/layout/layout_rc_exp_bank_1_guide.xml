@@ -54,7 +54,7 @@
 
             <TextView
                 style="@style/style_rc_dlg_value"
-                android:text="@{model.payOrderData.payAmount}"
+                android:text="100"
                 android:textColor="@color/clr_black"
                 tools:text="100" />
         </LinearLayout>
@@ -75,7 +75,7 @@
             android:drawableStart="@mipmap/cm_ic_countdown"
             android:drawablePadding="6dp"
             android:gravity="center"
-            android:text="@{model.waitTime}"
+            android:text="05:26"
             android:textColor="@color/clr_purple_02"
             android:visibility="visible"/>
 

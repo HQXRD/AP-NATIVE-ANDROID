@@ -1,13 +1,14 @@
 package com.xtree.recharge.ui.fragment.guide.extransfer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -17,20 +18,17 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.binioter.guideview.Guide;
 import com.binioter.guideview.GuideBuilder;
-import com.comm100.livechat.VisitorClientInterface;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.CfLog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
-import com.xtree.recharge.databinding.FragmentExtransferPayeeBinding;
 import com.xtree.recharge.databinding.FragmentExtransferPayeeGuideBinding;
 import com.xtree.recharge.ui.fragment.RechargeFragment;
-import com.xtree.recharge.ui.fragment.guide.RechargeBankComponent;
 import com.xtree.recharge.ui.viewmodel.ExTransferViewModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.recharge.ui.widget.Comm100ChatWindows;
 
 import java.util.Map;
 import java.util.Stack;
@@ -38,7 +36,6 @@ import java.util.Stack;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
@@ -47,14 +44,32 @@ import me.xtree.mvvmhabit.bus.RxBus;
 @Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE_GUI)
 public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransferPayeeGuideBinding, ExTransferViewModel> {
 
-    private Comm100ChatWindows serviceChatFlow;
+    private static  final int MSG_DISS_MASK = 0x110119;
+    private static  final int MSG_SHOW_GUIDE = 0x110120;
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_DISS_MASK:
+                    dismissMskGuide();
+                    break;
+                case MSG_SHOW_GUIDE:
+                    showPayeeInfoGuide();
+                    break;
+                default:
+                    CfLog.i("****** default");
+                    break;
+            }
+        }
+    };
 
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
 
-        //binding.slMain.scrollTo(0 , 1000);
+        binding.slMain.scrollTo(0 , 1000);
 
     }
 
@@ -119,8 +134,8 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
                 startContainerFragment(canonicalName, bundle);
             }
         });
-        //显示引导页面
-        showPayeeInfoGuide();
+        //显示遮罩引导页面
+        showMaskGuide();
     }
 
 
@@ -133,10 +148,6 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (serviceChatFlow != null) {
-            serviceChatFlow.removeView();
-            serviceChatFlow = null;
-        }
     }
 
     @Override
@@ -156,35 +167,12 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
      */
     private void showPayeeInfoGuide(){
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView( binding.iv)
-                .setAlpha(150)
-                .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
-        builder.addComponent(new RechargeBankComponent(getContext(),new RechargeBankComponent.IRechargeBankCallback() {
-            @Override
-            public void rechargeBankJump() {
-                dismissNextGuide();
-            }
-
-            @Override
-            public void rechargeBankNext() {
-                dismissNextGuide();
-                //下一步
-
-            }
-        }));
-        nextGuide = builder.createGuide();
-        nextGuide.show(getActivity());
-        nextGuide.setShouldCheckLocInWindow(false);
-
-/*
-        GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(binding.iv)
+        builder.setTargetView( binding.llStep1.llBankInfo)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
 
-        builder.addComponent(new ExTransferPayeeComponent(new ExTransferPayeeComponent.IExTransferPayeeCallback() {
+        builder.addComponent(new ExTransferPayeeUploadComponent(new ExTransferPayeeUploadComponent.IExTransferPayeeUploadCallback() {
             @Override
             public void rechargeNamePrevious() {
                 dismissNextGuide();
@@ -199,13 +187,13 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
             @Override
             public void rechargeNameNext() {
                 dismissNextGuide();
-                //showPayeeUploadGuide();
+                showPayeeUploadGuide();
             }
 
         }));
         nextGuide = builder.createGuide();
         nextGuide.show(getActivity());
-        nextGuide.setShouldCheckLocInWindow(false);*/
+        nextGuide.setShouldCheckLocInWindow(false);
     }
     private void  dismissNextGuide(){
         if (nextGuide !=null){
@@ -221,10 +209,10 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
     private void showPayeeUploadGuide(){
 
         GuideBuilder builder = new GuideBuilder();
-       /* builder.setTargetView(binding.llStep1.tvwUploadCertificate)
+        builder.setTargetView(binding.llStep1.tvwUploadCertificate)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);*/
+                .setHighTargetPadding(10);
 
         builder.addComponent(new ExTransferPayeeComponent(new ExTransferPayeeComponent.IExTransferPayeeCallback() {
             @Override
@@ -243,6 +231,7 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
                 dismissUploadGuide();
                 //跳转充值银行卡上传凭证信息页面
                 startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_VOUCHER_GUI);
+                getActivity().finish();
             }
 
         }));
@@ -254,5 +243,40 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
             uploadGuide.dismiss();;
             uploadGuide = null;
         }
+    }
+
+    /**
+     * 遮罩
+     */
+    private Guide maskGuide;
+
+    private void  showMaskGuide(){
+
+        binding.slMain.scrollTo(0 , 1000);
+
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.llStep1.llBankInfo)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setAutoDismiss(true);
+
+        builder.addComponent(new ExTransferMaskComponet());
+        maskGuide = builder.createGuide();
+        maskGuide.show(getActivity());
+        maskGuide.setShouldCheckLocInWindow(true);
+
+        Message msg2 = new Message();
+        msg2.what = MSG_DISS_MASK;
+        mHandler.sendMessageDelayed(msg2, 350L);
+    }
+    private void  dismissMskGuide(){
+        if (maskGuide !=null){
+            maskGuide.dismiss();;
+            maskGuide = null;
+        }
+        Message msg2 = new Message();
+        msg2.what = MSG_SHOW_GUIDE;
+        mHandler.sendMessageDelayed(msg2, 10L);
     }
 }

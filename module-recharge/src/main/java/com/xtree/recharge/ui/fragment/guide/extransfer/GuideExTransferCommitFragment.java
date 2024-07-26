@@ -1,13 +1,15 @@
 package com.xtree.recharge.ui.fragment.guide.extransfer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -17,21 +19,20 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.binioter.guideview.Guide;
 import com.binioter.guideview.GuideBuilder;
-import com.comm100.livechat.VisitorClientInterface;
+import com.google.gson.Gson;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.CfLog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
-import com.xtree.recharge.databinding.FragmentExtransferCommitBinding;
 import com.xtree.recharge.databinding.FragmentExtransferCommitGuideBinding;
 import com.xtree.recharge.ui.fragment.RechargeFragment;
 import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
-import com.xtree.recharge.ui.fragment.guide.RechargeNextComponent;
 import com.xtree.recharge.ui.viewmodel.ExTransferViewModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.recharge.ui.widget.Comm100ChatWindows;
 import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.Map;
@@ -40,48 +41,41 @@ import java.util.Stack;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * 银行卡充值 引导页面
  */
 @Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI)
 public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransferCommitGuideBinding, ExTransferViewModel> {
-
-    private Comm100ChatWindows serviceChatFlow;
+private static  final int MSG_DISS_MASK = 0x110119;
+    private static  final int MSG_SHOW_GUIDE = 0x110120;
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_DISS_MASK:
+                    dismissMskGuide();
+                    break;
+                case MSG_SHOW_GUIDE:
+                   showGuideByNext();
+                    break;
+                default:
+                    CfLog.i("****** default");
+                    break;
+            }
+        }
+    };
 
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
        // binding.mainScrollview.scrollTo(0, 800);
-
-        showGuideByNext();
-
-        serviceChatFlow = new Comm100ChatWindows(requireActivity());
-       /* serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
-            @Override
-            public void onClick(View view, String url) {
-
-                String chatUrl = url;
-                if (viewModel != null && viewModel.payOrderData.getValue() != null) {
-                    String merchantOrder = viewModel.payOrderData.getValue().getMerchantOrder();
-                    if (!TextUtils.isEmpty(merchantOrder)) {
-                        chatUrl += merchantOrder;
-                    }
-                }
-
-                VisitorClientInterface.setChatUrl(chatUrl);
-
-                Intent intent = new Intent(getContext(), ContainerActivity.class);
-                intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CHAT);
-                requireActivity().startActivity(intent);
-
-                viewModel.close();
-            }
-        });
-        serviceChatFlow.show();*/
+        binding.slMain.scrollTo(0 , 2000);
+        showMaskGuide();
     }
 
     @Override
@@ -161,21 +155,44 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (serviceChatFlow != null) {
-            serviceChatFlow.removeView();
-            serviceChatFlow = null;
-        }
     }
 
     @Override
     public boolean isBackPressed() {
-
-        if (viewModel != null) {
-            viewModel.finish();
-        }
-
         return true;
     }
+    /**
+     * 遮罩
+     */
+    private Guide maskGuide;
+
+    private void  showMaskGuide(){
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.llStep1.tvwOk)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setAutoDismiss(true);
+
+        builder.addComponent(new ExTransferMaskComponet());
+        maskGuide = builder.createGuide();
+        maskGuide.show(getActivity());
+        maskGuide.setShouldCheckLocInWindow(true);
+
+        Message msg2 = new Message();
+        msg2.what = MSG_DISS_MASK;
+        mHandler.sendMessageDelayed(msg2, 350L);
+    }
+    private void  dismissMskGuide(){
+        if (maskGuide !=null){
+            maskGuide.dismiss();;
+            maskGuide = null;
+        }
+        Message msg2 = new Message();
+        msg2.what = MSG_SHOW_GUIDE;
+        mHandler.sendMessageDelayed(msg2, 10L);
+    }
+
 
     private Guide nextGuide;
     /**
@@ -184,39 +201,7 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
     private void showGuideByNext(){
 
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView( binding.ivRcExpBankTop)
-                .setAlpha(150)
-                .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
-
-        builder.addComponent(new RechargeNameComponent(new RechargeNameComponent.IRechargeNameCallback() {
-            @Override
-            public void rechargeNamePrevious() {
-                //showGuideByBank(vo);
-                dismissNextGuide();
-
-            }
-
-            @Override
-            public void rechargeNameJump() {
-                //跳过
-                //shipGuide();
-                dismissNextGuide();
-            }
-
-            @Override
-            public void rechargeNameNext() {
-                dismissNextGuide();
-                //showGuideByMoney(vo , false);
-            }
-
-        }));
-        nextGuide = builder.createGuide();
-        nextGuide.show(getActivity());
-        nextGuide.setShouldCheckLocInWindow(true);
-
-      /*  GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(binding.vTop)
+        builder.setTargetView(binding.llStep1.tvwOk)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
@@ -239,11 +224,12 @@ public class GuideExTransferCommitFragment extends BaseFragment<FragmentExtransf
                 dismissNextGuide();
                 //跳转充值银行卡上传凭证信息页面
                 startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE_GUI);
+                getActivity().finish();
             }
 
         }));
         nextGuide = builder.createGuide();
-        nextGuide.show(requireActivity());*/
+        nextGuide.show(requireActivity());
     }
     private void  dismissNextGuide(){
         if (nextGuide !=null){

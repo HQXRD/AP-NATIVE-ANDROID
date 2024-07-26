@@ -7,62 +7,67 @@ import android.widget.LinearLayout;
 
 import com.binioter.guideview.Component;
 import com.xtree.recharge.R;
-import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
 
 /**
- * 充值 取消等待 引导页面
+ * 充值金额  下一步 引导页面
  */
-
-public class ExTransferCommitComponent implements Component {
+public class ExConfirmNextComponent implements Component {
 
     /**
      *付款银行卡 引导页面 页面点击回调
      * */
-    public interface  IExTransferCommitCallback{
+    public interface  IRechargeNextCallback{
         /**
          * 上一步
          */
-        public void  rechargeNamePrevious();
+        public void  rechargeNextPrevious();
         /**
          * 跳过
          */
-        public void rechargeNameJump();
+        public void rechargeNextJump();
         /**
          * 下一步
          */
-        public void rechargeNameNext();
+        public void rechargeNextNext();
     }
-    private IExTransferCommitCallback iExTransferCommitCallback ;
-    public ExTransferCommitComponent(IExTransferCommitCallback iExTransferCommitCallback){
+    private IRechargeNextCallback iRechargeNextCallback ;
+
+    public ExConfirmNextComponent(IRechargeNextCallback iRechargeNextCallback){
         super();
-        this.iExTransferCommitCallback = iExTransferCommitCallback ;
+        this.iRechargeNextCallback = iRechargeNextCallback ;
     }
+
     @Override
     public View getView(LayoutInflater inflater) {
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_ex_transfer_commit_item , null);
+
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_ex_transfer_confirm_item , null);
         ImageView jumpBt  = ll.findViewById(R.id.iv_guide_bank_jump);
-        ImageView nextBt  = ll.findViewById(R.id.iv_guide_bank_next);
+        /*ImageView nextBt  = ll.findViewById(R.id.iv_guide_bank_next);*/
         ImageView previousBtn  = ll.findViewById(R.id.iv_guide_bank_pro);
+
         //上一步
         previousBtn.setOnClickListener(v->{
-            if (this.iExTransferCommitCallback !=null){
-                this.iExTransferCommitCallback.rechargeNamePrevious();
+            if (this.iRechargeNextCallback !=null){
+                this.iRechargeNextCallback.rechargeNextPrevious();
             }
         });
 
-        //跳过点击事件
+        //知道了点击事件
         jumpBt.setOnClickListener(v -> {
-            if (this.iExTransferCommitCallback !=null){
-                this.iExTransferCommitCallback.rechargeNameJump();
+            if (this.iRechargeNextCallback !=null){
+                this.iRechargeNextCallback.rechargeNextJump();
             }
         });
         //下一步
-        nextBt.setOnClickListener(v -> {
-            if (this.iExTransferCommitCallback !=null){
-                this.iExTransferCommitCallback.rechargeNameNext();
+      /*  nextBt.setOnClickListener(v -> {
+            if (this.iRechargeNextCallback !=null){
+                this.iRechargeNextCallback.rechargeNextNext();
             }
-        });
+        });*/
         return ll;
+
+
+
     }
 
 

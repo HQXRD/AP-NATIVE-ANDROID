@@ -7,18 +7,15 @@ import android.widget.LinearLayout;
 
 import com.binioter.guideview.Component;
 import com.xtree.recharge.R;
-import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
 
 /**
- * 充值 取消等待 引导页面
+ * 充值 回执单 确定页面
  */
-
-public class ExTransferCommitComponent implements Component {
-
+public class ExVoucherSingleLoadUpComponent implements Component {
     /**
      *付款银行卡 引导页面 页面点击回调
      * */
-    public interface  IExTransferCommitCallback{
+    public interface  IRechargeNameCallback{
         /**
          * 上一步
          */
@@ -32,34 +29,37 @@ public class ExTransferCommitComponent implements Component {
          */
         public void rechargeNameNext();
     }
-    private IExTransferCommitCallback iExTransferCommitCallback ;
-    public ExTransferCommitComponent(IExTransferCommitCallback iExTransferCommitCallback){
+    private IRechargeNameCallback iRechargeNameCallback ;
+
+    public ExVoucherSingleLoadUpComponent(IRechargeNameCallback iRechargeNameCallback){
         super();
-        this.iExTransferCommitCallback = iExTransferCommitCallback ;
+        this.iRechargeNameCallback = iRechargeNameCallback ;
     }
+    
+    
     @Override
     public View getView(LayoutInflater inflater) {
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_ex_transfer_commit_item , null);
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_ex_transfer_payee_sure_item , null);
         ImageView jumpBt  = ll.findViewById(R.id.iv_guide_bank_jump);
         ImageView nextBt  = ll.findViewById(R.id.iv_guide_bank_next);
         ImageView previousBtn  = ll.findViewById(R.id.iv_guide_bank_pro);
         //上一步
         previousBtn.setOnClickListener(v->{
-            if (this.iExTransferCommitCallback !=null){
-                this.iExTransferCommitCallback.rechargeNamePrevious();
+            if (this.iRechargeNameCallback !=null){
+                this.iRechargeNameCallback.rechargeNamePrevious();
             }
         });
 
         //跳过点击事件
         jumpBt.setOnClickListener(v -> {
-            if (this.iExTransferCommitCallback !=null){
-                this.iExTransferCommitCallback.rechargeNameJump();
+            if (this.iRechargeNameCallback !=null){
+                this.iRechargeNameCallback.rechargeNameJump();
             }
         });
         //下一步
         nextBt.setOnClickListener(v -> {
-            if (this.iExTransferCommitCallback !=null){
-                this.iExTransferCommitCallback.rechargeNameNext();
+            if (this.iRechargeNameCallback !=null){
+                this.iRechargeNameCallback.rechargeNameNext();
             }
         });
         return ll;
@@ -75,10 +75,10 @@ public class ExTransferCommitComponent implements Component {
     }
 
     @Override public int getXOffset() {
-        return 0;
+        return -80;
     }
 
     @Override public int getYOffset() {
-        return 0;
+        return 10;
     }
 }

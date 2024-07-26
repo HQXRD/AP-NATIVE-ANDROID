@@ -3,11 +3,15 @@ package com.xtree.recharge.ui.fragment.guide.extransfer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -15,13 +19,17 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.binioter.guideview.Guide;
+import com.binioter.guideview.GuideBuilder;
 import com.comm100.livechat.VisitorClientInterface;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.CfLog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentExtransferConfirmBinding;
+import com.xtree.recharge.databinding.FragmentExtransferConfirmGuideBinding;
 import com.xtree.recharge.ui.fragment.RechargeFragment;
 import com.xtree.recharge.ui.viewmodel.ExTransferViewModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
@@ -41,38 +49,33 @@ import me.xtree.mvvmhabit.bus.RxBus;
  * Created by KAKA on 2024/5/28.
  * Describe: 极速转账-确认付款流程
  */
-@Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM)
-public class GuideExTransferConfirmFragment extends BaseFragment<FragmentExtransferConfirmBinding, ExTransferViewModel> {
+@Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM_GUI)
+public class GuideExTransferConfirmFragment extends BaseFragment<FragmentExtransferConfirmGuideBinding, ExTransferViewModel> {
 
-    private Comm100ChatWindows serviceChatFlow;
-
+    private static  final int MSG_DISS_MASK = 0x110119;
+    private static  final int MSG_SHOW_GUIDE = 0x110120;
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_DISS_MASK:
+                    dismissMskGuide();
+                    break;
+                case MSG_SHOW_GUIDE:
+                    showReceiptGuide();
+                    break;
+                default:
+                    CfLog.i("****** default");
+                    break;
+            }
+        }
+    };
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> viewModel.finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
-       /* serviceChatFlow = new Comm100ChatWindows(requireActivity());
-        serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
-            @Override
-            public void onClick(View view, String url) {
-
-                String chatUrl = url;
-                if (viewModel != null && viewModel.payOrderData.getValue() != null) {
-                    String merchantOrder = viewModel.payOrderData.getValue().getMerchantOrder();
-                    if (!TextUtils.isEmpty(merchantOrder)) {
-                        chatUrl += merchantOrder;
-                    }
-                }
-
-                VisitorClientInterface.setChatUrl(chatUrl);
-
-                Intent intent = new Intent(getContext(), ContainerActivity.class);
-                intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CHAT);
-                requireActivity().startActivity(intent);
-
-                viewModel.close();
-            }
-        });
-        serviceChatFlow.show();*/
+        showMaskGuide();
     }
 
     @Override
@@ -113,7 +116,6 @@ public class GuideExTransferConfirmFragment extends BaseFragment<FragmentExtrans
         super.initData();
 
         binding.getModel().setActivity(getActivity());
-        binding.getModel().setFlowWindow(serviceChatFlow);
         binding.getModel().canonicalName = getClass().getCanonicalName();
 
         ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
@@ -146,10 +148,7 @@ public class GuideExTransferConfirmFragment extends BaseFragment<FragmentExtrans
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (serviceChatFlow != null) {
-            serviceChatFlow.removeView();
-            serviceChatFlow = null;
-        }
+
     }
 
     @Override
@@ -160,5 +159,82 @@ public class GuideExTransferConfirmFragment extends BaseFragment<FragmentExtrans
         }
 
         return true;
+    }
+
+    /**
+     * 回执单 示例 展示
+     */
+    private Guide singleKnowGuide;
+
+    private void showReceiptGuide(){
+
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(binding.llStep1.llInfo)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10);
+
+        builder.addComponent(new ExConfirmNextComponent(new ExConfirmNextComponent.IRechargeNextCallback() {
+            @Override
+            public void rechargeNextPrevious() {
+                dismissReceiptGuide();
+                getActivity().finish();
+            }
+
+            @Override
+            public void rechargeNextJump() {
+                dismissReceiptGuide();
+                getActivity().finish();
+            }
+
+            @Override
+            public void rechargeNextNext() {
+                dismissReceiptGuide();
+                //showPayeeUploadGuide();
+              getActivity().finish();
+            }
+
+        }));
+        singleKnowGuide = builder.createGuide();
+        singleKnowGuide.show(getActivity());
+        singleKnowGuide.setShouldCheckLocInWindow(false);
+    }
+    private void  dismissReceiptGuide(){
+        if (singleKnowGuide !=null){
+            singleKnowGuide.dismiss();;
+            singleKnowGuide = null;
+        }
+    }
+
+    /**
+     * 遮罩
+     */
+    private Guide maskGuide;
+
+    private void  showMaskGuide(){
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.llStep1.tvwOk)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setAutoDismiss(true);
+
+        builder.addComponent(new ExTransferMaskComponet());
+        maskGuide = builder.createGuide();
+        maskGuide.show(getActivity());
+        maskGuide.setShouldCheckLocInWindow(true);
+
+        Message msg2 = new Message();
+        msg2.what = MSG_DISS_MASK;
+        mHandler.sendMessageDelayed(msg2, 350L);
+    }
+    private void  dismissMskGuide(){
+        if (maskGuide !=null){
+            maskGuide.dismiss();;
+            maskGuide = null;
+        }
+        Message msg2 = new Message();
+        msg2.what = MSG_SHOW_GUIDE;
+        mHandler.sendMessageDelayed(msg2, 10L);
     }
 }

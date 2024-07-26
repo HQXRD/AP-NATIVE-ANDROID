@@ -1,7 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.text.HtmlCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -62,7 +60,6 @@ import com.xtree.recharge.ui.fragment.guide.RechargeBankComponent;
 import com.xtree.recharge.ui.fragment.guide.RechargeMoneyComponent;
 import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
 import com.xtree.recharge.ui.fragment.guide.RechargeNextComponent;
-import com.xtree.recharge.ui.fragment.guide.extransfer.CommotActivity;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
@@ -1975,7 +1972,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         builder.setTargetView( binding.llBankCard)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
         builder.addComponent(new RechargeBankComponent(getContext(),new RechargeBankComponent.IRechargeBankCallback() {
             @Override
             public void rechargeBankJump() {
@@ -2020,7 +2018,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         builder.setTargetView( binding.llName)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
 
         builder.addComponent(new RechargeNameComponent(new RechargeNameComponent.IRechargeNameCallback() {
             @Override
@@ -2074,7 +2073,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         builder.setTargetView( binding.llAmount)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
         GuideBuilder builder1 = new GuideBuilder();
 
 
@@ -2123,7 +2123,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         builder.setTargetView( binding.btnNext)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
 
         builder.addComponent(new RechargeNextComponent(new RechargeNextComponent.IRechargeNextCallback() {
             @Override
@@ -2142,9 +2143,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             @Override
             public void rechargeNextNext() {
                 dismissNextGuide();
-                //startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
-                Intent startInteger = new Intent(getContext() , CommotActivity.class);
-                startActivity(startInteger);
+                startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
+               /* Intent startInteger = new Intent(getContext() , CommotActivity.class);
+                startActivity(startInteger);*/
             }
 
 

@@ -38,7 +38,7 @@ public class ExTransferPayeeComponent implements Component {
     }
     @Override
     public View getView(LayoutInflater inflater) {
-        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_bank_item, null);
+        LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.guide_ex_transfer_payee_upload_item, null);
         ImageView jumpBt  = ll.findViewById(R.id.iv_guide_bank_jump);
         ImageView nextBt  = ll.findViewById(R.id.iv_guide_bank_next);
         ImageView previousBtn  = ll.findViewById(R.id.iv_guide_bank_pro);
@@ -72,7 +72,7 @@ public class ExTransferPayeeComponent implements Component {
     }
 
     @Override public int getXOffset() {
-        return 0;
+        return -100;
     }
 
     @Override public int getYOffset() {

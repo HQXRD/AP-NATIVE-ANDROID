@@ -1,20 +1,13 @@
 package com.xtree.recharge.ui.fragment.guide;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.binioter.guideview.Component;
 import com.xtree.recharge.R;
-
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 付款银行卡 引导页面

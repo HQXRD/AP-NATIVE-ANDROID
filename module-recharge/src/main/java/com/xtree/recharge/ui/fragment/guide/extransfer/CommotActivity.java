@@ -3,22 +3,23 @@ package com.xtree.recharge.ui.fragment.guide.extransfer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 import com.binioter.guideview.Guide;
 import com.binioter.guideview.GuideBuilder;
 import com.xtree.recharge.R;
-import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
-
-import androidx.annotation.Nullable;
 
 public class CommotActivity extends Activity {
     private ImageView testView ;
+    LinearLayout ll ;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_extransfer_commit_guide);
-
-        testView = (ImageView) findViewById(R.id.iv_rc_exp_bank_top);
+        /*ll = (LinearLayout) findViewById(R.id.ll_test);
+        testView = (ImageView) findViewById(R.id.iv_rc_exp_bank_top1);*/
 
         showGuideByNext();
 
@@ -40,12 +41,14 @@ public class CommotActivity extends Activity {
     private void showGuideByNext(){
 
         GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(testView)
+       /* builder.setTargetView((ImageView) findViewById(R.id.iv_rc_exp_bank_top1))
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
+                .setHighTargetPadding(10)
+                .setOverlayTarget(true)
+                .setAutoDismiss(false);*/
 
-        builder.addComponent(new RechargeNameComponent(new RechargeNameComponent.IRechargeNameCallback() {
+        builder.addComponent(new TestRechargeNameComponent(new TestRechargeNameComponent.IRechargeNameCallback() {
             @Override
             public void rechargeNamePrevious() {
                 //showGuideByBank(vo);
@@ -68,11 +71,10 @@ public class CommotActivity extends Activity {
 
         }));
         nextGuide = builder.createGuide();
-        nextGuide.show(this);
-        nextGuide.setShouldCheckLocInWindow(true);
-
-      /*  GuideBuilder builder = new GuideBuilder();
-        builder.setTargetView(binding.vTop)
+        nextGuide.setShouldCheckLocInWindow(false);
+        nextGuide.show(this );
+       /* GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(ll)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
                 .setHighTargetPadding(10);
@@ -81,7 +83,7 @@ public class CommotActivity extends Activity {
             @Override
             public void rechargeNamePrevious() {
                 dismissNextGuide();
-                getActivity().finish();
+                finish();
             }
 
             @Override
@@ -94,12 +96,12 @@ public class CommotActivity extends Activity {
             public void rechargeNameNext() {
                 dismissNextGuide();
                 //跳转充值银行卡上传凭证信息页面
-                startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE_GUI);
+                //startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE_GUI);
             }
 
         }));
         nextGuide = builder.createGuide();
-        nextGuide.show(requireActivity());*/
+        nextGuide.show(this);*/
     }
     private void  dismissNextGuide(){
         if (nextGuide !=null){

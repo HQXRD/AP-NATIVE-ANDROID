@@ -38,7 +38,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@{model.titleLiveData}"
+                android:text="小额网银"
                 tools:text="小额网银"/>
 
             <ImageView
@@ -63,8 +63,8 @@
                 android:orientation="vertical">
                 <include
                     android:id="@+id/ll_step_1"
-                    layout="@layout/layout_rc_exp_bank_4"
-                    model="@{model}"/>
+                    layout="@layout/layout_rc_exp_bank_4_guide"
+                    />
 
                 <include
                     android:id="@+id/ll_step_bottom"

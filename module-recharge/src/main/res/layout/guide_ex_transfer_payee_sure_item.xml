@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+     <!--   <ImageView
             android:id="@+id/iv_guide_bank_arr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,9 +17,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="-4dp"
             android:layout_marginRight="120dp"
-            android:background="@mipmap/rc_guide_confirm_left" />
-
-        <TextView
+            android:background="@mipmap/rc_guide_voucher_down_left" />
+-->
+      <!--  <TextView
             android:id="@+id/tv_guide_bank_arr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,36 +27,59 @@
             android:text="@string/txt_guide_ex_pay_sure"
             android:textColor="@color/red"
             android:gravity="center"
-            android:textSize="14sp"/>
+            android:textSize="14sp"/>-->
         <!--上一步-->
-        <ImageView
-            android:id="@+id/iv_guide_bank_pro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/rc_guide_pro"
-            android:layout_below="@id/tv_guide_bank_arr"
-            android:layout_marginLeft="70dp"
-            android:layout_alignParentLeft="true"/>
-        <!--跳过-->
-        <ImageView
-            android:id="@+id/iv_guide_bank_jump"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:background="@mipmap/rc_guide_jump"
-            android:layout_alignTop="@id/iv_guide_bank_pro"
-            android:layout_toRightOf  ="@id/iv_guide_bank_pro"/>
-<!--下一步-->
-        <ImageView
-            android:id="@+id/iv_guide_bank_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_alignTop ="@id/iv_guide_bank_jump"
-            android:layout_alignRight   ="@id/tv_guide_bank_arr"
-            android:background="@mipmap/rc_guide_next" />
+        <LinearLayout
+            android:id="@+id/ll_iv_sure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_guide_bank_pro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@mipmap/rc_guide_pro"
+                android:layout_alignParentLeft="true"/>
+            <!--跳过-->
+            <ImageView
+                android:id="@+id/iv_guide_bank_jump"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:background="@mipmap/rc_guide_jump"
+                android:layout_alignTop="@id/iv_guide_bank_pro"
+                android:layout_toRightOf  ="@id/iv_guide_bank_pro"/>
+            <!--下一步-->
+            <ImageView
+                android:id="@+id/iv_guide_bank_next"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_alignTop ="@id/iv_guide_bank_jump"
+                android:layout_alignRight   ="@id/tv_guide_bank_arr"
+                android:background="@mipmap/rc_guide_next" />
 
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_guide_bank_arr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_iv_sure"
+            android:text="@string/txt_guide_ex_pay_sure"
+            android:textColor="@color/red"
+            android:gravity="center"
+            android:textSize="14sp"/>
+        <ImageView
+            android:id="@+id/iv_guide_bank_arr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_guide_bank_arr"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-4dp"
+            android:layout_marginRight="120dp"
+            android:background="@mipmap/rc_guide_voucher_down_left" />
     </RelativeLayout>
 
 

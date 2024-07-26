@@ -38,7 +38,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@{model.titleLiveData}"
+                android:text="小额网银"
                 tools:text="小额网银" />
 
             <ImageView
@@ -55,6 +55,7 @@
             android:layout_margin="0dp" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/sl_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -63,8 +64,8 @@
                 android:orientation="vertical">
                 <include
                     android:id="@+id/ll_step_1"
-                    layout="@layout/layout_rc_exp_bank_3"
-                    model="@{model}"/>
+                    layout="@layout/layout_rc_exp_bank_3_guide"
+                  />
 
                 <include
                     android:id="@+id/ll_step_bottom"

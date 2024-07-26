@@ -67,12 +67,163 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View style="@style/style_dividing_line" />
+        <LinearLayout
+            android:id="@+id/ll_bank_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
 
-        <TextView
+            android:orientation="vertical"
+            android:background="@color/white">
+            <TextView
+                style="@style/style_rc_exp_bank_info_title"
+                android:text="充值银行卡信息"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:background="@drawable/shape_solid_clrmain34_c8"
+                android:text="请使用李浩的民生银行卡充值，确保后续"
+                android:textColor="@color/clr_filter_txt_gray"
+                android:textSize="12sp"
+                android:gravity="center"/>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="订单号" />
+
+                <TextView
+                    style="@style/style_rc_dlg_value"
+                    android:textColor="@color/clr_black"
+                    android:text="PAY00123456789"
+                    tools:text="PAY00123456789" />
+
+                <TextView
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_to_bank_name" />
+
+                <TextView
+                    android:id="@+id/tvw_to_bank_name"
+                    style="@style/style_rc_dlg_value"
+                    android:text="民生银行"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_bank_name"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_to_bank_name_detail" />
+
+                <TextView
+                    android:id="@+id/tvw_to_bank_name_detail"
+                    style="@style/style_rc_dlg_value"
+                    android:text="上海市张江区建设路支行"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_branch"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_bank_acct_name" />
+
+                <TextView
+                    android:id="@+id/tvw_bank_acct_name"
+                    style="@style/style_rc_dlg_value"
+                    android:text="张三"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_acc_name"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_bank_acct_card" />
+
+                <TextView
+                    android:id="@+id/tvw_bank_acct_card"
+                    style="@style/style_rc_dlg_value"
+                    android:text="李浩"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_acc_num"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_bank_rc_amount" />
+
+                <TextView
+                    android:id="@+id/tvw_money2"
+                    style="@style/style_rc_dlg_value"
+                    android:text="100"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_money2"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <TextView
+                style="@style/style_cm_tip_small_grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:text="[转账金额务必与订单金额一致]"
+                android:textColor="@color/clr_grey_09" />
+        </LinearLayout>
+      <!--  <TextView
             style="@style/style_rc_exp_bank_info_title"
             android:text="充值银行卡信息" />
 
         <TextView
+            android:id="@+id/tv_tip"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginBottom="12dp"
@@ -207,7 +358,7 @@
             android:layout_gravity="end"
             android:layout_marginBottom="@dimen/layout_margin"
             android:text="[转账金额务必与订单金额一致]"
-            android:textColor="@color/clr_grey_09" />
+            android:textColor="@color/clr_grey_09" />-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_main"

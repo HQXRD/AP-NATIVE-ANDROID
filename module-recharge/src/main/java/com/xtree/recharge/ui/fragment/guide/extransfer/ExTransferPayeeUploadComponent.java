@@ -65,7 +65,7 @@ public class ExTransferPayeeUploadComponent implements Component {
     }
 
     @Override public int getAnchor() {
-        return Component.ANCHOR_BOTTOM;
+        return Component.ANCHOR_TOP;
     }
 
     @Override public int getFitPosition() {

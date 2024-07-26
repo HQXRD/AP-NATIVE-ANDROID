@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!--下一步-->
+        <!--上一步-->
         <ImageView
             android:id="@+id/iv_guide_bank_pro"
             android:layout_width="wrap_content"
