@@ -552,10 +552,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
 
     private void onClickPaymentType(PaymentTypeVo vo) {
-      /*  //Test 显示充值引导弹窗
-        showGuideDialog();*/
-        CfLog.e("onClickPaymentType = " + vo.toString());
-        //
         CfLog.i(vo.toInfo());
         CfLog.d("size: " + vo.payChannelList.size());
         curPaymentTypeVo = vo;
