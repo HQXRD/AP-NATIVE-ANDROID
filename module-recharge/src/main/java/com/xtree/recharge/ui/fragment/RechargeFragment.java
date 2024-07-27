@@ -554,7 +554,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private void onClickPaymentType(PaymentTypeVo vo) {
       /*  //Test 显示充值引导弹窗
         showGuideDialog();*/
-
+        CfLog.e("onClickPaymentType = " + vo.toString());
         //
         CfLog.i(vo.toInfo());
         CfLog.d("size: " + vo.payChannelList.size());
@@ -587,7 +587,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 mHandler.sendMessageDelayed(msg2, 350L);
             }
         }
-
     }
 
     private void onClickPayment(RechargeVo vo) {
@@ -812,7 +811,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         setRate(vo); // 设置汇率提示信息
         setPrePay(vo, amount); // 设置预计支付
         setNextButton();
-        showGuideDialog(vo);
+        //只有极速充值 才能展示充值引导
+        if (isOnePayFix(vo)){
+            showGuideDialog(vo);
+        }
+
     }
 
     private void toBindPhoneOrCard() {
