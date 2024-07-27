@@ -86,6 +86,7 @@ dependencies {
 
     api rootProject.ext.dependencies["arouter-api"]
     api rootProject.ext.dependencies["immersionbar"]
+    api rootProject.ext.dependencies["sentry"]
 
     api rootProject.ext.dependencies["brv"]
     api rootProject.ext.dependencies["kotlin-stdlib"]

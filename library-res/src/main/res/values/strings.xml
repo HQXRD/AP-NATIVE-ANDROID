@@ -70,6 +70,9 @@
     <string name="txt_succ">成功</string>
     <string name="txt_fail">失败</string>
     <string name="txt_processed">已处理</string>
+    <string name="txt_match">已配对</string>
+    <string name="txt_man">人工</string>
+    <string name="txt_process">处理中</string>
     <string name="txt_to_process">待处理</string>
     <string name="txt_expired">超时无效</string>
     <string name="txt_settled">已结算</string>
@@ -216,6 +219,7 @@
     <string name="build_time">20240112</string>
     <string name="mixpanel_token">abc123</string>
     <string name="ms_secret_key">abc123</string>
+    <string name="sentry_dsn">abc123</string>
     <bool name="is_tag">false</bool>
 
     <!-- 我的 -->

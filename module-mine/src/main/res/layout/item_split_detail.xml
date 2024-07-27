@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:layout_marginBottom="@dimen/layout_margin"
+    android:background="@drawable/bg_white_6">
+
+    <TextView
+        android:id="@+id/tvw_order_id_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin"
+        android:layout_marginEnd="@dimen/layout_margin"
+        android:text="子订单号:"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tvw_money_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvw_order_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvw_order_id_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_order_id_title"
+        tools:text="WDR0017152024051511392800000051" />
+
+    <TextView
+        android:id="@+id/tvw_money_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="金额:"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tvw_margin_money_title"
+        app:layout_constraintEnd_toEndOf="@id/tvw_order_id_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_order_id_title" />
+
+    <TextView
+        android:id="@+id/tvw_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvw_money_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_money_title"
+        tools:text="100.00" />
+
+    <TextView
+        android:id="@+id/tvw_margin_money_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="保证金:"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tvw_result_title"
+        app:layout_constraintEnd_toEndOf="@id/tvw_money_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_money_title" />
+
+    <TextView
+        android:id="@+id/tvw_margin_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvw_margin_money_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_margin_money_title"
+        tools:text="0.00" />
+
+    <TextView
+        android:id="@+id/tvw_result_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="提现结果:"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tvw_apply_time_title"
+        app:layout_constraintEnd_toEndOf="@id/tvw_margin_money_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_margin_money_title" />
+
+    <TextView
+        android:id="@+id/tvw_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvw_result_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_result_title"
+        tools:text="成功" />
+
+    <TextView
+        android:id="@+id/tvw_apply_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="申请时间:"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/tvw_finish_time_title"
+        app:layout_constraintEnd_toEndOf="@id/tvw_result_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_result_title" />
+
+    <TextView
+        android:id="@+id/tvw_apply_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvw_apply_time_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_apply_time_title"
+        tools:text="2024-05-15 11:47:37" />
+
+    <TextView
+        android:id="@+id/tvw_finish_time_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="完成时间:"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tvw_apply_time_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_apply_time_title" />
+
+    <TextView
+        android:id="@+id/tvw_finish_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvw_finish_time_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_finish_time_title"
+        tools:text="2024-05-15 11:47:38" />
+
+    <LinearLayout
+        android:id="@+id/ll_top"
+        style="@style/style_item_ll_row"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/clr_btn_grey01"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@id/tvw_order_id"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvw_result_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ll_top"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="成功" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

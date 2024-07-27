@@ -63,6 +63,7 @@ ext {
             "lifecycle-lifecycle-reactivestreams"  : "androidx.lifecycle:lifecycle-reactivestreams-ktx:2.5.1",
             "lifecycle-compiler"                   : "androidx.lifecycle:lifecycle-compiler:2.5.1",
 
+            "constraintlayout"                     : "androidx.constraintlayout:constraintlayout:2.1.4",
             "swiperefreshlayout"                   : "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0",
             "viewpager2"                           : "androidx.viewpager2:viewpager2:1.0.0",
             "logging-interceptor"                  : "com.squareup.okhttp3:logging-interceptor:3.9.1",
@@ -84,6 +85,7 @@ ext {
             "PictureCompress"                      : "io.github.lucksiege:compress:v3.10.4",
             "appcenter-analytics"                  : "com.microsoft.appcenter:appcenter-analytics:5.0.4",
             "appcenter-crashes"                    : "com.microsoft.appcenter:appcenter-crashes:5.0.4",
+            "sentry"                               : "io.sentry:sentry-android:7.10.0",
             "event-bus"                            : "org.greenrobot:eventbus:3.3.1",
             "brv"                                  : "com.github.liangjingkanji:BRV:1.5.8",
             // Kotlin反射库
