@@ -13,6 +13,8 @@ public class PaymentDataVo implements Parcelable {
     public List<PaymentTypeVo> chongzhiList;
     public ProcessingDataVo processingData;
 
+    public int showOnepayfixGuide;//"1"显示引导 ， “0”不显示
+
     protected PaymentDataVo(Parcel in) {
         bankdirect_url = in.readString();
         chongzhiListCount = in.readInt();
