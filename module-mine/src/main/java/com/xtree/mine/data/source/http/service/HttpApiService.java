@@ -692,8 +692,8 @@ public interface HttpApiService {
     /**
      * 获取更新
      */
-    @GET("/api/app/version?platform=android")
-    Flowable<BaseResponse<AppUpdateVo>> getUpdate();
+    @GET("/api/app/version?")
+    Flowable<BaseResponse<AppUpdateVo>> getUpdate(@QueryMap Map<String, String> map);
 
     @POST("/api/user/verifylastbind?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
