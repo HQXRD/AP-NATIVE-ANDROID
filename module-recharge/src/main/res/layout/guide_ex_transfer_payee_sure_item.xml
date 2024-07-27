@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_iv_sure"
             android:text="@string/txt_guide_ex_pay_sure"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:gravity="center"
             android:textSize="14sp"/>
         <ImageView

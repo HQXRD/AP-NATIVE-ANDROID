@@ -38,7 +38,7 @@
             android:layout_alignLeft="@id/iv_guide_bank_pro"
             android:text="@string/txt_guide_ex_confirm1"
             android:layout_marginLeft="00dp"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="14sp" />
         <TextView
             android:id="@+id/tv_guide_bank_arr1"
@@ -49,7 +49,7 @@
 
             android:layout_alignRight="@+id/tv_guide_bank_arr"
             android:text="@string/txt_guide_ex_confirm2"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="14sp" />
         <ImageView
             android:id="@+id/iv_guide_bank_arr"

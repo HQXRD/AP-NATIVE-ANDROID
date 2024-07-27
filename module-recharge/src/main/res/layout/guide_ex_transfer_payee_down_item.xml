@@ -23,7 +23,7 @@
             android:layout_below="@id/iv_guide_bank_arr"
             android:layout_toRightOf="@id/iv_guide_bank_arr"
             android:text="@string/txt_guide_ex_pay_upload_time1"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="14sp"/>
         <!--上一步-->
         <ImageView

@@ -170,7 +170,8 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
         builder.setTargetView( binding.llStep1.llBankInfo)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
 
         builder.addComponent(new ExTransferPayeeUploadComponent(new ExTransferPayeeUploadComponent.IExTransferPayeeUploadCallback() {
             @Override
@@ -212,7 +213,8 @@ public class GuideExTransferPayeeFragment extends BaseFragment<FragmentExtransfe
         builder.setTargetView(binding.llStep1.tvwUploadCertificate)
                 .setAlpha(150)
                 .setHighTargetCorner(20)
-                .setHighTargetPadding(10);
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);;
 
         builder.addComponent(new ExTransferPayeeComponent(new ExTransferPayeeComponent.IExTransferPayeeCallback() {
             @Override

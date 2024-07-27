@@ -46,7 +46,7 @@
             android:layout_alignLeft="@id/iv_guide_bank_pro"
             android:text="@string/txt_guide_ex_pay_upload"
             android:layout_marginLeft="40dp"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:textSize="14sp" />
         <TextView
             android:id="@+id/tv_guide_bank_arr1"

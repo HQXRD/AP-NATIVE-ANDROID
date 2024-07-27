@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_image"
             android:text="@string/txt_guide_ex_tran_confirm"
-            android:textColor="@color/red"
+            android:textColor="@color/white"
             android:gravity="right"
             android:textSize="14sp"/>
         <ImageView
