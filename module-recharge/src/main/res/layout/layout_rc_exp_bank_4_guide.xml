@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+
+        <import type="com.xtree.base.utils.StringUtils" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            style="@style/style_rc_exp_bank_top"
+            android:src="@mipmap/rc_exp_bank_step_4" />
+
+        <TextView
+            style="@style/style_rc_exp_bank_status"
+            android:drawableStart="@mipmap/rc_exp_bank_rst_4"
+            android:text="待确认付款" />
+
+        <View style="@style/style_dividing_line" />
+        <LinearLayout
+            android:id="@+id/ll_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+            <TextView
+                style="@style/style_rc_exp_bank_info_title"
+                android:text="您已确认付款，请耐心等待到账"
+                android:layout_gravity="center"/>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="订单号" />
+
+                <TextView
+                    style="@style/style_rc_dlg_value"
+                    android:text="PAY00123456789"
+                    android:textColor="@color/clr_black"
+                    />
+
+                <TextView
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_to_bank_name" />
+
+                <TextView
+                    android:id="@+id/tvw_to_bank_name"
+                    style="@style/style_rc_dlg_value"
+                    android:text="中国银行"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_bank_name"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_to_bank_name_detail" />
+
+                <TextView
+                    android:id="@+id/tvw_to_bank_name_detail"
+                    style="@style/style_rc_dlg_value"
+                    android:text="黑龙江省牡丹江市牡丹支行东安区"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_branch"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_bank_acct_name" />
+
+                <TextView
+                    android:id="@+id/tvw_bank_acct_name"
+                    style="@style/style_rc_dlg_value"
+                    android:text="马斯"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_acc_name"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_bank_acct_card" />
+
+                <TextView
+                    android:id="@+id/tvw_bank_acct_card"
+                    style="@style/style_rc_dlg_value"
+                    android:text="9876543210"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_acc_num"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_rc_dlg_ll">
+
+                <TextView
+                    style="@style/style_rc_dlg_key"
+                    android:text="@string/txt_bank_rc_amount" />
+
+                <TextView
+                    android:id="@+id/tvw_money2"
+                    style="@style/style_rc_dlg_value"
+                    android:text="100"
+                    />
+
+                <TextView
+                    android:id="@+id/tvw_copy_money2"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    />
+            </LinearLayout>
+
+            <TextView
+                style="@style/style_cm_tip_small_grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:text="[转账金额务必与订单金额一致]"
+                android:textColor="@color/clr_grey_09" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tvw_ok"
+            style="@style/style_btn_long"
+            android:text="关闭"
+           />
+
+        <TextView
+            style="@style/style_cm_tip_small_grey"
+            android:layout_width="match_parent"
+            android:drawableStart="@mipmap/cm_ic_hint_purple"
+            android:drawablePadding="4dp"
+            android:text="您的存款已经操作完成，会在核实无误后，立即给您上分。敬请耐心等候。"
+            android:textSize="12sp" />
+    </LinearLayout>
+</layout>
