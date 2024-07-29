@@ -353,9 +353,9 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 break;
             case USER:
                 titleData.setValue(USER.getName());
-                tabList.add("我的日薪");
+                tabList.add("我的时薪");
                 tabList.add("下级契约");
-                tabList.add("下级日薪");
+                tabList.add("下级时薪");
                 tabs.setValue(tabList);
                 //隐藏温馨提示
                 //gameRebateAgrtHeadModel.tipVisible.set(false);
