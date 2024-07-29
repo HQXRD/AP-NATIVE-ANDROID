@@ -79,12 +79,12 @@
                 android:layout_height="wrap_content"
                 app:tabBackground="@color/white"
                 app:tabGravity="start"
-                app:tabIndicatorColor="@color/clr_main"
+                app:tabIndicatorColor="@color/update_progress_start_color"
                 app:tabMode="scrollable"
                 app:tabPadding="2dp"
                 app:tabRippleColor="@android:color/transparent"
-                app:tabSelectedTextColor="@color/clr_main"
-                app:tabTextColor="@color/black">
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextColor="@color/clr_txt_grey_09">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
