@@ -23,15 +23,15 @@ public class RechargeNameComponent implements Component {
         /**
          * 上一步
          */
-        public void  rechargeNamePrevious();
+         void  rechargeNamePrevious();
         /**
          * 跳过
          */
-        public void rechargeNameJump();
+         void rechargeNameJump();
         /**
          * 下一步
          */
-        public void rechargeNameNext();
+         void rechargeNameNext();
     }
     private IRechargeNameCallback iRechargeNameCallback ;
 

@@ -24,15 +24,15 @@ public class RechargeNextComponent implements Component {
         /**
          * 上一步
          */
-        public void  rechargeNextPrevious();
+         void  rechargeNextPrevious();
         /**
          * 跳过
          */
-        public void rechargeNextJump();
+         void rechargeNextJump();
         /**
          * 下一步
          */
-        public void rechargeNextNext();
+         void rechargeNextNext();
     }
     private IRechargeNextCallback iRechargeNextCallback ;
 
@@ -85,6 +85,7 @@ public class RechargeNextComponent implements Component {
         ll.addView(previousBtn);
         ll.addView(jumpBt);
         ll.addView(nextBt);
+
         //上一步
         previousBtn.setOnClickListener(v->{
             if (this.iRechargeNextCallback !=null){

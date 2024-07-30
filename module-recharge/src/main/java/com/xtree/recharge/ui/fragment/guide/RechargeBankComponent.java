@@ -54,14 +54,12 @@ public class RechargeBankComponent  implements Component {
         textView.setText(R.string.txt_recharge_bank);
         textView.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
         textView.setTextSize(14);
-
         //跳过
         Button jumpBt = new Button(inflater.getContext());
         jumpBt.setText(R.string.txt_recharge_view_jump);
         jumpBt.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
         jumpBt.setTextSize(12);
         jumpBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_jump));
-
         // 下一步
         Button nextBt = new Button(inflater.getContext());
         nextBt.setText(R.string.txt_recharge_view_next);
@@ -70,7 +68,6 @@ public class RechargeBankComponent  implements Component {
         nextBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_next));
 
         ll.removeAllViews();
-
         ll.addView(imageView);
         ll.addView(textView);
         ll.addView(jumpBt);

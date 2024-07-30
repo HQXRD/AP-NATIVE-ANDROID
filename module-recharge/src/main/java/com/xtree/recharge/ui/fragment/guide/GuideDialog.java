@@ -53,17 +53,20 @@ public class GuideDialog extends CenterPopupView {
     }
     private void  initView(){
         binding = DialogRechargeGuideBinding.bind(findViewById(R.id.ll_root_recharge_guide));
+
         binding.ivwClose.setOnClickListener(v -> {
             if (iGuideDialogCallback !=null){
                 iGuideDialogCallback.guideJump();
             }
         });
+
         //跳过引导
         binding.tvSeniorBoot.setOnClickListener(v->{
             if (iGuideDialogCallback !=null){
                 iGuideDialogCallback.guideJump();
             }
         });
+
         //进入引导
         binding.tvEnterBoot.setOnClickListener(v->{
             if (iGuideDialogCallback !=null){

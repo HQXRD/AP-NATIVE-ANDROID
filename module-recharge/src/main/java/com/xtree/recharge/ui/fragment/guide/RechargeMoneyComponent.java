@@ -24,15 +24,15 @@ public class RechargeMoneyComponent implements Component {
         /**
          * 上一步
          */
-        public void  rechargeMoneyPrevious();
+         void  rechargeMoneyPrevious();
         /**
          * 跳过
          */
-        public void rechargeMoneyJump();
+         void rechargeMoneyJump();
         /**
          * 下一步
          */
-        public void rechargeMoneyNext();
+         void rechargeMoneyNext();
     }
     private IRechargeMoneyCallback iRechargeMoneyCallback ;
 

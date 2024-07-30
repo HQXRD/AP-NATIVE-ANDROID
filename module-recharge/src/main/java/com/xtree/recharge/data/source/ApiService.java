@@ -198,7 +198,6 @@ public interface ApiService {
      */
     @GET("/api/deposit/customerinfos?")
     Flowable<BaseResponse<Object>> feedbackCheckImage(@Query("starttime") String starttime);
-
     /**
      * 新增跳过引导接口
      * 引导极速充值接口使用
