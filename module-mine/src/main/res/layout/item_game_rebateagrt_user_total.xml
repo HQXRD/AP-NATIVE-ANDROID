@@ -92,12 +92,12 @@
                 app:layout_constraintHorizontal_bias="0"
                 />
 
-            <!--            下级日薪-->
+            <!--            下级时薪-->
             <TextView
                 android:id="@+id/item_amout_subordinater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="下级日薪"
+                android:text="下级时薪"
                 android:textSize="12sp"
                 android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="12dp"
@@ -158,12 +158,12 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 />
 
-            <!--            日薪总额-->
+            <!--            时薪总额-->
             <TextView
                 android:id="@+id/item_amout_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="日薪总额"
+                android:text="时薪总额"
                 android:textSize="12sp"
                 android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="12dp"
@@ -191,12 +191,12 @@
                 app:layout_constraintHorizontal_bias="1"
                 />
 
-            <!--            本人日薪-->
+            <!--            本人时薪-->
             <TextView
                 android:id="@+id/item_amout_mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="本人日薪"
+                android:text="本人时薪"
                 android:textSize="12sp"
                 android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="12dp"
