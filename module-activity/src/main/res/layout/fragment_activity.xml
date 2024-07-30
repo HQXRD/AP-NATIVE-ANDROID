@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 app:tabBackground="@color/white"
                 app:tabGravity="start"
-                app:tabIndicatorColor="@color/clr_main"
+                app:tabIndicatorColor="@color/update_progress_start_color"
                 app:tabMode="scrollable"
                 app:tabPadding="2dp"
                 app:tabRippleColor="@android:color/transparent"
