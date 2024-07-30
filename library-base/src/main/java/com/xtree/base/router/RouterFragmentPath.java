@@ -95,6 +95,8 @@ public class RouterFragmentPath {
         public static final String PAGER_TRANSFER_EX_CONFIRM = Transfer + "/ExTransferConfirmFragment";
         //极速转账-失败
         public static final String PAGER_TRANSFER_EX_FAIL = Transfer + "/ExTransferFailFragment";
+        //极速转账-成功
+        public static final String PAGER_TRANSFER_EX_SUCCESS = Transfer + "/ExTransferSuccessFragment";
         //极速转账-转账汇款
         public static final String PAGER_TRANSFER_EX_PAYEE = Transfer + "/ExTransferPayeeFragment";
         //极速转账-上传凭证

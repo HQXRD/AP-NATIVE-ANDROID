@@ -13,7 +13,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -463,10 +462,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 toFail();
                 break;
             case "00": //成功
-                if (!canonicalName.equals(ExTransferConfirmFragment.class.getCanonicalName())) {
-                    toConfirm();
-                }
-                ToastUtils.show("该渠道充值订单已成功", Toast.LENGTH_LONG, 1);
+                toSuccess();
                 break;
             case "13": //配对中
                 break;
@@ -935,6 +931,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
     public void toFail() {
         startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_FAIL);
+        close();
+    }
+
+    public void toSuccess() {
+        startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_SUCCESS);
         close();
     }
 
