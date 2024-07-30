@@ -276,7 +276,6 @@
 
     <!--  全局验证页 -->
     <string name="txt_vf_failed">验证失败</string>
-
     <string name="txt_rc_skip_boot">跳过引导</string>
     <string name="txt_rc_enter_boot">进入引导</string>
     <string name="txt_recharge_guide">充值引导</string>
@@ -284,7 +283,6 @@
     <string name="txt_new_player">新手玩家</string>
     <string name="txt_otp_not_four_number">请输入4位数字的验证码</string>
     <string name="txt_verification_is_empty">验证码不能为空</string>
-
     <!--充值引导  -->
     <string name="txt_recharge_bank">请选择付款银行卡</string>
     <string name="txt_recharge_name">充值姓名需要和您绑定提款银行卡 \n时的姓名一致</string>

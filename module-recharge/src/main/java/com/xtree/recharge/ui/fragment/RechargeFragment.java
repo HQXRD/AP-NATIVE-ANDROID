@@ -2098,8 +2098,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             public void rechargeNextNext() {
                 dismissNextGuide();
                 startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
-               /* Intent startInteger = new Intent(getContext() , CommotActivity.class);
-                startActivity(startInteger);*/
             }
 
 
