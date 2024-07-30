@@ -24,10 +24,9 @@
 
     <item>
         <shape>
-            <gradient android:angle="270"
-                android:centerColor="@color/clr_purple_bg03"
-                android:endColor="@color/clr_purple_bg05"
-                android:startColor="@color/clr_purple_bg01" />
+            <gradient android:angle="0"
+                android:endColor="@color/clr_purple_bg_1"
+                android:startColor="@color/clr_purple_bg_2" />
             <corners android:radius="22dp" />
         </shape>
     </item>
