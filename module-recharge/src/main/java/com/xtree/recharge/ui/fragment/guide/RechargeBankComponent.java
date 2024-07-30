@@ -51,6 +51,43 @@ public class RechargeBankComponent  implements Component {
                 this.iRechargeBankCallback.rechargeBankNext();
             }
         });
+        /*LinearLayout ll = new LinearLayout(inflater.getContext());
+        LinearLayout.LayoutParams param =
+                new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        ll.setLayoutParams(param);
+
+        ImageView imageView = new ImageView(inflater.getContext());
+        imageView.setImageResource(R.mipmap.re_bank_down_left_arrow);
+
+        TextView textView = new TextView(inflater.getContext());
+        textView.setText(R.string.txt_recharge_bank);
+        textView.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
+        textView.setTextSize(14);
+
+        //跳过
+        Button jumpBt = new Button(inflater.getContext());
+        jumpBt.setText(R.string.txt_recharge_view_jump);
+        jumpBt.setTextColor(inflater.getContext().getResources().getColor(R.color.white));
+        jumpBt.setTextSize(12);
+        jumpBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_jump));
+
+        // 下一步
+        Button nextBt = new Button(inflater.getContext());
+        nextBt.setText(R.string.txt_recharge_view_next);
+        nextBt.setTextColor(inflater.getContext().getResources().getColor(R.color.clr_edt_focused2));
+        nextBt.setTextSize(12);
+        nextBt.setBackground(inflater.getContext().getResources().getDrawable(R.drawable.bg_btn_rechager_next));
+
+        ll.removeAllViews();
+
+        ll.addView(imageView);
+        ll.addView(textView);
+        ll.addView(jumpBt);
+        ll.addView(nextBt);
+
+        */
         return ll;
     }
 

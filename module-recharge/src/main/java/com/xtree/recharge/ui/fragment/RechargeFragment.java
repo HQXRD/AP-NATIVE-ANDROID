@@ -1,7 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,7 +9,6 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,7 +130,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     List<String> payCodeList = new ArrayList<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
     long lastRefresh = System.currentTimeMillis(); // 上次刷新时间
 
-
     private BasePopupView showGuideView;//显示充值引导
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -201,12 +198,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         viewModel.readCache(); // 先读取缓存数据
         //viewModel.getPayments(); // 调用接口
-        viewModel.getPaymentsTypeList(); // 调用接口 获取 充值列表
+        viewModel.getPaymentsTypeList(); // 调用接口
         viewModel.get1kEntry(); // 一键进入
         viewModel.getRechargeBanners(); // 获取广告轮播图
     }
 
-    private static final String  TAG ="+++++++++++++++++++++";
     @Override
     public void initView() {
         isShowBack = getArguments().getBoolean("isShowBack");
@@ -434,30 +430,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.d(url);
             AppUtil.goBrowser(getContext(), url);
         });
-
-        //监听ScrollView滚动事件
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.mainScrollview.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    if (scrollY > oldScrollY) {//向下滚动
-                        Log.i(TAG, "Scroll DOWN");
-                        CfLog.e("+++++++++++++++++++++++++ croll DOWN");
-                    }
-                    if (scrollY < oldScrollY) {//向上滚动
-                        Log.i(TAG, "Scroll UP");
-                        CfLog.e("+++++++++++++++++++++++++ croll UP");
-                    }
-
-                    if (scrollY == 0) {// 滚动到顶
-                        Log.i(TAG, "TOP SCROLL");
-                        CfLog.e("+++++++++++++++++++++++++ croll SCROLL");
-                    }
-                    // 滚动到底
-                }
-            });
-        }
-
     }
 
     /**
@@ -550,12 +522,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
     }
 
-
     private void onClickPaymentType(PaymentTypeVo vo) {
-      /*  //Test 显示充值引导弹窗
-        showGuideDialog();*/
-        CfLog.e("onClickPaymentType = " + vo.toString());
-        //
         CfLog.i(vo.toInfo());
         CfLog.d("size: " + vo.payChannelList.size());
         curPaymentTypeVo = vo;
@@ -587,6 +554,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 mHandler.sendMessageDelayed(msg2, 350L);
             }
         }
+
     }
 
     private void onClickPayment(RechargeVo vo) {
@@ -634,7 +602,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    return;
         //}
         //if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
-        if (vo.phone_needbind) {
+        // 加个 isNeedPhone, 解决偶现用户绑手机后,再次点击还会提示绑手机(充值列表接口响应慢,最新的列表还没有回来) 2024-07-11
+        boolean isNeedPhone = mProfileVo != null && !mProfileVo.is_binding_phone; // && isNeedPhone
+        if (vo.phone_needbind && isNeedPhone) {
             binding.llBindInfo.setVisibility(View.VISIBLE);
             binding.tvwBindPhone.setVisibility(View.VISIBLE);
         }
@@ -643,7 +613,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwBindYhk.setVisibility(View.VISIBLE);
         }
 
-        if (vo.op_thiriframe_use && vo.phone_needbind) {
+        if (vo.op_thiriframe_use && vo.phone_needbind && isNeedPhone) {
             // 绑定手机
             CfLog.i("****** 绑定手机");
             toBindPhoneNumber();
@@ -681,7 +651,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
             } else if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
                 TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
-                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getH5Domain2() + vo.op_thiriframe_url;
+                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getApiUrl() + vo.op_thiriframe_url;
                 showWebPayDialog(vo.title, url);
             } else if (vo.paycode.contains(ONE_PAY_FIX)) {
                 // 极速充值
@@ -701,12 +671,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         onClickPayment3(vo);
     }
 
-    /**
-     * 极速充值
-     * @param vo
-     */
     private void onClickPayment3(RechargeVo vo) {
-        CfLog.i("****** llDown is visible -------> 极速充值");
+        CfLog.i("****** llDown is visible");
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
 
         // 人工充值
@@ -726,11 +692,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 显示/隐藏银行卡 userBankList
         if (vo.view_bank_card) {
             binding.llBankCard.setVisibility(View.VISIBLE);
-            //向上滑动ScrollView 展出时付款银行卡、存款人姓名、存款金额View
-            binding.mainScrollview.scrollTo(0 ,1400);
-
-
-            //
             binding.tvwBankCard.setOnClickListener(v -> showBankCard(vo)); // 选择银行卡
             if (isOnePayFix(vo)) {
                 if (vo.getOpBankList() != null && vo.getOpBankList().getUsed() != null
@@ -763,9 +724,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
             binding.llName.setVisibility(View.VISIBLE);
             binding.tvwTipName.setVisibility(View.GONE);
-
-            //showGuideByBank();
-
         } else {
             binding.edtName.setText("");
             binding.edtName.setEnabled(true);
@@ -811,11 +769,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         setRate(vo); // 设置汇率提示信息
         setPrePay(vo, amount); // 设置预计支付
         setNextButton();
-        //只有极速充值 才能展示充值引导
-        if (isOnePayFix(vo)){
-            showGuideDialog(vo);
-        }
-
+        showGuideDialog(vo);
     }
 
     private void toBindPhoneOrCard() {
@@ -1179,9 +1133,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        String json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, "{}");
-        mapRechargeVo = new Gson().fromJson(json, new TypeToken<HashMap<String, RechargeVo>>() {
-        }.getType());
+        //String json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, "{}");
+        //mapRechargeVo = new Gson().fromJson(json, new TypeToken<HashMap<String, RechargeVo>>() {
+        //}.getType());
 
         isShowOrderDetail = getArguments().getBoolean("isShowOrderDetail");
         if (isShowOrderDetail) {
@@ -1461,10 +1415,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             showProcessDialog(vo.processingData); // 检查弹窗 充值次数
             setTipBottom(null); // 恢复底部的默认提示
             setHiWallet(vo); // 显示/隐藏底部的 下载嗨钱包
-            if (vo.showOnepayfixGuide == 1){
-                //显示引导View
-                //showGuideDialog();
-            }
+
             // 查询某些充值渠道的详情
             //for (PaymentTypeVo typeVo : vo.chongzhiList) {
             //    for (RechargeVo vo3 : typeVo.payChannelList) {
@@ -1516,7 +1467,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
-                url = DomainUtil.getH5Domain2() + url;
+                url = DomainUtil.getApiUrl() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
             showWebPayDialog(vo.title, url);
@@ -1706,7 +1657,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (vo.domainList.size() > 0) {
                     url = vo.domainList.get(0) + url;
                 } else {
-                    url = DomainUtil.getH5Domain2() + url;
+                    url = DomainUtil.getApiUrl() + url;
                 }
             }
             CfLog.i(vo.payname + ", jump: " + url);
@@ -2147,8 +2098,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             public void rechargeNextNext() {
                 dismissNextGuide();
                 startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
-               /* Intent startInteger = new Intent(getContext() , CommotActivity.class);
-                startActivity(startInteger);*/
             }
 
 
