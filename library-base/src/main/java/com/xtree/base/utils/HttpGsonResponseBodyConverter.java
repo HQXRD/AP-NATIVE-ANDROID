@@ -46,9 +46,11 @@ final public class HttpGsonResponseBodyConverter<T> implements Converter<Respons
                         if (status == HttpCallBack.CodeRule.CODE_900001) {
                             ValidateResponse validateResponse = gson.fromJson(bodyString, ValidateResponse.class);
                             if (validateResponse != null && validateResponse.getData() != null && validateResponse.getData().containsKey("ip")) {
-                                AppUtil.goGlobeVerify(validateResponse.getData().get("ip"));
+                                String ip = validateResponse.getData().get("ip");
+                                String type = validateResponse.getData().get("type");
+                                AppUtil.goGlobeVerify(ip, type);
                             } else {
-                                AppUtil.goGlobeVerify("");
+                                AppUtil.goGlobeVerify("", "");
                             }
                         }
 
