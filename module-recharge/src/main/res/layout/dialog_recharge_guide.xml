@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root_recharge_guide"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/clr_transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivw_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:background="@mipmap/rc_recharge_guide_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/txt_recharge_guide"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg"
+            app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+
+        <ImageView
+            android:id="@+id/ivw_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="close"
+            android:padding="0dp"
+            android:src="@mipmap/ic_pop_close"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintHorizontal_bias="0.92"
+            app:layout_constraintStart_toStartOf="@id/tvw_title"
+            app:layout_constraintTop_toTopOf="@id/tvw_title" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutS"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="@id/ivw_bg"
+            app:layout_constraintRight_toRightOf="@id/ivw_bg"
+            app:layout_constraintTop_toBottomOf="@id/tvw_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                  >
+
+                    <ImageView
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/iv_senior_player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@mipmap/rc_senior_player"
+
+                        />
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tv_senior_player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/iv_senior_player"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/txt_senior_player"
+                        android:textColor="@color/clr_txt_black_01" />
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tv_senior_boot"
+                        style="@style/style_btn_short"
+                        android:layout_below="@id/tv_senior_player"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/txt_rc_skip_boot"
+                        android:textSize="14sp" />
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/iv_new_player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@mipmap/rc_new_player"
+
+                        />
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tv_new_player"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/iv_new_player"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/txt_new_player"
+                        android:textColor="@color/clr_txt_black_01" />
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tv_enter_boot"
+                        style="@style/style_btn_short"
+                        android:layout_below="@id/tv_new_player"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/txt_rc_enter_boot"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

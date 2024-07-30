@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
+
+            <ImageView
+                android:id="@+id/ivw_back"
+                style="@style/style_ic_title_back"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/tvw_title"
+                style="@style/style_cm_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="小额网银"
+                tools:text="小额网银"
+                android:layout_centerInParent="true"/>
+
+            <ImageView
+                android:id="@+id/ivw_cs"
+                style="@style/style_ic_title_right"
+                android:layout_gravity="center"
+                android:src="@mipmap/cm_ic_cs"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+        <View
+            style="@style/style_dividing_line"
+            android:layout_margin="0dp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/sl_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/ll_step_1"
+                    layout="@layout/layout_rc_exp_bank_1_guide"
+                    />
+
+                <include
+                    android:id="@+id/ll_step_bottom"
+                    layout="@layout/layout_rc_exp_bank_bottom" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+</layout>

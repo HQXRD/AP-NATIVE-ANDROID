@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+       <!-- <ImageView
+            android:id="@+id/iv_guide_bank_arr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="40dp"
+            android:background="@mipmap/re_name_down_right_arrow" />
+
+        &lt;!&ndash;上一步&ndash;&gt;
+        <TextView
+            android:id="@+id/tv_guide_bank_arr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_guide_bank_arr"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="-1dp"
+            android:layout_toRightOf="@id/iv_guide_bank_arr"
+            android:text="@string/txt_guide_ex_tran_commit"
+            android:textColor="@color/red"
+            android:textSize="14sp" />-->
+        <LinearLayout
+            android:id="@+id/ll_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_guide_bank_pro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@mipmap/rc_guide_pro"
+              />
+            <!--跳过-->
+            <ImageView
+                android:id="@+id/iv_guide_bank_jump"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@mipmap/rc_guide_jump"
+               />
+            <!--下一步-->
+            <ImageView
+                android:id="@+id/iv_guide_bank_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@mipmap/rc_guide_next" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_guide_bank_arr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_image"
+            android:layout_marginLeft="100dp"
+            android:text="@string/txt_guide_ex_tran_commit"
+            android:textColor="@color/clr_white"
+            android:gravity="center"
+            android:textSize="14sp"
+           />
+        <ImageView
+            android:id="@+id/iv_guide_bank_arr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_guide_bank_arr"
+            android:layout_marginLeft="120dp"
+            android:background="@mipmap/re_name_down_right_arrow" />
+    </RelativeLayout>
+
+
+</LinearLayout>
