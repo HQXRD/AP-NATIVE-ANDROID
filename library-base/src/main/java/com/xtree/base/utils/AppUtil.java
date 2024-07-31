@@ -55,12 +55,12 @@ public class AppUtil {
                 .withString("url", url).navigation();
     }
 
-    public static void goGlobeVerify(String ip, String type) {
+    public synchronized static void goGlobeVerify(String ip, String type) {
 
         CfLog.i("*********");
 //        AppManager.getAppManager().AppExit();
 
-        String html = Constant.URL_PAGE_GLOBE_VERIFY_ALI;
+        String html = Constant.URL_PAGE_GLOBE_VERIFY_WY;
 
         if (!TextUtils.isEmpty(type) && type.equals("wy")) {
             //网易验证
