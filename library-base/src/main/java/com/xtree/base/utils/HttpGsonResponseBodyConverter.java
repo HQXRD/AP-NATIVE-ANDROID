@@ -1,5 +1,7 @@
 package com.xtree.base.utils;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.xtree.base.net.HttpCallBack;
@@ -45,9 +47,14 @@ final public class HttpGsonResponseBodyConverter<T> implements Converter<Respons
 
                         if (status == HttpCallBack.CodeRule.CODE_900001) {
                             ValidateResponse validateResponse = gson.fromJson(bodyString, ValidateResponse.class);
-                            if (validateResponse != null && validateResponse.getData() != null && validateResponse.getData().containsKey("ip")) {
+                            if (validateResponse != null && validateResponse.getData() != null) {
                                 String ip = validateResponse.getData().get("ip");
                                 String type = validateResponse.getData().get("type");
+
+                                if (TextUtils.isEmpty(ip)) {
+                                    ip = "";
+                                }
+
                                 AppUtil.goGlobeVerify(ip, type);
                             } else {
                                 AppUtil.goGlobeVerify("", "");
