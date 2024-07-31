@@ -26,7 +26,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -604,6 +603,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwBindYhk.setVisibility(View.VISIBLE);
         }
 
+        //嗨钱包需要绑定手机号和银行卡
+        if (curRechargeVo.paycode.contains("hiwallet") && vo.userBankList.isEmpty()) {
+            binding.llBindInfo.setVisibility(View.VISIBLE);
+            binding.tvwBindYhk.setVisibility(View.VISIBLE);
+        }
+
         if (vo.op_thiriframe_use && vo.phone_needbind && isNeedPhone) {
             // 绑定手机
             CfLog.i("****** 绑定手机");
@@ -996,6 +1001,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void goHiWallet() {
+
+        boolean isNeedPhone = mProfileVo != null && !mProfileVo.is_binding_phone;
+        if (curRechargeVo.phone_needbind && isNeedPhone) {
+            // 绑定手机
+            CfLog.i("****** 绑定手机");
+            toBindPhoneNumber();
+            return;
+        }
+        if (curRechargeVo.userBankList.isEmpty()) {
+            // 绑定YHK
+            CfLog.i("****** 绑定YHK");
+            toBindCard();
+            return;
+        }
+
         if (mHiWalletVo != null && !mHiWalletVo.is_registered) {
             TagUtils.tagEvent(getContext(), "rc", curRechargeVo.bid); // 打点
             // 弹窗 目前登入账号尚未绑定嗨钱包账号，确认是否继续操作？
