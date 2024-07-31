@@ -107,7 +107,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     @Override
     public void setSportIds(int playMethodPos) {
-        if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
+        if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {//今日滚球串关
             SPORT_IDS = SPORT_IDS_ALL;
         } else {
             SPORT_IDS = SPORT_IDS_NOMAL;
@@ -115,15 +115,15 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     public void setSportItems(int playMethodPos, int playMethodType) {
-        if (playMethodPos == 0 || playMethodPos == 3) {
+        if (playMethodPos == 0 || playMethodPos == 3) {//今日或串关
             if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
                 SPORT_NAMES = SPORT_NAMES_TODAY_CG;
             }
-        } else if (playMethodPos == 1) {
+        } else if (playMethodPos == 1) {//滚球
             if (SPORT_NAMES != SPORT_NAMES_LIVE) {
                 SPORT_NAMES = SPORT_NAMES_LIVE;
             }
-        } else {
+        } else {//早盘和冠军
             if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
                 SPORT_NAMES = SPORT_NAMES_NOMAL;
             }

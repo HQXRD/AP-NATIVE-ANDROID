@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -86,6 +87,7 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.Messenger;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -367,6 +369,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
         setChangeDomainVisible();
 
+        //今日\滚球\早盘\串光\冠军切换
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -1249,6 +1252,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 tvName.setTextColor(colorStateList);
                 tvMatchCount.setTextColor(colorStateList);
 
+                CfLog.i("tabSportType"+(new Gson().toJson(matchitemList)));
                 binding.tabSportType.addTab(binding.tabSportType.newTab().setCustomView(view), false);
             }
             String[] sportNameArray = viewModel.getSportName(playMethodType);
@@ -1590,6 +1594,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         return viewModel.getScore(this.mLeagueList, matchId);
     }
 
+    //传了个 ty类型,和数量数组
     private void updateStatisticalData() {
         int allCount = 0;
         TextView tvAllCount = null;

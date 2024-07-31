@@ -19,6 +19,7 @@ public class Constants {
 
     public static int[] SPORT_ICON;
 
+    //早盘和冠军
     public static int[] SPORT_ICON_NOMAL = new int[]{
             project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
@@ -34,6 +35,7 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
+    //滚球
     public static int[] SPORT_ICON_LIVE = new int[]{
             project.tqyb.com.library_res.R.drawable.bt_match_item_live_all_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
@@ -50,6 +52,7 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
+    //今日或串关
     public static int[] SPORT_ICON_TODAY_CG = new int[]{
             project.tqyb.com.library_res.R.drawable.bt_match_item_hot_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
