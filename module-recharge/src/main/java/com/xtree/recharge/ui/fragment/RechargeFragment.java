@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.binioter.guideview.Guide;
+import com.binioter.guideview.GuideBuilder;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -51,6 +53,11 @@ import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
+import com.xtree.recharge.ui.fragment.guide.GuideDialog;
+import com.xtree.recharge.ui.fragment.guide.RechargeBankComponent;
+import com.xtree.recharge.ui.fragment.guide.RechargeMoneyComponent;
+import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
+import com.xtree.recharge.ui.fragment.guide.RechargeNextComponent;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
@@ -122,6 +129,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     String[] arrayBrowser = new String[]{"onepayfix3", "onepayfix4", "onepayfix5", "onepayfix6"};
     List<String> payCodeList = new ArrayList<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
     long lastRefresh = System.currentTimeMillis(); // 上次刷新时间
+
+    private BasePopupView showGuideView;//显示充值引导
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -760,6 +769,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         setRate(vo); // 设置汇率提示信息
         setPrePay(vo, amount); // 设置预计支付
         setNextButton();
+        showGuideDialog(vo);
     }
 
     private void toBindPhoneOrCard() {
@@ -1882,5 +1892,232 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //CfLog.d("amount: " + amount);
         return amount;
     }
+    /*  显示充值引导页面流程*/
+    /**
+     * 显示充值引导弹窗
+     */
+    private void  showGuideDialog(RechargeVo vo){
+        showGuideView = new  XPopup.Builder(getContext())
+                .asCustom(GuideDialog.newInstance(getContext(), new GuideDialog.IGuideDialogCallback() {
+                    @Override
+                    public void guideJump() {
+                        shipGuide();
+                        showGuideView.dismiss();
+                    }
 
+                    @Override
+                    public void guideEnter() {
+                        showGuideView.dismiss();
+                        showGuideByBank(vo);
+                    }
+                }));
+        showGuideView.show();
+    }
+    private Guide bankGuide ;
+    /**
+     *  显示付款银行卡引导页面
+     */
+    private void showGuideByBank(RechargeVo vo){
+        if (vo.fixedamount_info.length>8){
+
+        }
+        binding.mainScrollview.scrollTo(0 , 800);
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.llBankCard)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
+        builder.addComponent(new RechargeBankComponent(getContext(),new RechargeBankComponent.IRechargeBankCallback() {
+            @Override
+            public void rechargeBankJump() {
+                //跳过
+                shipGuide();
+                dismissBankGuide();
+            }
+
+            @Override
+            public void rechargeBankNext() {
+                dismissBankGuide();
+                //下一步
+                showGuideByName(vo ,false);
+            }
+        }));
+        bankGuide = builder.createGuide();
+        bankGuide.show(getActivity());
+        bankGuide.setShouldCheckLocInWindow(false);
+    }
+    private void  dismissBankGuide(){
+        if (bankGuide != null){
+            bankGuide.dismiss();
+            bankGuide =null;
+        }
+    }
+    private Guide nameGuide;
+    /**
+     * 显示充值引导页面
+     */
+    private void showGuideByName(RechargeVo vo , boolean isShowBack){
+        if (isShowBack){
+            if (vo.fixedamount_info.length>8){
+                binding.mainScrollview.scrollTo(0 , -1000);
+            }
+        }else{
+            if (vo.fixedamount_info.length>8){
+                binding.mainScrollview.scrollTo(0 , 1000);
+            }
+        }
+
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.llName)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
+
+        builder.addComponent(new RechargeNameComponent(new RechargeNameComponent.IRechargeNameCallback() {
+            @Override
+            public void rechargeNamePrevious() {
+                showGuideByBank(vo);
+                dismissNameGuide();
+
+            }
+
+            @Override
+            public void rechargeNameJump() {
+                //跳过
+                shipGuide();
+                dismissNameGuide();
+            }
+
+            @Override
+            public void rechargeNameNext() {
+                dismissNameGuide();
+                showGuideByMoney(vo , false);
+            }
+
+        }));
+        nameGuide = builder.createGuide();
+        nameGuide.show(getActivity());
+    }
+    private void  dismissNameGuide(){
+        if (nameGuide != null){
+            nameGuide.dismiss();
+            nameGuide =null;
+        }
+    }
+
+    private Guide moneyGuide  ;
+    /**
+     * 显示充值金额页面
+     */
+    private void showGuideByMoney(RechargeVo vo , boolean isBackShow){
+        if (isBackShow){
+            if (vo.fixedamount_info.length>8){
+                binding.mainScrollview.scrollTo(0 , -1000);
+            }
+        }else {
+            if (vo.fixedamount_info.length>8){
+                binding.mainScrollview.scrollTo(0 , 1000);
+            }
+        }
+
+        GuideBuilder builder = new GuideBuilder();
+        //存款金额
+        builder.setTargetView( binding.llAmount)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
+        GuideBuilder builder1 = new GuideBuilder();
+
+
+        builder.addComponent(new RechargeMoneyComponent(new RechargeMoneyComponent.IRechargeMoneyCallback() {
+            @Override
+            public void rechargeMoneyPrevious() {
+                showGuideByName(vo , true);
+                dismissMoneyGuide();
+
+            }
+
+            @Override
+            public void rechargeMoneyJump() {
+                dismissMoneyGuide();
+                shipGuide();
+            }
+
+            @Override
+            public void rechargeMoneyNext() {
+                dismissMoneyGuide();
+                showGuideByNext(vo);
+            }
+
+
+        }));
+        moneyGuide = builder.createGuide();
+        moneyGuide.show(getActivity());
+    }
+    private void  dismissMoneyGuide(){
+        if (moneyGuide !=null){
+            moneyGuide.dismiss();
+            moneyGuide = null;
+        }
+    }
+
+
+    private Guide nextGuide;
+    /**
+     * 显示充值 下一步 引导页面
+     */
+    private void showGuideByNext(RechargeVo vo){
+        if (vo.fixedamount_info.length>8){
+            binding.mainScrollview.scrollTo(0 , 2000);
+        }
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView( binding.btnNext)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setAutoDismiss(false);
+
+        builder.addComponent(new RechargeNextComponent(new RechargeNextComponent.IRechargeNextCallback() {
+            @Override
+            public void rechargeNextPrevious() {
+                showGuideByMoney(vo , true);
+                dismissNextGuide();
+
+            }
+
+            @Override
+            public void rechargeNextJump() {
+                shipGuide();
+                dismissNextGuide();
+            }
+
+            @Override
+            public void rechargeNextNext() {
+                dismissNextGuide();
+                startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
+            }
+
+
+        }));
+        nextGuide = builder.createGuide();
+        nextGuide.show(getActivity());
+    }
+    private void  dismissNextGuide(){
+        if (nextGuide !=null){
+            nextGuide.dismiss();;
+            nextGuide = null;
+        }
+    }
+
+    /**
+     * 跳过引导
+     */
+    private void shipGuide(){
+        //跳过引导
+        LoadingDialog.show(getContext());
+        viewModel.skipGuide();
+    }
 }
