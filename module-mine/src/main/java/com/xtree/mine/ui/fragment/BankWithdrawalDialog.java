@@ -350,12 +350,17 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 dismiss();
                 return;
             } else {
-                //1.初始化顶部选项卡
-                refreshTopUI(bankCardCashVo);
-                //2.为注意view设置相关值
-                refreshNoticeView(bankCardCashVo);
-                //3.刷新第一次获取的数据
-                refreshInitView(bankCardCashVo);
+                if (bankCardCashVo.channel_list !=null && !bankCardCashVo.channel_list.isEmpty()){
+                    //1.初始化顶部选项卡
+                    refreshTopUI(bankCardCashVo);
+                    //2.为注意view设置相关值
+                    refreshNoticeView(bankCardCashVo);
+                    //3.刷新第一次获取的数据
+                    refreshInitView(bankCardCashVo);
+                }else {
+                    CfLog.e("************** 头部选项卡 数据为空************");
+                }
+
             }
 
         });
