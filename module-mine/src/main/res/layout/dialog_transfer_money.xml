@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,6 +74,31 @@
             app:layout_constraintTop_toTopOf="@id/tvw_user_balance_title" />
 
         <TextView
+            android:id="@+id/tvw_user_money_kind_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_transfer_money_type"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvw_user_money_kind"
+            app:layout_constraintStart_toStartOf="@id/btn_cancel"
+            app:layout_constraintTop_toTopOf="@id/tvw_user_money_kind" />
+
+        <TextView
+            android:id="@+id/tvw_user_money_kind"
+            style="@style/style_cm_edt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableEnd="@mipmap/bt_icon_expand"
+            android:text="充值转账"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/tvw_user_balance"
+            app:layout_constraintTop_toBottomOf="@id/tvw_user_balance"
+            tools:text="充值转账" />
+
+        <TextView
             android:id="@+id/tvw_user_money_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,13 +113,13 @@
             style="@style/style_cm_edt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="@dimen/layout_margin"
             android:inputType="number"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tvw_user_balance"
-            app:layout_constraintTop_toBottomOf="@id/tvw_user_balance" />
+            app:layout_constraintTop_toBottomOf="@id/tvw_user_money_kind" />
 
         <TextView
             android:id="@+id/tvw_user_money_warning"
