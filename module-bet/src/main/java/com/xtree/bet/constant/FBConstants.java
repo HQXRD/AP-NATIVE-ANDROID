@@ -17,28 +17,26 @@ public class FBConstants {
      */
     public static String[] SPORT_IDS;
     //今日+串关
-    public static String[] SPORT_IDS_ALL = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS_ALL = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8", "4", "14", "178"};
     //早盘 冠军前半部分
-    public static String[] SPORT_IDS_NOMAL = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS_NOMAL = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8", "4", "14", "178"};
     //冠军后半部分
-    public static String[] SPORT_IDS_ADDITIONAL = new String[]{"4", "10", "12", "14", "17", "18", "20", "21", "24", "25", "92", "93", "100"};
+    public static String[] SPORT_IDS_ADDITIONAL = new String[]{"10", "12", "17", "18", "20", "21", "24", "25", "92", "93", "100"};
 
     public static String[] SPORT_NAMES;
     //今日+串关
-    public static String[] SPORT_NAMES_TODAY_CG = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_TODAY_CG = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球", "橄榄球", "玩板球", "电子篮球"};
     //滚球
-    public static String[] SPORT_NAMES_LIVE = new String[]{"全部", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_LIVE = new String[]{"全部", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球", "橄榄球", "玩板球", "电子篮球"};
     //早盘 冠军前半部分
-    public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球", "橄榄球", "玩板球", "电子篮球"};
 
     //冠军后半部分
-    public static String[] SPORT_NAMES_ADDITIONAL = new String[]{"橄榄球", "地板球", "高尔夫球", "玩板球", "五人足球", "综合", "飞镖", "草地滚球", "水球", "自行车", "F1赛车", "特殊投注", "奥林匹克"};
+    public static String[] SPORT_NAMES_ADDITIONAL = new String[]{"地板球", "高尔夫球", "五人足球", "综合", "飞镖", "草地滚球", "水球", "自行车", "F1赛车", "特殊投注", "奥林匹克"};
 
     public static int[] SPORT_ICON_ADDITIONAL = new int[]{
-            project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_dbq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_golf_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_wrzq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_zhgd_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_darts_selector,
@@ -101,6 +99,20 @@ public class FBConstants {
      * 体育分类ID-手球
      */
     public static String SPORT_ID_SQ = "8";
+
+    /**
+     * 体育分类ID-橄榄球
+     */
+    public static String SPORT_ID_GLQ = "4";
+    /**
+     * 体育分类ID-玩板球
+     */
+    public static String SPORT_ID_WBQ = "14";
+    /**
+     * 体育分类ID-电子篮球
+     */
+    public static String SPORT_ID_DZLQ = "178";
+
     /**
      * 玩法ID，与PLAY_METHOD_NAMES一一对应
      */
@@ -138,7 +150,6 @@ public class FBConstants {
      * 局分(斯诺克)
      */
     public static int SCORE_TYPE_SNK_JF = 12;
-
 
     /**
      * 足球球法编号
@@ -253,8 +264,8 @@ public class FBConstants {
     private static List<HotLeague> hotBasketBallLeagueTopList = new ArrayList<>();
     private static Map<String, Integer> mapHotLeagueIconTop = new ArrayMap<>();
 
-    public static int getHotLeagueIcon(String code){
-        if(mapHotLeagueIconTop.isEmpty()){
+    public static int getHotLeagueIcon(String code) {
+        if (mapHotLeagueIconTop.isEmpty()) {
             mapHotLeagueIconTop.put("allleague", R.drawable.bt_hot_league_item_epl_selector);
             mapHotLeagueIconTop.put("EURO", R.drawable.bt_hot_league_item_euro_selector);
             mapHotLeagueIconTop.put("CONMEBOL", R.drawable.bt_hot_league_item_conmebol_selector);
@@ -275,8 +286,8 @@ public class FBConstants {
         return mapHotLeagueIconTop.get(code);
     }
 
-    public static List<HotLeague> getHotFootBallLeagueTopList(){
-        if(hotFootBallLeagueTopList.isEmpty()){
+    public static List<HotLeague> getHotFootBallLeagueTopList() {
+        if (hotFootBallLeagueTopList.isEmpty()) {
             Gson gson = new Gson();
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [], code: \"allleague\", name:\"全部\"}", HotLeague.class));
             //hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [19788], code: \"EURO\", name: \"欧洲杯\"}", HotLeague.class));
@@ -293,8 +304,8 @@ public class FBConstants {
         return hotFootBallLeagueTopList;
     }
 
-    public static List<HotLeague> getHotBasketFootBallLeagueTopList(){
-        if(hotBasketBallLeagueTopList.isEmpty()){
+    public static List<HotLeague> getHotBasketFootBallLeagueTopList() {
+        if (hotBasketBallLeagueTopList.isEmpty()) {
             Gson gson = new Gson();
             hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [], code: \"allleague\", name: \"全部\"}", HotLeague.class));
             hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [11274], code: \"NBA\", name: \"NBA\"}", HotLeague.class));
@@ -307,8 +318,8 @@ public class FBConstants {
         return hotBasketBallLeagueTopList;
     }
 
-    public static int getBgMatchDetailTop(String sportId){
-        if(mapBgMatchDetailTop.isEmpty()){
+    public static int getBgMatchDetailTop(String sportId) {
+        if (mapBgMatchDetailTop.isEmpty()) {
             mapBgMatchDetailTop.put(SPORT_ID_FB, R.mipmap.bt_detail_bg_zq_top);
             mapBgMatchDetailTop.put(SPORT_ID_BSB, R.mipmap.bt_detail_bg_lq_top);
             mapBgMatchDetailTop.put(SPORT_ID_WQ, R.mipmap.bt_detail_bg_wq_top);
@@ -322,12 +333,15 @@ public class FBConstants {
             mapBgMatchDetailTop.put(SPORT_ID_QJ, R.mipmap.bt_detail_bg_mszq_default_top);
             mapBgMatchDetailTop.put(SPORT_ID_STPQ, R.mipmap.bt_detail_bg_pq_top);
             mapBgMatchDetailTop.put(SPORT_ID_SQ, R.mipmap.bt_detail_bg_mszq_default_top);
+            mapBgMatchDetailTop.put(SPORT_ID_GLQ, R.mipmap.bt_detail_bg_mszq_default_top);
+            mapBgMatchDetailTop.put(SPORT_ID_WBQ, R.mipmap.bt_detail_bg_mszq_default_top);
+            mapBgMatchDetailTop.put(SPORT_ID_DZLQ, R.mipmap.bt_detail_bg_mszq_default_top);
         }
         return mapBgMatchDetailTop.get(sportId);
     }
 
-    public static String[] getPlayTypeId(String sportId){
-        if(mapPlayTypeId.isEmpty()){
+    public static String[] getPlayTypeId(String sportId) {
+        if (mapPlayTypeId.isEmpty()) {
             mapPlayTypeId.put(SPORT_ID_FB, PLAY_TYPE_ID_FB);
             mapPlayTypeId.put(SPORT_ID_BSB, PLAY_TYPE_ID_BSB);
             mapPlayTypeId.put(SPORT_ID_WQ, PLAY_TYPE_ID_WQ);
@@ -345,8 +359,8 @@ public class FBConstants {
         return mapPlayTypeId.get(sportId);
     }
 
-    public static String[] getPlayTypeName(String sportId){
-        if(mapPlayTypeName.isEmpty()){
+    public static String[] getPlayTypeName(String sportId) {
+        if (mapPlayTypeName.isEmpty()) {
             mapPlayTypeName.put(SPORT_ID_FB, PLAY_TYPE_NAME_FB);
             mapPlayTypeName.put(SPORT_ID_BSB, PLAY_TYPE_NAME_BSB);
             mapPlayTypeName.put(SPORT_ID_WQ, PLAY_TYPE_NAME_WQ);
