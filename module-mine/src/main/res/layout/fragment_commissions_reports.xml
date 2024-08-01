@@ -50,7 +50,7 @@
                             android:id="@+id/item_title1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="月度佣金"
+                            android:text="全民佣金"
                             android:textColor="@color/clr_txt_rebateagrt_title"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -475,7 +475,7 @@
                     android:shadowColor="@color/bt_color_shadow"
                     android:shadowDy="2"
                     app:cardCornerRadius="12dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

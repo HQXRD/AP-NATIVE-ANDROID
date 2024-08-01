@@ -111,7 +111,7 @@ public class CommissionsRulesViewModel extends BaseViewModel<MineRepository> {
     }
 
     private void initCommissionsData() {
-        title.setValue("月度佣金制度");
+        title.setValue("全民佣金制度");
         title1.setValue("玩家活跃要求");
         title2.setValue("总输赢");
         title3.setValue("佣金");
