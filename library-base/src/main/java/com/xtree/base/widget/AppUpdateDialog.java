@@ -248,7 +248,7 @@ public class AppUpdateDialog extends CenterPopupView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             uri = FileProvider.getUriForFile(this.context, getContext().getPackageName(), apkFile);
-            CfLog.i(uri.toString()); //
+            CfLog.i(" Build.VERSION_CODES.M= "+uri.toString()); //
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {
