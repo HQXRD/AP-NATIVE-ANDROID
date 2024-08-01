@@ -561,7 +561,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                         }
                     }else {
                         CfLog.e("****************** App更新地址非法****************");
-                        ToastUtils.showError("App更新地址有误，请稍后再试");
+                        //ToastUtils.showError("App更新地址有误，请稍后再试");
                     }
 
 

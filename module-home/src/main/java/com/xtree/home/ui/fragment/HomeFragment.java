@@ -268,7 +268,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     }
                 }else {
                     CfLog.e("****************** App更新地址非法****************");
-                    ToastUtils.showError("App更新地址有误，请稍后再试");
+                    //ToastUtils.showError("App更新地址有误，请稍后再试");
                 }
 
             }
