@@ -3,15 +3,21 @@ package com.xtree.mine.ui.fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
+import com.xtree.base.adapter.CacheViewHolder;
+import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
@@ -20,10 +26,13 @@ import com.xtree.mine.databinding.DialogTransferMoneyBinding;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.ToastUtils;
+import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_MEMBER_TRANSFER)
 public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding, MineViewModel> {
@@ -37,6 +46,13 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
     String username;
     String userid;
     BasePopupView ppw = null;
+    ICallBack mCallBackType;
+    ItemTextBinding binding2;
+    List<String> list = new ArrayList<>();
+
+    public interface ICallBack {
+        void onTypeChanged(String vo);
+    }
 
     @Override
     public void initViewObservable() {
@@ -58,6 +74,8 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
     @Override
     public void initData() {
         super.initData();
+        list.add("充值转账");
+        list.add("活动金转账");
         viewModel.getBalance();
     }
 
@@ -71,6 +89,7 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
 
         binding.tvwUserAccount.setText(username);
 
+        binding.tvwUserMoneyKind.setOnClickListener(v -> showDialog(binding.tvwUserMoneyKind, binding.tvwUserMoneyKindTitle.getText(), list, mCallBackType));
         binding.ivwClose.setOnClickListener(v -> getActivity().finish());
         binding.btnCancel.setOnClickListener(v -> getActivity().finish());
         binding.btnConfirm.setOnClickListener(v -> {
@@ -125,6 +144,46 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
         map.put("money", money);
         map.put("uid", userid);
         map.put("nonce", UuidUtil.getID16());
+        if (list.get(0).equals(binding.tvwUserMoneyKind.getText().toString())) {
+            map.put("ordertype", "0");
+        } else if (list.get(1).equals(binding.tvwUserMoneyKind.getText().toString())) {
+            map.put("ordertype", "367");
+        }
+
         viewModel.sendMoney(map);
+    }
+
+    private void showDialog(TextView tvw, CharSequence title, List<String> list, ICallBack callBack) {
+        CfLog.i("****** " + title);
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<String>() {
+
+            @NonNull
+            @Override
+            public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                CacheViewHolder holder = new CacheViewHolder(LayoutInflater.from(getContext()).inflate(com.xtree.base.R.layout.item_text, parent, false));
+                return holder;
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
+                binding2 = ItemTextBinding.bind(holder.itemView);
+                String vo = get(position);
+                binding2.tvwTitle.setText(vo);
+                binding2.tvwTitle.setOnClickListener(v -> {
+                    CfLog.i(vo.toString());
+                    tvw.setText(vo);
+                    tvw.setTag(vo);
+                    if (callBack != null) {
+                        callBack.onTypeChanged(vo);
+                    }
+                    ppw.dismiss();
+                });
+
+            }
+        };
+
+        adapter.addAll(list);
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title.toString(), adapter));
+        ppw.show();
     }
 }
