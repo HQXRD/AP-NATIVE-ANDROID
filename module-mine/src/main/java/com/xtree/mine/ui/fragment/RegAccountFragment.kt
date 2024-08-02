@@ -234,7 +234,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             }
 
             //状态等于0不显示
-            if (mProfileVo.liveStatus == 0) {
+            if (mProfileVo.liveStatus == 0 || mProfileVo.userLevel == 3) {
                 layoutReal.visibility = View.GONE
             } else {
                 typeReal.text = mProfileVo.maxLivePoint.toString().plus("%")
@@ -258,7 +258,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             }
 
             //状态等于0不显示
-            if (mProfileVo.sportStatus == 0) {
+            if (mProfileVo.sportStatus == 0 || mProfileVo.userLevel == 3) {
                 layoutSports.visibility = View.GONE
             } else {
                 typeSports.text = mProfileVo.maxSportPoint.toString().plus("%")
@@ -284,7 +284,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             }
 
             //状态等于0不显示
-            if (mProfileVo.pokerStatus == 0) {
+            if (mProfileVo.pokerStatus == 0 || mProfileVo.userLevel == 3) {
                 layoutChess.visibility = View.GONE
             } else {
                 typeChess.text = mProfileVo.maxPokerPoint.toString().plus("%")
@@ -310,7 +310,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             }
 
             //状态等于0不显示
-            if (mProfileVo.esportsStatus == 0) {
+            if (mProfileVo.esportsStatus == 0 || mProfileVo.userLevel == 3) {
                 layoutGame.visibility = View.GONE
             } else {
                 typeGame.text = mProfileVo.maxEsportsPoint.toString().plus("%")

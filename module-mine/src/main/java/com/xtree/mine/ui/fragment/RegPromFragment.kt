@@ -268,7 +268,7 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
             }
 
             //状态等于0不显示
-            if (mProfileVo.liveStatus == 0) {
+            if (mProfileVo.liveStatus == 0 || mProfileVo.userLevel == 3) {
                 layoutReal.visibility = View.GONE
             } else {
                 typeReal.text = vo.livePoint.plus("%")
@@ -293,7 +293,7 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
             }
 
             //状态等于0不显示
-            if (mProfileVo.sportStatus == 0) {
+            if (mProfileVo.sportStatus == 0 || mProfileVo.userLevel == 3) {
                 layoutSports.visibility = View.GONE
             } else {
                 typeSports.text = vo.sportPoint.plus("%")
@@ -320,7 +320,7 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
             }
 
             //状态等于0不显示
-            if (mProfileVo.pokerStatus == 0) {
+            if (mProfileVo.pokerStatus == 0 || mProfileVo.userLevel == 3) {
                 layoutChess.visibility = View.GONE
             } else {
                 typeChess.text = vo.chessPoint.plus("%")
@@ -347,7 +347,7 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
             }
 
             //状态等于0不显示
-            if (mProfileVo.esportsStatus == 0) {
+            if (mProfileVo.esportsStatus == 0 || mProfileVo.userLevel == 3) {
                 layoutGame.visibility = View.GONE
             } else {
                 typeGame.text = vo.esportsPoint.plus("%")
