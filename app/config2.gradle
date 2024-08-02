@@ -3,16 +3,16 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        eon2_pre {
+        eon3_pre {
             applicationId "com.${name.toLowerCase()}.app"
-            versionName "1.0.7"
-            versionCode 107
+            versionName "1.0.0"
+            versionCode 100
             //resValue "string", "app_name", "${name}"
-            resValue "string", "app_name", "意昂2T${versionCode}"
+            resValue "string", "app_name", "意昂3T${versionCode}"
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
             resValue "string", "domain_api", "https://preyiang2test.oxldkm.com"
             resValue "string", "domain_url", "https://preyiang2test.oxldkm.com"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+            resValue "string", "channel_name", "eon3"  // 渠道名称
             resValue "string", "platform_set", "38"  // 平台代号,升级用 35-意昂, 38-意昂2
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
@@ -26,14 +26,14 @@ android {
             dimension "channelName"
         }
         // 生产环境 测试用
-        eon2_uat {
+        eon3_uat {
             applicationId "com.${name.toLowerCase()}.app"
-            versionName "1.0.7"
-            versionCode 107
-            resValue "string", "app_name", "意昂2R${versionCode}"
+            versionName "1.0.0"
+            versionCode 100
+            resValue "string", "app_name", "意昂3R${versionCode}"
             resValue "string", "domain_api", "https://www.eon2.org"
             resValue "string", "domain_url", "https://www.eon2.org"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+            resValue "string", "channel_name", "eon3"  // 渠道名称
             resValue "string", "platform_set", "38"  // 平台代号,升级用 35-意昂, 38-意昂2
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
@@ -69,14 +69,14 @@ android {
             dimension "channelName"
         }
         // 生产环境 发布用
-        eon2_OL {
-            applicationId "com.eon2.app" // eon2
-            versionName "1.0.7"
-            versionCode 107
-            resValue "string", "app_name", "意昂体育2"
+        eon3_OL {
+            applicationId "com.eon3.app" // eon3
+            versionName "1.0.0"
+            versionCode 100
+            resValue "string", "app_name", "意昂体育3"
             resValue "string", "domain_api", "https://www.eon2.org"
             resValue "string", "domain_url", "https://www.u2s4s7.xyz"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+            resValue "string", "channel_name", "eon3"  // 渠道名称
             resValue "string", "platform_set", "38"  // 平台代号,升级用 35-意昂, 38-意昂2
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
@@ -169,12 +169,12 @@ androidJunkCode {
         debug config
         release config
 
-        eon2Debug config2
-        eon2Release config2
-        eon2_preDebug config2
-        eon2_preRelease config2
-        eon2_OLDebug config2
-        eon2_OLRelease config2
+        eon3Debug config2
+        eon3Release config2
+        eon3_preDebug config2
+        eon3_preRelease config2
+        eon3_OLDebug config2
+        eon3_OLRelease config2
     }
 
 }
