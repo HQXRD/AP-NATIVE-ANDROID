@@ -300,7 +300,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             selectUpdate = true;
             viewModel.getProfile(); // 获取个人信息（刷新用户余额）
         });
-        binding.bnrTop.setIndicator(new CircleIndicator(getContext())); // 增加小圆点
+        //binding.bnrTop.setIndicator(new CircleIndicator(getContext())); // 增加小圆点
         //binding.bnrTop.setBannerGalleryEffect(20, 12, 0.8f);// 画廊效果
         //binding.bnrTop.setBannerRound2(20);
         binding.bnrTop.setAdapter(new BannerImageAdapter<BannersVo>(new ArrayList<>()) {
