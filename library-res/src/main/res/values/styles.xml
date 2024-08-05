@@ -516,7 +516,7 @@
         <item name="android:textColorHint">@color/cl_over_tip</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <!--益阳资金密码输入框-->
+    <!--意昂资金密码输入框-->
     <style name="style_withdraw_password_eno_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -528,8 +528,8 @@
         <item name="android:inputType">numberPassword</item>
         <item name="android:maxLength">6</item>
         <item name="android:padding">8dp</item>
-        <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textColorHint">@color/cl_over_tip</item>
+        <item name="android:textColor">@color/clr_gap_bg</item>
+        <item name="android:textColorHint">@color/clr_gap_bg</item>
         <item name="android:textSize">14sp</item>
     </style>
     <!-- 注册推广输入框 -->
@@ -841,8 +841,8 @@
 
     <!-- 登录页 复选框 -->
     <style name="style_cm_ckb_normal">
-        <item name="colorAccent">@color/clr_txt_mouse4</item>
-        <item name="colorControlNormal">@color/clr_txt_mouse4</item>
+        <item name="colorAccent">@color/clr_txt_link</item>
+        <item name="colorControlNormal">@color/clr_txt_link</item>
     </style>
 
     <!-- 我的-账户管理-绑定-新增页 标题 -->

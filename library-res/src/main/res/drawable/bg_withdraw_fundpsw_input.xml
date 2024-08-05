@@ -2,8 +2,8 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <!--提现 输入金额 边框-->
-    <stroke android:width="2dp" android:color="@color/clr_gray_6" />
-    <solid android:color="@color/clr_white" />
+    <stroke android:width="2dp" android:color="@color/clr_txt_edittext_input_stroke" />
+    <solid android:color="@color/clr_txt_edittext_input" />
     <corners android:radius="80dp"/>
    <!-- <corners
 
