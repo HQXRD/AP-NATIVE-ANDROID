@@ -6,6 +6,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_dialog_top_choose_withdrawa"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,7 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_pwd_forget"
-                            android:textColor="@color/clr_txt_mouse4"
+                            android:textColor="@color/clr_txt_link"
                             android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 

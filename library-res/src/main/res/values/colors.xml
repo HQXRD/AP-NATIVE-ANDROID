@@ -87,6 +87,8 @@
     <!-- 可跳转链接的文字 通常是蓝色或主题色 -->
     <!--<color name="clr_txt_link">#119BFF</color>-->
     <color name="clr_txt_link">#7F7C79</color>
+    <!-- 暗色系警告红 -->
+    <color name="clr_txt_warn_dark">#FF6C6C</color>
 
     <!-- 警告红 -->
     <color name="clr_txt_warn">#DA0000</color>
@@ -116,6 +118,10 @@
     <!-- 背景框 主 顶部 浅色 -->
     <color name="clr_bg_frame_31">@color/clr_main_02</color>
     <color name="clr_bg_frame_32">#FFFFFF</color>
+
+    <!-- 背景框 背景 暗色系列 -->
+    <color name="clr_bg_frame_dark_start">#232126</color>
+    <color name="clr_bg_frame_dark_end">#1A1B1F</color>
     <!-- 背景框 绿 -->
     <color name="clr_bg_frame_41">#056A31</color>
     <color name="clr_bg_frame_42">#03872A</color>
@@ -485,4 +491,14 @@
     <color name="clr_txt_rebateagrt_subtitle">#99A0B1</color>
     <!--    高亮-->
     <color name="clr_txt_rebateagrt_highlight">#0065FF</color>
+
+    <color name="clr_txt_edittext_input_stroke">#38373C</color>
+    <color name="clr_txt_edittext_input">#313035</color>
+    <!--取消按钮 暗色系 开始颜色-->
+    <color name="clr_txt_left_dark_start">#3F3F3F</color>
+    <!--取消按钮 暗色系 结束颜色-->
+    <color name="clr_txt_left_dark_end">#363636</color>
+
+    <color name="clr_txt_right_dark_start">#78E6AF</color>
+    <color name="clr_txt_right_dark_end">#66CC99</color>
 </resources>
