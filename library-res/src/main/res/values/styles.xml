@@ -76,7 +76,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">@dimen/layout_margin</item>
-        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textColor">@color/cl_withdrawal_money</item>
         <item name="android:textSize">17sp</item>
     </style>
 
@@ -700,7 +700,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
-        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:background">@drawable/login_et_bg</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:hint"></item>
         <item name="android:inputType">text</item>

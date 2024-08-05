@@ -27,6 +27,9 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
+/**
+ * 忘记密码 - 重置登录密码
+ */
 @Route(path = RouterFragmentPath.Mine.PAGER_FORGET_PASSWORD)
 public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordBinding, ForgetPasswordViewModel> {
     private boolean mIsClickable = false;

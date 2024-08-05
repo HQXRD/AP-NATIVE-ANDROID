@@ -6,7 +6,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_dialog_top_choose_withdrawa"
+        android:background="@drawable/bg_dialog_background_color"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

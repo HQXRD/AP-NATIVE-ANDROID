@@ -3,8 +3,8 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <gradient android:angle="0"
-                android:endColor="@color/clr_btn_press"
-                android:startColor="@color/clr_btn_press" />
+                android:endColor="@color/clr_main_end"
+                android:startColor="@color/clr_main_start" />
             <corners android:radius="16dp" />
             <stroke android:width="1dp"
                 android:color="@color/clr_btn_stroke" />
@@ -14,8 +14,8 @@
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <gradient android:angle="0"
-                android:endColor="@color/clr_btn_grey02"
-                android:startColor="@color/clr_btn_grey01" />
+                android:endColor="@color/clr_main_end"
+                android:startColor="@color/clr_main_start" />
             <corners android:radius="16dp" />
             <stroke android:width="1dp"
                 android:color="@color/clr_btn_grey01" />
@@ -25,8 +25,8 @@
     <item>
         <shape>
             <gradient android:angle="0"
-                android:endColor="@color/clr_btn_02"
-                android:startColor="@color/clr_btn_01" />
+                android:endColor="@color/clr_main_end"
+                android:startColor="@color/clr_main_start" />
             <corners android:radius="16dp" />
         </shape>
     </item>
