@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#D0B292</color>
     <color name="colorPrimaryDark">#D0B292</color>
+    <color name="colorPrimaryTxt">#E1E1E1</color>
     <color name="colorAccent">#FF4081</color>
     <color name="textColor">#333333</color>
     <color name="textColorVice">#6C6C6C</color>
@@ -42,10 +43,11 @@
     <!-- ################ 配色 设计师提供 start ################ -->
     <!-- 主色 -->
     <color name="clr_main">#D0B292</color>
+    <color name="clr_main_login_txt">#BEBEC0</color>
     <!-- 主-渐变色 -->
-    <color name="clr_main_start">#E3CBB2</color>
-    <color name="clr_main_end">#D0B190</color>
-    <color name="clr_main_end_2">#D0B190</color>
+    <color name="clr_main_start">#82EAB6</color>
+    <color name="clr_main_end">#66CC99</color>
+    <color name="clr_main_end_2">#66CC99</color>
 
     <!-- 辅-渐变色 -->
     <color name="clr_main_21">#2D2D2D</color>
