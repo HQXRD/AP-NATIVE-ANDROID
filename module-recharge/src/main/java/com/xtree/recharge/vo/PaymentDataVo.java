@@ -13,6 +13,9 @@ public class PaymentDataVo implements Parcelable {
     public List<PaymentTypeVo> chongzhiList;
     public ProcessingDataVo processingData;
 
+    //正在进行的极速充值订单id
+    public int pendingOnepayfixBid;
+
     protected PaymentDataVo(Parcel in) {
         bankdirect_url = in.readString();
         chongzhiListCount = in.readInt();
