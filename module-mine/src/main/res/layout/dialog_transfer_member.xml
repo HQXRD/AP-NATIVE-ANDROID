@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/layout_margin"
-            android:background="@color/clr_main_09"
+            android:background="@color/clr_bg_frame_dark_start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvw_password_title">
@@ -43,7 +43,7 @@
             <EditText
                 android:id="@+id/et_transfer_password"
                 style="@style/style_cm_edt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin"
                 android:drawableStart="@mipmap/mine_bonus"
@@ -88,7 +88,7 @@
                 android:layout_margin="@dimen/layout_margin"
                 android:background="@drawable/bg_stroke_main_r12"
                 android:text="@string/text_cancel"
-                android:textColor="@color/clr_txt_mouse5"
+                android:textColor="@color/clr_main_login_txt"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="@id/et_transfer_google_auth"
                 app:layout_constraintTop_toBottomOf="@id/et_transfer_google_auth" />

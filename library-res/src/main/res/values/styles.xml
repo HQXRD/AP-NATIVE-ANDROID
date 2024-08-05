@@ -700,7 +700,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
-        <item name="android:background">@drawable/login_et_bg</item>
+        <item name="android:background">@drawable/bg_login_et_bg</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:hint"></item>
         <item name="android:inputType">text</item>
@@ -1130,7 +1130,7 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">12dp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/bg_dialog_withdraw_close</item>
+        <item name="android:background">@drawable/bg_btn_round_selector</item>
         <item name="android:textColor">@color/clr_withdrawal_list_text_bg</item>
     </style>
 
