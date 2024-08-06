@@ -5,7 +5,7 @@
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/clr_transparent"
+    android:background="@drawable/bg_dialog_background_color"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
@@ -13,7 +13,7 @@
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_dialog_top_choose"
+        android:background="@drawable/bg_dialog_top_withdraw"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,9 +25,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text=""
-            android:textColor="@color/clr_filter_txt_black"
+            tools:text="虚拟币"
+            android:textColor="@color/clr_gap_bg"
             android:textSize="15sp"
-            android:visibility="visible"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,13 +49,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/clr_gap_bg" />
+        android:background="@color/bt_text_color_deep_primary" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="@color/clr_white"
+        android:background="@drawable/bg_dialog_background_color"
         android:padding="10dp">
 
         <LinearLayout
@@ -67,7 +68,7 @@
                 android:id="@+id/ll_virtual_top"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+
                 android:orientation="horizontal"
                 tools:visibility="visible">
 
@@ -217,7 +218,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
-                            android:background="@drawable/bg_dialog_withdraw_hint">
+                           >
 
                             <TextView
                                 android:id="@+id/tv_notice"
@@ -501,6 +502,7 @@
                                     android:id="@+id/tv_collection_usdt"
                                     style="@style/style_usdt_edit"
                                     android:layout_marginLeft="10dp"
+                                    android:paddingRight="@dimen/bt_text_10sp"
                                     android:drawableRight="@mipmap/bt_icon_expand"
                                     android:hint="@string/txt_select_virtual_address" />
                             </RelativeLayout>
@@ -698,39 +700,33 @@
                     <View style="@style/style_withdraw_dividing_line" />
 
                     <LinearLayout
-                        android:id="@+id/ll_next_confirm_previous"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_collection_usdt"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
-                        <RelativeLayout
+                        <Button
+                            android:id="@+id/iv_confirm_previous"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_dialog_withdraw_close"
+                            android:text="@string/txt_withdraw_previous"
+                            android:textColor="@color/clr_withdrawal_text_bg"
+                            android:textSize="16sp" />
 
-                            <Button
-                                android:id="@+id/iv_confirm_next"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/me_bg_withdrawal_next"
-                                android:text="@string/txt_withdraw_next"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                            <Button
-                                android:id="@+id/iv_confirm_previous"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/iv_confirm_next"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/bg_dialog_withdraw_close"
-                                android:text="@string/txt_withdraw_previous"
-                                android:textColor="@color/update_progress_start_color"
-                                android:textSize="16sp" />
-
-                        </RelativeLayout>
+                        <Button
+                            android:id="@+id/iv_confirm_next"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:background="@drawable/me_bg_withdrawal_next"
+                            android:text="@string/txt_withdraw_next"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
                 </LinearLayout>
