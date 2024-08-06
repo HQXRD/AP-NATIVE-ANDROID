@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#D0B292</color>
+    <color name="colorPrimary">#66CC99</color>
     <color name="colorPrimaryDark">#D0B292</color>
     <color name="colorAccent">#FF4081</color>
     <color name="textColor">#333333</color>
@@ -13,39 +13,39 @@
     <!-- AA927A -->
 
     <!-- 主色参考 -->
-    <color name="clr_main_01">#D0B292</color>
-    <color name="clr_main_02">#E3C3A2</color>
-    <color name="clr_main_03">#E3CBB2</color>
-    <color name="clr_main_04">#F7DFD1</color>
-    <color name="clr_main_05">#F6ECE2</color>
-    <color name="clr_main_06">#F5EDE7</color>
-    <color name="clr_main_06a">#F6ECE2</color>
-    <color name="clr_main_07">#F7EDE7</color>
-    <color name="clr_main_08">#F9F8F4</color>
-    <color name="clr_main_08a">#FBF6F1</color>
-    <color name="clr_main_09">#FCF9F6</color>
-    <color name="clr_main_10">#FCFCFF</color>
+    <color name="clr_main_01">#66CC99</color>
+    <color name="clr_main_02">#2E2F34</color>
+    <color name="clr_main_03">#373738</color>
+    <color name="clr_main_04">#38373C</color>
+    <color name="clr_main_05">#2C2C2C</color>
+    <color name="clr_main_06">#2E2E2E</color>
+    <color name="clr_main_06a">#242424</color>
+    <color name="clr_main_07">#3A3A3A</color>
+    <color name="clr_main_08">#1d1d21</color>
+    <color name="clr_main_08a">#484848</color>
+    <color name="clr_main_09">#313035</color>
+    <color name="clr_main_10">#1d1d22</color>
 
-    <color name="clr_main_11">#D0B190</color>
-    <color name="clr_main_12">#B69C82</color>
-    <color name="clr_main_13">#AA927A</color>
-    <color name="clr_main_14">#665849</color>
-    <color name="clr_main_15">#4F4439</color>
-    <color name="clr_main_16">#49453F</color>
-    <color name="clr_main_17">#2D2D2D</color>
-    <color name="clr_main_18">#1E1E1E</color>
-    <color name="clr_main_19">#5C5C5C</color>
-    <color name="clr_main_20">#949292</color>
-    <color name="clr_main_20a">#EBEDF0</color>
-    <color name="clr_main_21a">#2DC071</color>
+    <color name="clr_main_11">#1d1d21</color>
+    <color name="clr_main_12">#2E2F34</color>
+    <color name="clr_main_13">#373738</color>
+    <color name="clr_main_14">#38373C</color>
+    <color name="clr_main_15">#2C2C2C</color>
+    <color name="clr_main_16">#2E2E2E</color>
+    <color name="clr_main_16a">#242424</color>
+    <color name="clr_main_17">#3A3A3A</color>
+    <color name="clr_main_18">#242424</color>
+    <color name="clr_main_19">#313035</color>
+    <color name="clr_main_20a">#484848</color>
+    <color name="clr_main_21a">#1d1d22</color>
 
     <!-- ################ 配色 设计师提供 start ################ -->
     <!-- 主色 -->
-    <color name="clr_main">#D0B292</color>
+    <color name="clr_main">@color/clr_main_01</color>
     <!-- 主-渐变色 -->
-    <color name="clr_main_start">#E3CBB2</color>
-    <color name="clr_main_end">#D0B190</color>
-    <color name="clr_main_end_2">#D0B190</color>
+    <color name="clr_main_start">#232126</color>
+    <color name="clr_main_end">#1A1B1F</color>
+    <color name="clr_main_end_2">#1A1B1F</color>
 
     <!-- 辅-渐变色 -->
     <color name="clr_main_21">#2D2D2D</color>
@@ -73,15 +73,15 @@
 
     <!-- ################ 设计图上的颜色 start ################ -->
     <!-- 通用字颜色 主色/1级字 -->
-    <color name="clr_txt_01">#D0B292</color>
+    <color name="clr_txt_01">#BEBEC0</color>
     <!-- 通用字颜色 主色/2级字 -->
-    <color name="clr_txt_02">#665849</color>
+    <color name="clr_txt_02">#EBEBEB</color>
     <!-- 通用字颜色 主色/3级字 -->
-    <color name="clr_txt_03">#5C5C5C</color>
+    <color name="clr_txt_03">#AFAFAF</color>
     <!-- 通用字颜色 主色/4级字 -->
-    <color name="clr_txt_04">#949292</color>
+    <color name="clr_txt_04">#99A0B1</color>
     <!-- 通用黑色 1E -->
-    <color name="clr_txt_black_cm">#1E1E1E</color>
+    <color name="clr_txt_black_cm">#8D8D8D</color>
     <!-- 可跳转链接的文字 通常是蓝色或主题色 -->
     <!--<color name="clr_txt_link">#119BFF</color>-->
     <color name="clr_txt_link">#7F7C79</color>
@@ -303,8 +303,8 @@
 
     <!-- 通用 begin -->
     <!-- 通用背景色 -->
-    <color name="clr_bg_main">#F9F8F4</color>
-    <color name="bg_main">#F9F8F4</color>
+    <color name="clr_bg_main">#1d1d21</color>
+    <color name="bg_main">#1d1d21</color>
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_white_t20">#33FFFFFF</color>
     <color name="clr_white_t80">#CCFFFFFF</color>
