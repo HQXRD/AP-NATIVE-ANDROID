@@ -52,7 +52,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/clr_gap_bg" />
+        android:background="@color/bt_text_color_deep_primary" />
 
     <!--   android:layout_marginTop="2dp"顶部显示设置提款请求 以及 通用体现、注意信息-->
     <LinearLayout
