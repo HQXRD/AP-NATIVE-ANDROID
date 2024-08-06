@@ -5,7 +5,7 @@
     android:id="@+id/ll_withdrawal_bank_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/clr_transparent"
+    android:background="@drawable/bg_dialog_background_color"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
@@ -15,7 +15,7 @@
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_dialog_top_choose"
+        android:background="@drawable/bg_dialog_top_withdraw"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text=""
-            android:textColor="@color/clr_filter_txt_black"
+            android:textColor="@color/clr_gap_bg"
             android:textSize="15sp"
+            android:textStyle="bold"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +58,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/bg_dialog_background_color"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -152,7 +153,7 @@
                 android:layout_height="71dp"
                 android:layout_below="@id/ll_show_choose_card"
                 android:layout_marginTop="0dp"
-                android:background="@drawable/bg_dialog_withdraw_hint"
+
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -193,7 +194,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="@color/clr_white"
+        android:background="@drawable/bg_dialog_background_color"
         android:visibility="gone"
         tools:visibility="visible">
         <!--大额提款View-->
@@ -224,7 +225,7 @@
                         <TextView
                             android:id="@+id/tv_user_name_show_more"
                             style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
+                            tools:text="123123" />
                     </LinearLayout>
 
                     <View style="@style/style_withdraw_dividing_line" />
@@ -386,7 +387,8 @@
                                 android:text=""
                                 android:textColor="@color/clr_txt_withdraw_money"
                                 android:textSize="15sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:text="123123123"/>
 
                             <View
                                 android:layout_width="match_parent"
@@ -457,6 +459,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/tv_actual_withdrawal_next_more"
                                 android:layout_alignLeft="@id/tv_actual_withdrawal_next_more"
+                                android:drawableLeft="@mipmap/mine_withdraw_bottom_tip"
                                 android:text="@string/txt_kind_tips"
                                 android:textColor="@color/cl_withdrawal_tip"
                                 android:textSize="14sp" />
@@ -467,6 +470,9 @@
                                 android:layout_below="@id/tv_actual_withdrawal_tip_more"
                                 android:layout_alignLeft="@id/tv_actual_withdrawal_tip_more"
                                 android:layout_alignRight="@id/tv_actual_withdrawal_next_more"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="-1dp"
+                                android:layout_marginRight="-2dp"
                                 android:text="@string/txt_kind_tips_count"
                                 android:textColor="@color/cl_withdrawal_tip"
                                 android:textSize="14sp" />

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_bank_root"
     style="@style/style_item_withdrawal_complete_application_row"
-    android:background="@color/bg_main"
+    android:background="@drawable/bg_dialog_background_color"
     android:orientation="vertical"
     android:padding="8dp"
     tools:ignore="MissingDefaultResource">

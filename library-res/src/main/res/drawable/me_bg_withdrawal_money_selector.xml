@@ -6,7 +6,7 @@
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp" />
     <gradient
-        android:endColor="@color/clr_withdrawal_btn_end"
+        android:endColor="@color/clr_main_end"
         android:startColor="@color/clr_withdrawal_btn_start" />
 
 </shape>

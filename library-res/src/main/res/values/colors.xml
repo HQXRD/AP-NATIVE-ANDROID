@@ -322,7 +322,7 @@
 
     <color name="clr_black">#000000</color>
     <color name="clr_txt_black">#000000</color>
-    <color name="clr_txt_black_01">@color/clr_txt_black_cm</color>
+    <color name="clr_txt_black_01">@color/clr_gap_bg</color>
     <color name="clr_txt_black02">@color/clr_txt_02</color>
     <color name="clr_txt_black_03">@color/clr_txt_03</color>
     <color name="clr_txt_grey_01">#b1b1b1</color>
@@ -338,7 +338,7 @@
 
     <color name="clr_grey_22">#38D9D9D9</color>
     <color name="clr_grey_080">#CCD9D9D9</color>
-    <color name="clr_grey_13">#99A0B1</color>
+    <color name="clr_grey_13">#BEBEC0</color>
     <color name="clr_gray_30">#4DDFDCE9</color>
     <color name="clr_gray_021">#767677</color>
     <color name="clr_gray_1">#BBB5C3</color>
@@ -347,7 +347,7 @@
     <color name="clr_gray_4">#EEEEED</color>
     <color name="clr_gray_5">#DAD5E2</color>
     <color name="clr_gray_6">#DFDFDF</color>
-    <color name="clr_choose_20">#D0B292</color>
+    <color name="clr_choose_20">#81CEA7</color>
 
     <!-- 筛选框 灰色 标题 -->
     <color name="clr_filter_txt_gray">#A1A1A1</color>
@@ -436,8 +436,8 @@
     <color name="cl_amount_bt_53">#88F0EAFF</color>
     <color name="cl_amount_bt">@color/clr_main_05</color>
     <color name="cl_withdrawal_amount">#6D6C72</color>
-    <color name="cl_withdrawal_tip">#D24859</color>
-    <color name="cl_over_tip">#8F8F8F</color>
+    <color name="cl_withdrawal_tip">#BEBEC0</color>
+    <color name="cl_over_tip">#C6C6C6</color>
     <color name="cl_awards_end">@color/clr_main_05</color>
     <color name="cl_awards_start">@color/clr_main_07</color>
     <color name="clr_e5e7f3">#E5E7F3</color>
@@ -473,8 +473,8 @@
     <color name="clr_withdrawal_btn_stroke">@color/clr_main_04</color>
     <color name="clr_withdrawal_list_top_start_bg">@color/clr_main_13</color>
     <color name="clr_withdrawal_list_top_end_bg">@color/clr_main_13</color>
-    <color name="clr_withdrawal_text_bg">@color/clr_main_14</color>
-    <color name="clr_withdrawal_btn_start">@color/clr_main_03</color>
+    <color name="clr_withdrawal_text_bg">@color/clr_main_login_txt</color>
+    <color name="clr_withdrawal_btn_start">@color/clr_choose_20</color>
     <color name="clr_withdrawal_btn_end">@color/clr_main_11</color>
     <color name="clr_withdrawal_text_tip">@color/clr_withdrawal_list_bottom_text_tip_bg</color>
     <color name="clr_withdrawal_text_bank_tip">#121B47</color>
@@ -502,8 +502,15 @@
     <color name="clr_txt_right_dark_start">#78E6AF</color>
     <color name="clr_txt_right_dark_center">#2F7653</color>
     <color name="clr_txt_right_dark_end">#66CC99</color>
+
+    <color name="clr_txt_withdraw_left_dark_start">#222322</color>
+    <color name="clr_txt_withdraw_left_dark_end">#5A5A5A</color>
     <!--重置登录密码暗色系 结束颜色-->
     <color name="clr_reset_bg_dark">#242424</color>
     <color name="clr_withdraw_bg_dark">#2C2C2C</color>
     <color name="clr_dialog_left">#676767</color>
+    <!--提款固额金额未选中颜色 暗色系 -->
+    <color name="clr_withdraw_no_selector">#3E3E40</color>
+    <color name="clr_withdraw_selector_start">#81CEA7</color>
+    <color name="clr_withdraw_selector_end">#66CC99</color>
 </resources>
