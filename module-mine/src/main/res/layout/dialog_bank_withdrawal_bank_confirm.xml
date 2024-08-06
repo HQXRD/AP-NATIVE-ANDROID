@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_bank_root"
     style="@style/style_item_ll_row"
-    android:background="@color/bg_main"
     android:orientation="vertical"
     android:padding="8dp"
+    android:background="@drawable/bg_dialog_background_color"
     tools:ignore="MissingDefaultResource">
 
     <!--显示状态 2 确认提款信息View-->

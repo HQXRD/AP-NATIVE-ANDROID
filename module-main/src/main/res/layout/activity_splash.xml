@@ -5,13 +5,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_transparent">
-
+       >
+       <!-- android:background="@mipmap/cm_bg_dark"
+       android:src="@mipmap/launch_screen"-->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@mipmap/launch_screen" />
+             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

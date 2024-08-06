@@ -353,7 +353,7 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
     }
 
     public void deleteBtCp(Map<String, String> map) {
-        Disposable disposable = (Disposable) model.getApiService().cancelGame(map)
+      /*  Disposable disposable = (Disposable) model.getApiService().cancelGame(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<BaseResponse2>() {
@@ -374,11 +374,11 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
                         super.onError(t);
                     }
                 });
-        addSubscribe(disposable);
+        addSubscribe(disposable);*/
     }
 
     public void getSpiltDeatil(Map<String, String> map) {
-        Disposable disposable = (Disposable) model.getApiService().getWithdrawDetails(map)
+        /*Disposable disposable = (Disposable) model.getApiService().getWithdrawDetails(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<SpiltDetailVo>() {
@@ -394,7 +394,7 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
                         super.onError(t);
                     }
                 });
-        addSubscribe(disposable);
+        addSubscribe(disposable);*/
     }
 
     /**

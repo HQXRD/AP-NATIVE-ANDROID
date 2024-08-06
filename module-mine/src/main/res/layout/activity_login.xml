@@ -6,6 +6,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_dialog_background_color"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/me_login"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/clr_gap_bg"
                     android:textSize="@dimen/me_text_sp20"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_pwd_forget"
-                            android:textColor="@color/clr_login_txt_01"
+                            android:textColor="@color/clr_txt_link"
                             android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
@@ -139,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="@string/me_agreement_content"
-                            android:textColor="@color/clr_login_txt_01"
+                            android:textColor="@color/clr_main_login_txt"
                             android:textSize="@dimen/me_text_size_sp12sp"
                             android:textStyle="bold" />
 
@@ -168,7 +169,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
                             android:text="@string/me_go_round"
-                            android:textColor="@color/clr_login_txt_01"
+                            android:textColor="@color/clr_main_login_txt"
                             android:textSize="@dimen/me_text_size_sp12sp"
                             android:textStyle="bold" />
 
@@ -179,7 +180,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:text="@string/me_online_service"
-                            android:textColor="@color/clr_login_txt_01"
+                            android:textColor="@color/clr_main_login_txt"
                             android:textSize="@dimen/me_text_size_sp12sp"
                             android:textStyle="bold" />
 

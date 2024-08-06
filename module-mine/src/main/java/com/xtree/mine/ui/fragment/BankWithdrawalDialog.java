@@ -557,12 +557,12 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private void refreshNoticeView(BankCardCashVo bankCardCashVo) {
         final String notice = "<font color=#99A0B1>注意:</font>";
         String times, count, startTime, endTime, rest;
-        times = "<font color=#99A0B1>" + String.valueOf(bankCardCashVo.times) + "</font>";
-        count = "<font color=#99A0B1>" + bankCardCashVo.count + "</font>";
-        startTime = "<font color=#99A0B1>" + bankCardCashVo.wraptime.starttime + "</font>";
-        endTime = "<font color=#99A0B1>" + bankCardCashVo.wraptime.endtime + "</font>";
+        times = "<font color=#BEBEC0>" + String.valueOf(bankCardCashVo.times) + "</font>";
+        count = "<font color=#BEBEC0>" + bankCardCashVo.count + "</font>";
+        startTime = "<font color=#BEBEC0>" + bankCardCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#BEBEC0>" + bankCardCashVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(bankCardCashVo.rest));
-        String testTxt = "<font color=#FF6C6C>" + rest + "</font>";
+        String testTxt = "<font color=#DA0000>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
         String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 

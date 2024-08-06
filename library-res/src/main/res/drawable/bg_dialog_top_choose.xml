@@ -4,8 +4,8 @@
 
     <gradient
         android:angle="270"
-        android:endColor="@color/clr_withdrawal_list_top_end_bg"
-        android:startColor="@color/clr_withdrawal_list_top_start_bg" />
+        android:endColor="@color/clr_main_end"
+        android:startColor="@color/clr_main_end" />
     <corners
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp" />
