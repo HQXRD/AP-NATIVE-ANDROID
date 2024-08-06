@@ -500,8 +500,10 @@
     <color name="clr_txt_left_dark_end">#363636</color>
 
     <color name="clr_txt_right_dark_start">#78E6AF</color>
+    <color name="clr_txt_right_dark_center">#2F7653</color>
     <color name="clr_txt_right_dark_end">#66CC99</color>
     <!--重置登录密码暗色系 结束颜色-->
     <color name="clr_reset_bg_dark">#242424</color>
     <color name="clr_withdraw_bg_dark">#2C2C2C</color>
+    <color name="clr_dialog_left">#676767</color>
 </resources>

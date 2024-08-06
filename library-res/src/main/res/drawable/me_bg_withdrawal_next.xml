@@ -2,6 +2,8 @@
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="80dp"/>
-    <gradient android:startColor="@color/clr_withdrawal_btn_start" android:endColor="@color/clr_withdrawal_btn_end"/>
+    <gradient android:startColor="@color/clr_txt_right_dark_start"
+        android:centerColor="@color/clr_txt_right_dark_center"
+        android:endColor="@color/clr_txt_right_dark_end"/>
 
 </shape>
