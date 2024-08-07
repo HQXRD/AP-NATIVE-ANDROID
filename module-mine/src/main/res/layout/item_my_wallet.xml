@@ -22,7 +22,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:text="@string/me_wallet_bbingame"
-            android:textSize="@dimen/bt_text_12sp" />
+            android:textSize="@dimen/bt_text_12sp"
+            android:textColor="@color/clr_txt_01"/>
 
         <TextView
             android:id="@+id/tvw_third_game_balance"
@@ -32,6 +33,7 @@
             android:layout_marginEnd="@dimen/layout_margin"
             android:tag="obgqp"
             android:textSize="@dimen/bt_text_12sp"
+            android:textColor="@color/clr_txt_02"
             tools:text="0.0000" />
 
     </LinearLayout>
