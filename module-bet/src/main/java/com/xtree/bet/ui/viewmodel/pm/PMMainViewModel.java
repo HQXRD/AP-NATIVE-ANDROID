@@ -24,6 +24,8 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.PMListReq;
+import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
+import com.xtree.bet.bean.response.pm.FrontListInfo;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
@@ -52,6 +54,7 @@ import java.util.Map;
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -260,11 +263,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     public void searchMatch(String searchWord, boolean isChampion) {
         mSearchWord = searchWord;
         mIsChampion = isChampion;
-        if(!isChampion) {
-            if(mPmHttpCallBack != null) {
+        if (!isChampion) {
+            if (mPmHttpCallBack != null) {
                 ((PMLeagueListCallBack) mPmHttpCallBack).searchMatch(searchWord);
             }
-        }else {
+        } else {
             mChampionMatchList.clear();
             if (!TextUtils.isEmpty(searchWord)) {
                 List<MatchInfo> matchInfoList = new ArrayList<>();
@@ -417,7 +420,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         Flowable flowable = model.getPMApiService().matchesPagePB(pmListReq);
-        if(isStepSecond){
+        if (isStepSecond) {
             flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
         }
         pmListReq.setCps(mPageSize);
@@ -435,7 +438,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (isRefresh) {
             mNoLiveheaderLeague = null;
         }
-
 
         if ((type == 1 && needSecondStep) // 获取今日中的全部滚球赛事列表
                 || isTimerRefresh) { // 定时刷新赔率变更
@@ -559,7 +561,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (TextUtils.isEmpty(mSearchWord)) {
                             championLeagueList(matchListRsp.data);
                             championMatchListData.postValue(mChampionMatchList);
-                        }else {
+                        } else {
                             searchMatch(mSearchWord, true);
                         }
                         if (mCurrentPage == 1) {
@@ -599,7 +601,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         Map<String, String> map = new HashMap<>();
         String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
-        if(TextUtils.equals(platform, PLATFORM_PMXC)){
+        if (TextUtils.equals(platform, PLATFORM_PMXC)) {
             map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID));
         }
         map.put("sys", "7");
@@ -794,6 +796,37 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
         }
         return optionArrayList;
+    }
+
+    /**
+     * 公告列表集合
+     */
+    public void getAnnouncement() {
+        Disposable disposable = (Disposable) model.getPMApiService().frontListPB()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<FrontListInfo>() {
+                    @Override
+                    public void onResult(FrontListInfo info) {
+                        KLog.i("FrontListInfo     " + info);
+                        List<FBAnnouncementInfo.RecordsDTO> list2 = new ArrayList<>();
+                        for (FrontListInfo.NbDTO i : info.nb) {
+                            FBAnnouncementInfo.RecordsDTO dto = new FBAnnouncementInfo.RecordsDTO();
+                            dto.id = i.id;
+                            dto.ti = i.noticeTypeName;
+                            dto.co = i.context;
+                            dto.pt = i.sendTimeOther;
+                            list2.add(dto);
+                        }
+                        announcementData.postValue(list2);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     @Override

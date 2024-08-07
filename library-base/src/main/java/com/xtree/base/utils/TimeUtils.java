@@ -24,6 +24,7 @@ public class TimeUtils {
     public final static String FORMAT_MM_DD_1 = "MM月dd日";
     public final static String FORMAT_HH_MM = "HH:mm";
     public final static String FORMAT_YY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    public final static String FORMAT_YY_MM_DD_HH_MM_SS_1 = "yyyy/MM/dd HH:mm:ss";
     public final static String FORMAT_YY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
     public final static String FORMAT_YY_MM_DD_HH_MM_1 = "yyyy年MM月dd日 HH:mm";
 

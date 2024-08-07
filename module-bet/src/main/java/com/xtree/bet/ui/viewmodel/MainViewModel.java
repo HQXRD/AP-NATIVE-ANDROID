@@ -76,4 +76,9 @@ public interface MainViewModel {
      */
     void getHotMatchCount(int playMethodType, List<Long> leagueIds);
     void searchMatch(String searchWord, boolean isChampion);
+
+    /**
+     * 获取赛事公告
+     */
+    void getAnnouncement();
 }

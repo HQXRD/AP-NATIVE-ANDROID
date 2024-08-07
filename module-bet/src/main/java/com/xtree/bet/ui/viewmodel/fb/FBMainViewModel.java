@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeStatisInfo;
@@ -629,6 +630,32 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
         return optionArrayList;
     }
+
+    /**
+     * 公告列表集合
+     */
+    public void getAnnouncement() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("languageType", "CMN");
+
+        Disposable disposable = (Disposable) model.getApiService().getListPage(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new FBHttpCallBack<FBAnnouncementInfo>() {
+                    @Override
+                    public void onResult(FBAnnouncementInfo announcementInfo) {
+                        announcementData.postValue(announcementInfo.records);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
 
     @Override
     public void onDestroy() {

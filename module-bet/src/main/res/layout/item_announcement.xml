@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:drawableStart="@mipmap/icon_announcement"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/clr_google_txt_black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="网球赛事" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_title"
+        tools:text="2024/05/20 19:00:29" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bt_bg_color_time"
+        android:padding="8dp"
+        android:text="2024-05-20 20:45 WTA - 拉巴特公开赛 (玛丽亚.卡米拉.奥索里奥.塞拉诺 (哥伦比亚) vs 伊莲娜.阿瓦涅相 (俄罗斯))，因选手退赛，除已有明确结果的注单外，所有受影响的注单一律视为无效，串关以（1）计算"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+</androidx.constraintlayout.widget.ConstraintLayout>
