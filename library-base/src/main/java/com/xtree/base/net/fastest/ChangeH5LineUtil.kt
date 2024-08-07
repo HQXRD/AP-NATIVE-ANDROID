@@ -89,7 +89,11 @@ class ChangeH5LineUtil private constructor() {
                         try {
                             val result = it.await()
                             mutex.withLock {
+                                val fullUrl = result.request.url.toString()
                                 val host = result.request.url.host
+                                val hostStartIndex: Int = fullUrl.indexOf(host)
+                                val url = fullUrl.substring(0, hostStartIndex + host.length)
+
                                 result.body?.string()?.let {
                                     val doc: Document = Jsoup.parse(it)
                                     val rootDiv = doc.select("div.root").first()
@@ -98,7 +102,7 @@ class ChangeH5LineUtil private constructor() {
                                         if (dataTargetValue.equals("specialFeature-1691834599183")) {
                                             CfLog.e("域名：H5------$")
                                             Net.cancelGroup(FASTEST_GOURP_NAME_H5)
-                                            DomainUtil.setH5Url(host)
+                                            DomainUtil.setH5Url(url)
                                         }
                                     }
                                 }
