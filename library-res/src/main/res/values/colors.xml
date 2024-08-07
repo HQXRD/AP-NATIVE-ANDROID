@@ -390,4 +390,10 @@
     <color name="clr_flow_item_stroke">#87C6C5C7</color>
     <color name="clr_awards_bt_end">#FFFFFF</color>
     <color name="clr_awards_bt_start">#ECE6F9</color>
+
+
+<!--    极速充值-->
+    <color name="clr_ex_success_bg">#F5FFED</color>
+    <color name="clr_ex_success_txt">#37AA4A</color>
+
 </resources>
