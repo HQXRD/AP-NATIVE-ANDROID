@@ -140,13 +140,17 @@ class FastestTopDomainUtil private constructor() {
                         try {
                             val result = it.await()
                             mutex.withLock {
+                                val fullUrl = result.request.url.toString()
                                 val host = result.request.url.host
-                                CfLog.i("$host")
+                                val hostStartIndex: Int = fullUrl.indexOf(host)
+                                val url = fullUrl.substring(0, hostStartIndex + host.length)
+
+                                CfLog.i("$url")
                                 var topSpeedDomain = TopSpeedDomain()
-                                topSpeedDomain.url = host
+                                topSpeedDomain.url = url
                                 topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
-                                CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
-                                mCurApiDomainList.remove(host)
+                                CfLog.e("域名：api------$url---${topSpeedDomain.speedSec}")
+                                mCurApiDomainList.remove(url)
 
                                 //debug模式 显示所有测速线路 release模式 只显示4条
                                 if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {
