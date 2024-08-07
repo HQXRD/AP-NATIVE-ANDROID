@@ -170,7 +170,7 @@ class ChangeH5LineUtil private constructor() {
                 fastest(domainTasks, "the_fastest_line_third")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
-                mIsRunning = false
+                getFastestH5Domain(isThird = true)
                 //ToastUtils.showLong("切换H5线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
             }
         }
