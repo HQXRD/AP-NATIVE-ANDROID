@@ -124,7 +124,7 @@
                             style="@style/style_cm_title"
                             android:layout_marginStart="4dp"
                             android:layout_marginTop="0dp"
-                            android:drawableStart="@mipmap/rc_ic_channel"
+
                             android:drawablePadding="4dp"
                             android:text="@string/txt_choose_recharge_channel"
                             android:textSize="15sp" />
@@ -152,7 +152,7 @@
                             android:text="@string/txt_rc_anti_fraud"
                             android:textColor="@color/clr_txt_black_01"
                             android:textSize="12sp"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             tools:visibility="invisible" />
 
                         <TextView
@@ -163,7 +163,7 @@
                             android:drawableStart="@mipmap/cm_ic_tutorial"
                             android:drawablePadding="4dp"
                             android:text="@string/txt_recharge_tutorial"
-                            android:textColor="@color/clr_txt_black_01"
+                            android:textColor="@color/clr_re_txt"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -211,7 +211,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:text=""
-                            android:textColor="@color/clr_txt_black_01"
+                            android:textColor="@color/clr_re_channels_txt"
                             android:textSize="11sp"
                             tools:text="银行卡充值" />
                     </LinearLayout>
@@ -266,6 +266,7 @@
                     <TextView
                         android:id="@+id/tvw_bank_card"
                         style="@style/style_cm_edit"
+
                         android:layout_marginStart="@dimen/layout_margin"
                         android:layout_marginTop="@dimen/layout_margin"
                         android:layout_marginEnd="@dimen/layout_margin"
@@ -299,7 +300,6 @@
                             <EditText
                                 android:id="@+id/edt_name"
                                 style="@style/style_cm_edit"
-                                android:background="@null"
                                 android:hint="@string/txt_pls_enter_ur_real_name"
                                 android:imeOptions="actionDone"
                                 android:text=""
@@ -347,12 +347,13 @@
 
                         <EditText
                             android:id="@+id/edt_amount"
+                            style="@style/style_cm_edit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/layout_margin"
                             android:layout_marginTop="12dp"
                             android:layout_marginEnd="@dimen/layout_margin"
-                            android:background="@mipmap/cm_bg_input_wht"
+
                             android:hint="@string/txt_enter_recharge_amount"
                             android:imeOptions="actionDone"
                             android:inputType="number"

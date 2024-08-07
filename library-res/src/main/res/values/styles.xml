@@ -76,7 +76,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">@dimen/layout_margin</item>
-        <item name="android:textColor">@color/cl_withdrawal_money</item>
+        <item name="android:textColor">@color/clr_txt_02</item>
         <item name="android:textSize">17sp</item>
     </style>
 
@@ -244,8 +244,14 @@
         <item name="android:textSize">12sp</item>
     </style>
     <!-- 充值页-底部 提示小字 灰色 -->
-    <style name="style_rc_tip_small_grey" parent="style_cm_tip_small_grey">
-        <item name="android:textColor">@color/clr_grey_40</item>
+    <style name="style_rc_tip_small_grey">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_re_bottom_txt</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -475,7 +481,7 @@
     <style name="style_cm_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
-        <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:background">@drawable/bg_edit_recharge</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>

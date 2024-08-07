@@ -423,7 +423,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- 充值页 -->
-    <color name="clr_btn_rc_amount_border">#F6ECE2</color>
+    <color name="clr_btn_rc_amount_border">#373737</color>
     <color name="clr_btn_rc_amount">#FBF6F1</color>
 
     <!--反馈页面错误提示语颜色-->
@@ -517,4 +517,10 @@
     <color name="clr_withdraw_selector_start">#81CEA7</color>
     <color name="clr_withdraw_selector_end">#66CC99</color>
     <color name="clr_re_feedback_right_txt_hint">#868686</color>
+    <!--充值页面 字体颜色 暗色系 -->
+    <color name="clr_re_txt">#BCBCBC</color>
+    <color name="clr_re_channels_txt">#3FD0FF</color>
+    <color name="clr_re_bottom_txt">#E3E3E3</color>
+    <color name="clr_re_bottom_bt_start">#82EAB6</color>
+    <color name="clr_re_bottom_bt_end">#66CC99</color>
 </resources>

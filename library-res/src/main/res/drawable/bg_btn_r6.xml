@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <corners android:radius="6dp" />
+            <corners android:radius="40dp" />
             <solid android:color="@color/clr_btn_press" />
             <stroke android:width="1dp"
                 android:color="@color/clr_btn_press" />
@@ -11,15 +11,15 @@
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <solid android:color="@color/clr_btn_grey01" />
-            <corners android:radius="10dp" />
+            <corners android:radius="40dp" />
         </shape>
     </item>
     <item>
         <shape>
             <gradient android:angle="0"
-                android:endColor="@color/clr_btn_02"
-                android:startColor="@color/clr_btn_01" />
-            <corners android:radius="6dp" />
+                android:endColor="@color/clr_withdraw_selector_end"
+                android:startColor="@color/clr_withdraw_selector_end" />
+            <corners android:radius="40dp" />
         </shape>
     </item>
 </selector>
