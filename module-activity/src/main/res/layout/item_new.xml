@@ -67,6 +67,7 @@
         <TextView
             android:id="@+id/tvw_detail"
             style="@style/style_cm_btn_r16"
+            android:background="@drawable/btn_main_r24"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
             android:text="@string/txt_view_detail"
