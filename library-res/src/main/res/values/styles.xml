@@ -294,7 +294,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">end</item>
         <item name="android:minEms">7</item>
-        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColor">@color/cl_withdrawal_tip</item>
         <item name="android:textSize">14sp</item>
     </style>
     <!--设置密保-->
@@ -341,13 +341,13 @@
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColor">@color/clr_reset_bg_dark</item>
         <item name="android:textSize">11sp</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
         <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
-        <item name="android:textColor">@color/clr_orange_08</item>
+        <item name="android:textColor">@color/clr_main_login_txt</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
@@ -551,14 +551,14 @@
     <style name="style_feedback_edit_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
-        <item name="android:background">@color/clr_white</item>
+        <item name="android:background">@drawable/bg_withdraw_money_input</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
         <item name="android:maxLength">50</item>
         <item name="android:padding">8dp</item>
-        <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textColor">@color/clr_gap_bg</item>
+        <item name="android:textColorHint">@color/clr_re_feedback_right_txt_hint</item>
         <item name="android:textSize">14sp</item>
     </style>
     <!-- 虚拟币提现 虚拟币地址选择框 -->
