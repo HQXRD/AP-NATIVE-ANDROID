@@ -18,6 +18,8 @@ const val FASTEST_API = "/?speedTest=1"
 //测速请求组
 const val FASTEST_GOURP_NAME = "fstestaRequest"
 
+const val FASTEST_GOURP_NAME_H5 = "fstestaRequestH5"
+
 //测速接口配置
 val FASTEST_BLOCK: (UrlRequest.() -> Unit) = {
     addHeader("App-RNID", "87jumkljo")
