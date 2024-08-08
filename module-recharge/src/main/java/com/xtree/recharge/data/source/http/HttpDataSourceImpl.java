@@ -154,4 +154,9 @@ public class HttpDataSourceImpl implements HttpDataSource {
             }
         });
     }
+
+    @Override
+    public Flowable<BaseResponse<Object>> skipGuide() {
+        return apiService.skipGuide();
+    }
 }
