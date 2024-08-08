@@ -774,7 +774,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         setRate(vo); // 设置汇率提示信息
         setPrePay(vo, amount); // 设置预计支付
         setNextButton();
-        showGuideDialog(vo);
+        //只有是极速充值 才显示充值引导
+        if (isOnePayFix(vo))
+        {
+            showGuideDialog(vo);
+        }
+
     }
 
     private void toBindPhoneOrCard() {
