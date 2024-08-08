@@ -65,6 +65,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
             switch (msg.what) {
                 case MSG_GAME_BALANCE:
                     for (GameMenusVo vo : walletGameList) {
+                        //获取某个场馆余额
                         viewModel.getGameBalance(vo.key);
                     }
                     break;
@@ -161,7 +162,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         // viewModel.getAwardRecord();//获取礼物流水
 
-        viewModel.getTransThirdGameType(getContext());
+        viewModel.getTransThirdGameType(getContext());//获取转账平台
 
         // 从H5/JS跳转过来的
         boolean isOpenWithdraw = getArguments().getBoolean("isOpenWithdraw", false);
@@ -173,20 +174,22 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
     @Override
     public void initViewObservable() {
+        // 个人信息
         viewModel.liveDataProfile.observe(this, vo -> {
             mProfileVo = vo;
         });
-
+        // 中心钱包
         viewModel.liveDataBalance.observe(this, vo -> {
             binding.tvwBalance.setText(vo.balance);
             binding.ivwRefreshBlc.clearAnimation();
         });
-
+        // 场馆余额
         viewModel.liveDataGameBalance.observe(this, vo -> {
             transGameBalanceList.add(vo);
+           //count--;
             count++;
 
-            CfLog.d("count : " + count + " walletGameList.size() : " + walletGameList.size());
+            CfLog.e("-------> count : " + count + " //walletGameList.size() : " + walletGameList.size());
             if (count >= walletGameList.size()) {
                 Collections.sort(transGameBalanceList);
                 myWalletAdapter = new MyWalletAdapter(getContext());

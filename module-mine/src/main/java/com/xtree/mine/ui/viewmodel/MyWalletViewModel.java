@@ -2,6 +2,7 @@ package com.xtree.mine.ui.viewmodel;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -98,6 +99,10 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
+    /**
+     * 读取缓存中可转账的平台
+     * @param ctx
+     */
     public void getTransThirdGameType(Context ctx) {
         new Thread(() -> {
             try {
@@ -106,8 +111,11 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                 for (int i = 0; i < gameMenusVoList.size(); i++) {
                     GameMenusVo vo = gameMenusVoList.get(i);
                     if (vo.needTransfer) {
-                        CfLog.d(vo.name);
-                        canUseTransGame.add(vo);
+                        //针对瓦力棋牌进行筛选，去除瓦力棋牌场馆
+                        if (!TextUtils.equals("瓦力棋牌",vo.name)){
+                            canUseTransGame.add(vo);
+                        }
+
                     }
                 }
                 liveDataTransGameType.setValue(canUseTransGame);
@@ -116,7 +124,9 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
             }
         }).run();
     }
-
+/**
+ *获取 某个场馆的余额
+ */
     public void getGameBalance(String gameAlias) {
         Disposable disposable = (Disposable) model.getApiService().getGameBalance(gameAlias)
                 .compose(RxUtils.schedulersTransformer())
