@@ -109,6 +109,7 @@ public class ProfileVo {
     public int phone_selfupdate; // 1,
     public String email_selfupdate; // "1"
     public int zhaoshang;
+    public int game_status; //0不能进游戏，1可以进游戏;
     /**
      * userLevel
      */

@@ -48,7 +48,6 @@ import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
-import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -408,22 +407,30 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
-        GameAdapter.ICallBack mCallBack = vo -> {
-            if (ClickUtil.isFastClick()) {
-                return;
+        GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
+            @Override
+            public void onClick(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                CfLog.i(vo.toString());
+                if (vo.cid == 7) {
+                    startContainerFragment(RouterFragmentPath.Home.AUG);
+                    return;
+                }
+                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("vo", vo);
+                    startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
+                    return;
+                }
+                viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
             }
-            CfLog.i(vo.toString());
-            if (vo.cid == 7) {
-                startContainerFragment(RouterFragmentPath.Home.AUG);
-                return;
+
+            @Override
+            public boolean isActing() {
+                return mProfileVo.game_status == 0;
             }
-            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("vo", vo);
-                startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
-                return;
-            }
-            viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
         };
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
