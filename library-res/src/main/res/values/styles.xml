@@ -300,7 +300,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">end</item>
         <item name="android:minEms">7</item>
-        <item name="android:textColor">@color/cl_withdrawal_tip</item>
+        <item name="android:textColor">@color/clr_main_login_txt</item>
         <item name="android:textSize">14sp</item>
     </style>
     <!--设置密保-->
