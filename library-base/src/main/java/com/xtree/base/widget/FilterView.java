@@ -63,6 +63,7 @@ public class FilterView extends LinearLayout {
         return binding.tvwDayStart.getText().toString() + " 00:00:00";
     }
 
+
     public String getStartDate() {
 
         return binding.tvwDayStart.getText().toString();
@@ -104,6 +105,12 @@ public class FilterView extends LinearLayout {
             return def;
         }
         return binding.edtInput.getText().toString().trim();
+    }
+
+    public void setTopTotal(String count, String money) {
+        binding.llTopTotal.setVisibility(View.VISIBLE);
+        binding.tvwReturnMoney.setText(money);
+        binding.tvwReturnCount.setText(count);
     }
 
     /**

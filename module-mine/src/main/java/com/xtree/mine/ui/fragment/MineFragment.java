@@ -97,6 +97,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 if (mProfileVo.usertype == 1) {
                     binding.llMenu2.setVisibility(View.VISIBLE);
                     binding.llMenu3.setVisibility(View.GONE);
+                    if (mProfileVo.getUserLevel() == 1) {
+                        binding.tvwEaster.setVisibility(View.INVISIBLE);
+                    }
                 } else {
                     binding.llMenu2.setVisibility(View.GONE);
                     binding.llMenu3.setVisibility(View.VISIBLE);
@@ -324,6 +327,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             if (mProfileVo != null) {
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
             }
+        });
+
+        binding.tvwEaster.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_EASTER_REPORT);
         });
     }
 
