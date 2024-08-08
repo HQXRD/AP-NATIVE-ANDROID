@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_dialog_background_color">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_title"
@@ -71,12 +72,13 @@
             android:id="@+id/et_pwd"
             style="@style/style_edt_pwd"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="64dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/txt_enter_pwd"
-            android:maxLength="16"
             android:inputType="textPassword"
+            android:maxLength="16"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_title" />
 
@@ -111,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/txt_pwd_should_6_16"
-            android:textColor="@color/clr_txt_warn"
+            android:textColor="@color/clr_main_login_txt"
             android:textSize="@dimen/bt_text_12sp"
             app:layout_constraintEnd_toEndOf="@+id/et_new_pwd"
             app:layout_constraintStart_toStartOf="@+id/et_new_pwd"
