@@ -39,6 +39,9 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
     public interface ICallBack {
         void onClick(GameVo vo); // String gameAlias, String gameId
+
+        //是否是代理
+        boolean isActing();
     }
 
     public GameAdapter(Context ctx, ICallBack mCallBack) {
@@ -97,6 +100,10 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         // 非正常状态 (且 非debug模式下 方便调试),不跳转
         if (vo.status != 1 && !BuildConfig.DEBUG) {
             // 0是维护, 1是正常, 2是下架
+            return;
+        }
+        if (mCallBack.isActing()) {
+            ToastUtils.showLong("代理不能投注请注册会员进行游戏");
             return;
         }
 

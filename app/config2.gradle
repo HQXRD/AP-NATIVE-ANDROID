@@ -37,11 +37,29 @@ android {
             resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
-                    "https://app1.p2e2vs.click;"
+                    "https://app1.p2e2vs.click;" +
+                    "https://app2.a7h6ho.click;" +
+                    "https://app2.s4v7qk.click;" +
+                    "https://app2.e2u1wp.click;" +
+                    "https://app2.b8i4bq.click;" +
+                    "https://app3.s9a6dd.click;" +
+                    "https://app3.q4x4gf.click;" +
+                    "https://app3.j3e7ms.click;" +
+                    "https://app3.x1e9fu.click;" +
+                    "https://app4.z3p9tu.click;" +
+                    "https://app5.t4v1su.click;"
 
-            resValue "string", "domain_url_list", "https://www.hxing5vip3.com;" +
-                    "https://www.j4l2gm.click;" +
-                    "https://www.l7g2ao.click;"
+            resValue "string", "domain_url_list", "https://h51.x9f4ke.click;" +
+                    "https://h51.v3t8zx.click;" +
+                    "https://h51.k1w7rs.click;" +
+                    "https://h52.e8x8ss.click;" +
+                    "https://h52.o5w3if.click;" +
+                    "https://h52.m5l5xc.click;" +
+                    "https://h53.a6d1yd.click;" +
+                    "https://h53.l4n5kx.click;" +
+                    "https://h53.bavxj.vip;" +
+                    "https://h54.jutqu.vip;" +
+                    "https://h55.vvhoq.vip;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -61,11 +79,29 @@ android {
             resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
-                    "https://app1.p2e2vs.click;"
+                    "https://app1.p2e2vs.click;" +
+                    "https://app2.a7h6ho.click;" +
+                    "https://app2.s4v7qk.click;" +
+                    "https://app2.e2u1wp.click;" +
+                    "https://app2.b8i4bq.click;" +
+                    "https://app3.s9a6dd.click;" +
+                    "https://app3.q4x4gf.click;" +
+                    "https://app3.j3e7ms.click;" +
+                    "https://app3.x1e9fu.click;" +
+                    "https://app4.z3p9tu.click;" +
+                    "https://app5.t4v1su.click;"
 
-            resValue "string", "domain_url_list", "https://www.hxing5vip3.com;" +
-                    "https://www.j4l2gm.click;" +
-                    "https://www.l7g2ao.click;"
+            resValue "string", "domain_url_list", "https://h51.x9f4ke.click;" +
+                    "https://h51.v3t8zx.click;" +
+                    "https://h51.k1w7rs.click;" +
+                    "https://h52.e8x8ss.click;" +
+                    "https://h52.o5w3if.click;" +
+                    "https://h52.m5l5xc.click;" +
+                    "https://h53.a6d1yd.click;" +
+                    "https://h53.l4n5kx.click;" +
+                    "https://h53.bavxj.vip;" +
+                    "https://h54.jutqu.vip;" +
+                    "https://h55.vvhoq.vip;"
             multiDexEnabled true
             dimension "channelName"
         }
