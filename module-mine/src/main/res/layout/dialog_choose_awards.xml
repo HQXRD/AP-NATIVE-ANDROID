@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="请选择提款方式"
-            android:textColor="@color/clr_filter_txt_black"
+            android:textColor="@color/clr_gray_4"
             android:textSize="15sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,13 +48,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/clr_gap_bg" />
+        android:background="@color/clr_gap_bg"
+        android:visibility="gone"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="@color/clr_white">
+        android:background="@drawable/bg_dialog_top_main_up_rounded">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,7 +121,7 @@
                     android:layout_marginTop="6dp"
                     android:gravity="center"
                     android:text="@string/txt_awards_no_money_tip"
-                    android:textColor="@color/black"
+                    android:textColor="@color/clr_main_login_txt"
                     android:textSize="15dp"
                     android:visibility="visible" />
             </LinearLayout>
@@ -132,7 +133,7 @@
                 android:layout_marginTop="60dp"
                 android:gravity="center|left"
                 android:text="@string/txt_unfinished_activity_flow"
-                android:textColor="@color/clr_awards_txt_black"
+                android:textColor="@color/clr_main_login_txt"
                 android:textSize="18dp"
                 android:visibility="visible" />
 
