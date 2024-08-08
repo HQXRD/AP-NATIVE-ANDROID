@@ -102,16 +102,18 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             // 0是维护, 1是正常, 2是下架
             return;
         }
-        if (mCallBack.isActing()) {
-            ToastUtils.showLong("代理不能投注请注册会员进行游戏");
-            return;
-        }
 
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (TextUtils.isEmpty(token)) {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
             return;
         }
+
+        if (mCallBack.isActing()) {
+            ToastUtils.showLong("代理不能投注请注册会员进行游戏");
+            return;
+        }
+
         // alias 为空时是 杏彩彩票, 为ag时分4个类型
         String gameId = vo.alias == null ? "xccp" : vo.alias.equals("ag") ? "ag_" + vo.id : vo.alias;
         TagUtils.tagEvent(ctx, "gm", gameId);
@@ -148,7 +150,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             // 拼装URL
             if (vo.id.equals("601")) {
                 //playGame(DomainUtil.getDomain() + vo.playURL, vo.name, true); //
-                playGame(DomainUtil.getApiUrl()+ "/" + vo.playURL, vo.name, vo.id.equals("601"));
+                playGame(DomainUtil.getApiUrl() + "/" + vo.playURL, vo.name, vo.id.equals("601"));
             } else {
                 playGame(DomainUtil.getDomain() + vo.playURL, vo.name);
             }
