@@ -6,8 +6,8 @@
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp" />
     <gradient
-        android:endColor="@color/clr_bg_frame_32"
-        android:startColor="@color/clr_bg_frame_32" />
+        android:endColor="@color/clr_txt_edittext_input"
+        android:startColor="@color/clr_txt_edittext_input" />
     <stroke android:width="2dp"
         android:color="@color/clr_rc_feedback_input_stroke" />
     <corners android:radius="10dp"/>

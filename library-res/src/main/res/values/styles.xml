@@ -1161,13 +1161,13 @@
 
     <!--谷歌动态口令密钥提示语风格-->
     <style name="style_google_key">
-        <item name="android:textColor">@color/clr_bind_google_key</item>
+        <item name="android:textColor">@color/clr_txt_warn_dark</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <!--谷歌动态口令提示语风格-->
     <style name="style_google_prompt">
-        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textColor">@color/clr_gap_bg</item>
         <item name="android:textSize">12sp</item>
     </style>
 
