@@ -197,6 +197,8 @@
     <color name="clr_txt_grey_05">#808080</color>
     <color name="clr_txt_grey_07">#767677</color>
     <color name="clr_txt_grey_08">#585959</color>
+    <color name="clr_txt_grey_09">#5B5B6A</color>
+    <color name="clr_txt_grey_10">#979797</color>
     <color name="clr_grey_03">#E9E9E9</color>
     <color name="clr_grey_05">#D1D1D1</color>
     <color name="clr_grey_07">#F7F7F7</color>
@@ -383,4 +385,10 @@
     <color name="clr_withdrawal_usdt_tip">#4B4B4B</color>
     <!-- 提款流水边框颜色 -->
     <color name="clr_flow_item_stroke">#87C6C5C7</color>
+
+    <!-- 测速浮窗-->
+    <color name="clr_txt_fastest_high">#EE1A34</color>
+    <color name="clr_txt_fastest_medium">#FFE145</color>
+    <color name="clr_txt_fastest_low">#51FF6D</color>
+
 </resources>

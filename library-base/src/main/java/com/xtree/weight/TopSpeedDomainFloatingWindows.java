@@ -1,14 +1,17 @@
 package com.xtree.weight;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.content.Context.WINDOW_SERVICE;
 import static com.xtree.base.net.fastest.FastestConfigKt.FASTEST_GOURP_NAME;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.drake.net.Net;
@@ -106,6 +109,18 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
                 ToastUtils.show("测速过于频繁，请稍后再试!", Toast.LENGTH_SHORT, 0);
             }
         });
+    }
+
+    private void showTip() {
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        params.endToStart = R.id.ivw_icon;
+        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.layout_fastest_tip, null);
+        mainLayout.addView(view, params);
     }
 
     public void refresh() {
