@@ -429,7 +429,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
             @Override
             public boolean isActing() {
-                return mProfileVo.game_status == 0;
+                if (mProfileVo == null) {
+                    return false;
+                } else if (mProfileVo.game_status == 0) {
+                    return true;
+                }
+                return false;
             }
         };
 
