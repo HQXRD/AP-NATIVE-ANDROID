@@ -11,7 +11,9 @@ import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -423,6 +425,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.rcvList.setAdapter(gameAdapter);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
+        DividerItemDecoration decoration = new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL);
+        decoration.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider_home));
+        binding.rcvList.addItemDecoration(decoration);
 
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

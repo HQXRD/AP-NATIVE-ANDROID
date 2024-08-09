@@ -84,7 +84,7 @@
     <style name="style_hm_game_type">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
         <item name="android:button">@drawable/hm_game_type_selector</item>
     </style>
 
