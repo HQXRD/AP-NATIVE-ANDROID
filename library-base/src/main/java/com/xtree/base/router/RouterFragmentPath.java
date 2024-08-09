@@ -40,6 +40,7 @@ public class RouterFragmentPath {
         public static final String PAGER_BIND_PHONE = MINE + "/BindPhone";
         public static final String PAGER_BIND_EMAIL = MINE + "/BindEmail";
         public static final String PAGER_CHANGE_PWD = MINE + "/ChangePwd";
+        public static final String PAGER_EASTER_REPORT = MINE + "/EasterReport";
         /**
          * 綁定谷歌动态口令
          */
@@ -138,6 +139,7 @@ public class RouterFragmentPath {
         public static final String PAGER_BET_HOME = BET + "/home";
         public static final String PAGER_BET_TUTORIAL = BET + "/tutorial";
     }
+
     public static class Transfer {
         private static final String Transfer = "/transfer";
         //极速转账-提交订单

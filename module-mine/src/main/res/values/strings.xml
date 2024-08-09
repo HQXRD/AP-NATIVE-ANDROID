@@ -500,4 +500,11 @@
     <string name="txt_title_code">如何获取%s个人收款码</string>
     <string name="txt_no_data_tip">暂无数据</string>
     <string name="txt_check_detail">查看详情</string>
+    <string name="txt_easter_report">彩蛋报表</string>
+    <string name="txt_all_lottery">全部状态</string>
+    <string name="txt_not_give_lottery">未发放</string>
+    <string name="txt_give_lottery">已发放</string>
+    <string name="txt_cancel_lottery">已撤回</string>
+    <string name="txt_lottery_all_kind">所有彩种</string>
+
 </resources>

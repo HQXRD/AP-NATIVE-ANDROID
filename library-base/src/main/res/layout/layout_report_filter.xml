@@ -1,207 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/layout_margin"
     android:background="@drawable/bg_white"
-    android:orientation="vertical"
-    android:padding="@dimen/layout_margin">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/ll_top"
-        style="@style/style_item_ll_row"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_top_total"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/bg_easter_top"
+        android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/tvw_top_title"
+            android:id="@+id/tvw_return_count_title"
             style="@style/style_filter_info_title"
-            android:text="@string/txt_user_name" />
-
-        <EditText
-            android:id="@+id/edt_top"
-            style="@style/style_filter_info_value"
-            android:background="@color/white"
-            android:enabled="false"
-            android:lines="1"
-            android:text=""
-            android:textColorHint="@color/clr_gray_1"
-            tools:hint="user name" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_div_top"
-        style="@style/style_filter_info_div_row"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <TextView style="@style/style_filter_info_div_left" />
-
-        <View style="@style/style_filter_info_dividing" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_day_start"
-        style="@style/style_item_ll_row"
-        android:layout_marginTop="0dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/txt_easter_top_count"
+            android:textColor="@color/clr_white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/tvw_return_money_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvw_return_money_title"
             style="@style/style_filter_info_title"
-            android:text="@string/txt_date_start" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/txt_easter_top"
+            android:textColor="@color/clr_white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvw_return_count_title"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvw_day_start"
-            style="@style/style_filter_info_value"
-            tools:text="2023-07-11" />
-    </LinearLayout>
-
-    <LinearLayout style="@style/style_filter_info_div_row">
-
-        <TextView style="@style/style_filter_info_div_left" />
-
-        <View style="@style/style_filter_info_dividing" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_day_end"
-        style="@style/style_item_ll_row">
-
-        <TextView
+            android:id="@+id/tvw_return_count"
             style="@style/style_filter_info_title"
-            android:text="@string/txt_date_end" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/clr_white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tvw_return_count_title"
+            app:layout_constraintStart_toStartOf="@id/tvw_return_count_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_return_count_title" />
 
         <TextView
-            android:id="@+id/tvw_day_end"
-            style="@style/style_filter_info_value"
-            tools:text="2023-07-11" />
-    </LinearLayout>
-
-    <LinearLayout style="@style/style_filter_info_div_row">
-
-        <TextView style="@style/style_filter_info_div_left" />
-
-        <View style="@style/style_filter_info_dividing" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_type"
-        style="@style/style_item_ll_row">
-
-        <TextView
-            android:id="@+id/tvw_type_title"
+            android:id="@+id/tvw_return_money"
             style="@style/style_filter_info_title"
-            android:text="@string/txt_type" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0.0000"
+            android:textColor="@color/clr_white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/tvw_return_money_title"
+            app:layout_constraintStart_toStartOf="@id/tvw_return_money_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_return_money_title" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/layout_margin">
+
+        <LinearLayout
+            android:id="@+id/ll_top"
+            style="@style/style_item_ll_row"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvw_top_title"
+                style="@style/style_filter_info_title"
+                android:text="@string/txt_user_name" />
+
+            <EditText
+                android:id="@+id/edt_top"
+                style="@style/style_filter_info_value"
+                android:background="@color/white"
+                android:enabled="false"
+                android:lines="1"
+                android:text=""
+                android:textColorHint="@color/clr_gray_1"
+                tools:hint="user name" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_div_top"
+            style="@style/style_filter_info_div_row"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView style="@style/style_filter_info_div_left" />
+
+            <View style="@style/style_filter_info_dividing" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_day_start"
+            style="@style/style_item_ll_row"
+            android:layout_marginTop="0dp">
+
+            <TextView
+                style="@style/style_filter_info_title"
+                android:text="@string/txt_date_start" />
+
+            <TextView
+                android:id="@+id/tvw_day_start"
+                style="@style/style_filter_info_value"
+                tools:text="2023-07-11" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_filter_info_div_row">
+
+            <TextView style="@style/style_filter_info_div_left" />
+
+            <View style="@style/style_filter_info_dividing" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_day_end"
+            style="@style/style_item_ll_row">
+
+            <TextView
+                style="@style/style_filter_info_title"
+                android:text="@string/txt_date_end" />
+
+            <TextView
+                android:id="@+id/tvw_day_end"
+                style="@style/style_filter_info_value"
+                tools:text="2023-07-11" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_filter_info_div_row">
+
+            <TextView style="@style/style_filter_info_div_left" />
+
+            <View style="@style/style_filter_info_dividing" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_type"
+            style="@style/style_item_ll_row">
+
+            <TextView
+                android:id="@+id/tvw_type_title"
+                style="@style/style_filter_info_title"
+                android:text="@string/txt_type" />
+
+            <TextView
+                android:id="@+id/tvw_type"
+                style="@style/style_filter_info_spn"
+                tools:text="全部" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_div"
+            style="@style/style_filter_info_div_row">
+
+            <TextView style="@style/style_filter_info_div_left" />
+
+            <View style="@style/style_filter_info_dividing" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_type2"
+            style="@style/style_item_ll_row"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvw_type_title2"
+                style="@style/style_filter_info_title"
+                android:text="@string/txt_type" />
+
+            <TextView
+                android:id="@+id/tvw_type2"
+                style="@style/style_filter_info_spn"
+                tools:text="全部" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_div2"
+            style="@style/style_filter_info_div_row"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView style="@style/style_filter_info_div_left" />
+
+            <View style="@style/style_filter_info_dividing" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_status"
+            style="@style/style_item_ll_row">
+
+            <TextView
+                android:id="@+id/tvw_status_title"
+                style="@style/style_filter_info_title"
+                android:text="@string/txt_status" />
+
+            <TextView
+                android:id="@+id/tvw_status"
+                style="@style/style_filter_info_spn"
+                tools:text="所有" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_div_status"
+            style="@style/style_filter_info_div_row">
+
+            <TextView style="@style/style_filter_info_div_left" />
+
+            <View style="@style/style_filter_info_dividing" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_input"
+            style="@style/style_item_ll_row"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvw_input_title"
+                style="@style/style_filter_info_title"
+                android:text="@string/txt_user_name" />
+
+            <EditText
+                android:id="@+id/edt_input"
+                style="@style/style_filter_info_value"
+                android:background="@color/white"
+                android:lines="1"
+                android:textColorHint="@color/clr_gray_1"
+                tools:hint="user name" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_div_input"
+            style="@style/style_filter_info_div_row"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView style="@style/style_filter_info_div_left" />
+
+            <View style="@style/style_filter_info_dividing" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tvw_type"
-            style="@style/style_filter_info_spn"
-            tools:text="全部" />
+            android:id="@+id/tvw_select"
+            style="@style/style_btn_small"
+            android:layout_width="305dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:minEms="3"
+            android:text="@string/txt_query"
+            android:textSize="14sp" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_div"
-        style="@style/style_filter_info_div_row">
-
-        <TextView style="@style/style_filter_info_div_left" />
-
-        <View style="@style/style_filter_info_dividing" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_type2"
-        style="@style/style_item_ll_row"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <TextView
-            android:id="@+id/tvw_type_title2"
-            style="@style/style_filter_info_title"
-            android:text="@string/txt_type" />
-
-        <TextView
-            android:id="@+id/tvw_type2"
-            style="@style/style_filter_info_spn"
-            tools:text="全部" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_div2"
-        style="@style/style_filter_info_div_row"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <TextView style="@style/style_filter_info_div_left" />
-
-        <View style="@style/style_filter_info_dividing" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_status"
-        style="@style/style_item_ll_row">
-
-        <TextView
-            android:id="@+id/tvw_status_title"
-            style="@style/style_filter_info_title"
-            android:text="@string/txt_status" />
-
-        <TextView
-            android:id="@+id/tvw_status"
-            style="@style/style_filter_info_spn"
-            tools:text="所有" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_div_status"
-        style="@style/style_filter_info_div_row">
-
-        <TextView style="@style/style_filter_info_div_left" />
-
-        <View style="@style/style_filter_info_dividing" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_input"
-        style="@style/style_item_ll_row"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <TextView
-            android:id="@+id/tvw_input_title"
-            style="@style/style_filter_info_title"
-            android:text="@string/txt_user_name" />
-
-        <EditText
-            android:id="@+id/edt_input"
-            style="@style/style_filter_info_value"
-            android:background="@color/white"
-            android:lines="1"
-            android:textColorHint="@color/clr_gray_1"
-            tools:hint="user name" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_div_input"
-        style="@style/style_filter_info_div_row"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <TextView style="@style/style_filter_info_div_left" />
-
-        <View style="@style/style_filter_info_dividing" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvw_select"
-        style="@style/style_btn_small"
-        android:layout_width="305dp"
-        android:layout_height="37dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/layout_margin"
-        android:layout_marginEnd="0dp"
-        android:minEms="3"
-        android:text="@string/txt_query"
-        android:textSize="14sp" />
-
 </LinearLayout>

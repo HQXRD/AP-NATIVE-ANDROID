@@ -22,6 +22,9 @@ import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AdduserVo;
 import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.EasterReportVo;
+import com.xtree.mine.vo.LotteryAllVo;
+import com.xtree.mine.vo.LotteryItemVo;
 import com.xtree.mine.vo.MarketingVo;
 import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.QuestionVo;
@@ -31,6 +34,7 @@ import com.xtree.mine.vo.VipUpgradeInfoVo;
 import com.xtree.mine.vo.request.AdduserRequest;
 
 import java.util.HashMap;
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -60,6 +64,8 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<MarketingVo> liveDataPostMark = new SingleLiveData<>();
     public SingleLiveData<AdduserVo> liveDataAdduser = new SingleLiveData<>();
     public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
+    public SingleLiveData<List<LotteryItemVo>> liveDataLotteryAll = new SingleLiveData<>();
+    public SingleLiveData<EasterReportVo> liveDataEasterReport = new SingleLiveData<>();
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -336,6 +342,46 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                         if (vo.msg_type == 1 || vo.msg_type == 2) {
                             return;
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getLottery() {
+        Disposable disposable = (Disposable) model.getApiService().getLottery()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<LotteryAllVo>() {
+                    @Override
+                    public void onResult(LotteryAllVo vo) {
+                        CfLog.d(vo.lotteryList.toString());
+                        liveDataLotteryAll.setValue(vo.lotteryList);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getEasterReport(HashMap map) {
+        Disposable disposable = (Disposable) model.getApiService().getEasterReport(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<EasterReportVo>() {
+                    @Override
+                    public void onResult(EasterReportVo vo) {
+                        CfLog.d(vo.toString());
+                        liveDataEasterReport.setValue(vo);
                     }
 
                     @Override

@@ -17,6 +17,7 @@ import com.xtree.mine.vo.CheckQuestionVo;
 import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.CookieVo;
+import com.xtree.mine.vo.EasterReportVo;
 import com.xtree.mine.vo.ForgetPasswordCheckInfoVo;
 import com.xtree.mine.vo.ForgetPasswordTimeoutVo;
 import com.xtree.mine.vo.ForgetPasswordVerifyVo;
@@ -26,6 +27,7 @@ import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameChangeVo;
 import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
+import com.xtree.mine.vo.LotteryAllVo;
 import com.xtree.mine.vo.LotteryDetailVo;
 import com.xtree.mine.vo.LotteryReportVo;
 import com.xtree.mine.vo.MarketingVo;
@@ -67,7 +69,6 @@ import com.xtree.mine.vo.withdrawals.WithdrawalQuotaVo;
 import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
 import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -732,13 +733,13 @@ public interface HttpApiService {
      * /api/withdrawal/info?wtype=ebpay
      */
     @GET("/api/withdrawal/info/{wtype}/{check}")
-    Flowable<BaseResponse3<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype,@Path("check") String check);
+    Flowable<BaseResponse3<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype, @Path("check") String check);
 
     /**
      * 银行卡提现获取当前渠道详情
      */
     @GET("/api/withdrawal/info/{wtype}/{check}")
-    Flowable<BaseResponse3<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype,@Path("check") String check);
+    Flowable<BaseResponse3<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype, @Path("check") String check);
 
     /**
      * 验证当前渠道信息
@@ -753,4 +754,18 @@ public interface HttpApiService {
     @POST("/api/withdrawal/submit")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse3<WithdrawalSubmitVo>> postWithdrawalSubmit(@Body Map<String, Object> map);
+
+    /**
+     * 所有彩票
+     */
+    @GET("/gameinfo/newgamelist?client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<LotteryAllVo> getLottery();
+
+    /**
+     * 彩蛋报表
+     */
+    @GET("/api/report/easteregg?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<EasterReportVo>> getEasterReport(@QueryMap Map<String, Object> qMap);
 }

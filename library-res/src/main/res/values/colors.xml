@@ -31,8 +31,10 @@
     <color name="clr_main">#420C0B</color>
     <!-- 主-渐变色 -->
     <color name="clr_main_start">#A0302E</color>
+    <color name="clr_main_start_2">#e26d51</color>
     <color name="clr_main_end">#D0B190</color>
     <color name="clr_main_end_2">#D0B190</color>
+    <color name="clr_main_end_3">#b04843</color>
 
     <!-- 辅-渐变色 -->
     <color name="clr_main_21">#2D2D2D</color>

@@ -370,7 +370,11 @@
 
                         <TextView style="@style/style_wallet_space" />
 
-                        <TextView style="@style/style_menu_black" />
+                        <TextView
+                            android:id="@+id/tvw_easter"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_easter"
+                            android:text="@string/txt_easter_report" />
                     </LinearLayout>
                 </LinearLayout>
 
