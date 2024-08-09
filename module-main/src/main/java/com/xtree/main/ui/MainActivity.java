@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(MainActivity.this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
+                .navigationBarColor(R.color.clr_main_02)
                 .fitsSystemWindows(false)
                 .statusBarDarkFont(true)
                 .init();
