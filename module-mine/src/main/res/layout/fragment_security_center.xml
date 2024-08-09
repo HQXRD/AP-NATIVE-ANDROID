@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_white"
+        android:background="@drawable/bg_dialog_background_color"
         android:orientation="vertical"
         tools:context=".ui.fragment.SecurityCenterFragment">
 
@@ -56,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/bg_main_frame_03"
+            android:background="@drawable/bg_security_frame"
             android:orientation="vertical"
             android:padding="@dimen/layout_margin">
 
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin"
                 android:text="@string/txt_pwd_edit_hint"
-                android:textColor="@color/clr_txt_black_cm"
+                android:textColor="@color/clr_txt_02"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/ivw_pwd_edit"
@@ -84,7 +84,7 @@
                 android:id="@+id/tvw_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/clr_withdrawal_text_bank_tip"
+                android:textColor="@color/clr_txt_02"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +112,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-
+            android:padding="@dimen/layout_margin"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/bg_security_frame"
             android:orientation="vertical">
 
             <TextView
@@ -153,7 +156,8 @@
                 android:drawableStart="@mipmap/me_sc_phone"
                 android:text="@string/txt_bind_phone" />
 
-            <View style="@style/style_dividing_line" />
+            <View style="@style/style_dividing_line"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tvw_email"

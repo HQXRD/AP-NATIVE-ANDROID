@@ -35,7 +35,7 @@
     <!--反馈录入页面录入提示语言-->
     <string name="txt_tip_select_un_order">* 未到账订单选择：</string>
     <string name="txt_tip_select_un_order_right">请选择未到账订单 </string>
-    <string name="txt_tip_select_pay">* 付款方式：</string>
+    <string name="txt_tip_select_pay">* 选择付款方式：</string>
     <string name="txt_tip_select_pay_wechat">银行卡/微信/支付宝</string>
     <string name="txt_tip_select_pay_usdt">虚拟货币</string>
     <string name="txt_tip_select_pay_bottom">选择付款方式</string>

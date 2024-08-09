@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/txt_security_question"
-            android:textColor="@color/clr_filter_txt_black"
+            android:textColor="@color/clr_gap_bg"
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="visible"
@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="@color/clr_white"
+        android:background="@color/clr_reset_bg_dark"
         android:padding="10dp">
 
         <LinearLayout
@@ -94,7 +94,7 @@
 
                     <TextView
                         android:id="@+id/tvw_question1"
-                        style="@style/style_set_security_question_edit"
+                        style="@style/style_set_fund_psw_edit"
                         android:layout_toRightOf="@id/tv_unreceived_orders"
                         android:drawableEnd="@mipmap/bt_icon_expand"
                         android:hint="@string/txt_set_question1_tip1"
@@ -177,7 +177,7 @@
 
                     <EditText
                         android:id="@+id/et_answer2"
-                        style="@style/style_set_security_question_edit"
+                        style="@style/style_set_fund_psw_edit"
                         android:layout_toRightOf="@id/tv_unreceived_orders4"
                         android:hint="@string/txt_set_question2_tip"
                         android:singleLine="true"
@@ -188,12 +188,12 @@
             <TextView
                 android:id="@+id/tvw_reset_password_next"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/me_security_questin_btn_selector"
+                style="@style/style_cm_btn_round"
                 android:gravity="center"
                 android:text="@string/txt_set_security_question_tip"
                 android:textColor="@color/white"

@@ -4,7 +4,7 @@
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_dialog_agreement">
+    android:background="@drawable/bg_dialog_background_color">
 
     <TextView
         android:id="@+id/title"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="密保问题"
-        android:textColor="@color/textColor"
+        android:textColor="@color/clr_txt_02"
         android:textSize="@dimen/bt_text_16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="30dp"
         android:text="设置密保"
-        android:textColor="@color/textColor"
+        android:textColor="@color/clr_txt_02"
         android:textSize="@dimen/bt_text_16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +49,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:text="问题一："
+        android:textColor="@color/clr_txt_02"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_set" />
@@ -72,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="答案一："
+        android:textColor="@color/clr_txt_02"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tv1"
         app:layout_constraintTop_toBottomOf="@+id/tv1" />
@@ -93,6 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="问题二："
+        android:textColor="@color/clr_txt_02"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tv1"
         app:layout_constraintTop_toBottomOf="@+id/tv2" />
@@ -114,6 +117,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="答案二："
+        android:textColor="@color/clr_txt_02"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tv1"
         app:layout_constraintTop_toBottomOf="@+id/tv3" />
