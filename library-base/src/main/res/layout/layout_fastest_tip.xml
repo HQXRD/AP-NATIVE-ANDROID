@@ -73,6 +73,7 @@
             app:layout_constraintEnd_toEndOf="@id/guide2"/>
 
         <TextView
+            android:id="@+id/fastest_tip_cancle"
             android:layout_width="60dp"
             android:layout_height="25dp"
             android:text="忽略"
@@ -88,6 +89,7 @@
             app:layout_constraintEnd_toEndOf="@id/guide3"/>
 
         <TextView
+            android:id="@+id/fastest_tip_change"
             android:layout_width="60dp"
             android:layout_height="25dp"
             android:text="切换"

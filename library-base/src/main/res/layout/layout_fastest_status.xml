@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:id="@+id/fastest_status_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -30,7 +31,7 @@
         android:id="@+id/fastest_status_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/icon_fastest_status_high"
+        android:background="@mipmap/icon_fastest_status_low"
         android:layout_marginBottom="2dp"
         app:layout_constraintVertical_bias="1"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,7 +46,7 @@
         tools:text="132ms"
         android:textSize="10sp"
         android:textStyle="bold"
-        android:textColor="@color/clr_txt_fastest_high"
+        android:textColor="@color/clr_txt_fastest_low"
         app:layout_constraintTop_toTopOf="@id/fastest_status_bottombg"
         app:layout_constraintBottom_toBottomOf="@id/fastest_status_bottombg"
         app:layout_constraintStart_toStartOf="@id/fastest_status_bottombg"

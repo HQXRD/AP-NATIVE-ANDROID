@@ -17,6 +17,7 @@ import com.xtree.base.utils.TagUtils
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
 import com.xtree.base.vo.TopSpeedDomain
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
@@ -24,6 +25,7 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import me.xtree.mvvmhabit.bus.event.SingleLiveData
 import me.xtree.mvvmhabit.http.NetworkUtil
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
@@ -37,6 +39,7 @@ class FastestTopDomainUtil private constructor() {
         mCurApiDomainList = ArrayList()
         mThirdDomainList = ArrayList()
         mTopSpeedDomainList = ArrayList()
+
     }
 
     companion object {
@@ -54,6 +57,10 @@ class FastestTopDomainUtil private constructor() {
         @set:Synchronized
         @get:Synchronized
         var mIsFinish: Boolean = true
+        val fastestDomain = SingleLiveData<TopSpeedDomain>()
+        private lateinit var timerObservable: Observable<Long>
+
+        val showTip = SingleLiveData<Boolean>()
     }
 
     lateinit var thirdApiScopeNet : AndroidScope
@@ -153,6 +160,7 @@ class FastestTopDomainUtil private constructor() {
                                     mTopSpeedDomainList.add(topSpeedDomain)
                                     mTopSpeedDomainList.sort()
                                     DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
+                                    fastestDomain.postValue(mTopSpeedDomainList[0])
                                     EventBus.getDefault()
                                         .post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
                                 }
@@ -290,5 +298,9 @@ class FastestTopDomainUtil private constructor() {
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addThirdDomainList(list)
+    }
+
+    private fun checkDomain() {
+
     }
 }
