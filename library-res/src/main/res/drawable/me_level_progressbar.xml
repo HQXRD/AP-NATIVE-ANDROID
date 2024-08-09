@@ -8,8 +8,8 @@
                 <corners android:radius="4dp" />
                 <!--  开始颜色，中途颜色，最后颜色-->
                 <gradient
-                    android:endColor="@color/clr_main_end"
-                    android:startColor="@color/clr_main_start" />
+                    android:endColor="@color/clr_txt_right_dark_end"
+                    android:startColor="@color/clr_choose_20" />
             </shape>
         </clip>
     </item>
