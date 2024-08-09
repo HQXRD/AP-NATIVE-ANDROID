@@ -724,7 +724,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.edtName.setText("");
             binding.edtName.setEnabled(true);
             binding.ivwClear.setVisibility(View.VISIBLE);
-            binding.llName.setVisibility(View.GONE);
+//            binding.llName.setVisibility(View.GONE);
             binding.tvwTipName.setVisibility(View.VISIBLE);
         }
 
