@@ -41,10 +41,13 @@ public class EasterReportAdapter extends CachedAutoRefreshAdapter<EasterReportIt
         binding.tvwDate.setText(vo.updatetime);
         if (vo.status == 0) {
             binding.tvwStatus.setText(ctx.getString(R.string.txt_not_give_lottery));
+            binding.tvwStatus.setTextColor(ctx.getResources().getColor(R.color.clr_green_01));
         } else if (vo.status == 1) {
             binding.tvwStatus.setText(ctx.getString(R.string.txt_give_lottery));
+            binding.tvwStatus.setTextColor(ctx.getResources().getColor(R.color.clr_green_01));
         } else if (vo.status == 2) {
             binding.tvwStatus.setText(ctx.getString(R.string.txt_cancel_lottery));
+            binding.tvwStatus.setTextColor(ctx.getResources().getColor(R.color.textColorHint));
         } else {
             binding.tvwStatus.setText("");
         }

@@ -263,7 +263,7 @@ public class FilterView extends LinearLayout {
                 ToastUtils.showShort(getContext().getString(R.string.txt_tip_date));
                 return;
             }
-
+            binding.edtInput.clearFocus();
             lsn.onClick(v);
         });
     }
@@ -337,7 +337,7 @@ public class FilterView extends LinearLayout {
 
         Calendar calendar = Calendar.getInstance();
         //calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 6); // 6个月前
-        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 1); // 昨天
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         String txtDayStart = TimeUtils.longFormatString(calendar.getTimeInMillis(), "yyyy-MM-dd");
         String txtDayEnd = TimeUtils.longFormatString(System.currentTimeMillis(), "yyyy-MM-dd");
         binding.tvwDayStart.setText(txtDayStart);
