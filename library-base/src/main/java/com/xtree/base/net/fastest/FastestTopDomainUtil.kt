@@ -39,7 +39,6 @@ class FastestTopDomainUtil private constructor() {
         mCurApiDomainList = ArrayList()
         mThirdDomainList = ArrayList()
         mTopSpeedDomainList = ArrayList()
-
     }
 
     companion object {
@@ -58,9 +57,6 @@ class FastestTopDomainUtil private constructor() {
         @get:Synchronized
         var mIsFinish: Boolean = true
         val fastestDomain = SingleLiveData<TopSpeedDomain>()
-        private lateinit var timerObservable: Observable<Long>
-
-        val showTip = SingleLiveData<Boolean>()
     }
 
     lateinit var thirdApiScopeNet : AndroidScope

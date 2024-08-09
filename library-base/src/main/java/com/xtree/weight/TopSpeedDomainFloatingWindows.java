@@ -16,12 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -85,7 +87,7 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
                     fastestStatusTime.setTextColor(mContext.getResources().getColor(R.color.clr_txt_fastest_high));
                     fastestStatusImg.setImageResource(R.mipmap.icon_fastest_status_high);
 
-                    tipDisposable = Observable.interval(10, TimeUnit.SECONDS)
+                    tipDisposable = Observable.interval(30, TimeUnit.MINUTES)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
@@ -97,7 +99,6 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
                                     Throwable::printStackTrace
                             );
                 }
-
                 ivwIcon.setImageBitmap(getBitmapFromView(iconView));
             }
         }
@@ -170,6 +171,20 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
         setPosition(displayMetrics.widthPixels / 2 - ConvertUtils.dp2px(30), displayMetrics.heightPixels / 2 + ConvertUtils.dp2px(50));
         super.initView(layout);
+
+        llLine.setVisibility(View.VISIBLE);
+        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        llLine.setLayoutParams(layoutParams);
+
+        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(mainLayout);
+        constraintSet.connect(R.id.ll_line, ConstraintSet.END, R.id.ivw_icon, ConstraintSet.START);
+        constraintSet.setVerticalBias(R.id.ll_line, 1.0f);
+        constraintSet.setHorizontalBias(R.id.ll_line, 1.0f);
+        constraintSet.applyTo(mainLayout);
     }
 
     @Override
@@ -220,7 +235,7 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
     private void testDomain() {
 
         //如果有提示则取消
-        mainLayout.removeView(tipView);
+        llLine.removeView(tipView);
 
         Net.INSTANCE.cancelGroup(FASTEST_GOURP_NAME);
         FastestTopDomainUtil.Companion.setMIsFinish(true);
@@ -267,6 +282,9 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
         }
     }
 
+    /**
+     * 当前线路耗时长，提醒用户
+     */
     private void showTip() {
 
         if (tipView == null) {
@@ -274,25 +292,22 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
             tipView = inflater.inflate(R.layout.layout_fastest_tip, null);
         }
 
-        mainLayout.removeView(tipView);
+        llLine.removeView(tipView);
 
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT);
-        params.endToStart = R.id.ivw_icon;
-        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
-
         tipView.findViewById(R.id.fastest_tip_cancle).setOnClickListener(v-> {
-            mainLayout.removeView(tipView);
+            llLine.removeView(tipView);
         });
         tipView.findViewById(R.id.fastest_tip_change).setOnClickListener(v-> {
-            mainLayout.removeView(tipView);
+            llLine.removeView(tipView);
             testDomain();
         });
         tipView.setOnClickListener(v-> {
         });
 
-        mainLayout.addView(tipView, params);
+        llLine.addView(tipView, params);
     }
 
     private void cancle() {
