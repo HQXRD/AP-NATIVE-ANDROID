@@ -263,7 +263,7 @@ public class FilterView extends LinearLayout {
                 ToastUtils.showShort(getContext().getString(R.string.txt_tip_date));
                 return;
             }
-            binding.edtInput.clearFocus();
+
             lsn.onClick(v);
         });
     }

@@ -253,6 +253,7 @@
                 android:id="@+id/edt_input"
                 style="@style/style_filter_info_value"
                 android:background="@color/white"
+                android:textCursorDrawable="@color/clr_transparent"
                 android:lines="1"
                 android:textColorHint="@color/clr_gray_1"
                 tools:hint="user name" />
