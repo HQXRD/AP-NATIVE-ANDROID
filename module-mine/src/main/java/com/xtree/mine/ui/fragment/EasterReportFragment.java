@@ -47,7 +47,7 @@ public class EasterReportFragment extends BaseFragment<FragmentEasterReportBindi
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.fvMain.setVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE, View.VISIBLE);
         binding.fvMain.setTopTotal("0", "0.0000");
-        binding.fvMain.setDefEdit("用户名", "", "输入会员帐号");
+        binding.fvMain.setDefEdit("会员账号", "", "请输入会员账号");
         viewModel.getLottery();
 
         listType.add(new StatusVo(-1, getString(R.string.txt_lottery_all_kind)));
@@ -58,6 +58,7 @@ public class EasterReportFragment extends BaseFragment<FragmentEasterReportBindi
         listStatus.add(new StatusVo(2, getString(R.string.txt_cancel_lottery)));
 
         binding.fvMain.setData(listType, listStatus);
+        binding.fvMain.setDefStatus(listStatus.get(2));
 
         binding.fvMain.setTypeTitle(getString(R.string.txt_lottery_kind), null, getString(R.string.txt_status));
 
@@ -119,6 +120,7 @@ public class EasterReportFragment extends BaseFragment<FragmentEasterReportBindi
                 listType.add(new StatusVo(item.lotteryid, item.cnname));
             }
             binding.fvMain.setData(listType, listStatus);
+            binding.fvMain.setDefStatus(listStatus.get(2));
         });
 
         viewModel.liveDataEasterReport.observe(this, vo -> {
