@@ -154,14 +154,14 @@
     <style name="style_info_grey_50">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/clr_txt_warn</item>
+        <item name="android:textColor">@color/clr_txt_warn_dark</item>
         <item name="android:textSize">10sp</item>
     </style>
 
     <style name="style_info2_grey_50">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/bt_color_blurred</item>
+        <item name="android:textColor">@color/clr_main_login_txt</item>
         <item name="android:textSize">12sp</item>
     </style>
     <!-- 我的-安全中心-验证 标题 -->
