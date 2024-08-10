@@ -11,7 +11,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_blue">
+            android:background="@color/clr_bg_frame_dark_start">
 
             <View
                 android:id="@+id/view1"
@@ -192,7 +192,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_marginStart="4dp"
-                android:textColor="@color/clr_txt_01"
+                android:textColor="@color/clr_txt_black_01"
                 app:layout_constraintBottom_toBottomOf="@+id/tip"
                 app:layout_constraintStart_toEndOf="@+id/tip"
                 app:layout_constraintTop_toTopOf="@+id/tip" />
