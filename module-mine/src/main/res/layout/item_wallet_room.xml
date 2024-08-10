@@ -31,13 +31,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="中心钱包"
+            android:textColor="@color/clr_main_login_txt"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvw_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/clr_grey_00"
+            android:textColor="@color/clr_txt_02"
             android:textSize="14sp"
             tools:text="9,999.0000" />
     </LinearLayout>
