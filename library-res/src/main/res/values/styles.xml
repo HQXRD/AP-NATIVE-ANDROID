@@ -464,7 +464,19 @@
     <!-- 通用 筛选 值 样式 -->
     <style name="style_filter_info_value" parent="style_filter_info_title">
         <item name="android:layout_weight">1</item>
-        <item name="android:textColor">@color/clr_filter_txt_black</item>
+        <item name="android:textColor">@color/clr_gap_bg</item>
+    </style>
+    <!-- 通用 筛选 值Edittext 样式 -->
+    <style name="style_filter_info_edit_value">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:gravity">start</item>
+    <item name="android:minEms">4</item>
+    <item name="android:paddingTop">4dp</item>
+    <item name="android:paddingBottom">4dp</item>
+    <item name="android:textColor">@color/clr_filter_txt_gray</item>
+    <item name="android:textSize">14sp</item>
     </style>
     <!-- 通用 筛选 值 下拉 -->
     <style name="style_filter_info_spn" parent="style_filter_info_value">
@@ -475,7 +487,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_marginTop">2dp</item>
-        <item name="android:background">@color/clr_grey_080</item>
+        <item name="android:background">@color/clr_btn_rc_amount_border</item>
     </style>
 
     <style name="style_cm_edit">
@@ -997,7 +1009,7 @@
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginStart">0dp</item>
         <item name="android:hint">--</item>
-        <item name="android:textColor">@color/clr_txt_01</item>
+        <item name="android:textColor">@color/clr_txt_02</item>
     </style>
 
     <!-- 选择提款方式文字风格 -->

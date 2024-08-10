@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/layout_margin"
-    android:background="@drawable/bg_white"
+    android:background="@drawable/bg_report_filter"
     android:orientation="vertical"
     android:padding="@dimen/layout_margin">
 
@@ -23,7 +23,6 @@
         <EditText
             android:id="@+id/edt_top"
             style="@style/style_filter_info_value"
-            android:background="@color/white"
             android:enabled="false"
             android:lines="1"
             android:text=""
@@ -175,7 +174,6 @@
         <EditText
             android:id="@+id/edt_input"
             style="@style/style_filter_info_value"
-            android:background="@color/white"
             android:lines="1"
             android:textColorHint="@color/clr_gray_1"
             tools:hint="user name" />
