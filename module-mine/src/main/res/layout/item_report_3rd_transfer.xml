@@ -13,6 +13,7 @@
         <TextView
             android:id="@+id/tvw_action_time"
             style="@style/style_item_report_title"
+            android:textColor="@color/clr_white"
             tools:text="2024-01-12 15:00:00" />
 
         <TextView
@@ -48,6 +49,7 @@
         <TextView
             android:id="@+id/tvw_in"
             style="@style/style_item_report_value_center"
+            android:textColor="@color/clr_white"
             tools:text="5.00" />
 
         <TextView
@@ -78,11 +80,13 @@
         <TextView
             android:id="@+id/tvw_prebalance"
             style="@style/style_item_report_value"
+            android:textColor="@color/clr_white"
             tools:text="5.00" />
 
         <TextView
             android:id="@+id/tvw_channelbalance"
             style="@style/style_item_report_value_center"
+            android:textColor="@color/clr_white"
             tools:text="5.00" />
 
         <TextView
@@ -103,6 +107,7 @@
         <TextView
             android:id="@+id/tvw_orderno"
             style="@style/style_item_report_title"
+            android:textColor="@color/clr_white"
             tools:text="20240110VCB****JAG" />
     </LinearLayout>
 
