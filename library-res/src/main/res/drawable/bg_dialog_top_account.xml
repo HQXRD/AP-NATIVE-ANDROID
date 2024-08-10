@@ -4,10 +4,10 @@
 
     <gradient
         android:angle="270"
-        android:endColor="@color/clr_bg_frame_big"
-        android:startColor="@color/clr_bg_frame_big" />
+        android:endColor="@color/clr_bg_frame_dark_end"
+        android:startColor="@color/clr_bg_frame_dark_start" />
     <corners
-        android:topLeftRadius="20dp"
-        android:topRightRadius="20dp" />
+        android:topLeftRadius="24dp"
+        android:topRightRadius="24dp" />
 
 </shape>

@@ -54,12 +54,16 @@
             android:id="@+id/dialog_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/clr_main_start"
+            android:textColor="@color/clr_white"
+            android:textColorHint="@color/clr_white"
             android:hint="搜索开户银行" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/clr_main_start"
             android:paddingBottom="12dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
