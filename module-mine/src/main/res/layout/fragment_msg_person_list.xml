@@ -27,6 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:buttonTint="@color/clr_main_01"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -37,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/txt_select_all"
+                android:textColor="@color/clr_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/chb_select_all"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -71,7 +73,7 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/bt_msg_delete_selected"
                 android:text="@string/txt_delete_selected"
-                android:textColor="@color/clr_txt_01"
+                android:textColor="@color/clr_white"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_all_delete"

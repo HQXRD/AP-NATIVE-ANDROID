@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:buttonTint="@color/clr_main_01"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +45,7 @@
         android:maxEms="10"
         android:singleLine="true"
         android:text="13测试"
+        android:textColor="@color/clr_white"
         app:layout_constraintStart_toEndOf="@id/ivw_msg_icon"
         app:layout_constraintTop_toTopOf="@id/ivw_msg_icon" />
 
@@ -56,6 +58,7 @@
         android:text="2023-10-13 16:08:33"
         android:textStyle="normal"
         android:textSize="@dimen/bt_text_10sp"
+        android:textColor="@color/clr_white"
         app:layout_constraintBottom_toBottomOf="@id/ivw_msg_icon"
         app:layout_constraintStart_toEndOf="@id/ivw_msg_icon" />
 
