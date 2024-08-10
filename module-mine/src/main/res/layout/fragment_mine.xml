@@ -492,7 +492,7 @@
                 android:layout_marginBottom="24dp"
                 android:background="@color/clr_transparent"
                 android:text="@string/me_logout_login"
-                android:textColor="@color/clr_txt"
+                android:textColor="@color/clr_green_01"
                 android:textSize="@dimen/bt_text_16sp"
                 android:textStyle="bold" />
 
