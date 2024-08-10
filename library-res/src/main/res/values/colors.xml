@@ -157,7 +157,7 @@
     <color name="bt_bg_common_cover">#80000000</color>
 
     <!-- 圆角透明背景颜色，例如投注页右上角显示金额UI -->
-    <color name="bt_bg_shape_alpha">#F3F3F3</color>
+    <color name="bt_bg_shape_alpha">#4C4C4C</color>
 
     <!-- 投注页字体主题色 -->
     <color name="bt_text_color_primary">@color/clr_txt_black_cm</color>
@@ -175,7 +175,7 @@
     <color name="bt_text_color_primary_3">@color/clr_txt_03</color>
 
     <!-- 通用4级文字颜色 -->
-    <color name="bt_text_color_primary_4">@color/clr_txt_04</color>
+    <color name="bt_text_color_primary_4">#868686</color>
 
     <!-- 投注页页面背颜色 -->
     <color name="bt_page_bg">#F9F8F4</color>
@@ -187,7 +187,7 @@
     <color name="bt_page_top_tab_indicator">#00000000</color>
 
     <!-- 投注页页面顶部玩法tab选中状态字体颜色 -->
-    <color name="bt_tab_textcolor_selected">@color/bt_text_color_primary_1</color>
+    <color name="bt_tab_textcolor_selected">@color/white</color>
 
     <!-- 投注页页面日期下比赛选中状态的字体颜色 -->
     <color name="bt_tab_match_textcolor_selected">@color/clr_btn_press</color>
