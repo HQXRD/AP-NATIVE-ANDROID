@@ -347,7 +347,7 @@
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
         <item name="android:textSize">11sp</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
@@ -715,7 +715,7 @@
         <item name="android:padding">8dp</item>
         <item name="android:tag"></item>
         <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColor">@color/cl_gap</item>
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
     </style>

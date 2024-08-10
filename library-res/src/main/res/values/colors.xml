@@ -77,13 +77,13 @@
     <!-- 通用字颜色 主色/1级字 -->
     <color name="clr_txt_01">#BEBEC0</color>
     <!-- 通用字颜色 主色/2级字 -->
-    <color name="clr_txt_02">#EBEBEB</color>
+    <color name="clr_txt_02">@color/white</color>
     <!-- 通用字颜色 主色/3级字 -->
     <color name="clr_txt_03">#AFAFAF</color>
     <!-- 通用字颜色 主色/4级字 -->
     <color name="clr_txt_04">#99A0B1</color>
     <!-- 通用黑色 1E -->
-    <color name="clr_txt_black_cm">#8D8D8D</color>
+    <color name="clr_txt_black_cm">@color/white</color>
     <!-- 可跳转链接的文字 通常是蓝色或主题色 -->
     <!--<color name="clr_txt_link">#119BFF</color>-->
     <color name="clr_txt_link">#7F7C79</color>
@@ -337,7 +337,7 @@
     <color name="clr_grey_07">#F7F7F7</color>
 
     <color name="clr_grey_22">#38D9D9D9</color>
-    <color name="clr_grey_080">#CCD9D9D9</color>
+    <color name="clr_grey_080">#323232</color>
     <color name="clr_grey_13">#99A0B1</color>
     <color name="clr_gray_30">#4DDFDCE9</color>
     <color name="clr_gray_021">#767677</color>
@@ -355,7 +355,7 @@
     <!-- 筛选框 灰色 标题 -->
     <color name="clr_filter_txt_gray">#A1A1A1</color>
     <!-- 筛选框 黑色 值 -->
-    <color name="clr_filter_txt_black">#1E1E1E</color>
+    <color name="clr_filter_txt_black">#BEBEC0</color>
     <!-- 提款流水 项目名称 黑色 值 -->
     <color name="clr_awards_txt_black">#0C0319</color>
 

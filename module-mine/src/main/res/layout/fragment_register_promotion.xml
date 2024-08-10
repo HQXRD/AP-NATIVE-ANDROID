@@ -5,6 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/clr_bg_frame_dark_start"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,12 +51,11 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_title"
-            app:tabBackground="@color/white"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/clr_main"
+            app:tabIndicatorColor="@color/clr_main_01"
             app:tabIndicatorFullWidth="false"
-            app:tabSelectedTextColor="@color/clr_main"
-            app:tabTextColor="@color/black" />
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/clr_txt_01" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_main"
