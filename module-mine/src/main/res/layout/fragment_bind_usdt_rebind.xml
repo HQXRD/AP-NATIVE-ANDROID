@@ -150,6 +150,7 @@
                 <TextView
                     android:id="@+id/tvw_type"
                     style="@style/style_bind_confirm_value"
+                    android:textColor="@color/clr_white"
                     tools:text="XX" />
             </LinearLayout>
 
@@ -162,6 +163,7 @@
                 <TextView
                     android:id="@+id/tvw_acc"
                     style="@style/style_bind_confirm_value"
+                    android:textColor="@color/clr_white"
                     tools:text="XX" />
             </LinearLayout>
 

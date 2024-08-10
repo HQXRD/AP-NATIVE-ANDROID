@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/me_choose_acount"
-            android:textColor="@color/clr_txt_rebateagrt_title"
+            android:textColor="@color/clr_white"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="close"
             android:padding="4dp"
-            android:src="@mipmap/ic_pop_close2"
+            android:src="@mipmap/ic_pop_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,7 +48,7 @@
         android:id="@+id/ll_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/clr_bg_frame_big"
+        android:background="@color/clr_bg_frame_dark_start"
         android:orientation="vertical"
         android:padding="@dimen/layout_margin"
         android:paddingBottom="36dp">

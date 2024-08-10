@@ -227,6 +227,7 @@
                             <TextView
                                 android:id="@+id/tvw_nickname"
                                 style="@style/style_bind_confirm_value"
+                                android:textColor="@color/clr_white"
                                 tools:text="DEMO" />
                         </LinearLayout>
 
@@ -239,6 +240,7 @@
                             <TextView
                                 android:id="@+id/tvw_bank"
                                 style="@style/style_bind_confirm_value"
+                                android:textColor="@color/clr_white"
                                 tools:text="DEMO" />
                         </LinearLayout>
 
@@ -251,6 +253,7 @@
                             <TextView
                                 android:id="@+id/tvw_bank_province"
                                 style="@style/style_bind_confirm_value"
+                                android:textColor="@color/clr_white"
                                 tools:text="XXX" />
                         </LinearLayout>
 
@@ -263,6 +266,7 @@
                             <TextView
                                 android:id="@+id/tvw_bank_city"
                                 style="@style/style_bind_confirm_value"
+                                android:textColor="@color/clr_white"
                                 tools:text="XX" />
                         </LinearLayout>
 
@@ -275,6 +279,7 @@
                             <TextView
                                 android:id="@+id/tvw_branch"
                                 style="@style/style_bind_confirm_value"
+                                android:textColor="@color/clr_white"
                                 tools:text="XX" />
                         </LinearLayout>
 
@@ -287,6 +292,7 @@
                             <TextView
                                 android:id="@+id/tvw_real_name"
                                 style="@style/style_bind_confirm_value"
+                                android:textColor="@color/clr_white"
                                 tools:text="XX" />
                         </LinearLayout>
 
@@ -299,6 +305,7 @@
                             <TextView
                                 android:id="@+id/tvw_acc"
                                 style="@style/style_bind_confirm_value"
+                                android:textColor="@color/clr_white"
                                 tools:text="XX" />
                         </LinearLayout>
 
