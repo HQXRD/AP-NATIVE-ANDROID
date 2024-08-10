@@ -469,7 +469,8 @@ public final class ToastUtils {
             final View view = sViewWeakReference.get();
             TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast);
             textView.setText(text);
-            ImageView imageView = sViewWeakReference.get().findViewById(R.id.iv_toast);
+            //HQAP2-3618 去掉toast左侧图标
+            /*ImageView imageView = sViewWeakReference.get().findViewById(R.id.iv_toast);
             switch (showType) {
                 case Fail:
                     imageView.setBackgroundResource(R.drawable.ic_toast_fail);
@@ -480,7 +481,7 @@ public final class ToastUtils {
                 case Default:
                     imageView.setBackgroundResource(R.drawable.ic_info);
                     break;
-            }
+            }*/
 
             if (view != null) {
                 sToast = new Toast(Utils.getContext());
