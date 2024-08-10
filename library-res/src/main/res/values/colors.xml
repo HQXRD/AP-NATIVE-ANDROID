@@ -82,6 +82,7 @@
     <color name="clr_txt_03">#AFAFAF</color>
     <!-- 通用字颜色 主色/4级字 -->
     <color name="clr_txt_04">#99A0B1</color>
+    <color name="clr_txt_05">#868686</color>
     <!-- 通用黑色 1E -->
     <color name="clr_txt_black_cm">@color/white</color>
     <!-- 可跳转链接的文字 通常是蓝色或主题色 -->
