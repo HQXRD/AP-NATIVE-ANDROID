@@ -724,7 +724,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.edtName.setText("");
             binding.edtName.setEnabled(true);
             binding.ivwClear.setVisibility(View.VISIBLE);
-//            binding.llName.setVisibility(View.GONE);
+            //嗨钱包不隐藏姓名输入栏
+            if (!curRechargeVo.paycode.contains("hiwallet")) {
+                binding.llName.setVisibility(View.GONE);
+            }
             binding.tvwTipName.setVisibility(View.VISIBLE);
         }
 
