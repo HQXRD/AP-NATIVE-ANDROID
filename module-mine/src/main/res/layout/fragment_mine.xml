@@ -407,7 +407,7 @@
                         <TextView
                             android:id="@+id/tvw_acc_mg_client"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_report"
+                            android:drawableTop="@mipmap/me_gr_acc"
                             android:text="@string/txt_acc_mg" />
 
                         <TextView style="@style/style_wallet_space" />
@@ -415,7 +415,7 @@
                         <TextView
                             android:id="@+id/tvw_rebate_contract_client"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_acc"
+                            android:drawableTop="@mipmap/me_gr_report"
                             android:text="@string/txt_rebate_contract" />
 
                     </LinearLayout>
