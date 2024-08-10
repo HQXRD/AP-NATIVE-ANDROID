@@ -11,7 +11,7 @@
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_white_msg_title"
+        android:background="@drawable/bg_msg_title"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

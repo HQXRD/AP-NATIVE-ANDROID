@@ -992,7 +992,7 @@
 
     <style name="style_item_report_profit_v" parent="style_item_report_profit_base">
         <item name="android:layout_marginTop">1dp</item>
-        <item name="android:textColor">@color/clr_txt_01</item>
+        <item name="android:textColor">@color/clr_white</item>
     </style>
 
     <style name="style_item_report_profit_sum_t" parent="style_item_report_profit_base">

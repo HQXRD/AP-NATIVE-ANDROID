@@ -72,6 +72,7 @@
             android:layout_marginEnd="@dimen/layout_margin"
             android:layout_marginBottom="6dp"
             android:text="@string/txt_tip_report"
+            android:textColor="@color/clr_red_01"
             android:textSize="14sp"
             android:visibility="gone"
             tools:visibility="visible" />

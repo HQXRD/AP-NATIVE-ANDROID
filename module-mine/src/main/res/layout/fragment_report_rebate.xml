@@ -99,6 +99,7 @@
                         android:drawablePadding="12dp"
                         android:gravity="center"
                         android:text="@string/txt_no_data"
+                        android:textColor="@color/clr_txt_01"
                         android:visibility="gone"
                         tools:visibility="visible" />
 

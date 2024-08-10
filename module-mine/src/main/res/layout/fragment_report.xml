@@ -73,6 +73,7 @@
             android:layout_marginBottom="6dp"
             android:text="@string/txt_tip_report"
             android:textSize="14sp"
+            android:textColor="@color/clr_red_01"
             android:visibility="gone"
             tools:visibility="visible" />
 
@@ -170,6 +171,7 @@
                         android:drawablePadding="12dp"
                         android:gravity="center"
                         android:text="@string/txt_no_data"
+                        android:textColor="@color/clr_txt_01"
                         android:visibility="gone"
                         tools:visibility="visible" />
 
