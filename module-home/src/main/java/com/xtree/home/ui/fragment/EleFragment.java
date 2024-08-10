@@ -24,7 +24,7 @@ import com.xtree.home.vo.GameVo;
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 /**
- * PG电子，PP电子，PT电子
+ * PG电子，PP电子，PT电子，奥丁电子
  */
 @Route(path = RouterFragmentPath.Home.ELE)
 public class EleFragment extends BaseFragment<FragmentEleBinding, HomeViewModel> {

@@ -176,12 +176,15 @@ public class GuideExTransferConfirmFragment extends BaseFragment<FragmentExtrans
 
             @Override
             public void rechargeNextJump() {
+                viewModel.skipGuide();
                 dismissReceiptGuide();
                 getActivity().finish();
             }
 
+            //我知道了 调用跳过引导
             @Override
             public void rechargeNextNext() {
+
                 dismissReceiptGuide();
                 //showPayeeUploadGuide();
               getActivity().finish();

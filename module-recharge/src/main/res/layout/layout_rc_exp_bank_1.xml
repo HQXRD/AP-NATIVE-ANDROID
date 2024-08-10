@@ -9,6 +9,8 @@
             type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -67,24 +69,42 @@
             android:text="*系统正在加急安排您本次充值申请，请耐心等候"
             android:textColor="@color/clr_grey_09" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:layout_marginBottom="@dimen/layout_margin"
-            android:drawableStart="@mipmap/cm_ic_countdown"
-            android:drawablePadding="6dp"
-            android:gravity="center"
-            android:text="@{model.waitTime}"
-            android:textColor="@color/clr_purple_02"
-            android:visibility="visible"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:layout_gravity="center"
+                android:drawableStart="@mipmap/cm_ic_countdown"
+                android:drawablePadding="6dp"
+                android:gravity="center"
+                android:text="@{model.waitTime}"
+                android:textColor="@color/clr_purple_02"
+                android:visibility="@{TextUtils.isEmpty(model.waitTime)?View.GONE:View.VISIBLE}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@{model.pairedTimeData}"
+                android:textColor="@color/clr_txt_black"
+                android:visibility="@{model.pairedTimeStatus?View.VISIBLE:View.GONE}"/>
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tvw_ok"
             style="@style/style_btn_long"
             android:text="取消等待"
             android:onClick="@{() -> model.cancleWait()}"
-            android:visibility="gone"/>
+            android:visibility="@{model.cancleOrderWaitStatus?View.VISIBLE:View.GONE}"/>
 
     </LinearLayout>
 </layout>

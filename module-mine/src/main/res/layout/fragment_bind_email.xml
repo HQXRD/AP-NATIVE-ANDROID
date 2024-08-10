@@ -23,21 +23,24 @@
 
         <TextView
             android:id="@+id/tvw_title"
-            style="@style/style_security_title"
+            style="@style/style_security_title2"
             android:text="@string/txt_email" />
 
         <EditText
             android:id="@+id/edt_num"
             style="@style/style_cm_edit"
             android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="@dimen/layout_margin"
             android:background="@null"
             android:hint="@string/txt_enter_email_pls"
             android:inputType="textEmailAddress"
-            android:maxLength="60" />
+            android:maxLength="60"
+            android:padding="0dp" />
 
-        <View style="@style/style_dividing_line" />
+        <View
+            android:id="@+id/v_div_line"
+            style="@style/style_dividing_line" />
 
         <TextView
             android:id="@+id/tvw_tip_hint"
@@ -57,7 +60,7 @@
             tools:visibility="visible" />
 
         <TextView
-            style="@style/style_security_title"
+            style="@style/style_security_title2"
             android:text="@string/txt_verify_code" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,6 +78,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLength="6"
+                android:padding="0dp"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

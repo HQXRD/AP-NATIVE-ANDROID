@@ -588,9 +588,13 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             final String netCode =
                     SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
-            if (code != null && !TextUtils.isEmpty(code)) {
+            if (code != null && !TextUtils.isEmpty(code)
+                    &&registerVerificationCodeVo !=null
+                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
                 viewModel.register(account, pwd1, code, registerVerificationCodeVo.key, verificationTxt);
-            } else if ((code != null && !TextUtils.isEmpty(code)) && (netCode != null && !TextUtils.isEmpty(netCode))) {
+            } else if ( (netCode != null && !TextUtils.isEmpty(netCode))
+                    &&registerVerificationCodeVo !=null
+                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
                 viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt);
             } else {
                 //增加

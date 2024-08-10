@@ -171,6 +171,15 @@
         <item name="android:textColor">@color/clr_txt_black_01</item>
         <item name="android:textSize">17sp</item>
     </style>
+    <!-- 我的-安全中心-验证 标题 2 -->
+    <style name="style_security_title2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:textColor">@color/clr_sec_verify_normal</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 
     <!-- 我的-安全中心-验证 分割线 -->
     <style name="style_dividing_line">
@@ -498,6 +507,11 @@
     <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
         <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
         <item name="android:textColor">@color/clr_orange_03</item>
+    </style>
+    <!-- 通用 提示小字 桔红色 2 -->
+    <style name="style_cm_tip_small_orange2" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_red_19</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">

@@ -2,6 +2,7 @@ package com.xtree.base.net;
 
 import android.text.TextUtils;
 
+import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.HmacSHA256Utils;
 import com.xtree.base.utils.TagUtils;
@@ -41,7 +42,7 @@ public class HeaderInterceptor implements Interceptor {
         builder.addHeader("App-RNID", "87jumkljo"); //
         builder.addHeader("Source", "9");
         builder.addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
-        builder.addHeader("X-Crypto", "yes");
+        builder.addHeader("X-Crypto", BuildConfig.DEBUG ? "no" : "yes");
 
         long sign1Ts = System.currentTimeMillis() / 1000;
         String query = fullUrl.encodedQuery();
