@@ -741,7 +741,7 @@
     <style name="style_cm_edit_amount">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:background">@drawable/bg_login_et_bg</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:hint"></item>
         <item name="android:inputType">numberDecimal</item>
@@ -793,7 +793,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:minEms">6</item>
-        <item name="android:textColor">@color/clr_grey_50</item>
+        <item name="android:textColor">@color/clr_main_login_txt</item>
         <item name="android:textSize">14sp</item>
     </style>
 

@@ -25,12 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
-            android:background="@mipmap/me_bg_wd_1k"
+
             android:drawableStart="@mipmap/cm_ic_cny"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:paddingStart="4dp"
-            android:text="@string/txt_1k_recycle"
+
             android:textColor="@color/clr_white"
             android:textSize="11sp" />
 
@@ -55,7 +55,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="@string/txt_auto_transfer"
-                android:textColor="@color/clr_white"
+                android:textColor="@color/clr_txt_black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0.0000"
-        android:textColor="@color/clr_main_02"
+        android:textColor="@color/clr_bg_frame_32"
         android:textSize="24sp"
         tools:text="9,999.0000" />
 
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0.0000"
-        android:textColor="@color/clr_main_02"
+        android:textColor="@color/clr_bg_frame_32"
         android:textSize="16sp"
         tools:text="999.0000" />
 </LinearLayout>

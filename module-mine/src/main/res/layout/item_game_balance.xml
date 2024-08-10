@@ -12,7 +12,7 @@
         style="@style/style_trans_ll"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/bg_gray_8"
+        android:background="@drawable/btn_item_game_balance_selector"
         android:gravity="top">
 
         <TextView
