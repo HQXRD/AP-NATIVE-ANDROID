@@ -377,10 +377,23 @@
     <color name="clr_rc_exp_choose_bank_bg">@color/clr_main_33</color>
     <color name="clr_rc_exp_choose_bank_txt">@color/clr_red_24</color>
 
+    <!-- 安全中心 安全验证 -->
+    <color name="clr_sec_verify_normal">#0C0319</color>
+    <color name="clr_sec_verify_grey">#992F2747</color>
+    <color name="clr_sec_verify_warn">#F35A4E</color>
+
     <color name="clr_edt_auth_focused">@color/clr_white</color>
     <!-- 绑定谷歌验证文字颜色 -->
     <color name="clr_google_txt_black">#0C0319</color>
     <color name="clr_withdrawal_usdt_tip">#4B4B4B</color>
     <!-- 提款流水边框颜色 -->
     <color name="clr_flow_item_stroke">#87C6C5C7</color>
+    <color name="clr_awards_bt_end">#FFFFFF</color>
+    <color name="clr_awards_bt_start">#ECE6F9</color>
+
+
+<!--    极速充值-->
+    <color name="clr_ex_success_bg">#F5FFED</color>
+    <color name="clr_ex_success_txt">#37AA4A</color>
+
 </resources>

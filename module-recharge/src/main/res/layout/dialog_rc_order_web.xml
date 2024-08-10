@@ -202,7 +202,7 @@
             <TextView
                 style="@style/style_cm_tip_small_title_warn"
                 android:layout_marginTop="36dp"
-                android:text="@string/txt_notice_c" />
+                android:text="@string/txt_notice" />
 
             <TextView
                 android:id="@+id/tvw_01"
@@ -212,12 +212,12 @@
 
             <TextView
                 android:id="@+id/tvw_02"
-                style="@style/style_cm_tip_small_yellow"
+                style="@style/style_cm_tip_small_orange2"
                 android:text="@string/txt_rc_dont_save_account_or_qrcode" />
 
             <TextView
                 android:id="@+id/tvw_03"
-                style="@style/style_cm_tip_small_yellow"
+                style="@style/style_cm_tip_small_orange2"
                 android:text="@string/txt_rc_wait_long_or_orders_not_processed_contact_cs" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
