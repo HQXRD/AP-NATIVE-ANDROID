@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
 import android.app.Application;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -20,11 +21,14 @@ import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtCheckDialogFragment;
+import com.xtree.mine.ui.rebateagrt.fragment.RebateAgrtSearchUserDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckEvent;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckFoot;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateAddModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateHeadModel;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserResultModel;
 import com.xtree.mine.vo.StatusVo;
 import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAgrtCreateRequest;
@@ -35,6 +39,7 @@ import org.reactivestreams.Subscription;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,9 +68,17 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             });
     private final MutableLiveData<String> titleData = new MutableLiveData<>(getApplication().getString(R.string.txt_dividendagrt_title));
     public final MutableLiveData<Boolean> showCreateBtnData = new MutableLiveData<>(false);
+    public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
     private DividendAgrtCheckEvent event;
     private WeakReference<FragmentActivity> mActivity = null;
-    private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel();
+    private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel(new Consumer<String>() {
+        @Override
+        public void accept(String s) throws Exception {
+            RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel(1);
+            rebateAgrtDetailModel.setSearchUserModel(event.getSearchUserModel());
+            RebateAgrtSearchUserDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
+        }
+    });
     private final RebateAgrtCreateAddModel addModel = new RebateAgrtCreateAddModel();
     private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
         headModel.setItemType(1);
@@ -149,7 +162,15 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         if (event.getMode() == 1) {
             //创建模式
             showCreateBtnData.setValue(true);
-            headModel.user.set(event.getUserName());
+            if (!TextUtils.isEmpty(event.getUserName())) {
+                headModel.editState.set(false);
+                headModel.user.set(event.getUserName());
+                HashMap<String, String> map = new HashMap<>();
+                map.put(event.getUserid(), event.getUserName());
+                searchUserResultLiveData.setValue(new RebateAgrtSearchUserResultModel(map));
+            } else {
+                headModel.editState.set(true);
+            }
             addModel.openAdd.set(true);
             addModel.setConsumer(v -> {
                 addModel();
@@ -172,9 +193,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
 
                         List<String> value = entry.getValue();
                         if (value.size() > 2) {
-                            model.setProfit(value.get(0));
-                            model.setPeople(value.get(1));
-                            model.setNetProfit(value.get(2));
+                            model.setLoseStreak(value.get(0));
+                            model.setProfit(value.get(1));
+                            model.setPeople(value.get(2));
                         }
                         bindModels.add(model);
                     }
@@ -192,8 +213,6 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             getDividendAgrt();
         }
     }
-
-
 
     /**
      * 添加一条规则
@@ -215,6 +234,15 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         this.mActivity = new WeakReference<>(mActivity);
     }
 
+    public void setData(RebateAgrtSearchUserResultModel model) {
+        searchUserResultLiveData.setValue(model);
+        StringBuilder usreNames = new StringBuilder();
+        for (Map.Entry<String, String> map : model.getUser().entrySet()) {
+            usreNames.append(map.getValue()).append(",");
+        }
+        usreNames.deleteCharAt(usreNames.lastIndexOf(","));
+        headModel.user.set(usreNames.toString());
+    }
     private void formatItem() {
         //设置小标题
         for (int i = 3; i < bindModels.size(); i++) {
@@ -258,6 +286,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                                 dividendAgrtCheckModel.setNetProfit(ruleDTO.getNet_profit());
                                 dividendAgrtCheckModel.setProfit(ruleDTO.getProfit());
                                 dividendAgrtCheckModel.setPeople(ruleDTO.getPeople());
+                                dividendAgrtCheckModel.setLoseStreak(ruleDTO.getLose_streak());
                                 bindModels.add(dividendAgrtCheckModel);
                             }
 
@@ -285,11 +314,18 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             return;
         }
 
+        if (searchUserResultLiveData.getValue() == null || searchUserResultLiveData.getValue().getUser() == null) {
+            ToastUtils.show(getApplication().getString(R.string.txt_rebateagrt_tip1), ToastUtils.ShowType.Default);
+            return;
+        }
+
         DividendAgrtCreateRequest request = new DividendAgrtCreateRequest();
 
         //用戶
         ArrayList<String> users = new ArrayList<>();
-        users.add(event.getUserid());
+        for (Map.Entry<String, String> map : searchUserResultLiveData.getValue().getUser().entrySet()) {
+            users.add(map.getKey());
+        }
         request.setUserid(users);
 
         if (datas.getValue() != null) {
@@ -299,6 +335,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             ArrayList<String> netProfitList = new ArrayList<>();
             ArrayList<String> dayPeopleList = new ArrayList<>();
             ArrayList<String> weekPeopleList = new ArrayList<>();
+            ArrayList<String> loseStreakList = new ArrayList<>();
 
             for (BindModel bindModel : datas.getValue()) {
                 if (bindModel instanceof DividendAgrtCheckModel) {
@@ -311,6 +348,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                     profitList.add(model.getProfit());
                     peopleList.add(model.getPeople());
                     netProfitList.add(model.getNetProfit());
+                    loseStreakList.add(model.getLoseStreak());
                     dayPeopleList.add("0");
                     weekPeopleList.add("0");
                 }
@@ -321,6 +359,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             request.setNet_profit(netProfitList);
             request.setDay_people(dayPeopleList);
             request.setWeek_people(weekPeopleList);
+            request.setLose_streak(loseStreakList);
         }
         request.setType(event.getType());
 

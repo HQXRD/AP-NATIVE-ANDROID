@@ -34,6 +34,7 @@ import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtSubModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtTotalModel;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.vo.StatusVo;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
@@ -115,9 +116,20 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
             DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
             event.setMode(1);
             event.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
-            event.setUserName(dividendAgrtData.getUser().getNickname());
             event.setType(headModel.type);
             event.setRules(dividendAgrtData.getSetRules());
+            GameDividendAgrtResponse.ChildrenBillDTO childrenBill = dividendAgrtData.getChildrenBill();
+            if (childrenBill != null) {
+                List<GameDividendAgrtResponse.ChildrenBillDTO.ChildrenDTO> children = childrenBill.getChildren();
+                if (children != null) {
+                    ArrayList<RebateAgrtSearchUserModel> serchUserList = new ArrayList<>();
+                    for (GameDividendAgrtResponse.ChildrenBillDTO.ChildrenDTO child : children) {
+                        serchUserList.add(new RebateAgrtSearchUserModel(child.getUserid(), child.getUsername()));
+                    }
+                    event.setSearchUserModel(serchUserList);
+                }
+            }
+
             startCheckAgrt(event);
         }
     });
@@ -363,6 +375,14 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                             event.setUserName(v.getUserName());
                                             event.setType(headModel.type);
                                             event.setRules(vo.getSetRules());
+                                            List<GameDividendAgrtResponse.ChildrenBillDTO.ChildrenDTO> children = childrenBill.getChildren();
+                                            if (children != null) {
+                                                ArrayList<RebateAgrtSearchUserModel> serchUserList = new ArrayList<>();
+                                                for (GameDividendAgrtResponse.ChildrenBillDTO.ChildrenDTO child : children) {
+                                                    serchUserList.add(new RebateAgrtSearchUserModel(child.getUserid(), child.getUsername()));
+                                                }
+                                                event.setSearchUserModel(serchUserList);
+                                            }
                                             startCheckAgrt(event);
                                         });
                                         bindModels.add(gameDividendAgrtModel);

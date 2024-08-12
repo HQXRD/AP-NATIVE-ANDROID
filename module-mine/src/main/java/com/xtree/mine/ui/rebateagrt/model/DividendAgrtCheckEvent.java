@@ -1,5 +1,7 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
+import java.util.List;
+
 /**
  * Created by KAKA on 2024/4/5.
  * Describe:
@@ -10,6 +12,8 @@ public class DividendAgrtCheckEvent {
     private String userName = "";
     private String type = "";
     private String rules = null;
+    private List<RebateAgrtSearchUserModel> searchUserModel;
+
     //0-查看模式 1-创建模式
     private int mode = 0;
 
@@ -53,4 +57,11 @@ public class DividendAgrtCheckEvent {
         this.type = type;
     }
 
+    public List<RebateAgrtSearchUserModel> getSearchUserModel() {
+        return searchUserModel;
+    }
+
+    public void setSearchUserModel(List<RebateAgrtSearchUserModel> searchUserModel) {
+        this.searchUserModel = searchUserModel;
+    }
 }

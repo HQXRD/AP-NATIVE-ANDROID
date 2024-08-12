@@ -23,9 +23,11 @@ public class DividendAgrtCheckModel extends BindModel {
     //累计投注额
     private String profit = "";
     //累计亏损额
-    private String netProfit = "";
+    private String netProfit = "0";
     //活跃人数
     private String people = "";
+    //连续亏损周期
+    private String loseStreak = "0";
 
     public void setSelectRatioCallBack(Consumer<DividendAgrtCheckModel> selectRatioCallBack) {
         this.selectRatioCallBack = selectRatioCallBack;
@@ -75,5 +77,13 @@ public class DividendAgrtCheckModel extends BindModel {
 
     public void setPeople(String people) {
         this.people = people;
+    }
+
+    public String getLoseStreak() {
+        return loseStreak;
+    }
+
+    public void setLoseStreak(String loseStreak) {
+        this.loseStreak = loseStreak;
     }
 }
