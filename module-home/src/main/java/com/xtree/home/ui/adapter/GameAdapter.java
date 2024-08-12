@@ -196,6 +196,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         it.putExtra("url", playUrl);
         it.putExtra("title", title);
         it.putExtra(BrowserActivity.ARG_IS_GAME, true);
+        it.putExtra(BrowserActivity.ARG_IS_3RD_LINK, true);
         ctx.startActivity(it);
     }
 
