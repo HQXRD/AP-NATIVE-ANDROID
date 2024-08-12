@@ -329,6 +329,8 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
 
                                 //设置显示创建契约
                                 headModel.showCreateAgrt.set(level == 3);
+                                //一代用户头布局显示不同
+                                headModel.showLevel_1.set(level == 2);
 
                                 bindModels.add(headModel);
                                 //一代用户不显示下级信息
@@ -338,8 +340,11 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                 bindModels.add(totalModel);
                             }
 
+                            int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
                             GameDividendAgrtResponse.ChildrenBillDTO childrenBill = vo.getChildrenBill();
-                            if (childrenBill != null) {
+
+                            //一代用户不显示契约列表
+                            if (childrenBill != null && level != 2) {
                                 List<GameDividendAgrtResponse.ChildrenBillDTO.DataDTO> data = childrenBill.getData();
                                 if (data != null) {
                                     for (GameDividendAgrtResponse.ChildrenBillDTO.DataDTO dataDTO : data) {

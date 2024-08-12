@@ -26,6 +26,8 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     public ObservableField<String> userNameData = new ObservableField<>();
     //是否显示创建契约
     public ObservableField<Boolean> showCreateAgrt = new ObservableField<>(false);
+    //一代用户的显示方式
+    public ObservableField<Boolean> showLevel_1 = new ObservableField<>(false);
     //分页索引
     public int p = 1;
     //page count
