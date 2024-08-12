@@ -6,14 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_main_frame_05">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@mipmap/bt_bg_dialog_bt"
-            app:layout_constraintBottom_toBottomOf="@+id/ll_root"
-            app:layout_constraintTop_toTopOf="@+id/ll_root" />
+        android:background="@color/clr_main_05">
 
         <LinearLayout
             android:id="@+id/ll_root"

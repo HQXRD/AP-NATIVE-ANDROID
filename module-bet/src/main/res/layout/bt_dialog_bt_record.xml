@@ -5,13 +5,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_main_frame">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/bg_main_frame"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <RelativeLayout
             android:id="@+id/ll_root"
@@ -55,7 +51,6 @@
                 android:layout_above="@+id/csl_bottom"
                 android:layout_below="@+id/csl_top"
                 android:layout_marginTop="10dp"
-                android:background="@mipmap/bt_bg_dialog_bt"
                 android:fillViewport="true"
                 android:paddingTop="5dp"
                 android:scrollbars="none"
@@ -82,7 +77,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/bt_page_up_bg"
                 android:visibility="gone"
                 tools:visibility="visible">
 
