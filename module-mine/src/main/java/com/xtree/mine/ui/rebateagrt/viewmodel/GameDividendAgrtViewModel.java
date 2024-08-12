@@ -109,6 +109,17 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
             event.setType(headModel.type);
             startCheckAgrt(event);
         }
+
+        @Override
+        public void createAgrt() {
+            DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+            event.setMode(1);
+            event.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
+            event.setUserName(dividendAgrtData.getUser().getNickname());
+            event.setType(headModel.type);
+            event.setRules(dividendAgrtData.getSetRules());
+            startCheckAgrt(event);
+        }
     });
 
     private final GameDividendAgrtSubModel subModel = new GameDividendAgrtSubModel(new GameDividendAgrtSubModel.OnCallBack() {
@@ -301,8 +312,17 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                     headModel.setSettle_accounts(selfBill.getSettle_accounts());
                                     headModel.setSub_money(selfBill.getSub_money());
                                 }
+
+                                int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+
+                                //设置显示创建契约
+                                headModel.showCreateAgrt.set(level == 3);
+
                                 bindModels.add(headModel);
-                                bindModels.add(subModel);
+                                //一代用户不显示下级信息
+                                if (level != 2) {
+                                    bindModels.add(subModel);
+                                }
                                 bindModels.add(totalModel);
                             }
 
