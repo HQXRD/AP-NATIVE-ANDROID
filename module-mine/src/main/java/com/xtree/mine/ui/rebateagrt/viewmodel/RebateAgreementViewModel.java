@@ -137,6 +137,9 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
 
                         ArrayList<RebateAreegmentModel> newDatas = new ArrayList<>();
 
+                        int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+                        int type = SPUtils.getInstance().getInt(SPKeyGlobal.USER_TYPE);
+
                         for (int i = 0; i < bindModels.size(); i++) {
                             RebateAreegmentModel raMenu = bindModels.get(i);
                             for (FunctionMenuResponse datum : data) {
@@ -145,8 +148,12 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                     if (raMenu.type.getIds().contains(id)) {
                                         //用户等级=2才可以显示佣金报表
                                         if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
-                                            int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
                                             if (level == 2) {
+                                                newDatas.add(raMenu);
+                                            }
+                                        } else if (raMenu.type == RebateAreegmentTypeEnum.LOTTERIES) {
+                                            //总代和会员不显示彩票报表
+                                            if (type == 1 && level != 1) {
                                                 newDatas.add(raMenu);
                                             }
                                         } else {

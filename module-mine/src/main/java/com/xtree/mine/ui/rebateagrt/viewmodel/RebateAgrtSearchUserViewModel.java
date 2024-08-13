@@ -26,6 +26,7 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserLabelModel;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserResultModel;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 
@@ -96,13 +97,22 @@ public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository>
     public void initData(RebateAgrtDetailModel rebateAgrtDetailModel) {
         //init data
         searchUsreModel = rebateAgrtDetailModel;
-        initTab();
-        List<GameSubordinateAgrteResponse.ChildrenDTO> children = rebateAgrtDetailModel.getSubData().getChildren();
-        if (children != null) {
-            for (GameSubordinateAgrteResponse.ChildrenDTO child : children) {
-                bindModels.add(new RebateAgrtSearchUserLabelModel(child.getUserid(), child.getUsername()));
+
+        if (rebateAgrtDetailModel.getSubData() != null) {
+            initTab();
+            List<GameSubordinateAgrteResponse.ChildrenDTO> children = rebateAgrtDetailModel.getSubData().getChildren();
+            if (children != null) {
+                for (GameSubordinateAgrteResponse.ChildrenDTO child : children) {
+                    bindModels.add(new RebateAgrtSearchUserLabelModel(child.getUserid(), child.getUsername()));
+                }
+            }
+        } else {
+            titleData.setValue(getApplication().getString(R.string.txt_dividendagrt_title));
+            for (RebateAgrtSearchUserModel m : rebateAgrtDetailModel.getSearchUserModel()) {
+                bindModels.add(new RebateAgrtSearchUserLabelModel(m.getUsreId(), m.getUsreName()));
             }
         }
+
         datas.setValue(bindModels);
     }
 

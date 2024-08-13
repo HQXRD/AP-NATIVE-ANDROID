@@ -24,6 +24,10 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     public ObservableField<StatusVo> cyclyData = new ObservableField<>();
     public ObservableField<StatusVo> statuData = new ObservableField<>();
     public ObservableField<String> userNameData = new ObservableField<>();
+    //是否显示创建契约
+    public ObservableField<Boolean> showCreateAgrt = new ObservableField<>(false);
+    //一代用户的显示方式
+    public ObservableField<Boolean> showLevel_1 = new ObservableField<>(false);
     //分页索引
     public int p = 1;
     //page count
@@ -111,6 +115,16 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
         }
     }
 
+    public void createAgrt() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
+        if (onCallBack != null) {
+            p = 1;
+            onCallBack.createAgrt();
+        }
+    }
+
     public List<FilterView.IBaseVo> getStatusList() {
         return statusList;
     }
@@ -119,7 +133,9 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
         if (statusList != null) {
             //插入一条所有状态
             statusList.add(0, new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
-            statuData.set(new StatusVo(statusList.get(0).getShowId(), statusList.get(0).getShowName()));
+            if (statuData.get() == null) {
+                statuData.set(new StatusVo(statusList.get(0).getShowId(), statusList.get(0).getShowName()));
+            }
             this.statusList = statusList;
         }
     }
@@ -192,5 +208,7 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
         void check();
 
         void myAgrt();
+
+        void createAgrt();
     }
 }

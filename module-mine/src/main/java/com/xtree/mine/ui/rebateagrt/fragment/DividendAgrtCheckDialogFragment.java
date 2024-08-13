@@ -19,11 +19,14 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogDividendagrtCheckBinding;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckEvent;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserResultModel;
 import com.xtree.mine.ui.rebateagrt.viewmodel.DividendAgrtCheckViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.Objects;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.bus.RxBus;
 
@@ -81,6 +84,30 @@ public class DividendAgrtCheckDialogFragment extends BaseDialogFragment<DialogDi
     @Override
     public void initViewObservable() {
         super.initViewObservable();
+
+        //用户搜索
+        RxBus.getDefault().toObservable(RebateAgrtSearchUserResultModel.class).subscribe(new Observer<RebateAgrtSearchUserResultModel>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(RebateAgrtSearchUserResultModel model) {
+                viewModel.setData(model);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
         viewModel.getUC().getFinishEvent().removeObservers(this);
         viewModel.getUC().getFinishEvent().observe(this, new androidx.lifecycle.Observer<Void>() {
             @Override

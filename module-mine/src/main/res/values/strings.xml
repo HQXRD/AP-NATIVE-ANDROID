@@ -445,6 +445,9 @@
     <string name="txt_cumulative_bets_morethan">累计投注额≥</string>
     <string name="txt_cumulative_loss_morethan">累计亏损额≥</string>
     <string name="txt_num_active_persons_morethan">活跃人数≥</string>
+    <string name="txt_cumulative_bets_morethan_cyclicality">周期内累计亏损≥</string>
+    <string name="txt_cumulative_loss_morethan_cyclicality">连续亏损周期≥</string>
+    <string name="txt_num_active_persons_morethan_cyclicality">周期活跃人数≥</string>
     <string name="txt_rebateagrt_create_hint">点击选择要创建契约的用户</string>
     <string name="txt_rebateagrt_ccontent">契约内容</string>
     <string name="txt_add_rules">添加规则</string>

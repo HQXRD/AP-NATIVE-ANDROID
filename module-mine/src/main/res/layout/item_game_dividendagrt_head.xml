@@ -53,6 +53,7 @@
                 app:layout_constraintVertical_bias="0" />
 
             <TextView
+                android:id="@+id/head_myagreement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_main31_c05"
@@ -71,6 +72,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.15" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_main31_c05"
+                android:gravity="center"
+                android:onClick="@{() -> m.createAgrt()}"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="2dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/txt_create_deed"
+                android:textColor="@color/clr_white"
+                android:textSize="12sp"
+                android:visibility="@{m.showCreateAgrt?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/head_myagreement"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,6 +163,7 @@
                     app:layout_constraintVertical_bias="0" />
 
                 <TextView
+                    android:id="@+id/filter1_content"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:drawableEnd="@mipmap/bt_icon_expand"
@@ -173,6 +196,7 @@
                     app:layout_constraintVertical_bias="0" />
 
                 <TextView
+                    android:id="@+id/filter2_content"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:drawableEnd="@mipmap/bt_icon_expand"
@@ -205,6 +229,7 @@
                     app:layout_constraintVertical_bias="0" />
 
                 <TextView
+                    android:id="@+id/filter3_content"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:drawableEnd="@mipmap/bt_icon_expand"
@@ -237,6 +262,7 @@
                     app:layout_constraintVertical_bias="0" />
 
                 <EditText
+                    android:id="@+id/filter4_content"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:background="@null"
@@ -271,6 +297,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/filter4"
                     app:layout_constraintVertical_bias="1" />
+
+
+                <androidx.constraintlayout.widget.Group
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="filter1,filter1_content,filter3,filter3_content,filter4,filter4_content"
+                    android:visibility="@{m.showLevel_1?View.GONE:View.VISIBLE}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

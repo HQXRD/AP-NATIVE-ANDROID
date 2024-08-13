@@ -254,6 +254,15 @@ public class DividendAgrtCheckResponse {
             private String day_people;
             private String week_people;
             private String day_sale;
+            private String lose_streak;
+
+            public String getLose_streak() {
+                return lose_streak;
+            }
+
+            public void setLose_streak(String lose_streak) {
+                this.lose_streak = lose_streak;
+            }
 
             public String getLevel() {
                 return level;

@@ -26,6 +26,12 @@ public class DividendAgrtCreateRequest {
      */
     @SerializedName("people")
     private List<String> people;
+
+    /**
+     * lose streak
+     */
+    @SerializedName("lose_streak")
+    private List<String> lose_streak;
     /**
      * ratio
      */
@@ -129,5 +135,13 @@ public class DividendAgrtCreateRequest {
 
     public void setNet_profit(List<String> net_profit) {
         this.net_profit = net_profit;
+    }
+
+    public List<String> getLose_streak() {
+        return lose_streak;
+    }
+
+    public void setLose_streak(List<String> lose_streak) {
+        this.lose_streak = lose_streak;
     }
 }
