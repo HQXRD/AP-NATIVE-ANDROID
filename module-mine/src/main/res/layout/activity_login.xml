@@ -157,7 +157,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/bt_bg_setting_switch"
+                        android:background="@drawable/bg_btn_selector"
                         android:text="@string/me_login"
                         android:textColor="@color/white" />
 
