@@ -62,6 +62,7 @@
                         style="@style/style_cm_edt_account"
                         android:background="@drawable/login_et_bg"
                         android:paddingStart="20dp"
+                        android:textColor="@color/clr_white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -76,6 +77,7 @@
                             style="@style/style_cm_edt_pwd"
                             android:background="@drawable/login_et_bg"
                             android:paddingStart="20dp"
+                            android:textColor="@color/clr_white"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/ckb_eye"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -100,7 +102,9 @@
                             android:id="@+id/ckb_remember_pwd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:buttonTint="@color/clr_main_01"
                             android:text="@string/me_pwd_rember"
+                            android:textColor="@color/clr_txt_link"
                             android:textSize="12sp"
                             android:theme="@style/style_cm_ckb_normal" />
 
@@ -129,8 +133,10 @@
                             android:id="@+id/ckb_agreement"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:buttonTint="@color/clr_main_01"
                             android:checked="true"
                             android:text="@string/me_agreement_hint"
+                            android:textColor="@color/clr_txt_link"
                             android:textSize="12sp"
                             android:theme="@style/style_cm_ckb_normal" />
 
