@@ -77,14 +77,15 @@
                 android:id="@+id/tbl_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabBackground="@color/white"
+                android:background="@color/bg_main"
+                app:tabBackground="@color/bg_main"
                 app:tabGravity="start"
                 app:tabIndicatorColor="@color/clr_main"
                 app:tabMode="scrollable"
                 app:tabPadding="2dp"
                 app:tabRippleColor="@android:color/transparent"
                 app:tabSelectedTextColor="@color/clr_main"
-                app:tabTextColor="@color/black">
+                app:tabTextColor="@color/clr_white">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
