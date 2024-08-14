@@ -195,6 +195,62 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/ll_notice"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|bottom"
+                        android:layout_marginEnd="@dimen/page_margin"
+                        android:background="@mipmap/hm_bg_msg"
+                        android:gravity="center_vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <com.xtree.base.widget.MarqueeTextView
+                            android:id="@+id/tvw_notice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_weight="1"
+                            android:drawableStart="@mipmap/hm_notice"
+                            android:drawablePadding="6dp"
+                            android:ellipsize="marquee"
+                            android:focusable="true"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/clr_hm_txt_grey_03"
+                            tools:text="Demo" />
+
+                        <ImageView
+                            android:id="@+id/ivw_close"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="12dp"
+                            android:drawablePadding="6dp"
+                            android:padding="4dp"
+                            android:src="@mipmap/hm_close" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/ivw_notice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:src="@mipmap/hm_btn_notice"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:visibility="visible" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/nsv_league"
                     android:layout_width="match_parent"

@@ -48,6 +48,7 @@ import com.xtree.base.widget.TipDialog;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.request.UploadExcetionReq;
+import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
 import com.xtree.bet.bean.response.fb.HotLeague;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
@@ -1135,6 +1136,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.statistical(playMethodType);
         viewModel.getUserBalance();
         viewModel.getGameSwitch();
+
+        viewModel.getAnnouncement();
+        binding.ivwClose.setOnClickListener(view -> {
+            binding.llNotice.setVisibility(View.GONE);
+            binding.ivwNotice.setVisibility(View.VISIBLE);
+        });
+        binding.ivwNotice.setOnClickListener(view -> {
+            binding.llNotice.setVisibility(View.VISIBLE);
+            binding.ivwNotice.setVisibility(View.INVISIBLE);
+        });
+        binding.llNotice.setOnClickListener(view -> {
+            startContainerFragment(RouterFragmentPath.Bet.PAGER_BET_ANNOUNCEMENT);
+        });
     }
 
     @Override
@@ -1447,6 +1461,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             AppUtil.goBrowser(this, url);
         });
 
+        viewModel.announcementData.observe(this, list -> {
+            if (list.isEmpty()) {
+                binding.llNotice.setVisibility(View.GONE);
+                binding.ivwNotice.setVisibility(View.GONE);
+            } else {
+                StringBuffer sb = new StringBuffer();
+                for (FBAnnouncementInfo.RecordsDTO vo : list) {
+                    sb.append(vo.co + "      ");
+                }
+                binding.llNotice.setVisibility(View.VISIBLE);
+                binding.tvwNotice.setText(sb.toString());
+            }
+        });
     }
 
     /**
