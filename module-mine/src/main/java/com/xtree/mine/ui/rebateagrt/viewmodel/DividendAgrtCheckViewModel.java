@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableInt;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
@@ -58,6 +59,9 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
+    public static final int CHECK_MODO = 0;
+    public static final int CREATE_MODO = 1;
+
     public final MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<>(new ArrayList<>());
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
@@ -70,6 +74,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             });
     private final MutableLiveData<String> titleData = new MutableLiveData<>(getApplication().getString(R.string.txt_dividendagrt_title));
     public final MutableLiveData<Boolean> showCreateBtnData = new MutableLiveData<>(false);
+    public ObservableInt viewMode = new ObservableInt(CREATE_MODO);
     public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
     private DividendAgrtCheckEvent event;
     private WeakReference<FragmentActivity> mActivity = null;
@@ -169,6 +174,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
 
     private void initMode() {
         if (event.getMode() == 1) {
+
+            viewMode.set(CREATE_MODO);
+
             //创建模式
             showCreateBtnData.setValue(true);
             if (!TextUtils.isEmpty(event.getUserName())) {
@@ -215,11 +223,35 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                 addModel();
             }
 
+        } else if (event.getMode() == 2) {
+            //修改模式
+            viewMode.set(CHECK_MODO);
+
+            showCreateBtnData.setValue(true);
+            addModel.openAdd.set(true);
+            addModel.setConsumer(v -> {
+                addModel();
+            });
+
+            //设置可选分红比例
+            if (event.getRules() != null) {
+                ratios.clear();
+                TypeReference<List<Map<String, List<String>>>> type = new TypeReference<List<Map<String, List<String>>>>() {
+                };
+                List<Map<String, List<String>>> maps = JSON.parseObject(event.getRules(), type);
+                for (Map<String, List<String>> map : maps) {
+                    for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+                        //加入分红比例集
+                        ratios.add(new StatusVo(entry.getKey(), entry.getKey()));
+                    }
+                }
+            }
+            getDividendAgrt(event.getMode());
         } else {
             //查看模式
             showCreateBtnData.setValue(false);
             addModel.openAdd.set(false);
-            getDividendAgrt();
+            getDividendAgrt(event.getMode());
         }
     }
 
@@ -266,7 +298,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
     /**
      * 获取契约详情
      */
-    public void getDividendAgrt() {
+    public void getDividendAgrt(int mode) {
 
         if (event == null) {
             ToastUtils.show("数据错误", ToastUtils.ShowType.Fail);
@@ -296,10 +328,18 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                                 dividendAgrtCheckModel.setProfit(ruleDTO.getProfit());
                                 dividendAgrtCheckModel.setPeople(ruleDTO.getPeople());
                                 dividendAgrtCheckModel.setLoseStreak(ruleDTO.getLose_streak());
+                                if (mode != 0) {
+                                    dividendAgrtCheckModel.editMode.set(true);
+                                    dividendAgrtCheckModel.setSelectRatioCallBack(selectRatioConsumer);
+                                }
                                 bindModels.add(dividendAgrtCheckModel);
                             }
 
                             headModel.user.set(data.getUsername());
+                            HashMap<String, String> map = new HashMap<>();
+                            map.put(data.getUserid(), data.getUsername());
+                            searchUserResultLiveData.setValue(new RebateAgrtSearchUserResultModel(map));
+
                             formatItem();
                             datas.setValue(bindModels);
                         }
@@ -335,7 +375,12 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         for (Map.Entry<String, String> map : searchUserResultLiveData.getValue().getUser().entrySet()) {
             users.add(map.getKey());
         }
-        request.setUserid(users);
+
+        if (viewMode.get() == CHECK_MODO) {
+            request.setUserid(users.get(0));
+        } else {
+            request.setUserid(users);
+        }
 
         if (datas.getValue() != null) {
             ArrayList<String> ratioList = new ArrayList<>();
@@ -371,6 +416,11 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             request.setLose_streak(loseStreakList);
         }
         request.setType(event.getType());
+
+        //区分创建或修改
+        if (viewMode.get() == CHECK_MODO) {
+            request.setFlag("modify");
+        }
 
         Disposable disposable = (Disposable) model.getDividendAgrtCreateData(request)
                 .doOnSubscribe(new Consumer<Subscription>() {

@@ -15,7 +15,7 @@ public class DividendAgrtCreateRequest {
      * userid
      */
     @SerializedName("userid")
-    private List<String> userid;
+    private Object userid;
     /**
      * profit
      */
@@ -57,17 +57,24 @@ public class DividendAgrtCreateRequest {
      */
     @SerializedName("net_profit")
     private List<String> net_profit;
+
+    /**
+     * netProfit
+     */
+    @SerializedName("flag")
+    private String flag;
+
     /**
      * nonce
      */
     @SerializedName("nonce")
     private String nonce;
 
-    public List<String> getUserid() {
+    public Object getUserid() {
         return userid;
     }
 
-    public void setUserid(List<String> userid) {
+    public void setUserid(Object userid) {
         this.userid = userid;
     }
 
@@ -143,5 +150,13 @@ public class DividendAgrtCreateRequest {
 
     public void setLose_streak(List<String> lose_streak) {
         this.lose_streak = lose_streak;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }

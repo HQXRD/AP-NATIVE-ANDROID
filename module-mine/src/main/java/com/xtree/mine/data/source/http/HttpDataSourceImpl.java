@@ -280,7 +280,12 @@ public class HttpDataSourceImpl implements HttpDataSource {
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("1", 1);
         queryMap.put("client", "m");
-        return apiService.post(APIManager.DIVIDENDAGRT_CREATE_URL, queryMap, map).map(new Function<ResponseBody, DividendAgrtCreateResponse>() {
+
+        String url = APIManager.DIVIDENDAGRT_CREATE_URL;
+        if (request.getFlag().equals("modify")) {
+            url = APIManager.DIVIDENDAGRT_MODIFY_URL;
+        }
+        return apiService.post(url, queryMap, map).map(new Function<ResponseBody, DividendAgrtCreateResponse>() {
             @Override
             public DividendAgrtCreateResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), DividendAgrtCreateResponse.class);

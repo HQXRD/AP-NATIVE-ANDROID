@@ -370,9 +370,19 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                         }
                                         gameDividendAgrtModel.setCheckDeedCallBack(v -> {
                                             DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+                                            event.setMode(2);
                                             event.setUserid(v.getUserid());
                                             event.setUserName(v.getUserName());
                                             event.setType(headModel.type);
+                                            event.setRules(vo.getSetRules());
+                                            List<GameDividendAgrtResponse.ChildrenBillDTO.ChildrenDTO> children = childrenBill.getChildren();
+                                            if (children != null) {
+                                                ArrayList<RebateAgrtSearchUserModel> serchUserList = new ArrayList<>();
+                                                for (GameDividendAgrtResponse.ChildrenBillDTO.ChildrenDTO child : children) {
+                                                    serchUserList.add(new RebateAgrtSearchUserModel(child.getUserid(), child.getUsername()));
+                                                }
+                                                event.setSearchUserModel(serchUserList);
+                                            }
                                             startCheckAgrt(event);
                                         });
                                         gameDividendAgrtModel.setCreateDeedCallBack(v -> {
