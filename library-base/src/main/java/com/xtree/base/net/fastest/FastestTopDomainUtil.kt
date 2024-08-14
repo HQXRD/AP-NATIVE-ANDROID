@@ -16,7 +16,9 @@ import com.xtree.base.utils.EventConstant
 import com.xtree.base.utils.TagUtils
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
+import com.xtree.base.vo.FastestDomainResponse
 import com.xtree.base.vo.TopSpeedDomain
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
@@ -24,6 +26,7 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import me.xtree.mvvmhabit.bus.event.SingleLiveData
 import me.xtree.mvvmhabit.http.NetworkUtil
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
@@ -54,6 +57,10 @@ class FastestTopDomainUtil private constructor() {
         @set:Synchronized
         @get:Synchronized
         var mIsFinish: Boolean = true
+        val fastestDomain = SingleLiveData<TopSpeedDomain>()
+        private lateinit var timerObservable: Observable<Long>
+
+        val showTip = SingleLiveData<Boolean>()
     }
 
     lateinit var thirdApiScopeNet : AndroidScope
@@ -149,6 +156,14 @@ class FastestTopDomainUtil private constructor() {
                                 var topSpeedDomain = TopSpeedDomain()
                                 topSpeedDomain.url = url
                                 topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
+
+                                val response = Gson().fromJson(
+                                    result.body?.string(),
+                                    FastestDomainResponse::class.java
+                                )
+                                response.data?.microtime?.run {
+                                    topSpeedDomain.curCTSSec = (this - curTime) / 1000
+                                }
                                 CfLog.e("域名：api------$url---${topSpeedDomain.speedSec}")
                                 mCurApiDomainList.remove(url)
 
@@ -157,6 +172,7 @@ class FastestTopDomainUtil private constructor() {
                                     mTopSpeedDomainList.add(topSpeedDomain)
                                     mTopSpeedDomainList.sort()
                                     DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
+                                    fastestDomain.postValue(mTopSpeedDomainList[0])
                                     EventBus.getDefault()
                                         .post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
                                 }
