@@ -187,7 +187,18 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         LoadingDialog.finish();
         KLog.e("error: " + t.toString());
         Sentry.captureException(t);
+        if (t.code == 41011) {
+            onFail41011(t);
+            return;
+        }
         ToastUtils.showLong(t.message + " [" + t.code + "]");
+    }
+
+    /**
+     *该场馆禁止当前用户玩乐
+     */
+    public void onFail41011(BusinessException t) {
+
     }
 
     @Override

@@ -8,6 +8,7 @@ public class FBService implements BaseBean{
     private String token;
     private FBServiceFoward forward;
     private List<String> domains;
+    public boolean isDisabled;//true = 禁用，false = 启用
 
     public String getToken() {
         return token;

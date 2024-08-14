@@ -71,6 +71,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     //public MutableLiveData<List<GameStatusVo>> liveDataGameStatus = new MutableLiveData<>();
     public MutableLiveData<List<GameVo>> liveDataGames = new MutableLiveData<>();
     public MutableLiveData<Map> liveDataPlayUrl = new MutableLiveData<>();
+    public MutableLiveData<String> liveDataFail41011 = new MutableLiveData<>();
     public MutableLiveData<CookieVo> liveDataCookie = new MutableLiveData<>();
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public MutableLiveData<VipInfoVo> liveDataVipInfo = new MutableLiveData<>();
@@ -225,6 +226,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(FBService fbService) {
                         CfLog.i("****** ");
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.FB_DISABLED, fbService.isDisabled);
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                         BtDomainUtil.setDefaultFbDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.addFbDomainUrl(fbService.getForward().getApiServerAddress());
@@ -255,6 +257,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(FBService fbService) {
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.FBXC_DISABLED, fbService.isDisabled);
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                         BtDomainUtil.setDefaultFbxcDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.addFbxcDomainUrl(fbService.getForward().getApiServerAddress());
@@ -285,6 +288,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(PMService pmService) {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_DISABLED, pmService.isDisabled);
                         SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
@@ -315,6 +319,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(PMService pmService) {
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_TOKEN, pmService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_DISABLED, pmService.isDisabled);
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
@@ -416,6 +421,12 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
+                    }
+
+                    @Override
+                    public void onFail41011(BusinessException t) {
+                        super.onFail41011(t);
+                        liveDataFail41011.setValue(t.message);
                     }
                 });
         addSubscribe(disposable);

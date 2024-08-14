@@ -13,6 +13,7 @@ public class PMService implements BaseBean{
     private String token;
     private String url;
     private String loginUrl;
+    public boolean isDisabled;//true = 禁用，false = 启用
 
     public String getToken() {
         return token;

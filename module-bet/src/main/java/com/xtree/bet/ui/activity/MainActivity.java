@@ -151,6 +151,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     private Handler mHandler = new Handler();
     private Runnable searchRunnable;
+    private BasePopupView closePpw;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -217,14 +218,37 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 初始化场馆名称
      */
     private void initPlatFormName() {
+        boolean isDisabled = false;
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
             mPlatformName = getString(R.string.bt_platform_name_fbxc);
+            isDisabled = SPUtils.getInstance().getBoolean(SPKeyGlobal.FBXC_DISABLED);
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
             mPlatformName = getString(R.string.bt_platform_name_fb);
+            isDisabled = SPUtils.getInstance().getBoolean(SPKeyGlobal.FB_DISABLED);
         } else if (TextUtils.equals(mPlatform, PLATFORM_PM)) {
             mPlatformName = getString(R.string.bt_platform_name_pm);
+            isDisabled = SPUtils.getInstance().getBoolean(SPKeyGlobal.PM_DISABLED);
         } else {
             mPlatformName = getString(R.string.bt_platform_name_pmxc);
+            isDisabled = SPUtils.getInstance().getBoolean(SPKeyGlobal.PMXC_DISABLED);
+        }
+        if(isDisabled){
+            MsgDialog dialog = new MsgDialog(this, "温馨提示", "该场馆已被关闭，请切换至其它场馆进行游玩。感谢您的支持。", true, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                }
+
+                @Override
+                public void onClickRight() {
+                    closePpw.dismiss();
+                    MainActivity.this.finish();
+                }
+            });
+            closePpw = new XPopup.Builder(this)
+                    .dismissOnTouchOutside(true)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+            closePpw.show();
         }
     }
 
@@ -311,7 +335,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
                 }
             }
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             finish();
         }
 
