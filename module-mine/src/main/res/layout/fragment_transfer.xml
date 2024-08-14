@@ -70,8 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
-
             android:orientation="vertical"
             android:paddingBottom="@dimen/layout_margin">
 
@@ -89,13 +89,14 @@
                 android:drawableStart="@drawable/cm_ic_switch_selector"
                 android:drawablePadding="6dp"
                 android:text="@string/txt_hide_no_blc_game"
-                android:textColor="@color/clr_gray_021" />
+                android:textColor="@color/clr_white" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_all_game_balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_my_wallet_all_game"/>
+                android:padding="8dp"
+                android:background="@drawable/bg_my_wallet" />
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -107,7 +108,7 @@
                 android:id="@+id/ll_transfer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/clr_withdraw_bg_dark"
+                android:background="@color/bg_main"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -127,6 +128,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/clr_white"
                             android:text="从" />
 
                         <ImageView
@@ -150,6 +152,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/clr_white"
                             android:text="到" />
                     </LinearLayout>
 
@@ -308,6 +311,7 @@
                         android:text="RMB"
                         android:textColor="@color/clr_grey_60"
                         android:textSize="16sp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
