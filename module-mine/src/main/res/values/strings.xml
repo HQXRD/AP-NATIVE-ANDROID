@@ -430,6 +430,7 @@
     <string name="txt_rebateagrt_rules1">规则1：日有效投注额 >= 0.0000元返水1.0000%</string>
     <string name="txt_weekly_bets">周期投注额</string>
     <string name="txt_cycle">周期</string>
+    <string name="txt_loss_morethan_cyclicality">连续亏损周期</string>
     <string name="txt_mine_agrt">我的契约</string>
     <string name="txt_mine_dividend">本人分红</string>
     <string name="txt_view_deed">查看契约</string>

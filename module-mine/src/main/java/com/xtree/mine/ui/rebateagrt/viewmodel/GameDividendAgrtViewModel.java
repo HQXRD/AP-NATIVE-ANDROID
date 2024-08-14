@@ -309,6 +309,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                     totalModel.setSubMoney(selfBill.getSub_money());
                                     totalModel.setSelfMoney(selfBill.getSelf_money());
                                     totalModel.setProfitloss(selfBill.getProfitloss());
+                                    totalModel.setLoseStreak(selfBill.getLose_streak());
                                     totalModel.setCycle(headModel.cyclyData.get().getShowName());
                                     //设置契约状态
                                     if (selfBill.getPay_status() != null) {
@@ -358,6 +359,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                         gameDividendAgrtModel.setSubMoney(dataDTO.getSub_money());
                                         gameDividendAgrtModel.setSelfMoney(dataDTO.getSelf_money());
                                         gameDividendAgrtModel.setProfitloss(dataDTO.getProfitloss());
+                                        gameDividendAgrtModel.setLoseStreak(dataDTO.getLose_streak());
                                         gameDividendAgrtModel.setCycle(headModel.cyclyData.get().getShowName());
                                         //设置契约状态
                                         gameDividendAgrtModel.setPayStatu(dataDTO.getPay_status());
