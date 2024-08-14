@@ -304,6 +304,7 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
                                             sendModel.setSubMoney(dataDTO.getSub_money());
                                             sendModel.setSelfMoney(dataDTO.getSelf_money());
                                             sendModel.setProfitloss(dataDTO.getProfitloss());
+                                            sendModel.setLoseStreak(dataDTO.getLose_streak());
                                             if (vo.getCurrentCycle() != null) {
                                                 sendModel.setCycle(vo.getCurrentCycle().getTitle());
                                             }
