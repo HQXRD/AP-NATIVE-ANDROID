@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:background="@drawable/bg_my_wallet_all_game" />
+                android:background="@drawable/bg_my_wallet" />
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
