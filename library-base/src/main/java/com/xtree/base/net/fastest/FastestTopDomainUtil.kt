@@ -161,8 +161,9 @@ class FastestTopDomainUtil private constructor() {
                                     result.body?.string(),
                                     FastestDomainResponse::class.java
                                 )
-                                response.data?.microtime?.run {
-                                    topSpeedDomain.curCTSSec = (this - curTime) / 1000
+                                response?.timestamp?.let {
+                                    CfLog.e("域名：api------$it")
+                                    topSpeedDomain.curCTSSec = it - (curTime / 1000)
                                 }
                                 CfLog.e("域名：api------$url---${topSpeedDomain.speedSec}")
                                 mCurApiDomainList.remove(url)

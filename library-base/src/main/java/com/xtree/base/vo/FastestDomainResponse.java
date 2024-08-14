@@ -28,7 +28,7 @@ public class FastestDomainResponse {
      * timestamp
      */
     @SerializedName("timestamp")
-    private int timestamp;
+    private long timestamp;
 
     public int getStatus() {
         return status;
@@ -54,11 +54,11 @@ public class FastestDomainResponse {
         this.data = data;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

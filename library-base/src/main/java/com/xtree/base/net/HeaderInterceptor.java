@@ -49,7 +49,7 @@ public class HeaderInterceptor implements Interceptor {
 
         //根据测速时本地到远端的时间差判断用户本机时间是否有偏差
         if (FastestTopDomainUtil.Companion.getFastestDomain().getValue() != null) {
-            float curCTSSec = FastestTopDomainUtil.Companion.getFastestDomain().getValue().curCTSSec;
+            long curCTSSec = FastestTopDomainUtil.Companion.getFastestDomain().getValue().curCTSSec;
             //偏差超过20s则同步偏差
             if (Math.abs(curCTSSec) > 20) {
                 sign1Ts += curCTSSec;
