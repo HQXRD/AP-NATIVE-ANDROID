@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -9,36 +8,37 @@
             name="toolbarModel"
             type="com.xtree.base.mvvm.model.ToolbarModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/clr_white">
+        android:background="@drawable/bg_main_top">
 
-<!--        title-->
+        <!--        title-->
         <TextView
             android:id="@+id/tvw_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/clr_txt_black_01"
-            android:textSize="17sp"
             android:text="@{toolbarModel.title}"
+            android:textColor="@color/clr_white"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
-<!--        back icon-->
+        <!--        back icon-->
         <ImageView
             android:id="@+id/ivw_back"
             style="@style/style_ic_title_back"
-            android:src="@mipmap/cm_ic_back"
             android:onClick="@{() -> toolbarModel.onBack()}"
+            android:src="@mipmap/cm_ic_back"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -63,12 +63,11 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@drawable/divider_horizontal"
+            android:background="@color/clr_grey_22"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1"
-            />
+            app:layout_constraintVertical_bias="1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

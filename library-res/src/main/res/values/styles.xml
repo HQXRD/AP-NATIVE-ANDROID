@@ -240,7 +240,7 @@
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:textColor">@color/clr_black</item>
+        <item name="android:textColor">@color/clr_white</item>
         <item name="android:textSize">12sp</item>
     </style>
     <!-- 充值页-底部 提示小字 灰色 -->
@@ -470,13 +470,13 @@
     <style name="style_filter_info_edit_value">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:gravity">start</item>
-    <item name="android:minEms">4</item>
-    <item name="android:paddingTop">4dp</item>
-    <item name="android:paddingBottom">4dp</item>
-    <item name="android:textColor">@color/clr_filter_txt_gray</item>
-    <item name="android:textSize">14sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:minEms">4</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/clr_filter_txt_gray</item>
+        <item name="android:textSize">14sp</item>
     </style>
     <!-- 通用 筛选 值 下拉 -->
     <style name="style_filter_info_spn" parent="style_filter_info_value">
@@ -761,8 +761,8 @@
         <item name="android:maxLength">16</item>
         <item name="android:padding">8dp</item>
         <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textColorHint">@color/clr_grey_20</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textColorHint">@color/clr_txt_01</item>
         <item name="android:textSize">14sp</item>
     </style>
 
