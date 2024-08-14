@@ -186,12 +186,14 @@ public class ListMsgInfoDialog extends BottomPopupView {
                 }
             } else if (msgPersonInfoVo.type.equals("5")) {
                 for (HashMap<String, Object> hashMap : ruleList) {
+                    int loseStreak = new  Double((double) hashMap.get("lose_streak")).intValue();
+                    int people = new Double((double) hashMap.get("people")).intValue();
                     level = new Double((double) hashMap.get("level")).intValue();
-                    content.append("方案").append(level).append("\n");
-                    content.append("周期累计投注额≥").append(hashMap.get("profit"))
-                            .append("元,周期累计亏损额≥").append(hashMap.get("net_profit"))
-                            .append("元,活跃人数≥").append(hashMap.get("people"))
-                            .append("人，分红").append(hashMap.get("ratio")).append("%").append("\n");
+                    content.append("规则").append(level).append("\n");
+                    content.append("连续亏损周期≥").append(loseStreak)
+                            .append("周期活跃人数≥").append(people)
+                            .append("且周期累计亏损额≥").append(hashMap.get("profit").equals("null") ? 0 : hashMap.get("profit"))
+                            .append("元，分红").append(hashMap.get("ratio")).append("%").append("\n");
                 }
             } else if (msgPersonInfoVo.type.equals("11")) {
                 for (HashMap<String, Object> hashMap : ruleList) {
