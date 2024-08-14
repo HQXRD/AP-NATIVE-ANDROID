@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.drake.brv.BindingAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
@@ -48,6 +49,7 @@ import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
@@ -84,6 +86,13 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         headModel.setItemType(1);
         addModel.setItemType(2);
         DividendAgrtCheckFoot footModel = new DividendAgrtCheckFoot();
+        int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+        //一代代理提示不同
+        if (level == 2) {
+            footModel.tip.set(getApplication().getString(R.string.txt_dividend_check_tip2));
+        } else {
+            footModel.tip.set(getApplication().getString(R.string.txt_dividend_check_tip1));
+        }
         footModel.setItemType(3);
         add(addModel);
         add(headModel);

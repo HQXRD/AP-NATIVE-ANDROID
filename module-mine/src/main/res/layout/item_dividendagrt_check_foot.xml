@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txt_dividend_check_tip1"
+            android:text="@{m.tip}"
             android:textColor="@color/clr_txt_rebateagrt_mark"
             android:textSize="10sp"/>
     </FrameLayout>

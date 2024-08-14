@@ -482,6 +482,7 @@
     <string name="txt_dividend_yestday_rmb">昨日收益（元）</string>
     <string name="txt_correct_pwd">请输入正确格式的登录密码</string>
     <string name="txt_dividend_check_tip1">说明\n●分红周期指每月1-15日，16日-月末；\n●契约规则请按照从低至高顺序填写；\n●契约创建成功后立即生效，本分红周期统计完整投注额；</string>
+    <string name="txt_dividend_check_tip2">说明\n●分红周期指每月1日-月末；\n●契约规则请按照从低至高顺序填写；\n●契约创建成功后立即生效，本分红周期统计完整投注额；</string>
     <string name="txt_contractual_norms">契约规则</string>
     <string name="text_null_or_zero">金额不得为空或0</string>
 
