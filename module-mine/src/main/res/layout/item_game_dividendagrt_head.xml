@@ -45,7 +45,7 @@
                 android:layout_marginTop="2dp"
                 android:text="@{m.self_money}"
                 android:textColor="@color/clr_white"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
