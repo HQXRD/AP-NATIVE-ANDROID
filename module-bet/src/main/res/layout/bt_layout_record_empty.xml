@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_below="@+id/csl_top"
     android:layout_marginTop="10dp"
-    android:background="@mipmap/bt_bg_dialog_bt"
+    android:background="@color/clr_main_start"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingTop="5dp">
