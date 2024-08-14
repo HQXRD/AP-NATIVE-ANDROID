@@ -249,8 +249,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 // 原生的,或者需要请求接口的
                 CfLog.w("******: " + vo);
             }
-            // 33:MG电子 17:CQ9娱乐 已下架
-            if (vo.status == 2 || vo.cid == 17 || vo.cid == 33) {
+            // 33:MG电子 17:CQ9娱乐 已下架 43:瓦力棋牌
+            if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43) {
                 // 已下架,不要加到列表里面了
                 CfLog.w("not show: " + vo);
                 continue;
