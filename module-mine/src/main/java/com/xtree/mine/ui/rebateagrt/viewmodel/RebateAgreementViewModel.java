@@ -148,7 +148,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                     if (raMenu.type.getIds().contains(id)) {
                                         //用户等级=2才可以显示佣金报表
                                         if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
-                                            if (level == 2) {
+                                            if (type == 1 && level != 1) {
                                                 newDatas.add(raMenu);
                                             }
                                         } else if (raMenu.type == RebateAreegmentTypeEnum.LOTTERIES) {

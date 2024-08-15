@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.drake.brv.BindingAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.mine.R;
@@ -21,6 +22,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by KAKA on 2024/4/1.
@@ -44,9 +46,9 @@ public class CommissionsRulesViewModel extends BaseViewModel<MineRepository> {
             int modelPosition = bindingViewHolder.getModelPosition() +1;
 
             if (modelPosition % 2 == 0) {
-                tv1.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_10));
-                tv2.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_10));
-                tv3.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_10));
+                tv1.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_11));
+                tv2.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_11));
+                tv3.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_11));
             } else {
                 tv1.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_white));
                 tv2.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_white));
@@ -62,16 +64,24 @@ public class CommissionsRulesViewModel extends BaseViewModel<MineRepository> {
     public final MutableLiveData<String> title2 = new MutableLiveData<>();
     public final MutableLiveData<String> title3 = new MutableLiveData<>();
 
-    private final ArrayList<BindModel> comModels = new ArrayList<BindModel>() {
+    private final ArrayList<BindModel> com1Models = new ArrayList<BindModel>() {
         {
-            add(new CommissionsRulesModel("5", "1-4,0000", "30%"));
-            add(new CommissionsRulesModel("10", "4,0001-150,000", "35%"));
-            add(new CommissionsRulesModel("15", "150,001-300,000", "40%"));
-            add(new CommissionsRulesModel("25", "300,001-500,000", "45%"));
-            add(new CommissionsRulesModel("35", "500,001-1,000,000", "50%"));
-            add(new CommissionsRulesModel("50", "≥1,000,000", "55%"));
+            add(new CommissionsRulesModel("0", "≥100,000", "1.5%"));
+            add(new CommissionsRulesModel("0", "≥300,000", "2%"));
         }
     };
+
+    private final ArrayList<BindModel> com2Models = new ArrayList<BindModel>() {
+        {
+            add(new CommissionsRulesModel("0", "1-9,999", "23%"));
+            add(new CommissionsRulesModel("3", "10,000-50,000", "25%"));
+            add(new CommissionsRulesModel("4", "50,001-100,000", "27%"));
+            add(new CommissionsRulesModel("5", "100,001-200,000", "30%"));
+            add(new CommissionsRulesModel("6", "200,001-500,000", "35%"));
+            add(new CommissionsRulesModel("10", "≥500,001", "40%"));
+        }
+    };
+
     private final ArrayList<BindModel> agentModels = new ArrayList<BindModel>() {
         {
             add(new CommissionsRulesModel("3", "≥100.000", "2%"));
@@ -115,7 +125,15 @@ public class CommissionsRulesViewModel extends BaseViewModel<MineRepository> {
         title1.setValue("玩家活跃要求");
         title2.setValue("总输赢");
         title3.setValue("佣金");
-        datas.setValue(comModels);
+
+        int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+
+        if (level == 2) {
+            datas.setValue(com1Models);
+        } else {
+            datas.setValue(com2Models);
+        }
+
     }
 
     public void setActivity(FragmentActivity mActivity) {
