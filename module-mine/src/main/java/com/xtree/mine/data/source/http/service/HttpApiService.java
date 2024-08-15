@@ -67,7 +67,6 @@ import com.xtree.mine.vo.withdrawals.WithdrawalQuotaVo;
 import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
 import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -341,6 +340,12 @@ public interface HttpApiService {
      */
     @GET("/gameinfo/eprofitlossNew?")
     Flowable<ProfitLossReportVo> getProfitLoss(@QueryMap Map<String, String> map);
+
+    /**
+     * 盈亏报表-查列表(超级总代)
+     */
+    @GET("/gameinfo/supereprofitlossNew?")
+    Flowable<ProfitLossReportVo> getSuperProfitLoss(@QueryMap Map<String, String> map);
 
     /**
      * 返水报表-查列表
@@ -732,13 +737,13 @@ public interface HttpApiService {
      * /api/withdrawal/info?wtype=ebpay
      */
     @GET("/api/withdrawal/info/{wtype}/{check}")
-    Flowable<BaseResponse3<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype,@Path("check") String check);
+    Flowable<BaseResponse3<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype, @Path("check") String check);
 
     /**
      * 银行卡提现获取当前渠道详情
      */
     @GET("/api/withdrawal/info/{wtype}/{check}")
-    Flowable<BaseResponse3<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype,@Path("check") String check);
+    Flowable<BaseResponse3<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype, @Path("check") String check);
 
     /**
      * 验证当前渠道信息
