@@ -95,11 +95,19 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             if (mProfileVo != null) {
                 //==1时，当前用户是代理，可以进行注册推广功能
                 if (mProfileVo.usertype == 1) {
-                    binding.llMenu2.setVisibility(View.VISIBLE);
-                    binding.llMenu3.setVisibility(View.GONE);
-                    if (mProfileVo.getUserLevel() == 1) {
+                    if (mProfileVo.getUserLevel() == 1){
+                        binding.llMenu2.setVisibility(View.VISIBLE);
+                        binding.llMenu3.setVisibility(View.GONE);
+                        binding.llMenu1.setVisibility(View.GONE);
+                        binding.tvwEaster.setVisibility(View.INVISIBLE);
+                    } else if (mProfileVo.getUserLevel() == 3) {
+                        //显示活跃人数报表
+                        binding.llMenu2.setVisibility(View.GONE);
+                        binding.llMenu3.setVisibility(View.GONE);
+                        binding.llMenu1.setVisibility(View.VISIBLE);
                         binding.tvwEaster.setVisibility(View.INVISIBLE);
                     }
+
                 } else {
                     binding.llMenu2.setVisibility(View.GONE);
                     binding.llMenu3.setVisibility(View.VISIBLE);
@@ -193,10 +201,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
         });
 
-        binding.tvwTeamMgmt.setOnClickListener(v -> {
-            CfLog.i("****** ");
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_MEMBER_MANAGER);
-        });
+
 
         //binding.tvwInviteFriend.setOnClickListener(v -> {
         //    CfLog.i("****** ");
@@ -207,17 +212,34 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //    // URL 不需要拼装
         //    BrowserActivity.start(getContext(), title, Constant.URL_PARTNER, true);
         //});
+
+        //盈亏报表
         binding.tvwProfit.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_PROFIT_LOSS); // 盈亏报表
         });
         binding.tvwProfitClient.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_PROFIT_LOSS); // 盈亏报表
         });
-
+        binding.tvwProfit900.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_PROFIT_LOSS); // 盈亏报表
+        });
+        //团队管理
+        binding.tvwTeamMgmt.setOnClickListener(v -> {
+            CfLog.i("****** ");
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MEMBER_MANAGER);
+        });
+        binding.tvwTeamMgmt900.setOnClickListener(v -> {
+            CfLog.i("****** ");
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MEMBER_MANAGER);
+        });
+        //第三方转账
         binding.tvw3rdTrans.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
         binding.tvw3rdTransClient.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
+        });
+        binding.tvw3rdTrans900.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
 
@@ -232,25 +254,38 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwRebateContractClient.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_AGREEMENT);
         });
-
+        binding.tvwRebateContract900.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_AGREEMENT);
+        });
+        //账户管理
         binding.tvwAccMg.setOnClickListener(v -> {
             showAccountMgmt();
         });
         binding.tvwAccMgClient.setOnClickListener(v -> {
             showAccountMgmt();
         });
-
+        binding.tvwAccMg901.setOnClickListener(v -> {
+            showAccountMgmt();
+        });
+        //体育规则
         binding.tvwSportRegular.setOnClickListener(v -> {
             goWebView(v, Constant.URL_SPORT_RULES, false);
         });
         binding.tvwSportRegularClient.setOnClickListener(v -> {
             goWebView(v, Constant.URL_SPORT_RULES, false);
         });
+        binding.tvwSportRegular901.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_SPORT_RULES, false);
+        });
 
+        //USDT教程
         binding.tvwTutorial.setOnClickListener(v -> {
             goWebView(v, Constant.URL_USDT_RECHARGE_TURTIAL, false);
         });
         binding.tvwTutorialClient.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_USDT_RECHARGE_TURTIAL, false);
+        });
+        binding.tvwTutorial901.setOnClickListener(v -> {
             goWebView(v, Constant.URL_USDT_RECHARGE_TURTIAL, false);
         });
 
@@ -267,19 +302,28 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
         //    startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
         //});
+        //常见问题
         binding.tvwQa.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         });
         binding.tvwQaClient.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         });
-
+        binding.tvwQa902.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
+        });
+        //帮助中心
         binding.tvwHelp.setOnClickListener(v -> {
             //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true, true);
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
             AppUtil.goBrowser(getContext(), DomainUtil.getDomain2() + Constant.URL_HELP);
         });
         binding.tvwHelpClient.setOnClickListener(v -> {
+            //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true, true);
+            //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
+            AppUtil.goBrowser(getContext(), DomainUtil.getDomain2() + Constant.URL_HELP);
+        });
+        binding.tvwHelp902.setOnClickListener(v -> {
             //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true, true);
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
             AppUtil.goBrowser(getContext(), DomainUtil.getDomain2() + Constant.URL_HELP);
@@ -320,7 +364,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             //LoadingDialog.show(getContext());
             viewModel.getUpdate();
         });
-
+        binding.tvwUpgrade902.setOnClickListener(v -> {
+            //LoadingDialog.show(getContext());
+            viewModel.getUpdate();
+        });
+        //注册推广
         binding.tvwRegProm.setOnClickListener(v -> {
             //注册推广
             //防止切换登录时，mProfileVo数据更新不及时
@@ -328,9 +376,23 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
             }
         });
-
+        binding.tvwRegProm901.setOnClickListener(v -> {
+            //注册推广
+            //防止切换登录时，mProfileVo数据更新不及时
+            if (mProfileVo != null) {
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
+            }
+        });
+        //彩蛋报表
         binding.tvwEaster.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_EASTER_REPORT);
+        });
+        binding.tvwEaster902.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_EASTER_REPORT);
+        });
+        //活跃人数报表
+        binding.tvwUpgrade903.setOnClickListener(v->{
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_TEAM_ACTIVITY);
         });
     }
 

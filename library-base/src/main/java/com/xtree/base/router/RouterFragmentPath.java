@@ -68,6 +68,7 @@ public class RouterFragmentPath {
         public static final String PAGER_DIVIDENDAGRT_SEND_DIALOG = MINE + "/DividendAgrtSendDialog"; // 返水契约-分红契约-手动发放分红
         public static final String PAGER_DIVIDENDAGRT_CHECK_DIALOG = MINE + "/DividendAgrtCheckDialog"; //返水契约-分红契约-查看契约
         public static final String PAGER_COMMISSIONSREPORTS = MINE + "/CommissionsReports"; //返水契约-佣金报表
+        public static final String PAGER_TEAM_ACTIVITY =MINE + "/TeamActivity"; //团队活跃人数活动报表;
 
         public static final String PAGER_THIRD_TRANSFER = MINE + "/ThirdTransfer"; // 三方转账
         public static final String PAGER_RECHARGE_WITHDRAW = MINE + "/RechargeWithdraw"; // 充提记录

@@ -255,7 +255,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:id="@+id/ll_menu_2"
+                    android:id="@+id/ll_menu_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_me_main_frame"
@@ -263,6 +263,144 @@
                     android:orientation="vertical"
                     android:padding="@dimen/layout_margin"
                     android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imv_menu_2">
+
+                    <LinearLayout
+                        android:id="@+id/ll_menu_900"
+                        style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_profit_900"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_profit"
+                            android:text="@string/txt_profit" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_team_mgmt_900"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_team"
+                            android:text="@string/txt_team_mgmt" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_3rd_trans_900"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_3rd"
+                            android:text="@string/txt_3rd_trans" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_rebate_contract_900"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_report"
+                            android:text="@string/txt_rebate_contract" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_menu_02_901"
+                        style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_acc_mg_901"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_acc"
+                            android:text="@string/txt_acc_mg" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_reg_prom_901"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_reg"
+                            android:text="@string/txt_reg_prom" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_sport_regular_901"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_rule"
+                            android:text="@string/txt_sport_regular" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_tutorial_901"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_usdt"
+                            android:text="@string/txt_usdt_tutorial_mine" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_menu_03_902"
+                        style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_upgrade_902"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_upgrade"
+                            android:text="@string/txt_upgrade" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_help_902"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_help"
+                            android:text="@string/txt_help" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_qa_902"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_qa"
+                            android:text="@string/txt_question" />
+
+                        <TextView
+                            android:id="@+id/tvw_black_902"
+                            style="@style/style_menu_black"
+                            android:visibility="gone" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_easter_902"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_easter"
+                            android:text="@string/txt_easter_report" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_menu_03_903"
+                        style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_upgrade_903"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_active_user_report"
+                            android:text="@string/txt_active_user_report" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_menu_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_me_main_frame"
+                    android:elevation="1dp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/layout_margin"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/imv_menu_2">
@@ -388,7 +526,8 @@
                     android:padding="@dimen/layout_margin"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/imv_menu_2">
+                    app:layout_constraintTop_toBottomOf="@id/imv_menu_2"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/ll_menu_client_01"

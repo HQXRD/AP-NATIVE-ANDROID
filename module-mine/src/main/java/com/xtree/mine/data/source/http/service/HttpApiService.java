@@ -45,6 +45,7 @@ import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
 import com.xtree.mine.vo.SendMoneyVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.mine.vo.TeamActivityReportVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
 import com.xtree.mine.vo.USDTCashVo;
@@ -324,6 +325,13 @@ public interface HttpApiService {
     @GET("/report/selfbankreport?")
     Flowable<AccountChangeVo> getAccountChangeReport(@QueryMap Map<String, String> map);
 
+
+    /**
+     * 获取团队活跃人数活动报表数据
+     * aid=258&client=m
+     */
+    @GET("/api/activity/activePerMonth/list?")
+    Flowable<BaseResponse<List<TeamActivityReportVo>>> getTeamActivityReport(@QueryMap Map<String, String> map);
     /**
      * 游戏账变记录
      * report/lotteryrecord?&starttime=2024-03-15%2000:00:00&endtime=2024-03-16%2023:59:59&ordertype=0&p=1&page_size=20

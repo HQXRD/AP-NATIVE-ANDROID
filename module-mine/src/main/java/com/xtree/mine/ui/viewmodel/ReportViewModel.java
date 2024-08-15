@@ -21,6 +21,7 @@ import com.xtree.mine.vo.LotteryReportVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
+import com.xtree.mine.vo.TeamActivityReportVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
 
@@ -53,8 +54,35 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<LotteryDetailVo> liveDataBtCpDetail = new MutableLiveData<>(); // 投注记录-详情(彩票)
     public MutableLiveData<GameChangeVo> liveDataGameChange = new MutableLiveData<>(); // 游戏账变记录
 
+    public MutableLiveData<List<TeamActivityReportVo>>liveDataTeamActivity = new MutableLiveData<>();//团队活跃人数活动报表
+
     public ReportViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
+    }
+
+    /**
+     * 获取团队活跃人数活动报表
+     * @param map
+     */
+    public void  getTeamActivityReport(HashMap map){
+        Disposable disposable = (Disposable) model.getApiService().getTeamActivityReport(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<TeamActivityReportVo>>() {
+
+                    @Override
+                    public void onResult(List<TeamActivityReportVo>vo) {
+                        liveDataTeamActivity.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        liveDataTeamActivity.setValue(null);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     public void getAccountChangeReport(HashMap map) {
