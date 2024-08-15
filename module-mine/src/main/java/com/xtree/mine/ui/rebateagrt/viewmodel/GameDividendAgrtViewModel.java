@@ -455,7 +455,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                         Map<String, DividendAutoSendResponse.DataDTO> data = vo.getData();
                         if (vo.getStatus() == 1 && vo.getData() != null) {
                             int userNum = 0;
-                            int totalMoney = 0;
+                            float totalMoney = 0;
                             for (Map.Entry<String, DividendAutoSendResponse.DataDTO> map : data.entrySet()) {
                                 if (map.getValue().getPayStatus() == 1) {
 //                                    userNum += 1;
