@@ -168,7 +168,8 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 TagUtils.tagEvent(Utils.getContext(), "event_network_error", DomainUtil.getApiUrl() + "：" + t.getMessage());
                 TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名无法访问，切换线路开始...");
                 if (!SpeedApiLine.INSTANCE.isRunning()) {
-                    ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中...");
+                    //ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中...");
+                    ToastUtils.showShort("切换线路中...");
                     SpeedApiLine.INSTANCE.addHijeckedDomainList(DomainUtil.getApiUrl());
                 }
                 SpeedApiLine.INSTANCE.start();
