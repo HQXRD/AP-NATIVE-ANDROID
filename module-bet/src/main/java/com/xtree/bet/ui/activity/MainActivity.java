@@ -312,7 +312,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
                 }
             }
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             finish();
         }
 
@@ -1462,11 +1462,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         });
 
         viewModel.announcementData.observe(this, list -> {
-            if (list.isEmpty()) {
+            if (list == null || list.isEmpty()) {
                 binding.llNotice.setVisibility(View.GONE);
                 binding.ivwNotice.setVisibility(View.GONE);
             } else {
                 StringBuffer sb = new StringBuffer();
+                if (list.size() > 10) {
+                    list = list.subList(0, 10);
+                }
                 for (FBAnnouncementInfo.RecordsDTO vo : list) {
                     sb.append(vo.co + "      ");
                 }
