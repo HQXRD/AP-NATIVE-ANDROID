@@ -1,6 +1,8 @@
 package com.xtree.mine.data.source.http;
 
 
+import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
@@ -282,7 +284,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
         queryMap.put("client", "m");
 
         String url = APIManager.DIVIDENDAGRT_CREATE_URL;
-        if (request.getFlag().equals("modify")) {
+        if (!TextUtils.isEmpty(request.getFlag()) && request.getFlag().equals("modify")) {
             url = APIManager.DIVIDENDAGRT_MODIFY_URL;
         }
         return apiService.post(url, queryMap, map).map(new Function<ResponseBody, DividendAgrtCreateResponse>() {
