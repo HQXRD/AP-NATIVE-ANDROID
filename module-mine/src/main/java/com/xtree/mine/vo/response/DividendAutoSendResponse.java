@@ -89,7 +89,7 @@ public class DividendAutoSendResponse {
          * selfMoney
          */
         @SerializedName("self_money")
-        private int selfMoney;
+        private float selfMoney;
         /**
          * billNum
          */
@@ -104,11 +104,11 @@ public class DividendAutoSendResponse {
             this.payStatus = payStatus;
         }
 
-        public int getSelfMoney() {
+        public float getSelfMoney() {
             return selfMoney;
         }
 
-        public void setSelfMoney(int selfMoney) {
+        public void setSelfMoney(float selfMoney) {
             this.selfMoney = selfMoney;
         }
 

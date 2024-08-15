@@ -32,6 +32,8 @@ public class GameDividendAgrtModel extends BindModel {
     private int payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
     private String userid = "";
     private String checkName = "";
+    //连续亏损周期
+    private String loseStreak = "-";
 
     private Consumer<GameDividendAgrtModel> createDeedCallBack = null;
     private Consumer<GameDividendAgrtModel> checkDeedCallBack = null;
@@ -226,5 +228,13 @@ public class GameDividendAgrtModel extends BindModel {
         if (userid != null) {
             this.userid = userid;
         }
+    }
+
+    public String getLoseStreak() {
+        return loseStreak;
+    }
+
+    public void setLoseStreak(String loseStreak) {
+        this.loseStreak = loseStreak;
     }
 }

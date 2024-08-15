@@ -38,7 +38,7 @@ public class DividendTipDialog extends CenterPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (XPopupUtils.getScreenHeight(getContext()) * 4 / 10);
+        return (XPopupUtils.getScreenHeight(getContext()));
     }
 
     private void initView() {

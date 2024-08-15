@@ -309,6 +309,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                     totalModel.setSubMoney(selfBill.getSub_money());
                                     totalModel.setSelfMoney(selfBill.getSelf_money());
                                     totalModel.setProfitloss(selfBill.getProfitloss());
+                                    totalModel.setLoseStreak(selfBill.getLose_streak());
                                     totalModel.setCycle(headModel.cyclyData.get().getShowName());
                                     //设置契约状态
                                     if (selfBill.getPay_status() != null) {
@@ -358,6 +359,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                         gameDividendAgrtModel.setSubMoney(dataDTO.getSub_money());
                                         gameDividendAgrtModel.setSelfMoney(dataDTO.getSelf_money());
                                         gameDividendAgrtModel.setProfitloss(dataDTO.getProfitloss());
+                                        gameDividendAgrtModel.setLoseStreak(dataDTO.getLose_streak());
                                         gameDividendAgrtModel.setCycle(headModel.cyclyData.get().getShowName());
                                         //设置契约状态
                                         gameDividendAgrtModel.setPayStatu(dataDTO.getPay_status());
@@ -368,9 +370,19 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                         }
                                         gameDividendAgrtModel.setCheckDeedCallBack(v -> {
                                             DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+                                            event.setMode(2);
                                             event.setUserid(v.getUserid());
                                             event.setUserName(v.getUserName());
                                             event.setType(headModel.type);
+                                            event.setRules(vo.getSetRules());
+                                            List<GameDividendAgrtResponse.ChildrenBillDTO.ChildrenDTO> children = childrenBill.getChildren();
+                                            if (children != null) {
+                                                ArrayList<RebateAgrtSearchUserModel> serchUserList = new ArrayList<>();
+                                                for (GameDividendAgrtResponse.ChildrenBillDTO.ChildrenDTO child : children) {
+                                                    serchUserList.add(new RebateAgrtSearchUserModel(child.getUserid(), child.getUsername()));
+                                                }
+                                                event.setSearchUserModel(serchUserList);
+                                            }
                                             startCheckAgrt(event);
                                         });
                                         gameDividendAgrtModel.setCreateDeedCallBack(v -> {
@@ -443,7 +455,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                         Map<String, DividendAutoSendResponse.DataDTO> data = vo.getData();
                         if (vo.getStatus() == 1 && vo.getData() != null) {
                             int userNum = 0;
-                            int totalMoney = 0;
+                            float totalMoney = 0;
                             for (Map.Entry<String, DividendAutoSendResponse.DataDTO> map : data.entrySet()) {
                                 if (map.getValue().getPayStatus() == 1) {
 //                                    userNum += 1;

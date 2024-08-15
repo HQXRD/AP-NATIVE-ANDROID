@@ -578,6 +578,15 @@ public class GameDividendAgrtResponse extends BaseResponse2 {
             private String netloss;
             private String contract_status;
             private String label;
+            private String lose_streak;
+
+            public String getLose_streak() {
+                return lose_streak;
+            }
+
+            public void setLose_streak(String lose_streak) {
+                this.lose_streak = lose_streak;
+            }
 
             public String getUserid() {
                 return userid;
@@ -931,6 +940,15 @@ public class GameDividendAgrtResponse extends BaseResponse2 {
         private String type;
         private String distribution_type;
         private String cycle_cli_time;
+        private String lose_streak;
+
+        public String getLose_streak() {
+            return lose_streak;
+        }
+
+        public void setLose_streak(String lose_streak) {
+            this.lose_streak = lose_streak;
+        }
 
         public String getId() {
             return id;

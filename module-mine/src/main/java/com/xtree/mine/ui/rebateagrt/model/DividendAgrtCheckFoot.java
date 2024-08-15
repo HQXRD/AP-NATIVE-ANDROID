@@ -1,5 +1,7 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
+import androidx.databinding.ObservableField;
+
 import com.xtree.base.mvvm.recyclerview.BindFooter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
@@ -8,4 +10,5 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
  * Describe:
  */
 public class DividendAgrtCheckFoot extends BindModel implements BindFooter {
+    public ObservableField<String> tip = new ObservableField<>();
 }

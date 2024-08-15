@@ -28,6 +28,15 @@ public class DividendAgrtSendModel extends BindModel {
     private String payStatuText = BaseApplication.getInstance().getString(R.string.txt_noagrement);
     private int payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
     private String userid = "";
+    private String loseStreak = "-";
+
+    public String getLoseStreak() {
+        return loseStreak;
+    }
+
+    public void setLoseStreak(String loseStreak) {
+        this.loseStreak = loseStreak;
+    }
 
     public String getUserName() {
         return userName;

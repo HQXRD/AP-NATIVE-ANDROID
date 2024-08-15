@@ -14,7 +14,7 @@ public class DividendAgrtCheckEvent {
     private String rules = null;
     private List<RebateAgrtSearchUserModel> searchUserModel;
 
-    //0-查看模式 1-创建模式
+    //0-查看模式 1-创建模式 2-修改模式
     private int mode = 0;
 
     public String getUserName() {
