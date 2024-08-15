@@ -203,7 +203,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         //成功状态
         String url = vo.channel_list.get(0).thiriframe_url;
         if (url != null && !StringUtils.isStartHttp(url)) {
-            url = DomainUtil.getDomain2() + url;
+            url = DomainUtil.getApiUrl() + url;
         }
         jumpUrl = url;
 
