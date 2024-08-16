@@ -15,7 +15,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
-            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
+            resValue "string", "ms_secret_key", "139dbbd0-5ab4-4be6-b197-e3af17a95279"
             resValue "string", "domain_api_list", "https://hxing5pre.hxing5vip.com;"
             resValue "string", "domain_url_list", "https://hxing5pre.hxing5vip.com;"
             multiDexEnabled true
@@ -33,7 +33,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
-            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
+            resValue "string", "ms_secret_key", "139dbbd0-5ab4-4be6-b197-e3af17a95279"
             resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
@@ -75,7 +75,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
-            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
+            resValue "string", "ms_secret_key", "139dbbd0-5ab4-4be6-b197-e3af17a95279"
             resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
