@@ -7,6 +7,7 @@ import androidx.annotation.VisibleForTesting;
 import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.LocalDataSource;
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.CommissionsReports2Request;
 import com.xtree.mine.vo.request.CommissionsReportsRequest;
 import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAgrtCreateRequest;
@@ -21,6 +22,7 @@ import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
+import com.xtree.mine.vo.response.CommissionsReports2Response;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAgrtCreateResponse;
 import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
@@ -185,6 +187,13 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     @Override
     public Flowable<DividendAgrtCreateResponse> getDividendAgrtCreateData(DividendAgrtCreateRequest request) {
         return mHttpDataSource.getDividendAgrtCreateData(request)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer());
+    }
+
+    @Override
+    public Flowable<CommissionsReports2Response> getCommissions2Data(CommissionsReports2Request request) {
+        return mHttpDataSource.getCommissions2Data(request)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }

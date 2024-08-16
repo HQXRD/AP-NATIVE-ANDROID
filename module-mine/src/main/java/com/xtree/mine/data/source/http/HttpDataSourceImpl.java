@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.xtree.mine.data.source.APIManager;
 import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.CommissionsReports2Request;
 import com.xtree.mine.vo.request.CommissionsReportsRequest;
 import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAgrtCreateRequest;
@@ -24,6 +25,7 @@ import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
+import com.xtree.mine.vo.response.CommissionsReports2Response;
 import com.xtree.mine.vo.response.CommissionsReportsResponse;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAgrtCreateResponse;
@@ -291,6 +293,19 @@ public class HttpDataSourceImpl implements HttpDataSource {
             @Override
             public DividendAgrtCreateResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), DividendAgrtCreateResponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<CommissionsReports2Response> getCommissions2Data(CommissionsReports2Request request) {
+
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(APIManager.COMMISSIONS_REPORTS2_URL, map).map(new Function<ResponseBody, CommissionsReports2Response>() {
+            @Override
+            public CommissionsReports2Response apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), CommissionsReports2Response.class);
             }
         });
     }

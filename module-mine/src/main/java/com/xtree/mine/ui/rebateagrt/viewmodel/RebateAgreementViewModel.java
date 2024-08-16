@@ -20,6 +20,7 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.fragment.CommissionsReports2Fragment;
 import com.xtree.mine.ui.rebateagrt.fragment.CommissionsReportsFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameRebateAgrtFragment;
@@ -101,7 +102,17 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                         startContainerActivity(RecommendedReportsFragment.class.getCanonicalName());
                         break;
                     case COMMISSIONSREPORTS:
-                        startContainerActivity(CommissionsReportsFragment.class.getCanonicalName());
+
+                        int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+                        int type = SPUtils.getInstance().getInt(SPKeyGlobal.USER_TYPE);
+                        int superAccout = SPUtils.getInstance().getInt(SPKeyGlobal.SUPER_ACCOUNT);
+
+                        //超级总代
+                        if (type == 1 && level == 1 && superAccout == 1) {
+                            startContainerActivity(CommissionsReports2Fragment.class.getCanonicalName());
+                        } else {
+                            startContainerActivity(CommissionsReportsFragment.class.getCanonicalName());
+                        }
                         break;
                     default:
                         break;
@@ -139,6 +150,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
 
                         int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
                         int type = SPUtils.getInstance().getInt(SPKeyGlobal.USER_TYPE);
+                        int superAccout = SPUtils.getInstance().getInt(SPKeyGlobal.SUPER_ACCOUNT);
 
                         for (int i = 0; i < bindModels.size(); i++) {
                             RebateAreegmentModel raMenu = bindModels.get(i);
@@ -148,7 +160,12 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                     if (raMenu.type.getIds().contains(id)) {
                                         //用户等级=2才可以显示佣金报表
                                         if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
-                                            if (type == 1 && level != 1) {
+                                            if (type == 1 && (level == 2 || level == 3)) {
+                                                newDatas.add(raMenu);
+                                            }
+                                            //超级总代
+                                            if (type == 1 && level == 1 && superAccout == 1) {
+                                                raMenu.title = "佣金报表";
                                                 newDatas.add(raMenu);
                                             }
                                         } else if (raMenu.type == RebateAreegmentTypeEnum.LOTTERIES) {

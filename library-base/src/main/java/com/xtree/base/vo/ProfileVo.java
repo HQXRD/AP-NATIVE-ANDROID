@@ -43,6 +43,7 @@ public class ProfileVo {
     public int agency_model; // 4,
     public int user_agency_model; // 2,
     public int usertype; // 1,
+    public int super_account; // 1 超级用户
 
     public int parentid; // 3160900,
     public int lvtopid; // 3160839,

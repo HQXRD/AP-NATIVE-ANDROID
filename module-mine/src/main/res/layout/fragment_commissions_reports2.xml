@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.xtree.mine.ui.rebateagrt.viewmodel.CommissionsReports2ViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/layout_toolbar"
+            layout="@layout/layout_base_toolbar"
+            toolbarModel="@{model}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0"
+            />
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:srlEnableRefresh="false"
+            app:srlEnableLoadMore="true"
+            app:srlEnableAutoLoadMore="true"
+            onLoadMoreListener="@{model.onLoadMoreListener}"
+            app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:itemData="@{model.datas}"
+                itemViewType="@{model.itemType}"/>
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

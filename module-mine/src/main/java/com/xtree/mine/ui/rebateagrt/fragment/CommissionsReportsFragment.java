@@ -22,7 +22,7 @@ import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
  * Created by KAKA on 2024/3/29.
- * Describe: 佣金报表
+ * Describe: 月度佣金
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_COMMISSIONSREPORTS)
 public class CommissionsReportsFragment extends BaseFragment<FragmentCommissionsReportsBinding, CommissionsReportsViewModel> {
