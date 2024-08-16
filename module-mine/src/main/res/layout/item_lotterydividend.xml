@@ -50,6 +50,7 @@
                 android:orientation="vertical"
                 android:gravity="start"
                 android:layout_marginTop="12dp"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="5dp"
-                    android:gravity="center">
+                    android:gravity="center_vertical|start|top">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -184,6 +185,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="start"
+                app:layout_constrainedWidth="true"
                 android:layout_marginTop="12dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -294,7 +296,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="5dp"
-                    android:gravity="center">
+                    android:gravity="center_vertical|start|top">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -306,6 +308,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:singleLine="false"
                         android:text="@{m.title}"
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_cm"

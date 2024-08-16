@@ -103,8 +103,6 @@ public class LotteryDividendReportsHeadModel extends BindModel implements BindHe
 
     public void setStatusList(List<FilterView.IBaseVo> statusList) {
         if (statusList != null) {
-            //插入一条所有状态
-            statusList.add(0, new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
             if (statuData.get() == null) {
                 statuData.set(new StatusVo(statusList.get(0).getShowId(), statusList.get(0).getShowName()));
             }
