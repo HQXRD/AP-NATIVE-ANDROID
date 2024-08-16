@@ -67,7 +67,6 @@ import com.xtree.mine.vo.withdrawals.WithdrawalQuotaVo;
 import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
 import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

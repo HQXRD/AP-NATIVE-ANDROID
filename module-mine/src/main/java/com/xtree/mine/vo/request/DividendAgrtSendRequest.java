@@ -3,7 +3,6 @@ package com.xtree.mine.vo.request;
 import com.xtree.base.utils.UuidUtil;
 
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * Created by KAKA on 2024/3/20.

@@ -353,47 +353,47 @@ public class CommissionsReports2Response {
             @SerializedName("real_bet")
             private MonthDTO realBet;
             @SerializedName("profit")
-            private FieldsDTO.ProfitDTO profit;
+            private ProfitDTO profit;
             @SerializedName("activity")
-            private FieldsDTO.ProfitDTO activity;
+            private ProfitDTO activity;
             @SerializedName("gift")
-            private FieldsDTO.ProfitDTO gift;
+            private ProfitDTO gift;
             @SerializedName("wages")
-            private FieldsDTO.ProfitDTO wages;
+            private ProfitDTO wages;
             @SerializedName("pay_fee")
             private PayFeeDTO payFee;
             @SerializedName("fee")
-            private FieldsDTO.ProfitDTO fee;
+            private ProfitDTO fee;
             @SerializedName("sys_adjust")
-            private FieldsDTO.ProfitDTO sysAdjust;
+            private ProfitDTO sysAdjust;
             @SerializedName("deposit_agent_rate")
-            private FieldsDTO.ProfitDTO depositAgentRate;
+            private ProfitDTO depositAgentRate;
             @SerializedName("withdraw_agent_rate")
-            private FieldsDTO.ProfitDTO withdrawAgentRate;
+            private ProfitDTO withdrawAgentRate;
             @SerializedName("income")
-            private FieldsDTO.ProfitDTO income;
+            private ProfitDTO income;
             @SerializedName("adjust_income")
-            private FieldsDTO.ProfitDTO adjustIncome;
+            private ProfitDTO adjustIncome;
             @SerializedName("last_remain")
-            private FieldsDTO.ProfitDTO lastRemain;
+            private ProfitDTO lastRemain;
             @SerializedName("remain")
-            private FieldsDTO.ProfitDTO remain;
+            private ProfitDTO remain;
             @SerializedName("plan_ratio")
-            private FieldsDTO.ProfitDTO planRatio;
+            private ProfitDTO planRatio;
             @SerializedName("adjust_ratio")
-            private FieldsDTO.ProfitDTO adjustRatio;
+            private ProfitDTO adjustRatio;
             @SerializedName("due")
-            private FieldsDTO.ProfitDTO due;
+            private ProfitDTO due;
             @SerializedName("actual")
-            private FieldsDTO.ProfitDTO actual;
+            private ProfitDTO actual;
             @SerializedName("status")
-            private FieldsDTO.ProfitDTO status;
+            private ProfitDTO status;
             @SerializedName("sent_by")
-            private FieldsDTO.ProfitDTO sentBy;
+            private ProfitDTO sentBy;
             @SerializedName("adjust_note")
-            private FieldsDTO.ProfitDTO adjustNote;
+            private ProfitDTO adjustNote;
             @SerializedName("note")
-            private FieldsDTO.ProfitDTO note;
+            private ProfitDTO note;
 
             public MonthDTO getMonth() {
                 return month;
@@ -451,35 +451,35 @@ public class CommissionsReports2Response {
                 this.realBet = realBet;
             }
 
-            private FieldsDTO.ProfitDTO getProfit() {
+            private ProfitDTO getProfit() {
                 return profit;
             }
 
-            public void setProfit(FieldsDTO.ProfitDTO profit) {
+            public void setProfit(ProfitDTO profit) {
                 this.profit = profit;
             }
 
-            private FieldsDTO.ProfitDTO getActivity() {
+            private ProfitDTO getActivity() {
                 return activity;
             }
 
-            public void setActivity(FieldsDTO.ProfitDTO activity) {
+            public void setActivity(ProfitDTO activity) {
                 this.activity = activity;
             }
 
-            private FieldsDTO.ProfitDTO getGift() {
+            private ProfitDTO getGift() {
                 return gift;
             }
 
-            public void setGift(FieldsDTO.ProfitDTO gift) {
+            public void setGift(ProfitDTO gift) {
                 this.gift = gift;
             }
 
-            private FieldsDTO.ProfitDTO getWages() {
+            private ProfitDTO getWages() {
                 return wages;
             }
 
-            public void setWages(FieldsDTO.ProfitDTO wages) {
+            public void setWages(ProfitDTO wages) {
                 this.wages = wages;
             }
 
@@ -491,131 +491,131 @@ public class CommissionsReports2Response {
                 this.payFee = payFee;
             }
 
-            private FieldsDTO.ProfitDTO getFee() {
+            private ProfitDTO getFee() {
                 return fee;
             }
 
-            public void setFee(FieldsDTO.ProfitDTO fee) {
+            public void setFee(ProfitDTO fee) {
                 this.fee = fee;
             }
 
-            private FieldsDTO.ProfitDTO getSysAdjust() {
+            private ProfitDTO getSysAdjust() {
                 return sysAdjust;
             }
 
-            public void setSysAdjust(FieldsDTO.ProfitDTO sysAdjust) {
+            public void setSysAdjust(ProfitDTO sysAdjust) {
                 this.sysAdjust = sysAdjust;
             }
 
-            private FieldsDTO.ProfitDTO getDepositAgentRate() {
+            private ProfitDTO getDepositAgentRate() {
                 return depositAgentRate;
             }
 
-            public void setDepositAgentRate(FieldsDTO.ProfitDTO depositAgentRate) {
+            public void setDepositAgentRate(ProfitDTO depositAgentRate) {
                 this.depositAgentRate = depositAgentRate;
             }
 
-            private FieldsDTO.ProfitDTO getWithdrawAgentRate() {
+            private ProfitDTO getWithdrawAgentRate() {
                 return withdrawAgentRate;
             }
 
-            public void setWithdrawAgentRate(FieldsDTO.ProfitDTO withdrawAgentRate) {
+            public void setWithdrawAgentRate(ProfitDTO withdrawAgentRate) {
                 this.withdrawAgentRate = withdrawAgentRate;
             }
 
-            private FieldsDTO.ProfitDTO getIncome() {
+            private ProfitDTO getIncome() {
                 return income;
             }
 
-            public void setIncome(FieldsDTO.ProfitDTO income) {
+            public void setIncome(ProfitDTO income) {
                 this.income = income;
             }
 
-            private FieldsDTO.ProfitDTO getAdjustIncome() {
+            private ProfitDTO getAdjustIncome() {
                 return adjustIncome;
             }
 
-            public void setAdjustIncome(FieldsDTO.ProfitDTO adjustIncome) {
+            public void setAdjustIncome(ProfitDTO adjustIncome) {
                 this.adjustIncome = adjustIncome;
             }
 
-            private FieldsDTO.ProfitDTO getLastRemain() {
+            private ProfitDTO getLastRemain() {
                 return lastRemain;
             }
 
-            public void setLastRemain(FieldsDTO.ProfitDTO lastRemain) {
+            public void setLastRemain(ProfitDTO lastRemain) {
                 this.lastRemain = lastRemain;
             }
 
-            private FieldsDTO.ProfitDTO getRemain() {
+            private ProfitDTO getRemain() {
                 return remain;
             }
 
-            public void setRemain(FieldsDTO.ProfitDTO remain) {
+            public void setRemain(ProfitDTO remain) {
                 this.remain = remain;
             }
 
-            private FieldsDTO.ProfitDTO getPlanRatio() {
+            private ProfitDTO getPlanRatio() {
                 return planRatio;
             }
 
-            public void setPlanRatio(FieldsDTO.ProfitDTO planRatio) {
+            public void setPlanRatio(ProfitDTO planRatio) {
                 this.planRatio = planRatio;
             }
 
-            private FieldsDTO.ProfitDTO getAdjustRatio() {
+            private ProfitDTO getAdjustRatio() {
                 return adjustRatio;
             }
 
-            public void setAdjustRatio(FieldsDTO.ProfitDTO adjustRatio) {
+            public void setAdjustRatio(ProfitDTO adjustRatio) {
                 this.adjustRatio = adjustRatio;
             }
 
-            private FieldsDTO.ProfitDTO getDue() {
+            private ProfitDTO getDue() {
                 return due;
             }
 
-            public void setDue(FieldsDTO.ProfitDTO due) {
+            public void setDue(ProfitDTO due) {
                 this.due = due;
             }
 
-            private FieldsDTO.ProfitDTO getActual() {
+            private ProfitDTO getActual() {
                 return actual;
             }
 
-            public void setActual(FieldsDTO.ProfitDTO actual) {
+            public void setActual(ProfitDTO actual) {
                 this.actual = actual;
             }
 
-            private FieldsDTO.ProfitDTO getStatus() {
+            private ProfitDTO getStatus() {
                 return status;
             }
 
-            public void setStatus(FieldsDTO.ProfitDTO status) {
+            public void setStatus(ProfitDTO status) {
                 this.status = status;
             }
 
-            private FieldsDTO.ProfitDTO getSentBy() {
+            private ProfitDTO getSentBy() {
                 return sentBy;
             }
 
-            public void setSentBy(FieldsDTO.ProfitDTO sentBy) {
+            public void setSentBy(ProfitDTO sentBy) {
                 this.sentBy = sentBy;
             }
 
-            private FieldsDTO.ProfitDTO getAdjustNote() {
+            private ProfitDTO getAdjustNote() {
                 return adjustNote;
             }
 
-            public void setAdjustNote(FieldsDTO.ProfitDTO adjustNote) {
+            public void setAdjustNote(ProfitDTO adjustNote) {
                 this.adjustNote = adjustNote;
             }
 
-            private FieldsDTO.ProfitDTO getNote() {
+            private ProfitDTO getNote() {
                 return note;
             }
 
-            public void setNote(FieldsDTO.ProfitDTO note) {
+            public void setNote(ProfitDTO note) {
                 this.note = note;
             }
 

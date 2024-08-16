@@ -22,6 +22,7 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.request.LotteryDividendReportsRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
@@ -36,6 +37,7 @@ import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
+import com.xtree.mine.vo.response.LotteryDividendReportsResponse;
 import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
@@ -306,6 +308,18 @@ public class HttpDataSourceImpl implements HttpDataSource {
             @Override
             public CommissionsReports2Response apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), CommissionsReports2Response.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<LotteryDividendReportsResponse> getLotteryDividendReportsData(LotteryDividendReportsRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(APIManager.LOTTERY_DIVIDEND_REPORTS_URL, map).map(new Function<ResponseBody, LotteryDividendReportsResponse>() {
+            @Override
+            public LotteryDividendReportsResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), LotteryDividendReportsResponse.class);
             }
         });
     }

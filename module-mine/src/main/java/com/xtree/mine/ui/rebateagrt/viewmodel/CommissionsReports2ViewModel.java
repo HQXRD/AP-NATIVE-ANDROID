@@ -1,9 +1,5 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
-import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.GAMEREBATE;
-import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LOTTERIES;
-
-import android.annotation.SuppressLint;
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -12,10 +8,8 @@ import androidx.databinding.ObservableField;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import com.lxj.xpopup.core.BasePopupView;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
@@ -23,37 +17,23 @@ import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
-import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtSendDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.CommissionsReports2HeadModel;
 import com.xtree.mine.ui.rebateagrt.model.CommissionsReports2Model;
 import com.xtree.mine.ui.rebateagrt.model.CommissionsReports2TotalModel;
-import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckEvent;
-import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtHeadModel;
-import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtModel;
-import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtSubModel;
-import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtTotalModel;
-import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserModel;
-import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.vo.StatusVo;
 import com.xtree.mine.vo.request.CommissionsReports2Request;
-import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.response.CommissionsReports2Response;
-import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 
 import org.reactivestreams.Subscription;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
-import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by KAKA on 2024/3/29.
@@ -90,7 +70,7 @@ public class CommissionsReports2ViewModel extends BaseViewModel<MineRepository> 
 
         @Override
         public void check() {
-            getDividendData();
+            getReportsData();
         }
     });
 
@@ -103,7 +83,7 @@ public class CommissionsReports2ViewModel extends BaseViewModel<MineRepository> 
         @Override
         public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
             headModel.p++;
-            getDividendData();
+            getReportsData();
         }
     };
 
@@ -111,7 +91,7 @@ public class CommissionsReports2ViewModel extends BaseViewModel<MineRepository> 
         titleData.setValue("佣金报表");
 
         datas.setValue(bindModels);
-        getDividendData();
+        getReportsData();
     }
 
     public void setActivity(FragmentActivity mActivity) {
@@ -126,7 +106,7 @@ public class CommissionsReports2ViewModel extends BaseViewModel<MineRepository> 
         });
     }
 
-    private synchronized void getDividendData() {
+    private synchronized void getReportsData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
         }
@@ -178,7 +158,6 @@ public class CommissionsReports2ViewModel extends BaseViewModel<MineRepository> 
 
                             CommissionsReports2Response.DataDTOX.DataDTO billData = vo.getData().getData();
 
-                            //一代用户不显示契约列表
                             if (billData != null) {
                                 List<CommissionsReports2Response.DataDTOX.DataDTO.PartDTO> partData = billData.getPart();
                                 if (partData != null) {

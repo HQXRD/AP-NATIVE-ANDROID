@@ -11,26 +11,26 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
-import com.xtree.mine.databinding.FragmentCommissionsReports2Binding;
-import com.xtree.mine.ui.rebateagrt.viewmodel.CommissionsReports2ViewModel;
+import com.xtree.mine.databinding.FragmentLotteryDividendReportsBinding;
+import com.xtree.mine.ui.rebateagrt.viewmodel.LotteryDividendReportsViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 
 /**
- * Created by KAKA on 2024/3/29.
- * Describe: 佣金报表查看
+ * Created by KAKA on 2024/8/16.
+ * Describe: 彩票分红报表
  */
-@Route(path = RouterFragmentPath.Mine.PAGER_COMMISSIONSREPORTS2)
-public class CommissionsReports2Fragment extends BaseFragment<FragmentCommissionsReports2Binding, CommissionsReports2ViewModel> {
+@Route(path = RouterFragmentPath.Mine.PAGER_LOTTERYDIVIDENDREPORTS)
+public class LotteryDividendReportsFragment extends BaseFragment<FragmentLotteryDividendReportsBinding, LotteryDividendReportsViewModel> {
     @Override
     public void initView() {
     }
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return R.layout.fragment_commissions_reports2;
+        return R.layout.fragment_lottery_dividend_reports;
     }
 
     @Override
@@ -39,9 +39,9 @@ public class CommissionsReports2Fragment extends BaseFragment<FragmentCommission
     }
 
     @Override
-    public CommissionsReports2ViewModel initViewModel() {
+    public LotteryDividendReportsViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
-        return new ViewModelProvider(this, factory).get(CommissionsReports2ViewModel.class);
+        return new ViewModelProvider(this, factory).get(LotteryDividendReportsViewModel.class);
     }
 
     @Override

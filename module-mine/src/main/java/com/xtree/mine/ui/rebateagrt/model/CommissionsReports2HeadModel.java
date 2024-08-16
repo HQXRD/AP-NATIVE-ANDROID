@@ -1,7 +1,6 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
@@ -146,7 +145,7 @@ public class CommissionsReports2HeadModel extends BindModel implements BindHead 
 
     @Override
     public boolean getItemHover() {
-        return false;
+        return true;
     }
 
     @Override

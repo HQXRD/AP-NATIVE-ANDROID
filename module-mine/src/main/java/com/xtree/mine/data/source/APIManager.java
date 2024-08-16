@@ -56,4 +56,6 @@ public class APIManager {
     public static final String DIVIDENDAGRT_CREATE_URL = "/pink/create";
     //彩票契约-修改契约
     public static final String DIVIDENDAGRT_MODIFY_URL = "/pink/update";
+    //彩票分红报表
+    public static final String LOTTERY_DIVIDEND_REPORTS_URL = "/api/report/getpink";
 }
