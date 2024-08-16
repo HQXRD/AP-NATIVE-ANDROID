@@ -100,13 +100,15 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                         binding.llMenu3.setVisibility(View.GONE);
                         binding.llMenu1.setVisibility(View.GONE);
                         binding.tvwEaster.setVisibility(View.INVISIBLE);
-                    } else if (mProfileVo.getUserLevel() == 3) {
+                    }
+                    //暂时关闭活跃人数报表
+                    /*else if (mProfileVo.getUserLevel() == 3) {
                         //显示活跃人数报表
                         binding.llMenu2.setVisibility(View.GONE);
                         binding.llMenu3.setVisibility(View.GONE);
                         binding.llMenu1.setVisibility(View.VISIBLE);
                         binding.tvwEaster.setVisibility(View.INVISIBLE);
-                    }
+                    }*/
 
                 } else {
                     binding.llMenu2.setVisibility(View.GONE);
