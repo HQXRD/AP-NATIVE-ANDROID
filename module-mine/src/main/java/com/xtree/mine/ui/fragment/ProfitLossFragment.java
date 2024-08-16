@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
@@ -23,6 +24,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -52,7 +54,7 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
     CachedAutoRefreshAdapter<ProfitLossVo> mAdapter; // 主列表
     int curPage = 0;
     ProfitLossReportVo mReportVo;
-
+    ProfileVo mProfileVo;
     List<FilterView.IBaseVo> listType = new ArrayList<>();
 
     private String starttime;
@@ -167,6 +169,9 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
     @Override
     public void initData() {
         super.initData();
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
 
         listType.add(new OrderTypeVo("", getString(R.string.txt_all)));
         listType.add(new OrderTypeVo("99", getString(R.string.txt_all_exclude_lottery)));
@@ -358,7 +363,10 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
         map.put("client", "m");
 
         CfLog.i(map.toString());
-        viewModel.getProfitLoss(map);
+        if (mProfileVo.super_account == 1 && mProfileVo.usertype == 1 && mProfileVo.getUserLevel() == 1) {
+            viewModel.getSuperProfitLoss(map);
+        } else {
+            viewModel.getProfitLoss(map);
+        }
     }
-
 }

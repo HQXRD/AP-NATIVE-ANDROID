@@ -125,6 +125,33 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
+    public void getSuperProfitLoss(HashMap map) {
+        Disposable disposable = (Disposable) model.getApiService().getSuperProfitLoss(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ProfitLossReportVo>() {
+                    @Override
+                    public void onResult(ProfitLossReportVo vo) {
+                        CfLog.d("******");
+                        // 修改成温馨提示 (MsgDialog)
+                        //if (vo.msg_type == 2) {
+                        //    ToastUtils.showLong(vo.message); // 无权限，请联系您的上级
+                        //}
+                        if (vo.aProfitLoss == null) {
+                            vo.aProfitLoss = new ArrayList<>();
+                        }
+                        liveDataProfitLoss.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
     public void getRebateReport(HashMap map) {
         Disposable disposable = (Disposable) model.getApiService().getRebateReport(map)
                 .compose(RxUtils.schedulersTransformer())

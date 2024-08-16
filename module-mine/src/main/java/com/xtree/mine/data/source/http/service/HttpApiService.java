@@ -344,6 +344,12 @@ public interface HttpApiService {
     Flowable<ProfitLossReportVo> getProfitLoss(@QueryMap Map<String, String> map);
 
     /**
+     * 盈亏报表-查列表(超级总代)
+     */
+    @GET("/gameinfo/supereprofitlossNew?")
+    Flowable<ProfitLossReportVo> getSuperProfitLoss(@QueryMap Map<String, String> map);
+
+    /**
      * 返水报表-查列表
      * ?controller=compact&action=userantireport&client=m
      * &starttime=2024-01-10 00:00:00&endtime=2024-01-11 23:59:59&type=0&pstatus=0&p=1&pn=15&orderby=date&sort=desc
