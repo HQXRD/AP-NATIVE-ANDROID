@@ -111,7 +111,7 @@ public interface PMApiService {
     Flowable<PMBaseResponse<List<PlayTypeInfo>>> getMatchOddsInfoPB(@QueryMap Map<String, String> map);
 
     /**
-     * 查询最大最小投注金额
+     * 查询最大最小投注金额  投注
      * @return
      */
     @POST("/yewu13/v1/betOrder/client/bet")

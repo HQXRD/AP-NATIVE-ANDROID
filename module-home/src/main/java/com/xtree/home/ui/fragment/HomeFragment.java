@@ -257,20 +257,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             if (list == null || list.size() == 0) {
                 return;
             }
-            //KLog.d(list.get(0));
-            GameVo twoVo = null;
-            for (GameVo vo : list) {
-                if (vo.cid == 42) {//杏彩体育旗舰
-                    twoVo = vo;
-                }
-            }
-            list.remove(twoVo);
-            list.get(0).twoVo = twoVo;
             gameAdapter.clear();
             gameAdapter.addAll(list);
-            //RadioButton rBtn = (RadioButton) binding.rgpType.getChildAt(gameGroup);
-            //rBtn.setChecked(true);
-            //smoothToPosition(gameGroup);
         });
 
         viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
