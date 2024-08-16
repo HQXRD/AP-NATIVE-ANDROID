@@ -9,21 +9,22 @@
             name="m"
             type="com.xtree.mine.ui.rebateagrt.model.RecommendedReportsModel" />
     </data>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
         android:translationZ="1dp"
         app:cardCornerRadius="12dp"
-        >
+        app:cardBackgroundColor="@color/clr_main_06a"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,29 +37,28 @@
                 android:id="@+id/item_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0">
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0">
 
                 <View
                     android:layout_width="3dp"
                     android:layout_height="14dp"
-                    android:background="@color/clr_main_01"/>
+                    android:background="@color/clr_main_01" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{m.userName}"
-                    android:textSize="14sp"
-                    android:textColor="@color/clr_txt_black_cm"
                     android:layout_marginStart="2dp"
-                    />
+                    android:text="@{m.userName}"
+                    android:textColor="@color/clr_txt_black_cm"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!--            周期投注额-->
@@ -66,110 +66,102 @@
                 android:id="@+id/item_bet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_rpt_eff_bt"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_username"
+                android:text="@string/txt_rpt_eff_bt"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_username"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_bet_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.bet}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_black_cm"
                 android:layout_marginStart="5dp"
-                app:layout_constraintTop_toTopOf="@id/item_bet"
+                android:text="@{m.bet}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="@id/item_bet"
-                app:layout_constraintStart_toEndOf="@id/item_bet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintVertical_bias="0.5"
-                />
+                app:layout_constraintStart_toEndOf="@id/item_bet"
+                app:layout_constraintTop_toTopOf="@id/item_bet"
+                app:layout_constraintVertical_bias="0.5" />
 
             <!--            盈亏-->
             <TextView
                 android:id="@+id/item_cashflow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_team_profit_loss"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_bet_content"
+                android:text="@string/txt_team_profit_loss"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_bet_content"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_cashflow_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.profitloss}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_rebateagrt_mark"
                 android:layout_marginStart="5dp"
-                app:layout_constraintTop_toTopOf="@id/item_cashflow"
+                android:text="@{m.profitloss}"
+                android:textColor="@color/clr_txt_rebateagrt_mark"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="@id/item_cashflow"
-                app:layout_constraintStart_toEndOf="@id/item_cashflow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintVertical_bias="0.5"
-                />
+                app:layout_constraintStart_toEndOf="@id/item_cashflow"
+                app:layout_constraintTop_toTopOf="@id/item_cashflow"
+                app:layout_constraintVertical_bias="0.5" />
 
             <!--            周期-->
             <TextView
                 android:id="@+id/item_cyclicality"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_cycle_colon"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_cashflow_content"
+                android:text="@string/txt_cycle_colon"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_cashflow_content"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_createdate_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.cycle}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_black_cm"
                 android:layout_marginStart="5dp"
-                app:layout_constraintTop_toTopOf="@id/item_cyclicality"
+                android:text="@{m.cycle}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="@id/item_cyclicality"
-                app:layout_constraintStart_toEndOf="@id/item_cyclicality"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintVertical_bias="0.5"
-                />
+                app:layout_constraintStart_toEndOf="@id/item_cyclicality"
+                app:layout_constraintTop_toTopOf="@id/item_cyclicality"
+                app:layout_constraintVertical_bias="0.5" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guide1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.74"
-                />
+                app:layout_constraintGuide_percent="0.74" />
 
             <!--            活跃人数-->
-
 
 
             <TextView
@@ -177,63 +169,59 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_num_active_persons_colon"
-                android:textSize="12sp"
                 android:textColor="@color/clr_txt_02"
-                app:layout_constraintTop_toTopOf="@id/item_bet"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/item_bet"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guide1"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintTop_toTopOf="@id/item_bet" />
 
             <TextView
                 android:id="@+id/item_persons_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.people}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_black_cm"
                 android:layout_marginStart="5dp"
+                android:text="@{m.people}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="10sp"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintTop_toTopOf="@id/item_persons"
                 app:layout_constraintBottom_toBottomOf="@id/item_persons"
-                app:layout_constraintStart_toEndOf="@id/item_persons"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1"
-                tools:text="1111"
-                />
+                app:layout_constraintStart_toEndOf="@id/item_persons"
+                app:layout_constraintTop_toTopOf="@id/item_persons"
+                tools:text="1111" />
 
-<!--            推荐奖励-->
+            <!--            推荐奖励-->
             <TextView
                 android:id="@+id/item_recrewards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_referral_bonus_colon"
-                android:textSize="12sp"
                 android:textColor="@color/clr_txt_02"
-                app:layout_constraintTop_toTopOf="@id/item_cashflow"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/item_cashflow"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guide1"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintTop_toTopOf="@id/item_cashflow" />
 
             <TextView
                 android:id="@+id/item_recrewards_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.label}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_black_cm"
                 android:layout_marginStart="5dp"
+                android:text="@{m.label}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="10sp"
                 app:layout_constrainedWidth="true"
-                app:layout_constraintTop_toTopOf="@id/item_recrewards"
                 app:layout_constraintBottom_toBottomOf="@id/item_recrewards"
-                app:layout_constraintStart_toEndOf="@id/item_recrewards"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1"
-                tools:text="1111111111"
-                />
+                app:layout_constraintStart_toEndOf="@id/item_recrewards"
+                app:layout_constraintTop_toTopOf="@id/item_recrewards"
+                tools:text="1111111111" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

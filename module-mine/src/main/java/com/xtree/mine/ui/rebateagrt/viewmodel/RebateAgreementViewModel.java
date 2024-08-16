@@ -175,6 +175,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
 
     @SuppressLint("StaticFieldLeak")
     private BasePopupView pop = null;
+
     private void showTip() {
         MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips), "您没有相关契约", true, new TipDialog.ICallBack() {
             @Override

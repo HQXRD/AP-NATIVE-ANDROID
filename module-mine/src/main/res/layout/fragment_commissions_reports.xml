@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,7 +9,7 @@
             type="com.xtree.mine.ui.rebateagrt.viewmodel.CommissionsReportsViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_main"
@@ -41,6 +42,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/clr_main_06a"
                         android:paddingStart="12dp"
                         android:paddingTop="16dp"
                         android:paddingEnd="12dp"
@@ -51,7 +53,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="月度佣金"
-                            android:textColor="@color/clr_txt_rebateagrt_title"
+                            android:textColor="@color/clr_white"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,10 +68,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
-                            android:text="查看制度"
-                            android:textColor="@color/clr_txt_rebateagrt_highlight"
-                            android:textSize="14sp"
                             android:onClick="@{() -> model.showCommissionsRules()}"
+                            android:text="查看制度"
+                            android:textColor="@color/clr_main_01"
+                            android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0"
@@ -100,7 +102,7 @@
                             android:drawableBottom="@drawable/divider_horizontal"
                             android:gravity="bottom|start"
                             android:text="@{model.dateData}"
-                            android:textColor="@color/clr_txt_mouse5"
+                            android:textColor="@color/clr_white"
                             android:textSize="14sp"
                             app:layout_constraintBottom_toBottomOf="@id/item_time"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -170,10 +172,10 @@
                             android:layout_marginEnd="20dp"
                             android:background="@drawable/shape_gradient_main_c88"
                             android:gravity="center"
+                            android:onClick="@{() -> model.getData()}"
                             android:text="查询"
                             android:textColor="@color/clr_white"
                             android:textSize="16sp"
-                            android:onClick="@{() -> model.getData()}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -196,6 +198,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/clr_main_06a"
                         android:paddingStart="12dp"
                         android:paddingTop="16dp"
                         android:paddingEnd="12dp"
@@ -222,8 +225,8 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -244,8 +247,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -266,10 +269,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="净输赢："
@@ -288,10 +291,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="上月结余："
@@ -310,10 +313,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="佣金比例："
@@ -345,8 +348,8 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:id="@+id/item_status"
@@ -368,10 +371,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="活跃用户："
@@ -390,10 +393,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="账户调整："
@@ -412,10 +415,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="本月结余："
@@ -445,7 +448,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="佣金计算方式"
-                        android:textColor="@color/clr_txt_rebateagrt_title"
+                        android:textColor="@color/clr_white"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -474,8 +477,8 @@
                     android:layout_marginBottom="16dp"
                     android:shadowColor="@color/bt_color_shadow"
                     android:shadowDy="2"
-                    app:cardCornerRadius="12dp"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -512,10 +515,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
+                            android:onClick="@{() -> model.showAgentRules()}"
                             android:text="查看制度"
                             android:textColor="@color/clr_txt_rebateagrt_highlight"
                             android:textSize="14sp"
-                            android:onClick="@{() -> model.showAgentRules()}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0"
@@ -553,8 +556,8 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -575,10 +578,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="团队亏损额："
@@ -610,8 +613,8 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -632,10 +635,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                            <TextView
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="奖励比例："

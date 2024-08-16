@@ -60,7 +60,7 @@
 
     <!-- 文字 -->
     <color name="clr_txt">#D0B292</color>
-    <color name="clr_txt_title">#4F4439</color>
+    <color name="clr_txt_title">@color/clr_white</color>
     <color name="clr_txt_mouse">#665849</color>
     <color name="clr_txt_mouse3">#5C5C5C</color>
     <color name="clr_txt_mouse4">#949292</color>
@@ -493,7 +493,7 @@
     <!--    标题-->
     <color name="clr_txt_rebateagrt_title">#121B47</color>
     <!--    副标题-->
-    <color name="clr_txt_rebateagrt_subtitle">#99A0B1</color>
+    <color name="clr_txt_rebateagrt_subtitle">@color/clr_txt_01</color>
     <!--    高亮-->
     <color name="clr_txt_rebateagrt_highlight">#0065FF</color>
 

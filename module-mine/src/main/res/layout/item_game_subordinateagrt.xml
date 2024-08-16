@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -9,20 +8,21 @@
             name="m"
             type="com.xtree.mine.ui.rebateagrt.model.GameSubordinateagrtModel" />
     </data>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="@color/clr_main_06a"
         app:cardElevation="1dp"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -35,211 +35,199 @@
                 android:id="@+id/item_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0">
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0">
 
                 <View
                     android:layout_width="3dp"
                     android:layout_height="14dp"
-                    android:background="@color/clr_main_01"/>
+                    android:background="@color/clr_main_01" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{m.userName}"
-                    android:textSize="14sp"
-                    android:textColor="@color/clr_txt_black_cm"
                     android:layout_marginStart="2dp"
-                    />
+                    android:text="@{m.userName}"
+                    android:textColor="@color/clr_txt_black_cm"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/item_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:text="@{m.checkString}"
                 android:textColor="@color/clr_txt_02"
                 android:textSize="14sp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="1"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0" />
 
 
-<!--            签订日期-->
+            <!--            签订日期-->
             <TextView
                 android:id="@+id/item_signdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="签订日期"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_username"
+                android:text="签订日期"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_username"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_signdate_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.signTime}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_black_cm"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_signdate"
+                android:text="@{m.signTime}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_signdate"
+                app:layout_constraintVertical_bias="0" />
 
             <!--            工资比例-->
             <TextView
                 android:id="@+id/item_proportions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="工资比例"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_signdate_content"
+                android:text="工资比例"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_signdate_content"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_proportions_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.ruleRatio}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_rebateagrt_profit"
                 android:layout_marginTop="5dp"
                 android:onClick="@{() -> m.clickRatio()}"
-                app:layout_constraintTop_toBottomOf="@id/item_proportions"
+                android:text="@{m.ruleRatio}"
+                android:textColor="@color/clr_txt_rebateagrt_profit"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_proportions"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_createdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="创建时间"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_proportions_content"
+                android:text="创建时间"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_proportions_content"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_createdate_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.createTime}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_black_cm"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_createdate"
+                android:text="@{m.createTime}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_createdate"
+                app:layout_constraintVertical_bias="0" />
 
             <!--            生效日期-->
             <TextView
                 android:id="@+id/item_cmtdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="生效日期"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_username"
+                android:text="生效日期"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="1"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_username"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_cmtdate_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.effectDate}"
-                android:textSize="10sp"
-                android:textColor="@color/clr_txt_black_cm"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_cmtdate"
+                android:text="@{m.effectDate}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="1"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_cmtdate"
+                app:layout_constraintVertical_bias="0" />
 
-<!--            状态-->
+            <!--            状态-->
             <TextView
                 android:id="@+id/item_statu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="状态"
-                android:textSize="12sp"
                 android:textColor="@color/clr_txt_02"
-                app:layout_constraintTop_toTopOf="@id/item_createdate"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="1"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_createdate"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_statu_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.sname}"
-                android:textSize="14sp"
-                android:textColor="@{m.statusColor}"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_statu"
+                android:text="@{m.sname}"
+                android:textColor="@{m.statusColor}"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="1"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_statu"
+                app:layout_constraintVertical_bias="0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

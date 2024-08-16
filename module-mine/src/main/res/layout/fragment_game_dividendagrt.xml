@@ -7,8 +7,8 @@
             name="model"
             type="com.xtree.mine.ui.rebateagrt.viewmodel.GameDividendAgrtViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,32 +16,32 @@
             android:id="@+id/layout_toolbar"
             layout="@layout/layout_base_toolbar"
             toolbarModel="@{model}"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"
+            onLoadMoreListener="@{model.onLoadMoreListener}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:srlEnableRefresh="false"
-            app:srlEnableLoadMore="true"
-            app:srlEnableAutoLoadMore="true"
-            onLoadMoreListener="@{model.onLoadMoreListener}"
-            app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
+            app:layout_constraintVertical_bias="0"
+            app:srlEnableAutoLoadMore="true"
+            app:srlEnableLoadMore="true"
+            app:srlEnableRefresh="false">
 
             <androidx.recyclerview.widget.RecyclerView
+                itemViewType="@{model.itemType}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:itemData="@{model.datas}"
-                itemViewType="@{model.itemType}"/>
+                android:background="@color/bg_main"
+                app:itemData="@{model.datas}" />
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 

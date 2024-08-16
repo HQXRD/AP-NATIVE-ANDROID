@@ -4,8 +4,8 @@
     <item android:state_checked="true">
         <shape>
             <gradient
-                android:startColor="@color/clr_main_start"
-                android:endColor="@color/clr_main_end" />
+                android:startColor="@color/clr_main_01"
+                android:endColor="@color/clr_main_01" />
 
             <corners android:radius="78dp" />
         </shape>
@@ -13,8 +13,7 @@
 
     <item android:state_checked="false">
         <shape>
-            <solid android:color="@color/clr_white" />
-            <stroke android:color="@color/clr_btn_stroke" android:width="1dp"/>
+            <stroke android:color="@color/clr_main_01" android:width="1dp"/>
             <corners android:radius="78dp" />
         </shape>
     </item>

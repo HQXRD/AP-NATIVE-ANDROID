@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,203 +9,205 @@
 
         <import type="android.view.View" />
     </data>
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="@color/color_transparent"
-        android:translationZ="5dp"
-        android:layout_marginTop="8dp">
+        android:translationZ="5dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/clr_main_06a"
+            app:cardCornerRadius="12dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="12dp"
-                android:paddingEnd="12dp"
                 android:paddingTop="20dp"
+                android:paddingEnd="12dp"
                 android:paddingBottom="20dp">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guide1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintGuide_percent="0.3"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.3" />
 
                 <TextView
                     android:id="@+id/item_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="bottom|start"
                     android:text="@{m.numText}"
                     android:textColor="@color/clr_txt_black_cm"
                     android:textSize="12sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:id="@+id/item_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="bottom|start"
                     android:text="@string/txt_delete"
                     android:textColor="@color/clr_txt_warn"
                     android:textSize="12sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:id="@+id/filter1"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:gravity="bottom|start"
                     android:text="@string/txt_dividend_ratio"
                     android:textColor="@color/clr_txt_01"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toBottomOf="@id/item_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_title"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:textColor="@color/clr_txt_black_cm"
-                    android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    android:drawableBottom="@drawable/divider_horizontal"
-                    android:drawableEnd="@mipmap/bt_icon_expand"
                     android:background="@null"
-                    android:text="@{m.ratioData}"
+                    android:drawableEnd="@mipmap/bt_icon_expand"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:gravity="bottom|start"
+                    android:inputType="numberDecimal"
                     android:maxLength="7"
                     android:onClick="@{() -> m.selectRatio()}"
-                    android:inputType="numberDecimal"
-                    app:layout_constraintTop_toBottomOf="@id/item_title"
-                    app:layout_constraintStart_toStartOf="@id/guide1"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@{m.ratioData}"
+                    android:textColor="@color/clr_txt_black_cm"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintTop_toBottomOf="@id/item_title"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:id="@+id/filter2"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:gravity="bottom|start"
                     android:text="@string/txt_cumulative_bets_morethan"
                     android:textColor="@color/clr_txt_01"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toBottomOf="@id/filter1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter1"
+                    app:layout_constraintVertical_bias="0" />
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:textColor="@color/clr_txt_black_cm"
-                    android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    android:drawableBottom="@drawable/divider_horizontal"
                     android:background="@null"
-                    android:text="@={m.profit}"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:enabled="@{m.editMode}"
+                    android:gravity="bottom|start"
                     android:inputType="numberDecimal"
                     android:maxLength="12"
-                    android:enabled="@{m.editMode}"
-                    app:layout_constraintTop_toTopOf="@id/filter2"
-                    app:layout_constraintStart_toStartOf="@id/guide1"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@={m.profit}"
+                    android:textColor="@color/clr_txt_black_cm"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintTop_toTopOf="@id/filter2"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:id="@+id/filter3"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:gravity="bottom|start"
                     android:text="@string/txt_cumulative_loss_morethan"
                     android:textColor="@color/clr_txt_01"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toBottomOf="@id/filter2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter2"
+                    app:layout_constraintVertical_bias="0" />
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:textColor="@color/clr_txt_black_cm"
-                    android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    android:drawableBottom="@drawable/divider_horizontal"
                     android:background="@null"
-                    android:text="@={m.netProfit}"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:enabled="@{m.editMode}"
+                    android:gravity="bottom|start"
                     android:inputType="numberDecimal"
                     android:maxLength="12"
-                    android:enabled="@{m.editMode}"
-                    app:layout_constraintTop_toBottomOf="@id/filter2"
-                    app:layout_constraintStart_toStartOf="@id/guide1"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@={m.netProfit}"
+                    android:textColor="@color/clr_txt_black_cm"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintTop_toBottomOf="@id/filter2"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:id="@+id/filter4"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:gravity="bottom|start"
                     android:text="@string/txt_num_active_persons_morethan"
                     android:textColor="@color/clr_txt_01"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toBottomOf="@id/filter3"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter3"
+                    app:layout_constraintVertical_bias="0" />
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:textColor="@color/clr_txt_black_cm"
-                    android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    android:drawableBottom="@drawable/divider_horizontal"
                     android:background="@null"
-                    android:text="@={m.people}"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:enabled="@{m.editMode}"
+                    android:gravity="bottom|start"
                     android:inputType="number"
                     android:maxLength="12"
-                    android:enabled="@{m.editMode}"
-                    app:layout_constraintTop_toBottomOf="@id/filter3"
-                    app:layout_constraintStart_toStartOf="@id/guide1"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@={m.people}"
+                    android:textColor="@color/clr_txt_black_cm"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintTop_toBottomOf="@id/filter3"
+                    app:layout_constraintVertical_bias="0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

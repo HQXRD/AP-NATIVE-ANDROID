@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -10,7 +11,7 @@
 
         <import type="android.view.View" />
     </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_main"
@@ -98,6 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/clr_main_06a"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="8dp"
@@ -107,130 +109,130 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:paddingTop="20dp">
+                android:paddingTop="20dp"
+                android:paddingEnd="12dp">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guide1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintGuide_percent="0.222"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.222" />
 
                 <TextView
                     android:id="@+id/filter1"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:gravity="bottom|start"
                     android:text="起始日期"
                     android:textColor="@color/clr_txt_03"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="30dp"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:gravity="bottom|start"
+                    android:onClick="@{() -> m.selectStartDate()}"
                     android:text="@{m.startDate}"
                     android:textColor="@color/clr_txt_black_cm"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    android:drawableBottom="@drawable/divider_horizontal"
-                    android:onClick="@{() -> m.selectStartDate()}"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/guide1"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:id="@+id/filter2"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:gravity="bottom|start"
                     android:text="截止日期"
                     android:textColor="@color/clr_txt_03"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toBottomOf="@id/filter1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter1"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="30dp"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:gravity="bottom|start"
+                    android:onClick="@{() -> m.selectEndDate()}"
                     android:text="@{m.endDate}"
                     android:textColor="@color/clr_txt_black_cm"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    android:drawableBottom="@drawable/divider_horizontal"
-                    android:onClick="@{() -> m.selectEndDate()}"
-                    app:layout_constraintTop_toTopOf="@id/filter2"
-                    app:layout_constraintStart_toStartOf="@id/guide1"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintTop_toTopOf="@id/filter2"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:id="@+id/filter3"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
+                    android:gravity="bottom|start"
                     android:text="状态"
                     android:textColor="@color/clr_txt_03"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    app:layout_constraintTop_toBottomOf="@id/filter2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter2"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="30dp"
+                    android:drawableEnd="@mipmap/bt_icon_expand"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:gravity="bottom|start"
                     android:hint="请输入要查询的用户名"
+                    android:textColorHint="@color/clr_gray_7"
+                    android:onClick="@{() -> m.selectStatus()}"
                     android:text="@{m.state.title}"
                     android:textColor="@color/clr_txt_black_cm"
                     android:textSize="14sp"
-                    android:gravity="bottom|start"
-                    android:drawableEnd="@mipmap/bt_icon_expand"
-                    android:drawableBottom="@drawable/divider_horizontal"
-                    android:onClick="@{() -> m.selectStatus()}"
-                    app:layout_constraintTop_toTopOf="@id/filter3"
-                    app:layout_constraintStart_toStartOf="@id/guide1"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintVertical_bias="0"/>
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintTop_toTopOf="@id/filter3"
+                    app:layout_constraintVertical_bias="0" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginStart="32dp"
-                    android:layout_marginEnd="32dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="32dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/shape_gradient_main_c10"
-                    android:text="查询"
-                    android:textSize="16dp"
-                    android:textColor="@color/clr_white"
                     android:gravity="center"
                     android:onClick="@{() -> m.check()}"
-                    app:layout_constraintTop_toBottomOf="@id/filter3"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="查询"
+                    android:textColor="@color/clr_white"
+                    android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="1"
-                    />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter3"
+                    app:layout_constraintVertical_bias="1" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

@@ -9,21 +9,23 @@
             name="m"
             type="com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtSubModel" />
     </data>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="143dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
-        app:cardElevation="1dp"
+        app:cardBackgroundColor="@color/clr_main_06a"
         app:cardCornerRadius="12dp"
-        >
+        app:cardElevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -35,31 +37,30 @@
                 android:id="@+id/guide1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintGuide_percent="0.5"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
 
             <LinearLayout
                 android:id="@+id/item_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="start|center"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="start|center"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0">
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/txt_dividend_sub"
-                    android:textSize="14sp"
-                    android:textColor="@color/clr_txt_rebateagrt_mark"
                     android:layout_marginStart="2dp"
-                    />
+                    android:text="@string/txt_dividend_sub"
+                    android:textColor="@color/clr_txt_rebateagrt_mark"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <!--            实发金额-->
@@ -67,16 +68,16 @@
                 android:id="@+id/item_amout_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_amounts_paid"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/item_total"
+                android:text="@string/txt_amounts_paid"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_total"
+                app:layout_constraintVertical_bias="0"
 
                 />
 
@@ -84,96 +85,91 @@
                 android:id="@+id/item_amout_day_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.payoff}"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_rebateagrt_mark"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_amout_day"
+                android:text="@{m.payoff}"
+                android:textColor="@color/clr_txt_rebateagrt_mark"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                tools:text="123123"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_day"
+                app:layout_constraintVertical_bias="0"
+                tools:text="123123" />
 
             <!--            欠发金额-->
             <TextView
                 android:id="@+id/item_amout_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_amounts_owed"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_02"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/item_total"
+                android:text="@string/txt_amounts_owed"
+                android:textColor="@color/clr_txt_02"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="1"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_total"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/item_amout_total_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.owe}"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_rebateagrt_mark"
                 android:layout_marginTop="5dp"
+                android:text="@{m.owe}"
+                android:textColor="@color/clr_txt_rebateagrt_mark"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_amout_total"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="1"
-                tools:text="123123"
-                />
+                tools:text="123123" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:text="@string/txt_issuance_onclick"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_black_cm"
-                android:gravity="center"
                 android:layout_marginEnd="5dp"
-                android:onClick="@{() -> m.autoSend()}"
                 android:background="@drawable/shape_main09_c05"
-                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:onClick="@{() -> m.autoSend()}"
+                android:paddingStart="5dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="2dp"
+                android:text="@string/txt_issuance_onclick"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/guide1"
-                app:layout_constraintVertical_bias="1"
                 app:layout_constraintHorizontal_bias="1"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:text="@string/txt_issuance_manual"
-                android:textSize="12sp"
-                android:textColor="@color/clr_txt_black_cm"
-                android:gravity="center"
                 android:layout_marginStart="5dp"
-                android:onClick="@{() -> m.send()}"
                 android:background="@drawable/shape_main09_c05"
-                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:onClick="@{() -> m.send()}"
+                android:paddingStart="5dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="2dp"
+                android:text="@string/txt_issuance_manual"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guide1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="1"
                 app:layout_constraintHorizontal_bias="0"
-                />
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
