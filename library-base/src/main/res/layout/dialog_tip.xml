@@ -83,7 +83,7 @@
             android:fadeScrollbars="false"
             android:gravity="center"
             android:scrollbars="vertical"
-            android:textColor="@color/clr_grey_60"
+            android:textColor="@color/clr_white"
             android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/layout_tvw"
