@@ -72,9 +72,9 @@
         android:id="@+id/date_time_picker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_white"
+        android:background="@color/bg_main"
         app:showLabel="true"
         app:textSize="16sp"
-        app:themeColor="@color/clr_main_04" />
+        app:themeColor="@color/clr_white" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
