@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by KAKA on 2024/4/1.
@@ -80,7 +81,7 @@ public class LotteryDividendReportsResponse {
         @SerializedName("cycles")
         private List<CyclesDTO> cycles;
         @SerializedName("marklist")
-        private List<?> marklist;
+        private Object marklist;
 
         public HashMap<String, String> getAgentList() {
             return agentList;
@@ -178,11 +179,11 @@ public class LotteryDividendReportsResponse {
             this.cycles = cycles;
         }
 
-        public List<?> getMarklist() {
+        public Object getMarklist() {
             return marklist;
         }
 
-        public void setMarklist(List<?> marklist) {
+        public void setMarklist(Object marklist) {
             this.marklist = marklist;
         }
 

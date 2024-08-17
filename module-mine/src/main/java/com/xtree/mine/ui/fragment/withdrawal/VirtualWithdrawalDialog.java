@@ -177,7 +177,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     }
 
     private void initData() {
-        LoadingDialog.show(getContext());
+       // LoadingDialog.show(getContext());
         viewModel = new ChooseWithdrawViewModel((Application) Utils.getContext(), Injection.provideHomeRepository());
     }
 
