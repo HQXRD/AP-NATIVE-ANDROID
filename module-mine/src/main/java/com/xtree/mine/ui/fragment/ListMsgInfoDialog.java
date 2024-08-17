@@ -135,7 +135,7 @@ public class ListMsgInfoDialog extends BottomPopupView {
         List<String> unit;
 
         if (mProfileVo.frequency == 0) {
-            unit = Arrays.asList("每日", "日薪");
+            unit = Arrays.asList("每日", "彩票工资");
         } else {
             unit = Arrays.asList("每小时", "时薪");
         }
@@ -163,7 +163,7 @@ public class ListMsgInfoDialog extends BottomPopupView {
                 content.append("日量阶梯").append("\n");
                 content.append("日投注额≥").append(hashMap.get("betbyday"))
                         .append("元，活跃人数≥").append(hashMap.get("activePeople"))
-                        .append("，日薪").append(hashMap.get("wagesRatio")).append("元/万");
+                        .append("，彩票工资").append(hashMap.get("wagesRatio")).append("元/万");
             }
         } else {
             if (msgPersonInfoVo.type.equals("1") || msgPersonInfoVo.type.equals("2")) {

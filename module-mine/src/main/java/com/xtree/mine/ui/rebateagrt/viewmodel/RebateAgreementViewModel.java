@@ -171,7 +171,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                             }
                                             //超级总代
                                             if (type == 1 && level == 1 && superAccout == 1) {
-                                                raMenu.title = "佣金报表";
+                                                raMenu.title = "体育分红";
                                                 newDatas.add(raMenu);
                                             }
                                         } else if (raMenu.type == RebateAreegmentTypeEnum.LOTTERIES) {

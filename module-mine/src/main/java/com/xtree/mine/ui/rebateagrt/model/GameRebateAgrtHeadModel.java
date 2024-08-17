@@ -97,7 +97,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     public void setTypeEnum(RebateAreegmentTypeEnum typeEnum) {
         switch (typeEnum) {
             case USER:
-                yesterdayRebateTitle.set("昨日日薪（元）");
+                yesterdayRebateTitle.set("昨日彩票工资（元）");
                 break;
             default:
                 yesterdayRebateTitle.set(BaseApplication.getInstance().getString(R.string.txt_dividend_yestday_rmb));
@@ -115,7 +115,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
                 ratioTip.set("规则1:投注额≥" +
                         ruleDTO.getMin_bet() +
                         "元,人数≥" +
-                        ruleDTO.getMin_player() + "人,日薪" +
+                        ruleDTO.getMin_player() + "人,彩票工资" +
                         ruleDTO.getRatio() + "元/万");
                 break;
             case DAYREBATE:
@@ -196,7 +196,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
                         if (i > 0) {
                             sb.append(System.lineSeparator());
                         }
-                        sb.append("规则").append(i + 1).append(":日有效投注额≥").append(ruleDTO.getMin_bet()).append("元，日薪").append(ruleDTO.getRatio()).append("元/万");
+                        sb.append("规则").append(i + 1).append(":日有效投注额≥").append(ruleDTO.getMin_bet()).append("元，彩票工资").append(ruleDTO.getRatio()).append("元/万");
                     }
                     break;
                 case DAYREBATE:
