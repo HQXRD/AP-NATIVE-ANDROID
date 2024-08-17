@@ -132,6 +132,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         initData();
         initViewObservable();
         /*requestData();*/
+        //业务正常 刷新页面
+       /* refreshChangeUI(changVo, infoVo);*/
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
     }
@@ -140,6 +142,10 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         binding = DialogBankWithdrawalUsdtBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText(getContext().getString(R.string.txt_withdrawal_usdt_title));
+
+        initNoticeView();
+        refreshTopUI(listVo);
+        initListener();
     }
 
     private void initData() {
@@ -228,7 +234,46 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         userCount = "<font color=#F35A4E>" + infoVo.day_used_count + "</font>";
         totalAmount = "<font color=#F35A4E>" + infoVo.day_rest_amount + "</font>";
         String textTipSource = String.format(formatStr, count, userCount, totalAmount);
+        CfLog.e("*****************  " + infoVo.toString());
         binding.tvNotice.setText(HtmlCompat.fromHtml(textTipSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+
+        //binding.tvUserNameShow.setText(cashMoYuVo.user.username);
+        if (infoVo.user_bank_info != null && !infoVo.user_bank_info.isEmpty()) {
+            if (infoVo.user_bank_info.get(0).user_name != null) {
+                binding.tvUserNameShow.setText(infoVo.user_bank_info.get(0).user_name);
+            }
+        } else if (mProfileVo != null) {
+            final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+            binding.tvUserNameShow.setText(name);
+        }
+
+        binding.tvWithdrawalTypeShow.setText(infoVo.user_bank_info.get(0).usdt_type);//提款类型
+        String rate = infoVo.rate;//汇率
+        //tv_info_exchange_rate
+        binding.tvInfoExchangeRateShow.setText(rate);
+        binding.tvWithdrawalAmountShow.setText(infoVo.quota);//提款余额
+        String temp = infoVo.min_money + "元,最高" + infoVo.max_money + "元";
+        binding.tvWithdrawalSingleShow.setText(temp); //单笔提现金额
+
+        binding.tvWithdrawalAmountMethod.setText(infoVo.user_bank_info.get(0).usdt_type);//提款方式
+/*
+        binding.tvCollectionUsdt.setText(cashMoYuVo.usdtinfo.get(0).usdt_type + " " + cashMoYuVo.usdtinfo.get(0).usdt_card);
+
+        usdtid = cashMoYuVo.usdtinfo.get(0).id;*/
+
+        binding.tvBindAddress.setOnClickListener(v -> {
+            showCollectionDialog(infoVo.user_bank_info);
+        });
+        //关闭软键盘弹起
+        binding.etInputMoney.clearFocus();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(binding.etInputMoney.getWindowToken(), 0);
+        }
+        //注册监听
+        initListener();
+
 
     }
 
