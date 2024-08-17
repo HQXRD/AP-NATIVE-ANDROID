@@ -2,6 +2,7 @@ package com.xtree.mine.data.source;
 
 
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.CommissionsReports2Request;
 import com.xtree.mine.vo.request.CommissionsReportsRequest;
 import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAgrtCreateRequest;
@@ -13,9 +14,11 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.request.LotteryDividendReportsRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
+import com.xtree.mine.vo.response.CommissionsReports2Response;
 import com.xtree.mine.vo.response.CommissionsReportsResponse;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAgrtCreateResponse;
@@ -26,6 +29,7 @@ import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
+import com.xtree.mine.vo.response.LotteryDividendReportsResponse;
 import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
@@ -123,5 +127,17 @@ public interface HttpDataSource {
      */
     Flowable<DividendAgrtCreateResponse> getDividendAgrtCreateData(DividendAgrtCreateRequest request);
 
+    /**
+     * 佣金报表查看数据
+     *
+     * @return
+     */
+    Flowable<CommissionsReports2Response> getCommissions2Data(CommissionsReports2Request request);
 
+    /**
+     * 彩票分红报表
+     *
+     * @return
+     */
+    Flowable<LotteryDividendReportsResponse> getLotteryDividendReportsData(LotteryDividendReportsRequest request);
 }

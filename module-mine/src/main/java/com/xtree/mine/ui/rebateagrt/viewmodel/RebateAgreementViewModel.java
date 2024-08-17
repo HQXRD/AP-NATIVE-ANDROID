@@ -20,9 +20,11 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.fragment.CommissionsReports2Fragment;
 import com.xtree.mine.ui.rebateagrt.fragment.CommissionsReportsFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameRebateAgrtFragment;
+import com.xtree.mine.ui.rebateagrt.fragment.LotteryDividendReportsFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.RecommendedReportsFragment;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
@@ -58,6 +60,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.USER));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.DAYREBATE));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIES));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERYDIVIDENDREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIESREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
@@ -81,6 +84,10 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
         @Override
         public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
 
+            int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+            int type = SPUtils.getInstance().getInt(SPKeyGlobal.USER_TYPE);
+            int superAccout = SPUtils.getInstance().getInt(SPKeyGlobal.SUPER_ACCOUNT);
+
             if (datas.getValue() != null) {
                 RebateAreegmentModel bindModel = datas.getValue().get(modelPosition);
                 switch (bindModel.type) {
@@ -96,12 +103,20 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                     case GAMEREBATE:
                         startContainerActivity(GameDividendAgrtFragment.class.getCanonicalName());
                         break;
+                    case LOTTERYDIVIDENDREPORTS:
+                        startContainerActivity(LotteryDividendReportsFragment.class.getCanonicalName());
+                        break;
                     case LOTTERIESREPORTS:
                     case GAMEREPORTS:
                         startContainerActivity(RecommendedReportsFragment.class.getCanonicalName());
                         break;
                     case COMMISSIONSREPORTS:
-                        startContainerActivity(CommissionsReportsFragment.class.getCanonicalName());
+                        //超级总代
+                        if (type == 1 && level == 1 && superAccout == 1) {
+                            startContainerActivity(CommissionsReports2Fragment.class.getCanonicalName());
+                        } else {
+                            startContainerActivity(CommissionsReportsFragment.class.getCanonicalName());
+                        }
                         break;
                     default:
                         break;
@@ -111,6 +126,8 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
         }
     };
     private WeakReference<FragmentActivity> mActivity = null;
+    @SuppressLint("StaticFieldLeak")
+    private BasePopupView pop = null;
 
     public RebateAgreementViewModel(@NonNull Application application) {
         super(application);
@@ -139,6 +156,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
 
                         int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
                         int type = SPUtils.getInstance().getInt(SPKeyGlobal.USER_TYPE);
+                        int superAccout = SPUtils.getInstance().getInt(SPKeyGlobal.SUPER_ACCOUNT);
 
                         for (int i = 0; i < bindModels.size(); i++) {
                             RebateAreegmentModel raMenu = bindModels.get(i);
@@ -148,12 +166,22 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                     if (raMenu.type.getIds().contains(id)) {
                                         //用户等级=2才可以显示佣金报表
                                         if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
-                                            if (type == 1 && level != 1) {
+                                            if (type == 1 && (level == 2 || level == 3)) {
+                                                newDatas.add(raMenu);
+                                            }
+                                            //超级总代
+                                            if (type == 1 && level == 1 && superAccout == 1) {
+                                                raMenu.title = "佣金报表";
                                                 newDatas.add(raMenu);
                                             }
                                         } else if (raMenu.type == RebateAreegmentTypeEnum.LOTTERIES) {
                                             //总代和会员不显示彩票报表
                                             if (type == 1 && level != 1) {
+                                                newDatas.add(raMenu);
+                                            }
+                                        } else if (raMenu.type == RebateAreegmentTypeEnum.LOTTERYDIVIDENDREPORTS) {
+                                            //超级总代
+                                            if (type == 1 && level == 1 && superAccout == 1) {
                                                 newDatas.add(raMenu);
                                             }
                                         } else {
@@ -180,8 +208,6 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
         this.mActivity = new WeakReference<>(mActivity);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private BasePopupView pop = null;
     private void showTip() {
         MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips), "您没有相关契约", true, new TipDialog.ICallBack() {
             @Override

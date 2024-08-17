@@ -1,7 +1,5 @@
 package com.xtree.mine.vo.request;
 
-import android.webkit.URLUtil;
-
 import com.xtree.base.utils.UuidUtil;
 
 /**

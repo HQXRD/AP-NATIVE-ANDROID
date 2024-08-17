@@ -19,6 +19,7 @@ public enum RebateAreegmentTypeEnum {
     DAYREBATE("日分红", R.mipmap.icon_rebateagrt_dayrebate, new String[]{"403796"}),
     //彩票
     LOTTERIES("彩票契约分红", R.mipmap.icon_rebateagrt_lotteries, new String[]{"347883"}),
+    LOTTERYDIVIDENDREPORTS("彩票分红报表", R.mipmap.icon_rebateagrt_lotteries, new String[]{"101626"}),
     //游戏推荐报表
     GAMEREPORTS("游戏推荐报表", R.mipmap.icon_rebateagrt_gamereports, new String[]{"406322"}),
     //彩票推荐报表

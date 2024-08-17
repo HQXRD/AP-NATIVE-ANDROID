@@ -11,6 +11,8 @@ public class SPKeyGlobal {
     //用户等级
     public static final String USER_LEVEL = "user_level";
     public static final String USER_TYPE = "user_type";
+    //超级用户
+    public static final String SUPER_ACCOUNT = "super_account";
     public static final String PUBLIC_KEY = "public_key";
     public static final String USER_TOKEN = "user_token";
     public static final String USER_TOKEN_TYPE = "user_token_type";

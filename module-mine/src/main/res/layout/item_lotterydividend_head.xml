@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="m"
+            type="com.xtree.mine.ui.rebateagrt.model.LotteryDividendReportsHeadModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="12dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="12dp">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.222" />
+
+            <TextView
+                android:id="@+id/filter1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="bottom|start"
+                android:text="代理账号"
+                android:textColor="@color/clr_txt_03"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guide1"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0" />
+
+            <EditText
+                android:id="@+id/filter1_content"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:background="@null"
+                android:drawableBottom="@drawable/divider_horizontal"
+                android:gravity="bottom|start"
+                android:hint="@string/txt_input_search_user"
+                android:text="@={m.userNameData}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintTop_toTopOf="@id/filter1"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/filter2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="bottom|start"
+                android:text="所有状态"
+                android:textColor="@color/clr_txt_03"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guide1"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filter1"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/filter2_content"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:drawableEnd="@mipmap/bt_icon_expand"
+                android:drawableBottom="@drawable/divider_horizontal"
+                android:gravity="bottom|start"
+                android:onClick="@{() -> m.status()}"
+                android:text="@{m.statuData.showName}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintTop_toTopOf="@id/filter2"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/filter3"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="bottom|start"
+                android:text="代理属性"
+                android:textColor="@color/clr_txt_03"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guide1"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filter2"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/filter3_content"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:drawableEnd="@mipmap/bt_icon_expand"
+                android:drawableBottom="@drawable/divider_horizontal"
+                android:gravity="bottom|start"
+                android:onClick="@{() -> m.agent()}"
+                android:text="@{m.agentData.showName}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintTop_toTopOf="@id/filter3"
+                app:layout_constraintVertical_bias="0" />
+
+
+            <TextView
+                android:id="@+id/filter4"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="bottom|start"
+                android:text="时间筛选"
+                android:textColor="@color/clr_txt_03"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guide1"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filter3"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:id="@+id/filter4_content"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:drawableEnd="@mipmap/bt_icon_expand"
+                android:drawableBottom="@drawable/divider_horizontal"
+                android:gravity="bottom|start"
+                android:onClick="@{() -> m.cycly()}"
+                android:text="@{m.cyclyData.showName}"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintTop_toTopOf="@id/filter4"
+                app:layout_constraintVertical_bias="0" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/shape_gradient_main_c10"
+                android:gravity="center"
+                android:onClick="@{() -> m.check()}"
+                android:text="@string/txt_search"
+                android:textColor="@color/clr_white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/filter4"
+                app:layout_constraintVertical_bias="1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -50,8 +50,12 @@ public class APIManager {
     public static final String GAMEDIVIDENDAGRT_SEND_STEP2_URL = "/pink/checkout";
     //佣金报表
     public static final String COMMISSIONS_REPORTS_URL = "/gameinfo/commissionreport";
+    //佣金报表查看
+    public static final String COMMISSIONS_REPORTS2_URL = "/api/report/getcommission";
     //彩票契约-创建契约
     public static final String DIVIDENDAGRT_CREATE_URL = "/pink/create";
     //彩票契约-修改契约
     public static final String DIVIDENDAGRT_MODIFY_URL = "/pink/update";
+    //彩票分红报表
+    public static final String LOTTERY_DIVIDEND_REPORTS_URL = "/api/report/getpink";
 }
