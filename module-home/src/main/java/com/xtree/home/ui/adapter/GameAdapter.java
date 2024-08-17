@@ -152,7 +152,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
                 //playGame(DomainUtil.getDomain() + vo.playURL, vo.name, true); //
                 playGame(DomainUtil.getApiUrl() + "/" + vo.playURL, vo.name, vo.id.equals("601"));
             } else {
-                playGame(DomainUtil.getDomain() + vo.playURL, vo.name);
+                playGame(DomainUtil.getApiUrl() + "/" + vo.playURL, vo.name);
             }
         }
     }
