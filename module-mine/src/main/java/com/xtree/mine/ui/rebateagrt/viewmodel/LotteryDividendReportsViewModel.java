@@ -18,6 +18,7 @@ import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckFoot;
+import com.xtree.mine.ui.rebateagrt.model.LotteryDividendReportsFootModel;
 import com.xtree.mine.ui.rebateagrt.model.LotteryDividendReportsHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.LotteryDividendReportsModel;
 import com.xtree.mine.ui.rebateagrt.model.LotteryDividendReportsTotalModel;
@@ -90,7 +91,7 @@ public class LotteryDividendReportsViewModel extends BaseViewModel<MineRepositor
 
     private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
         headModel.setItemType(1);
-        DividendAgrtCheckFoot footModel = new DividendAgrtCheckFoot();
+        LotteryDividendReportsFootModel footModel = new LotteryDividendReportsFootModel();
         footModel.tip.set(getApplication().getString(R.string.txt_dividend_check_tip3));
         footModel.setItemType(3);
         add(headModel);
