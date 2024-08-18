@@ -50,7 +50,7 @@
                             android:id="@+id/item_title1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="月度佣金"
+                            android:text="体育分红"
                             android:textColor="@color/clr_txt_rebateagrt_title"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -228,7 +228,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="实发佣金："
+                                    android:text="实发分红："
                                     android:textColor="@color/clr_txt_rebateagrt_subtitle"
                                     android:textSize="14sp" />
 
@@ -316,7 +316,7 @@
                             <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="佣金比例："
+                                    android:text="分红比例："
                                     android:textColor="@color/clr_txt_rebateagrt_subtitle"
                                     android:textSize="14sp" />
 
@@ -352,7 +352,7 @@
                                     android:id="@+id/item_status"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="佣金状态："
+                                    android:text="分红状态："
                                     android:textColor="@color/clr_txt_rebateagrt_subtitle"
                                     android:textSize="14sp" />
 
@@ -444,7 +444,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="佣金计算方式"
+                        android:text="分红计算方式"
                         android:textColor="@color/clr_txt_rebateagrt_title"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -452,7 +452,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="实发佣金 = 本月结余 * 佣金比例"
+                        android:text="实发分红 = 本月结余 * 分红比例"
                         android:textColor="@color/clr_txt_rebateagrt_subtitle"
                         android:textSize="12sp" />
 
@@ -528,7 +528,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="为更好的协助尊贵的代理发展下级，EON Sports为旗下代理推出孵化奖励，只要您至少有三位直属下级满足领取月底佣金的条件，您本人即可领取整个团队的总亏损的最高12%"
+                            android:text="为更好的协助尊贵的代理发展下级，EON Sports为旗下代理推出孵化奖励，只要您至少有三位直属下级满足领取体育分红的条件，您本人即可领取整个团队的总亏损的最高12%"
                             android:textColor="@color/clr_txt_rebateagrt_subtitle"
                             android:textSize="12sp"
                             app:layout_constraintBottom_toBottomOf="parent"

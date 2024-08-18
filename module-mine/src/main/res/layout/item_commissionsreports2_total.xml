@@ -51,7 +51,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="应发佣金："
+                    android:text="应发分红："
                     android:textSize="12sp"
                     android:textColor="@color/clr_txt_02" />
 
