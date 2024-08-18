@@ -217,6 +217,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         HashMap<String, Object> map = new HashMap<>();
         map.put("bank_id", selectorBankInfo.id);
         map.put("money", money);
+        map.put("check", checkCode);
         map.put("wtype", wtype);
         map.put("nonce", UuidUtil.getID24());
         CfLog.e("requestVerify -->" + map);
@@ -231,6 +232,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         HashMap<String, Object> map = new HashMap<>();
         map.put("bank_id", verifyVo.user_bank_info.id);
         map.put("money", verifyVo.money);
+        map.put("check", checkCode);
         map.put("wtype", wtype);
         map.put("nonce", UuidUtil.getID24());
 
@@ -340,16 +342,21 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 binding.ivOverApply.setVisibility(VISIBLE);
                 binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply);
                 binding.tvOverMsg.setVisibility(VISIBLE);
-                binding.tvOverMsg.setText(submitVo.message);
-
+                if (TextUtils.isEmpty(message)) {
+                    binding.tvOverMsg.setText(message);
+                }
             } else if (TextUtils.equals("请刷新后重试", message)) {
                 binding.tvOverMsg.setVisibility(VISIBLE);
-                binding.tvOverMsg.setText(submitVo.message);
+                if (TextUtils.isEmpty(message)) {
+                    binding.tvOverMsg.setText(message);
+                }
                 binding.ivOverApply.setVisibility(VISIBLE);
                 binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply_err);
             } else {
                 binding.tvOverMsg.setVisibility(VISIBLE);
-                binding.tvOverMsg.setText(submitVo.message);
+                if (TextUtils.isEmpty(message)) {
+                    binding.tvOverMsg.setText(message);
+                }
                 binding.ivOverApply.setVisibility(VISIBLE);
                 binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply_err);
             }

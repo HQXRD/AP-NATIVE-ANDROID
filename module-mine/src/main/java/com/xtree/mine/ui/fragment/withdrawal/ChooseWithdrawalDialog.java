@@ -786,7 +786,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
 
         basePopupView = new XPopup.Builder(getContext())
                 .moveUpToKeyboard(false)
-                .asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, name, listVo, infoVo, "", checkCode));
+                .asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, name, listVo, infoVo, checkCode, ""));
         basePopupView.show();
     }
 
