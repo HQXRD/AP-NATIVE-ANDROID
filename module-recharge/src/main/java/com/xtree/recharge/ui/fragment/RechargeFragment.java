@@ -606,10 +606,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    binding.llBindInfo.setVisibility(View.VISIBLE);
         //    binding.tvwBindPhone.setVisibility(View.VISIBLE);
         //}
-        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
-            binding.llBindInfo.setVisibility(View.VISIBLE);
-            binding.tvwBindYhk.setVisibility(View.VISIBLE);
-        }
 
         if (vo.op_thiriframe_use && vo.phone_needbind) {
             // 绑定手机
@@ -617,12 +613,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             toBindPhoneNumber();
             return;
         }
-        //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
-        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
-            // 绑定YHK
-            CfLog.i("****** 绑定YHK");
-            toBindCard();
-            return;
+
+        //支付宝和微信不判断银行卡绑定信息
+        if (!vo.paycode.contains("zfb") && !vo.paycode.contains("wx")) {
+            //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
+            if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+
+                binding.llBindInfo.setVisibility(View.VISIBLE);
+                binding.tvwBindYhk.setVisibility(View.VISIBLE);
+
+                // 绑定YHK
+                CfLog.i("****** 绑定YHK");
+                toBindCard();
+                return;
+            }
         }
 
         boolean isZFB = "false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb");
@@ -635,6 +639,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 return;
             }
             if (!mProfileVo.is_binding_card) {
+
+                binding.llBindInfo.setVisibility(View.VISIBLE);
+                binding.tvwBindYhk.setVisibility(View.VISIBLE);
+
                 // 绑定YHK
                 CfLog.i("****** 绑定YHK");
                 toBindCard();
