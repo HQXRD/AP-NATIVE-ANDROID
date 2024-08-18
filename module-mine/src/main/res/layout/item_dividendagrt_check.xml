@@ -64,6 +64,7 @@
                     android:textColor="@color/clr_txt_warn"
                     android:textSize="12sp"
                     android:gravity="bottom|start"
+                    android:visibility="@{m.deleteMode?View.VISIBLE:View.GONE}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

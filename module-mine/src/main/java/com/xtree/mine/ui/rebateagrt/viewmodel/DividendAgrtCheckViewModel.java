@@ -112,8 +112,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
             if (itemViewType == R.layout.item_dividendagrt_check) {
                 View deleteView = view.findViewById(R.id.item_delete);
-                //创建模式打开删除按钮
-                deleteView.setVisibility(event.getMode() == 1 ? View.VISIBLE : View.GONE);
+
                 deleteView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -203,6 +202,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                     for (Map.Entry<String, List<String>> entry : map.entrySet()) {
                         DividendAgrtCheckModel model = new DividendAgrtCheckModel();
                         model.editMode.set(true);
+                        model.deleteMode.set(true);
                         model.setSelectRatioCallBack(selectRatioConsumer);
                         model.setRatio(entry.getKey());
                         //加入分红比例集
@@ -264,9 +264,11 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         }
         DividendAgrtCheckModel model = new DividendAgrtCheckModel();
         model.editMode.set(true);
+        model.deleteMode.set(true);
         model.setSelectRatioCallBack(selectRatioConsumer);
         model.setRatio(ratios.get(0).getShowId());
         bindModels.add(model);
+        model.setLoseStreak(String.valueOf(bindModels.size() - 3));
         formatItem();
         datas.setValue(bindModels);
     }
@@ -328,8 +330,10 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                                 dividendAgrtCheckModel.setProfit(ruleDTO.getProfit());
                                 dividendAgrtCheckModel.setPeople(ruleDTO.getPeople());
                                 dividendAgrtCheckModel.setLoseStreak(ruleDTO.getLose_streak());
-                                if (mode != 0) {
+                                if (mode == 1) {
                                     dividendAgrtCheckModel.editMode.set(true);
+                                }
+                                if (mode != 0) {
                                     dividendAgrtCheckModel.setSelectRatioCallBack(selectRatioConsumer);
                                 }
                                 bindModels.add(dividendAgrtCheckModel);
