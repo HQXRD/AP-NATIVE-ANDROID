@@ -10,7 +10,7 @@ public class RebateReportVo extends BaseReportVo {
     public Total total; // 总合计
     public Count count; // 本页合计
     public List<RebateVo> data; // [
-    public String description; // "<p>温馨提示:</p>\r\n<p>1.日薪从契约生效日期起算流水，
+    public String description; // "<p>温馨提示:</p>\r\n<p>1.彩票工资从契约生效日期起算流水，
 
     public static class Total {
         public String sum_bet; // 404,

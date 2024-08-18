@@ -177,7 +177,7 @@
                         />
                 </LinearLayout>
 
-                <!--                应发佣金-->
+                <!--                应发分红-->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="应发佣金："
+                        android:text="应发分红："
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_cm"
                         />
@@ -312,7 +312,7 @@
                         />
                 </LinearLayout>
 
-                <!--                佣金比例-->
+                <!--                分红比例-->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -322,7 +322,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="佣金比例："
+                        android:text="分红比例："
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_cm"
                         />
@@ -336,7 +336,7 @@
                         />
                 </LinearLayout>
 
-                <!--                实发佣金-->
+                <!--                实发分红-->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -346,7 +346,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="实发佣金："
+                        android:text="实发分红："
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_cm"
                         />

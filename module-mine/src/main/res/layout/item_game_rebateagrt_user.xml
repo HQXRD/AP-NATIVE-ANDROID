@@ -96,7 +96,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="日薪总额"
+                    android:text="彩票工资总额"
                     android:textColor="@color/clr_txt_02"
                     android:textSize="12sp"
                     android:layout_marginTop="12dp"
@@ -145,7 +145,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="下级日薪"
+                    android:text="下级彩票工资"
                     android:textColor="@color/clr_txt_02"
                     android:textSize="12sp"
                     android:layout_marginTop="12dp"
@@ -176,7 +176,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="日薪比例"
+                    android:text="彩票工资比例"
                     android:textColor="@color/clr_txt_02"
                     android:textSize="12sp"
                     android:layout_marginTop="12dp"
@@ -194,7 +194,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="自身日薪"
+                    android:text="自身彩票工资"
                     android:textColor="@color/clr_txt_02"
                     android:textSize="12sp"
                     android:layout_marginTop="12dp"

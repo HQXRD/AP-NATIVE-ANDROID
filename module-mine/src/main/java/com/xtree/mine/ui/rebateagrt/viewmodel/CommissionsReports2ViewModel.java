@@ -88,7 +88,7 @@ public class CommissionsReports2ViewModel extends BaseViewModel<MineRepository> 
     };
 
     public void initData() {
-        titleData.setValue("佣金报表");
+        titleData.setValue("体育分红");
 
         datas.setValue(bindModels);
         getReportsData();

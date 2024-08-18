@@ -116,15 +116,15 @@ public class CommissionsRulesViewModel extends BaseViewModel<MineRepository> {
         title.setValue("全民代理奖励制度");
         title1.setValue("达标（代理）");
         title2.setValue("总亏损");
-        title3.setValue("佣金");
+        title3.setValue("分红");
         datas.setValue(agentModels);
     }
 
     private void initCommissionsData() {
-        title.setValue("月度佣金制度");
+        title.setValue("体育分红制度");
         title1.setValue("玩家活跃要求");
         title2.setValue("总输赢");
-        title3.setValue("佣金");
+        title3.setValue("分红");
 
         int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
 
