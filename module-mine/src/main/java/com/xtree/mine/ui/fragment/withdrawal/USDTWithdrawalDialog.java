@@ -599,6 +599,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         HashMap<String, Object> map = new HashMap<>();
         map.put("bank_id", selectorBankInfo.id);
         map.put("money", money);
+        map.put("check", checkCode);
         map.put("wtype", wtype);
         map.put("nonce", UuidUtil.getID24());
         CfLog.e("requestVerify -->" + map);
@@ -613,6 +614,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         HashMap<String, Object> map = new HashMap<>();
         map.put("bank_id", verifyVo.user_bank_info.id);
         map.put("money", verifyVo.money);
+        map.put("check", checkCode);
         map.put("wtype", wtype);
         map.put("nonce", UuidUtil.getID24());
 
