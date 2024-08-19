@@ -229,9 +229,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwRebateContract.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_AGREEMENT);
         });
-        binding.tvwRebateContractClient.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_AGREEMENT);
-        });
 
         binding.tvwAccMg.setOnClickListener(v -> {
             showAccountMgmt();
