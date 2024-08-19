@@ -97,6 +97,7 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
                 bundle.putString("userId", vo.userid);
                 bundle.putString("userName", vo.username);
                 CfLog.i("vo.userid :　" + vo.userid);
+                CfLog.i("vo.userName :　" + vo.username);
                 if (msg.equals(MemberManagerAdapter.BAT_RECORD)) {
                     startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT, bundle); // 投注记录
                 } else if (msg.equals(MemberManagerAdapter.ACCOUNT_RECORD)) {
