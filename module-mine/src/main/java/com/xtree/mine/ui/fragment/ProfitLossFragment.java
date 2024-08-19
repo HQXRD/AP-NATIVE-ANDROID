@@ -62,6 +62,8 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
     private String typeId = "0";
     //private String status = "0";
     private String userName = "";
+    private boolean isNameSearch = true;
+    private String  userId = "";
 
     BasePopupView ppw;
 
@@ -88,6 +90,8 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
 
         binding.fvMain.setQueryListener(v -> {
             LoadingDialog.show(getContext());
+            userId = "";
+            isNameSearch = true;
             curPage = 0;
             requestData(1);
         });
@@ -155,7 +159,9 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
                 });
 
                 binding2.tvwUserName.setOnClickListener(v -> {
-                    binding.fvMain.setEdit(binding2.tvwUserName.getText().toString());
+                    isNameSearch = false;
+                    mAdapter.clear();
+                    userId = vo.userid;
                     LoadingDialog.show(getContext());
                     curPage = 0;
                     requestData(1);
@@ -354,16 +360,16 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
         map.put("endtime", endtime);
         map.put("cid", typeId);
         map.put("username", userName); // ***********
-        map.put("userid", ""); // ***********
+        map.put("userid", userId); // ***********
         map.put("ordername", "sbet");
         map.put("order", "DESC");
         //map.put("status", status);
-        //map.put("p", "" + page);
-        //map.put("pn", "20");
+        map.put("p", "" + page);
+        //map.put("pn", "50");
         map.put("client", "m");
 
         CfLog.i(map.toString());
-        if (mProfileVo.super_account == 1 && mProfileVo.usertype == 1 && mProfileVo.getUserLevel() == 1) {
+        if ((mProfileVo.super_account == 1 && mProfileVo.usertype == 1 && mProfileVo.getUserLevel() == 1) && isNameSearch) {
             viewModel.getSuperProfitLoss(map);
         } else {
             viewModel.getProfitLoss(map);
