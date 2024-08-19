@@ -94,7 +94,9 @@ ext {
             "flexbox"                              : "com.google.android.flexbox:flexbox:3.0.0",
             "agentweb-core"                        : "io.github.justson:agentweb-core:v5.1.1-androidx",
             "agentweb-file"                        : "io.github.justson:agentweb-filechooser:v5.1.1-androidx",
-            "agentweb-download"                    : "com.github.Justson:Downloader:v5.0.4-androidx"
+            "agentweb-download"                    : "com.github.Justson:Downloader:v5.0.4-androidx",
+            //html解析
+            "jsoup"                                : "org.jsoup:jsoup:1.14.3"
     ]
 }
 
