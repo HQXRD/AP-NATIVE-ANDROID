@@ -49,6 +49,7 @@ dependencies {
     api project(':library-res')
     //核心基础库(由于这是例子, 所以这里采用远程依赖的方式, 可根据实际情况自行换成源码依赖，源码地址：https://github.com/goldze/MVVMHabit)
     api project(':mvvmhabit')
+    api 'com.github.liangjingkanji:Net:3.4.14'
     /*api project(':base-adapter-library')
     api project(':baseadapter-recyclerview')*/
     //阿里路由框架
