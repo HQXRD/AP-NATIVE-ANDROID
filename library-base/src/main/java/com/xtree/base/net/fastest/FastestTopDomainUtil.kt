@@ -9,12 +9,13 @@ import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.BuildConfig
 import com.xtree.base.R
+import com.xtree.base.utils.AESUtil
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.EventConstant
 import com.xtree.base.utils.TagUtils
+import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
-import com.xtree.base.vo.FastestDomainResponse
 import com.xtree.base.vo.TopSpeedDomain
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
@@ -56,9 +57,6 @@ class FastestTopDomainUtil private constructor() {
         @get:Synchronized
         var mIsFinish: Boolean = true
         val fastestDomain = SingleLiveData<TopSpeedDomain>()
-        private lateinit var timerObservable: Observable<Long>
-
-        val showTip = SingleLiveData<Boolean>()
     }
 
     lateinit var thirdApiScopeNet : AndroidScope
@@ -145,24 +143,13 @@ class FastestTopDomainUtil private constructor() {
                         try {
                             val result = it.await()
                             mutex.withLock {
-                                val fullUrl = result.request.url.toString()
-                                val url = fullUrl.replace(FASTEST_API, "")
-
-                                CfLog.i("$url")
+                                val host = result.request.url.host
+                                CfLog.i("$host")
                                 var topSpeedDomain = TopSpeedDomain()
-                                topSpeedDomain.url = url
+                                topSpeedDomain.url = host
                                 topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
-
-                                val response = Gson().fromJson(
-                                    result.body?.string(),
-                                    FastestDomainResponse::class.java
-                                )
-                                response?.timestamp?.let {
-                                    CfLog.e("域名：api------$it")
-                                    topSpeedDomain.curCTSSec = it - (curTime / 1000)
-                                }
-                                CfLog.e("域名：api------$url---${topSpeedDomain.speedSec}")
-                                mCurApiDomainList.remove(url)
+                                CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
+                                mCurApiDomainList.remove(host)
 
                                 //debug模式 显示所有测速线路 release模式 只显示4条
                                 if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {

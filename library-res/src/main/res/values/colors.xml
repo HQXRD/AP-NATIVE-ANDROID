@@ -559,4 +559,10 @@
     <color name="clr_re_btn_txt">#FDF9F7</color>
     <!-- 公共彈窗 中间颜色 颜色 -->
     <color name="clr_tip_bg">#26230604</color>
+
+    <!-- 测速浮窗-->
+    <color name="clr_txt_fastest_high">#EE1A34</color>
+    <color name="clr_txt_fastest_medium">#FFE145</color>
+    <color name="clr_txt_fastest_low">#51FF6D</color>
+
 </resources>
