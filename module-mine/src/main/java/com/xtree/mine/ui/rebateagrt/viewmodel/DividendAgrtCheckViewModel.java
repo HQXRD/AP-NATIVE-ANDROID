@@ -265,6 +265,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         DividendAgrtCheckModel model = new DividendAgrtCheckModel();
         model.editMode.set(true);
         model.deleteMode.set(true);
+        if (event.getMode() == 2) {
+            model.filter2EditMode.set(false);
+        }
         model.setSelectRatioCallBack(selectRatioConsumer);
         model.setRatio(ratios.get(0).getShowId());
         bindModels.add(model);

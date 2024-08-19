@@ -134,7 +134,7 @@
                     android:text="@={m.loseStreak}"
                     android:inputType="numberDecimal"
                     android:maxLength="12"
-                    android:enabled="@{m.editMode}"
+                    android:enabled="@{m.editMode&amp;&amp;m.filter2EditMode}"
                     android:imeOptions="actionDone"
                     app:layout_constraintTop_toTopOf="@id/filter2"
                     app:layout_constraintStart_toStartOf="@id/guide1"
