@@ -21,6 +21,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.xtree.base.R;
 import com.xtree.base.utils.CfLog;
 
+import me.xtree.mvvmhabit.utils.ConvertUtils;
+
 public abstract class FloatingWindows extends RelativeLayout {
     protected Context mContext;
     protected ImageView ivwIcon;
@@ -30,6 +32,8 @@ public abstract class FloatingWindows extends RelativeLayout {
     protected LinearLayout llLine;
 
     private boolean isShow = false;
+    private int mFloatX;
+    private int mFloatY;
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams floatLp;
 
@@ -51,7 +55,8 @@ public abstract class FloatingWindows extends RelativeLayout {
     public void removeView() {
         if (mWindowManager != null && floatView != null && isShow) {
             CfLog.i("Close floatView");
-            mWindowManager.removeView(floatView);
+            //mWindowManager.removeView(floatView); // 会泄露
+            mWindowManager.removeViewImmediate(floatView); // 不会泄露
             isShow = false;
         }
     }
@@ -92,6 +97,11 @@ public abstract class FloatingWindows extends RelativeLayout {
         ivwIcon.setImageResource(icon);
     }
 
+    public void setPosition(int x, int y) {
+        this.mFloatX = x;
+        this.mFloatY = y;
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     protected void initView(int layout) {
         mWindowManager = (WindowManager) mContext.getSystemService(WINDOW_SERVICE);
@@ -111,14 +121,16 @@ public abstract class FloatingWindows extends RelativeLayout {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         mWindowManager.getDefaultDisplay().getMetrics(displayMetrics);
         floatLp.gravity = Gravity.TOP;
-        floatLp.x = displayMetrics.widthPixels / 2 - 100;
-        floatLp.y = displayMetrics.heightPixels / 2 + 100;
+        mFloatX = mFloatX == 0 ? displayMetrics.widthPixels / 2 - ConvertUtils.dp2px(30) : mFloatX;
+        mFloatY = mFloatY == 0 ? displayMetrics.heightPixels / 2 + ConvertUtils.dp2px(100) : mFloatY;
+        floatLp.x = mFloatX;
+        floatLp.y = mFloatY;
 
         ivwIcon = floatView.findViewById(R.id.ivw_icon);
         mainLayout = floatView.findViewById(R.id.cl_root);
         llLine = floatView.findViewById(R.id.ll_line);
 
-        mainLayout.setOnTouchListener(new OnTouchListener() {
+        mainLayout.setOnTouchListener(new View.OnTouchListener() {
             final WindowManager.LayoutParams floatWindowLayoutUpdateParam = floatLp;
             double x;
             double y;

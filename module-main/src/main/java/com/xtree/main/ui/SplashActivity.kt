@@ -9,12 +9,15 @@ import android.text.TextUtils
 import androidx.lifecycle.ViewModelProvider
 import com.drake.net.Get
 import com.drake.net.NetConfig
-import com.drake.net.tag.RESPONSE
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
 import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.net.RetrofitClient
+import com.xtree.base.net.fastest.FASTEST_BLOCK
+import com.xtree.base.net.fastest.FASTEST_GOURP_NAME_H5
+import com.xtree.base.net.fastest.FASTEST_H5_API
+import com.xtree.base.net.fastest.getFastestAPI
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.TagUtils
@@ -103,11 +106,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurDomainList.map { host ->
                 Get<String>(
-                    "$host/point.bmp",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line"
-                ).transform { data ->
+                    getFastestAPI(host),
+                    "the_fastest_line", block = FASTEST_BLOCK)
+                .transform { data ->
                     CfLog.i("$host")
                     NetConfig.host = host
                     DomainUtil.setDomainUrl(host)
@@ -117,7 +118,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                 }
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_line")
+                fastest(domainTasks, "the_fastest_line")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 e.printStackTrace()
@@ -131,11 +132,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiList.map { host ->
                 Get<String>(
-                    "$host/point.bmp",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_api"
-                ).transform { data ->
+                    getFastestAPI(host),
+                    "the_fastest_api", block = FASTEST_BLOCK)
+                .transform { data ->
                     CfLog.i("$host")
                     NetConfig.host = host
                     DomainUtil.setApiUrl(host)
@@ -145,7 +144,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                 }
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_api")
+                fastest(domainTasks, "the_fastest_api")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 e.printStackTrace()

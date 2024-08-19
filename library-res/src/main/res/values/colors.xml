@@ -315,6 +315,7 @@
     <color name="clr_txt_grey_05">#808080</color>
     <color name="clr_txt_grey_07">#767677</color>
     <color name="clr_txt_grey_09">#5B5B6A</color>
+    <color name="clr_txt_grey_10">#4B4B4B</color>
 
     <color name="clr_grey_03">#E9E9E9</color>
     <color name="clr_grey_05">#D1D1D1</color>
