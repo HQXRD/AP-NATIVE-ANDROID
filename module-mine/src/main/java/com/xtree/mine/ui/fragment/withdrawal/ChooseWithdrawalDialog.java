@@ -34,6 +34,8 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseWithdrawaBinding;
+import com.xtree.mine.ui.fragment.BindUsdtAddFragment;
+import com.xtree.mine.ui.fragment.FundPassWordFragment;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
@@ -96,6 +98,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     private BasePopupView otherZFBPopupView = null;
     private BasePopupView loadingView = null;
     private BasePopupView bankPopupView = null;
+    private BasePopupView fundPSWPopView; // 资金密码
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
     private FragmentActivity mActivity;
 
@@ -343,6 +346,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     private void referListUI(ArrayList<WithdrawalListVo.WithdrawalItemVo> vo) {
 
         if (vo != null && vo.size() > 0) {
+            Collections.sort(vo);
+            Collections.reverse(vo);
             WithdrawalListAdapter adapter = new WithdrawalListAdapter(getContext(), vo, this);
             binding.lvChoose.setVisibility(View.VISIBLE);
             binding.lvChoose.setAdapter(adapter);
@@ -854,6 +859,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
             bindType = getContext().getString(R.string.txt_bind_zfb_type);
         }
         String finalBindType = bindType;
+        String finalBindType1 = bindType;
         customPopWindow = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), errorMessage, false, new MsgDialog.ICallBack() {
                     @Override
@@ -863,8 +869,22 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
 
                     @Override
                     public void onClickRight() {
-                        //跳转绑定流程
+                        //跳转绑定流程  显示资金密码页面
+                        String type = finalBindType;
                         Bundle bundle = new Bundle();
+                        bundle.putString("type", type);
+                        String path;
+                        path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                        Intent intent = new Intent(getContext(), ContainerActivity.class);
+                        intent.putExtra(ContainerActivity.ROUTER_PATH, path);
+                        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+                        mActivity.startActivity(intent);
+
+
+
+                        customPopWindow.dismiss();
+
+                     /*   Bundle bundle = new Bundle();
                         bundle.putString("type", finalBindType);
                         if (TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_zfb_type))
                                 || TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_wechat_type))) {
@@ -878,9 +898,19 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
                         mActivity.startActivity(intent);
                         customPopWindow.dismiss();
-                        callBack.closeDialogByBind();
+                        callBack.closeDialogByBind();*/
                     }
                 }));
         customPopWindow.show();
     }
+
+
+    /*关闭资金密码输入页面*/
+    private void closeFundPSWView() {
+        if (fundPSWPopView != null) {
+            fundPSWPopView.dismiss();
+            fundPSWPopView = null;
+        }
+    }
+
 }
