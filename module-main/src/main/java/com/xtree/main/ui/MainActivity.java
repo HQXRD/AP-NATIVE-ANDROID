@@ -70,8 +70,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
 
     @Override
     public void initView() {
-        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(MainActivity.this);
-        mTopSpeedDomainFloatingWindows.show();
+//        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(MainActivity.this);
+//        mTopSpeedDomainFloatingWindows.show();
     }
 
     @Override
@@ -177,23 +177,32 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(EventVo event) {
-        switch (event.getEvent()) {
-            case EVENT_CHANGE_TO_ACT:
-                CfLog.i("Change to activity");
-                navigationController.setSelect(1);
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.hide(showFragment).show(mFragments.get(1));
-                showFragment = mFragments.get(1);
-                transaction.commitAllowingStateLoss();
-                break;
-            case EVENT_TOP_SPEED_FINISH:
-                CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
-                mTopSpeedDomainFloatingWindows.refresh();
-                break;
-            case EVENT_TOP_SPEED_FAILED:
-                mTopSpeedDomainFloatingWindows.onError();
-                break;
-        }
+    public void onMessageEvent(String event) {
+        navigationController.setSelect(1);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(showFragment).show(mFragments.get(1));
+        showFragment = mFragments.get(1);
+        transaction.commitAllowingStateLoss();
     }
+
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onMessageEvent(EventVo event) {
+//        switch (event.getEvent()) {
+//            case EVENT_CHANGE_TO_ACT:
+//                CfLog.i("Change to activity");
+//                navigationController.setSelect(1);
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                transaction.hide(showFragment).show(mFragments.get(1));
+//                showFragment = mFragments.get(1);
+//                transaction.commitAllowingStateLoss();
+//                break;
+//            case EVENT_TOP_SPEED_FINISH:
+//                CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
+//                mTopSpeedDomainFloatingWindows.refresh();
+//                break;
+//            case EVENT_TOP_SPEED_FAILED:
+//                mTopSpeedDomainFloatingWindows.onError();
+//                break;
+//        }
+//    }
 }
