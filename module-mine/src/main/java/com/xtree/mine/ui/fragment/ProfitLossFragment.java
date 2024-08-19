@@ -345,9 +345,9 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
         typeId = binding.fvMain.getTypeId("");
         //status = binding.fvMain.getStatusId("0");
         userName = binding.fvMain.getEdit(""); // 用户输入一个不存在的用户名,查询,再清空,再查询
-        if (userName.isEmpty()) {
-            userName = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME, "");
-        }
+        //if (userName.isEmpty()) {
+        //    userName = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME, "");
+        //}
 
         HashMap<String, String> map = new HashMap<>();
         map.put("starttime", starttime);
