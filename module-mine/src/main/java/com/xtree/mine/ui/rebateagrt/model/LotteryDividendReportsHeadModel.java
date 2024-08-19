@@ -117,7 +117,11 @@ public class LotteryDividendReportsHeadModel extends BindModel implements BindHe
     public void setAgentList(List<FilterView.IBaseVo> agentList) {
         if (agentList != null && agentList.size() > 0) {
             if (agentData.get() == null) {
-                agentData.set(new StatusVo(agentList.get(0).getShowId(), agentList.get(0).getShowName()));
+                for (FilterView.IBaseVo iBaseVo : agentList) {
+                    if (iBaseVo.getShowName().equals("招商")) {
+                        agentData.set(new StatusVo(iBaseVo.getShowId(), iBaseVo.getShowName()));
+                    }
+                }
             }
             this.agentList = agentList;
         }
