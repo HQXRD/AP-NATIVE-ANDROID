@@ -1094,7 +1094,7 @@ public class CommissionsReports2Response {
                 @SerializedName("adjust")
                 private String adjust;
                 @SerializedName("due")
-                private Integer due;
+                private String due;
                 @SerializedName("actual")
                 private Integer actual;
                 @SerializedName("status")
@@ -1342,11 +1342,11 @@ public class CommissionsReports2Response {
                     this.adjust = adjust;
                 }
 
-                public Integer getDue() {
+                public String getDue() {
                     return due;
                 }
 
-                public void setDue(Integer due) {
+                public void setDue(String due) {
                     this.due = due;
                 }
 

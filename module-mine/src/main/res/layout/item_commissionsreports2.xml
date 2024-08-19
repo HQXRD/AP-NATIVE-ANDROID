@@ -195,7 +195,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{m.adjust_income}"
+                        android:text="@{m.due}"
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_cm"
                         />
@@ -330,7 +330,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{m.adjust_ratio}"
+                        android:text="@{m.plan_ratio}"
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_cm"
                         />

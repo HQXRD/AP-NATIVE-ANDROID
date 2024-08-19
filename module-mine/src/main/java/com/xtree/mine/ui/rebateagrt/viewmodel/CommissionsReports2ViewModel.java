@@ -168,12 +168,12 @@ public class CommissionsReports2ViewModel extends BaseViewModel<MineRepository> 
                                         commissionsReports2Model.setPay_fee(partDatum.getPayFee());
                                         commissionsReports2Model.setFee(partDatum.getFee());
                                         commissionsReports2Model.setIncome(partDatum.getIncome());
-                                        commissionsReports2Model.setAdjust_income(partDatum.getAdjustIncome());
+                                        commissionsReports2Model.setDue(partDatum.getDue());
                                         commissionsReports2Model.setC_agency_model(partDatum.getCAgencyModel());
                                         commissionsReports2Model.setProfit(partDatum.getProfit());
                                         commissionsReports2Model.setWages(partDatum.getWages());
                                         commissionsReports2Model.setRemain(partDatum.getRemain());
-                                        commissionsReports2Model.setAdjust_ratio(partDatum.getAdjustRatio());
+                                        commissionsReports2Model.setPlan_ratio(partDatum.getPlanRatio());
                                         commissionsReports2Model.setSys_adjust(partDatum.getSysAdjust());
 
                                         bindModels.add(commissionsReports2Model);
