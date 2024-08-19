@@ -419,24 +419,16 @@
                         <TextView style="@style/style_wallet_space" />
 
                         <TextView
-                            android:id="@+id/tvw_rebate_contract_client"
+                            android:id="@+id/tvw_help_client"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_report"
-                            android:text="@string/txt_rebate_contract" />
+                            android:drawableTop="@mipmap/me_gr_help"
+                            android:text="@string/txt_help" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_menu_client_02"
                         style="@style/style_ll_row_2">
-
-                        <TextView
-                            android:id="@+id/tvw_help_client"
-                            style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_help"
-                            android:text="@string/txt_help" />
-
-                        <TextView style="@style/style_wallet_space" />
 
                         <TextView
                             android:id="@+id/tvw_sport_regular_client"
@@ -460,17 +452,21 @@
                             android:drawableTop="@mipmap/me_gr_upgrade"
                             android:text="@string/txt_upgrade" />
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_menu_client_03"
-                        style="@style/style_ll_row_2">
+                        <TextView style="@style/style_wallet_space" />
 
                         <TextView
                             android:id="@+id/tvw_qa_client"
                             style="@style/style_menu_black"
                             android:drawableTop="@mipmap/me_gr_qa"
                             android:text="@string/txt_question" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_menu_client_03"
+                        style="@style/style_ll_row_2">
+
+                        <TextView style="@style/style_menu_black" />
 
                         <TextView style="@style/style_wallet_space" />
 
