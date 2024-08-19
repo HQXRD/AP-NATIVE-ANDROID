@@ -1494,7 +1494,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
-                url = DomainUtil.getDomain2() + url;
+                url = DomainUtil.getApiUrl() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
             showWebPayDialog(vo.title, url);
@@ -1684,7 +1684,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (vo.domainList.size() > 0) {
                     url = vo.domainList.get(0) + url;
                 } else {
-                    url = DomainUtil.getDomain2() + url;
+                    url = DomainUtil.getApiUrl() + url;
                 }
             }
             CfLog.i(vo.payname + ", jump: " + url);
