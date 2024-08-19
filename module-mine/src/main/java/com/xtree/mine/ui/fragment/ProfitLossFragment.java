@@ -365,7 +365,7 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
         map.put("order", "DESC");
         //map.put("status", status);
         map.put("p", "" + page);
-        //map.put("pn", "50");
+        map.put("pn", "50");
         map.put("client", "m");
 
         CfLog.i(map.toString());

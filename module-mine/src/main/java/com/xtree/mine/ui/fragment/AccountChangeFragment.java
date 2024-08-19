@@ -172,6 +172,10 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
                 binding.refreshLayout.setEnableLoadMore(false);
                 return;
             }
+            if (null == vo.orders){
+                binding.refreshLayout.setEnableLoadMore(false);
+                return;
+            }
 
             mReportVo = vo;
             curPage = vo.mobile_page.p;
