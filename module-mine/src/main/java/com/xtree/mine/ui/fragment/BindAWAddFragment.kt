@@ -1,8 +1,13 @@
 package com.xtree.mine.ui.fragment
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
@@ -278,6 +283,20 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
      * 图片选择
      */
     private fun gotoSelectMedia() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                val appIntent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                appIntent.setData(Uri.parse("package:" + requireActivity().packageName))
+                try {
+                    requireActivity().startActivity(appIntent)
+                } catch (ex: ActivityNotFoundException) {
+                    ex.printStackTrace()
+                    val allFileIntent = Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION)
+                    requireActivity().startActivity(allFileIntent)
+                }
+                return
+            }
+        }
         PictureSelector.create(activity).openGallery(SelectMimeType.ofImage())
             .isDisplayCamera(false)
             .setMaxSelectNum(1)
