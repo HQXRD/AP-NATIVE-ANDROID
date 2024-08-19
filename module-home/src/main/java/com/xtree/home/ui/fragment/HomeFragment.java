@@ -1,5 +1,7 @@
 package com.xtree.home.ui.fragment;
 
+import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,6 +34,7 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.AppUpdateVo;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
@@ -306,12 +309,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         binding.bnrTop.setOnBannerListener((OnBannerListener<BannersVo>) (data, position) -> {
             if (data.link.equals("")) {
-                EventBus.getDefault().post("");
+                EventBus.getDefault().post(new EventVo(EVENT_CHANGE_TO_ACT, ""));
                 return;
             }
             char lastChar = data.link.charAt(data.link.length() - 1);
             if (!Character.isDigit(lastChar)) {
-                EventBus.getDefault().post("");
+                EventBus.getDefault().post(new EventVo(EVENT_CHANGE_TO_ACT, ""));
                 return;
             }
             String aid = "aid=";

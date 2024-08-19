@@ -5,6 +5,8 @@ import com.drake.net.Net
 import com.drake.net.utils.scopeNet
 import com.xtree.base.R
 import com.xtree.base.utils.CfLog
+import com.xtree.base.utils.DomainUtil
+import io.reactivex.functions.Consumer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.joinAll
@@ -36,12 +38,25 @@ class ChangeH5LineUtil private constructor() {
         private var mIsRunning: Boolean = false
     }
 
+    fun start(h5Callback: Consumer<String>? = null) {
+        if (!mIsRunning) {
+            CfLog.e("=====H5开始切换线路========")
+            mIsRunning = true
+//            setThirdFasterDomain()
+            setFasterH5Domain()
+
+            getFastestH5Domain(true, h5Callback)
+        }
+    }
+
     fun start() {
         if (!mIsRunning) {
             CfLog.e("=====H5开始切换线路========")
             mIsRunning = true
 //            setThirdFasterDomain()
             setFasterH5Domain()
+
+            getFastestH5Domain(true)
         }
     }
 
@@ -61,12 +76,12 @@ class ChangeH5LineUtil private constructor() {
         }
     }
 
-    private fun getFastestH5Domain(isThird: Boolean) {
+    private fun getFastestH5Domain(isThird: Boolean, callback: Consumer<String>? = null) {
         scopeNet {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurH5DomainList.map { host ->
                 Get<Response>(
-                    getFastestAPI(host,FASTEST_H5_API),
+                    getFastestAPI(host, FASTEST_H5_API),
                     tag = "the_fastest_line", block = {
                         setGroup(FASTEST_GOURP_NAME_H5)
                         FASTEST_BLOCK(this)
@@ -74,6 +89,8 @@ class ChangeH5LineUtil private constructor() {
             }
             try {
 //                fastest(domainTasks/*, uid = "the_fastest_line_h5"*/)
+
+                var isSuccess = false
 
                 val jobs = mutableListOf<Job>()
                 val mutex = Mutex()
@@ -93,7 +110,9 @@ class ChangeH5LineUtil private constructor() {
                                         if (dataTargetValue.equals("specialFeature-1691834599183")) {
                                             CfLog.e("域名：H5------$")
                                             Net.cancelGroup(FASTEST_GOURP_NAME_H5)
-//                                            DomainUtil.setH5Url(url)
+                                            DomainUtil.setDomainUrl(url)
+                                            isSuccess = true
+                                            callback?.accept(url)
                                         }
                                     }
                                 }
@@ -111,6 +130,10 @@ class ChangeH5LineUtil private constructor() {
 
                 jobs.joinAll()
 
+                if (!isSuccess) {
+                    callback?.accept(null)
+                }
+
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
@@ -118,7 +141,8 @@ class ChangeH5LineUtil private constructor() {
                         CfLog.e("切换线路失败，请检查手机网络连接情况")
                         //ToastUtils.showLong("切换网页线路失败，请检查手机网络连接情况")
                         mIsRunning = false
-                    }else {
+                        callback?.accept(null)
+                    } else {
 //                        mCurH5DomainList.clear()
 //                        getThirdFastestDomain(isH5 = true)
                     }
@@ -176,7 +200,6 @@ class ChangeH5LineUtil private constructor() {
             .toTypedArray())
 
         addH5DomainList(list)
-        getFastestH5Domain(true)
     }
 
 //    /**

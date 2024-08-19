@@ -489,4 +489,11 @@
     <color name="clr_txt_rebateagrt_subtitle">#99A0B1</color>
     <!--    高亮-->
     <color name="clr_txt_rebateagrt_highlight">#0065FF</color>
+
+
+    <!-- 测速浮窗-->
+    <color name="clr_txt_fastest_high">#EE1A34</color>
+    <color name="clr_txt_fastest_medium">#FFE145</color>
+    <color name="clr_txt_fastest_low">#51FF6D</color>
+
 </resources>

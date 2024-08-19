@@ -336,4 +336,8 @@
     <string name="txt_withdrawal">提款</string>
     <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
 
+
+    <!--测速浮窗-->
+    <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
+
 </resources>

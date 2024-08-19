@@ -1,8 +1,6 @@
 package com.xtree.main.ui;
 
 import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
-import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
-import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
 
 import android.os.Bundle;
 
@@ -13,6 +11,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.gyf.immersionbar.ImmersionBar;
+import com.xtree.base.net.fastest.ChangeH5LineUtil;
+import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
@@ -68,8 +68,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
 
     @Override
     public void initView() {
-        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(MainActivity.this);
-        mTopSpeedDomainFloatingWindows.show();
+//        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(MainActivity.this);
+//        mTopSpeedDomainFloatingWindows.show();
     }
 
     @Override
@@ -78,6 +78,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         initFragment();
         //初始化底部Button
         initBottomTab();
+
+        FastestTopDomainUtil.getInstance().start();
+        ChangeH5LineUtil.getInstance().start();
     }
 
     @Override
@@ -185,13 +188,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 showFragment = mFragments.get(1);
                 transaction.commitAllowingStateLoss();
                 break;
-            case EVENT_TOP_SPEED_FINISH:
-                CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
-                mTopSpeedDomainFloatingWindows.refresh();
-                break;
-            case EVENT_TOP_SPEED_FAILED:
-                mTopSpeedDomainFloatingWindows.onError();
-                break;
+//            case EVENT_TOP_SPEED_FINISH:
+//                CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
+//                mTopSpeedDomainFloatingWindows.refresh();
+//                break;
+//            case EVENT_TOP_SPEED_FAILED:
+//                mTopSpeedDomainFloatingWindows.onError();
+//                break;
         }
     }
 }
