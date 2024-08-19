@@ -10,7 +10,7 @@ public class SPKeyGlobal {
     public static final String USER_NAME = "user_name";
     //用户等级
     public static final String USER_LEVEL = "user_level";
-    public static final String USER_TYPE = "user_type";
+    public static final String USER_TYPE = "usertype";
     //超级用户
     public static final String SUPER_ACCOUNT = "super_account";
     public static final String PUBLIC_KEY = "public_key";

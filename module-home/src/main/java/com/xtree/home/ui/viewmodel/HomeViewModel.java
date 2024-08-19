@@ -382,7 +382,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.USER_ID, vo.userid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.username);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_LEVEL, vo.getUserLevel());
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_TYPE, vo.user_type);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_TYPE, vo.usertype);
                         SPUtils.getInstance().put(SPKeyGlobal.SUPER_ACCOUNT, vo.super_account);
                         liveDataProfile.setValue(vo);
                     }
