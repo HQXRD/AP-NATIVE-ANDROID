@@ -106,7 +106,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurDomainList.map { host ->
                 Get<String>(
-                    "$host",
+                    getFastestAPI(host),
                     "the_fastest_line", block = FASTEST_BLOCK)
                 .transform { data ->
                     CfLog.i("$host")
@@ -132,7 +132,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiList.map { host ->
                 Get<String>(
-                    "$host",
+                    getFastestAPI(host),
                     "the_fastest_api", block = FASTEST_BLOCK)
                 .transform { data ->
                     CfLog.i("$host")
