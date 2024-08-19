@@ -346,6 +346,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     private void referListUI(ArrayList<WithdrawalListVo.WithdrawalItemVo> vo) {
 
         if (vo != null && vo.size() > 0) {
+
             Collections.sort(vo);
             Collections.reverse(vo);
             WithdrawalListAdapter adapter = new WithdrawalListAdapter(getContext(), vo, this);
