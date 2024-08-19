@@ -402,9 +402,11 @@
     <string name="txt_choose_quota_error_tip">暂无余额,请刷新重试</string>
     <string name="txt_alipay_name">支付宝姓名：</string>
     <string name="txt_wechat_name">微信姓名：</string>
+    <string name="txt_alipay_name_1">支付宝姓名</string>
+    <string name="txt_wechat_name_1">微信姓名</string>
     <string name="txt_alipay_nickname">支付宝昵称：</string>
     <string name="txt_wechat_nickname">微信昵称：</string>
-    <string name="txt_alipay_code">支付宝收款码：</string>
+
     <string name="txt_wechat_code">微信收款码：</string>
     <string name="txt_alipay_phone">支付宝账号：</string>
     <string name="txt_wechat_phone">微信账号：</string>

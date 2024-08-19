@@ -20,6 +20,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBindCardBinding;
+import com.xtree.mine.databinding.ItemBindBankCardBinding;
 import com.xtree.mine.databinding.ItemBindCardBinding;
 import com.xtree.mine.ui.viewmodel.BindCardViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -40,7 +41,7 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
     private String tokenSign;
     private String mark = "bindcard";
 
-    ItemBindCardBinding binding2;
+    @NonNull ItemBindBankCardBinding binding2;
 
     CachedAutoRefreshAdapter<BankCardVo> mAdapter;
 
@@ -76,29 +77,27 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
             @NonNull
             @Override
             public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                CacheViewHolder holder = new CacheViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_bind_card, parent, false));
+                CacheViewHolder holder = new CacheViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_bind_bank_card, parent, false));
                 return holder;
             }
 
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
-                binding2 = ItemBindCardBinding.bind(holder.itemView);
+                binding2 = ItemBindBankCardBinding.bind(holder.itemView);
                 BankCardVo vo = get(position);
-                binding2.tvwUserName.setText(vo.user_name);
-                binding2.tvwBindTime.setText(vo.atime);
-                binding2.tvwType.setText(vo.bank_name);
-                binding2.tvwAccount.setText(vo.account);
-                binding2.tvwTypeTitle.setText(R.string.txt_open_acc_bank);
-                binding2.tvwAccTitle.setText(R.string.txt_card_num);
+
+                binding2.tvBindCardTime.setText(vo.atime);
+                binding2.tvBankName.setText(vo.bank_name);
+
+                binding2.tvBankNumber.setText(vo.account);
 
                 if (vo.status.equals("1")) {
-                    binding2.tvwStatus.setVisibility(View.GONE);
+                    binding2.ivBankLock.setVisibility(View.GONE);
                 } else if (vo.status.equals("3")) {
-                    binding2.tvwStatus.setVisibility(View.VISIBLE);
-                    binding2.tvwStatus.setText(R.string.txt_card_locked);
+                    binding2.ivBankLock.setVisibility(View.VISIBLE);
                 } else {
                     // 2-可能是删除的, 目前只看到1和3
-                    binding2.tvwStatus.setVisibility(View.GONE);
+                    binding2.ivBankLock.setVisibility(View.GONE);
                 }
 
             }

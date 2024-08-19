@@ -302,4 +302,10 @@
     <string name="txt_guide_ex_confirm2">若有疑问可联系客服。</string>
     <string name="txt_guide_ex_pay_upload_time">注意剩余时间，请在规定时间内完成回执单上传 \n若超时未完成上传，请联系客服</string>
     <string name="txt_guide_ex_pay_upload_time1">请点击【上传图片】将汇款回执单进行上传\n您也可以点击【回执单示例】产看回执单的示例</string>
+    <string name="txt_mine_bind_bank_number">银行卡号</string>
+    <string name="txt_mine_rebind_usdt">重新绑定</string>
+    <string name="txt_mine_wallet_address">钱包地址</string>
+    <string name="txt_mine_alipay_name">支付宝姓名</string>
+    <string name="txt_mine_alipay_nick_name">支付宝昵称</string>
+    <string name="txt_alipay_code">支付宝收款码</string>
 </resources>
