@@ -199,7 +199,7 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
     private void searchMember(int page) {
         HashMap<String, String> map = new HashMap<>();
         map.put("username", binding.etUsername.getText().toString());
-        map.put("userid", SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
+        map.put("userid", "");
         map.put("p", String.valueOf(page));
         checkSort(map);
         viewModel.getMemberManager(map);
