@@ -1486,7 +1486,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
-                url = DomainUtil.getDomain2() + url;
+                url = DomainUtil.getApiUrl() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
             showWebPayDialog(vo.title, url);
