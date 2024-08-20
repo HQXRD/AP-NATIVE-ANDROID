@@ -24,7 +24,7 @@
 
     <string name="txt_go_recharge">去充值</string>
     <string name="txt_go_withdraw">去提款</string>
-
+    <string name="txt_bind_card2">绑定银行卡</string>
     <string name="txt_bind_card">管理银行卡</string>
     <string name="txt_bind_usdt">管理USDT</string>
     <string name="txt_bind_ebpay">管理EBPAY</string>
