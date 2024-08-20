@@ -66,10 +66,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         //银行卡类型
         if (TextUtils.equals("1", selectorVo.type)) {
             //获取当前选中的提款详情
-            viewModel.getWithdrawalBankInfo(selectorVo.name,withdrawalListVoArrayList.check);
+            viewModel.getWithdrawalBankInfo(selectorVo.name, withdrawalListVoArrayList.check);
         } else {
             //获取当前选中的提款详情
-            viewModel.getWithdrawalInfo(selectorVo.name,withdrawalListVoArrayList.check);
+            viewModel.getWithdrawalInfo(selectorVo.name, withdrawalListVoArrayList.check);
         }
     }
 
@@ -124,7 +124,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     private ChooseWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
-
 
     public static ChooseWithdrawalDialog newInstance(Context context,
                                                      LifecycleOwner owner,
@@ -221,8 +220,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 } else if (TextUtils.equals("2", selectorVo.type)) {
                     //选中的是USDT提款
                     showUSDTWithdrawalDialog(selectorVo.name, usdtWithdrawalList, infoVo);
-                } else if (TextUtils.equals("onepayzfb", selectorVo.name) || TextUtils.equals("onepaywx", selectorVo.name)
-                        || TextUtils.equals("支付宝提款", selectorVo.title) || TextUtils.equals("微信提款", selectorVo.title)) {
+                } else if (TextUtils.equals("onepaywx", selectorVo.name)
+                        || TextUtils.equals("微信提款", selectorVo.title)
+                        || TextUtils.equals("onepayzfb", selectorVo.name)
+                        || TextUtils.equals("支付宝提款", selectorVo.title)) {
                     //选中的是微信/支付宝
                     showOtherWXWithdrawalDialog(selectorVo.name, infoVo, checkCode);
                 } else {
@@ -359,8 +360,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     /**
      * 跳转银行卡提款页面
      */
-    private void showBankWithdrawalDialog(final String name, final ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo, final WithdrawalBankInfoVo selectorInfoVo)
-    {
+    private void showBankWithdrawalDialog(final String name, final ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo, final WithdrawalBankInfoVo selectorInfoVo) {
         bankPopupView = new XPopup.Builder(getContext())
                 .moveUpToKeyboard(false)
                 .asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, name, checkCode, listVo, selectorInfoVo, new BankWithdrawalDialog.BankWithdrawalClose() {
@@ -382,7 +382,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      */
     private void requestData() {
         showMaskLoading();
-       /* viewModel.getChooseWithdrawInfo(checkCode);*/
+        /* viewModel.getChooseWithdrawInfo(checkCode);*/
         viewModel.getWithdrawQuota();
         viewModel.getWithdrawalList(checkCode);
     }
@@ -500,22 +500,28 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      * @param
      */
     private void showOtherWXWithdrawalDialog(final String name, final WithdrawalInfoVo infoVo, final String checkCode) {
-        if (otherWXPopupView == null) {
-            otherWXPopupView = new XPopup.Builder(getContext())
-                    .moveUpToKeyboard(false)
-                    .asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, infoVo, checkCode));
-        }
+        // if (otherWXPopupView == null) {
+        otherWXPopupView = new XPopup.Builder(getContext())
+                .moveUpToKeyboard(false)
+                .asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, infoVo, checkCode, new OtherWebWithdrawalDialog.IOtherWebWithdrawalDialogCallback() {
+                    @Override
+                    public void closeOtherDialog() {
+                        otherWXPopupView.dismiss();
+                        otherWXPopupView = null;
+                    }
+                }));
+        // }
         otherWXPopupView.show();
     }
 
-    private void showOtherZFBWithdrawalDialog(final WithdrawalInfoVo infoVo, final String checkCode) {
+   /* private void showOtherZFBWithdrawalDialog(final WithdrawalInfoVo infoVo, final String checkCode) {
         if (otherZFBPopupView == null) {
             otherZFBPopupView = new XPopup.Builder(getContext())
                     .moveUpToKeyboard(false)
                     .asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, infoVo, checkCode));
         }
         otherZFBPopupView.show();
-    }
+    }*/
 
     /**
      * 跳转银行卡提款页面
@@ -524,7 +530,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                                           final String checkCode,
                                           final ArrayList<WithdrawalListVo.WithdrawalItemVo> bankWithdrawalList,
                                           final WithdrawalBankInfoVo selectorInfoVo
-                                         ) {
+    ) {
         basePopupView = new XPopup.Builder(getContext())
                 .moveUpToKeyboard(false)
                 .asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, name, checkCode, bankWithdrawalList, selectorInfoVo, new BankWithdrawalDialog.BankWithdrawalClose() {
@@ -546,8 +552,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      */
     private void showUSDTWithdrawalDialog(final String name, final ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo, final WithdrawalInfoVo infoVo) {
         basePopupView = new XPopup.Builder(getContext())
-            .moveUpToKeyboard(false)
-            .asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, name, listVo, infoVo,checkCode));
+                .moveUpToKeyboard(false)
+                .asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, name, listVo, infoVo, checkCode));
 
         basePopupView.show();
     }
@@ -629,7 +635,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      * @param infoList
      * @return
      */
-    private ArrayList<WithdrawalListVo.WithdrawalItemVo> sortTypeList( ArrayList<WithdrawalListVo.WithdrawalItemVo>infoList) {
+    private ArrayList<WithdrawalListVo.WithdrawalItemVo> sortTypeList(ArrayList<WithdrawalListVo.WithdrawalItemVo> infoList) {
         //列表去重
         TreeSet treeSet = new TreeSet(infoList);
         infoList.clear();
@@ -784,7 +790,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         }
     }
 
-
     /**
      * 显示其他虚拟币提款Dialog
      */
@@ -881,8 +886,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
                         mActivity.startActivity(intent);
 
-
-
                         customPopWindow.dismiss();
 
                      /*   Bundle bundle = new Bundle();
@@ -904,7 +907,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 }));
         customPopWindow.show();
     }
-
 
     /*关闭资金密码输入页面*/
     private void closeFundPSWView() {
