@@ -388,4 +388,8 @@
     <string name="txt_update_bottom_tip">打开浏览器下载安装</string>
     <string name="txt_update_bottom_err_tip">如更新失败，打开浏览器下载安装</string>
     <string name="txt_lottery_kind">彩种名称</string>
+
+    <!--测速浮窗-->
+    <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
+
 </resources>

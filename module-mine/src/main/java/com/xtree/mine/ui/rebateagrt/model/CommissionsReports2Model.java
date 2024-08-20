@@ -13,13 +13,29 @@ public class CommissionsReports2Model extends BindModel {
     private String pay_fee;
     private String fee;
     private String income;
-    private String adjust_income;
+    private String due;
     private String c_agency_model;
     private String profit;
     private String wages;
     private String remain;
-    private String adjust_ratio;
+    private String plan_ratio;
     private String sys_adjust;
+
+    public String getDue() {
+        return due;
+    }
+
+    public void setDue(String due) {
+        this.due = due;
+    }
+
+    public String getPlan_ratio() {
+        return plan_ratio;
+    }
+
+    public void setPlan_ratio(String plan_ratio) {
+        this.plan_ratio = plan_ratio;
+    }
 
     public String getUsername() {
         return username;
@@ -61,14 +77,6 @@ public class CommissionsReports2Model extends BindModel {
         this.income = income;
     }
 
-    public String getAdjust_income() {
-        return adjust_income;
-    }
-
-    public void setAdjust_income(String adjust_income) {
-        this.adjust_income = adjust_income;
-    }
-
     public String getC_agency_model() {
         return c_agency_model;
     }
@@ -99,14 +107,6 @@ public class CommissionsReports2Model extends BindModel {
 
     public void setRemain(String remain) {
         this.remain = remain;
-    }
-
-    public String getAdjust_ratio() {
-        return adjust_ratio;
-    }
-
-    public void setAdjust_ratio(String adjust_ratio) {
-        this.adjust_ratio = adjust_ratio;
     }
 
     public String getSys_adjust() {

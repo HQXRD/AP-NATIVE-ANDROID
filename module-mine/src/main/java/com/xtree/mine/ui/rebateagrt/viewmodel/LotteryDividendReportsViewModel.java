@@ -228,7 +228,21 @@ public class LotteryDividendReportsViewModel extends BaseViewModel<MineRepositor
                             datas.setValue(bindModels);
 
                             String totalPage = vo.getData().getTotalPage();
+                            String pagestring = "个记录,  分为 ";
+                            String pages = vo.getData().getPages();
+                            int idex = pages.indexOf(pagestring);
+                            if (idex > 0) {
+                                int startIndex = idex + pagestring.length();
+                                int endIndex = startIndex + 1;
+                                String totalPageString = vo.getData().getPages().substring(startIndex, endIndex);
+                                if (!TextUtils.isEmpty(totalPageString)) {
+                                    totalPage = totalPageString;
+                                }
+                            }
                             if (totalPage.equals(String.valueOf(request.getPage()))) {
+                                loadMoreWithNoMoreData();
+                            } else if (billData == null || billData.size() < request.getLimit()) {
+                                //返回数据有时页码总数显示错误，所以做此兼容
                                 loadMoreWithNoMoreData();
                             } else {
                                 finishLoadMore(true);
