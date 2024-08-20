@@ -647,9 +647,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             } else if (vo.paycode.contains(ONE_PAY_FIX)) {
                 // 极速充值
                 CfLog.i(vo.bid + " , " + vo.title + " , " + vo.paycode);
-                viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
-                viewModel.getPayment(vo.bid); // 查详情,显示快选金额,银行列表用
-                LoadingDialog.show(getContext()); // Loading
+//                viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
+//                viewModel.getPayment(vo.bid); // 查详情,显示快选金额,银行列表用
+                viewModel.getExPayment(vo.bid, getActivity());
             } else {
                 // 如果没有链接,调详情接口获取
                 viewModel.getPayment(vo.bid);
@@ -1531,7 +1531,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 无极速订单, 显示点击渠道后需要显示的 选择银行卡/姓名/金额等
         viewModel.liveDataExpNoOrder.observe(this, isNoOrder -> {
             CfLog.i("*****");
-            viewModel.liveDataExpTitle.setValue(null);
+            if (isNoOrder) {
+                viewModel.liveDataExpTitle.setValue(null);
+            }
         });
 
         viewModel.liveDataRcBanners.observe(this, list -> {
