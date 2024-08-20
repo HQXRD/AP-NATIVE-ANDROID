@@ -54,6 +54,12 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHorOtherRecyclerViewAdapter.IOtherFruitHorCallback {
+    /**
+     * 关闭支付宝/微信提款页面
+     */
+    public interface IOtherWebWithdrawalDialogCallback {
+        void closeOtherDialog();
+    }
 
     private LifecycleOwner owner;
     private ChooseWithdrawViewModel viewModel;
@@ -70,6 +76,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     private String jumpUrl;//外跳URL
     private String checkCode;
     private WithdrawalInfoVo infoVo;
+    private IOtherWebWithdrawalDialogCallback iOtherCallback;
 
     public OtherWebWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -78,11 +85,13 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     public static OtherWebWithdrawalDialog newInstance(Context context,
                                                        LifecycleOwner owner,
                                                        final WithdrawalInfoVo infoVo,
-                                                       final String checkCode) {
+                                                       final String checkCode,
+                                                       final IOtherWebWithdrawalDialogCallback iOtherCallback) {
         OtherWebWithdrawalDialog dialog = new OtherWebWithdrawalDialog(context);
         dialog.owner = owner;
         dialog.infoVo = infoVo;
         dialog.checkCode = checkCode;
+        dialog.iOtherCallback = iOtherCallback;
         //CfLog.i("OtherWebWithdrawalDialog  dialog.chooseInfoVo = " + dialog.chooseInfoVo.toString());
         return dialog;
     }
@@ -114,8 +123,16 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         } else {
             binding.tvwTitle.setText(getContext().getString(R.string.txt_withdrawal));
         }
-        binding.ivwClose.setOnClickListener(v -> dismiss());
-       // binding.tvwTitle.setText(chooseInfoVo.title);
+        /*binding.ivwClose.setOnClickListener(v -> dismiss()
+
+        );*/
+        //使用接口关闭其页面
+        binding.ivwClose.setOnClickListener(v -> {
+            if (iOtherCallback != null) {
+                iOtherCallback.closeOtherDialog();
+            }
+        });
+        // binding.tvwTitle.setText(chooseInfoVo.title);
         binding.maskH5View.setVisibility(View.VISIBLE);
         //外跳外部浏览器
         binding.ivwWeb.setOnClickListener(v -> {
@@ -324,7 +341,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
             binding.llShowChooseCard.setVisibility(View.GONE);
         } else {
             refreshTopUI(otherWebWithdrawVo);
-           // initOtherWebView(otherWebWithdrawVo);
+            // initOtherWebView(otherWebWithdrawVo);
         }
 
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
@@ -335,14 +352,14 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         starttime = "<font color=#000000>" + otherWebWithdrawVo.wraptime.starttime + "</font>";
         endtime = "<font color=#000000>" + otherWebWithdrawVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(otherWebWithdrawVo.rest));
-        String testTxt = "<font color=#EE5A5A>" + rest + "</font>"*/;
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>"*/
+        ;
         String formatStr = getContext().getResources().getString(R.string.txt_withdraw_top_tip);
         String count, userCount, totalAmount;
         count = "<font color=#99A0B1>" + infoVo.day_total_count + "</font>";
         userCount = "<font color=#99A0B1>" + infoVo.day_used_count + "</font>";
         totalAmount = "<font color=#DA0000>" + infoVo.day_rest_amount + "</font>";
         String textTipSource = String.format(formatStr, count, userCount, totalAmount);
-
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textTipSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
@@ -398,7 +415,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
 
     /*关闭loading*/
     private void dismissLoading() {
-        if (maskLoadPopView !=null){
+        if (maskLoadPopView != null) {
             maskLoadPopView.dismiss();
         }
 
