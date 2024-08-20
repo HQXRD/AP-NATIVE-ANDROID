@@ -5,8 +5,8 @@ android {
         // 测试环境 测试用
         hx5_pre {
             applicationId "com.${name.toLowerCase()}.app"
-            versionName "1.0.0"
-            versionCode 100
+            versionName "1.0.1"
+            versionCode 101
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "恒行5T${versionCode}"
             resValue "string", "domain_api", "https://hxing5pre.hxing5vip.com"
@@ -15,7 +15,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
-            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
+            resValue "string", "ms_secret_key", "139dbbd0-5ab4-4be6-b197-e3af17a95279"
             resValue "string", "domain_api_list", "https://hxing5pre.hxing5vip.com;"
             resValue "string", "domain_url_list", "https://hxing5pre.hxing5vip.com;"
             multiDexEnabled true
@@ -24,8 +24,8 @@ android {
         // 生产环境 测试用
         hx5_uat {
             applicationId "com.${name.toLowerCase()}.app"
-            versionName "1.0.0"
-            versionCode 100
+            versionName "1.0.1"
+            versionCode 101
             resValue "string", "app_name", "恒行5R${versionCode}"
             resValue "string", "domain_api", "https://app1.d6d7vh.click"
             resValue "string", "domain_url", "https://www.hxing5vip3.com"
@@ -33,7 +33,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
-            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
+            resValue "string", "ms_secret_key", "139dbbd0-5ab4-4be6-b197-e3af17a95279"
             resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
@@ -66,8 +66,8 @@ android {
         // 生产环境 发布用
         hx5_OL {
             applicationId "com.hengxing5.app"
-            versionName "1.0.0"
-            versionCode 100
+            versionName "1.0.1"
+            versionCode 101
             resValue "string", "app_name", "恒行5"
             resValue "string", "domain_api", "https://app1.d6d7vh.click"
             resValue "string", "domain_url", "https://www.hxing5vip3.com"
@@ -75,7 +75,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
-            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
+            resValue "string", "ms_secret_key", "139dbbd0-5ab4-4be6-b197-e3af17a95279"
             resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
