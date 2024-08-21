@@ -49,6 +49,7 @@ class ChangeH5LineUtil private constructor() {
             mIsRunning = true
             setThirdFasterDomain()
             setFasterH5Domain()
+            getThirdFastestDomain(true)
         }
     }
 
@@ -101,6 +102,7 @@ class ChangeH5LineUtil private constructor() {
                                             CfLog.e("域名：H5------$")
                                             Net.cancelGroup(FASTEST_GOURP_NAME_H5)
                                             DomainUtil.setH5Url(url)
+                                            mIsRunning = false
                                         }
                                     }
                                 }
@@ -118,6 +120,7 @@ class ChangeH5LineUtil private constructor() {
 
                 jobs.joinAll()
 
+                mIsRunning = false
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
@@ -141,8 +144,6 @@ class ChangeH5LineUtil private constructor() {
     private fun getThirdFastestDomain(isH5: Boolean) {
         scopeNet {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
-
-            delay(10000)
             val domainTasks = mThirdDomainList.map { host ->
                 Get<String>(
                     "$host",
@@ -155,6 +156,9 @@ class ChangeH5LineUtil private constructor() {
                                 "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y="
                             )
                             val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
+                            if (!domain.h5.isNullOrEmpty()) {
+                                mCurH5DomainList.clear()
+                            }
                             mCurH5DomainList.addAll(domain.h5)
                             getFastestH5Domain(isThird = true)
                         } catch (e: Exception) {
@@ -181,9 +185,7 @@ class ChangeH5LineUtil private constructor() {
         }*/
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
-
         addH5DomainList(list)
-        getThirdFastestDomain(true)
     }
 
     /**

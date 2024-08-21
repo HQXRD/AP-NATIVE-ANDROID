@@ -46,6 +46,7 @@ class ChangeApiLineUtil private constructor() {
             mIsRunning = true
             setThirdFasterDomain()
             setFasterApiDomain()
+            getThirdFastestDomain()
         }
     }
 
@@ -107,7 +108,7 @@ class ChangeApiLineUtil private constructor() {
      */
     private fun getThirdFastestDomain() {
         mCurApiDomainList.clear()
-            if (index < mThirdDomainList.size && !TextUtils.isEmpty(mThirdDomainList[index])) {
+        if (index < mThirdDomainList.size && !TextUtils.isEmpty(mThirdDomainList[index])) {
                 scopeNet {
                     val data = Get<String>(
                         mThirdDomainList[index]/*,
@@ -125,6 +126,9 @@ class ChangeApiLineUtil private constructor() {
                         mCurApiDomainList = domain.api
                         if (mCurApiDomainList.isNotEmpty()) {
                             getFastestApiDomain(isThird = true)
+                        } else {
+                            getThirdFastestDomain()
+                            index ++
                         }
                         CfLog.e("getThirdFastestDomain success")
 
@@ -134,45 +138,10 @@ class ChangeApiLineUtil private constructor() {
                         index ++
                     }
                 }
+        } else {
+            setFasterApiDomain()
+            getFastestApiDomain(false)
         }
-        /*scopeNet {
-            // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
-            val domainTasks = mThirdDomainList.map { host ->
-                Get<String>(
-                    "$host",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line_third"
-                ) {
-                    addHeader("App-RNID", "87jumkljo")
-                    connectTimeout(5, TimeUnit.SECONDS)
-                }.transform { data ->
-                    CfLog.e("$host")
-                    try {
-                        var domainJson = AESUtil.decryptData(data, "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y=")
-                        val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
-                        mCurApiDomainList = domain.api
-                        getFastestApiDomain(isThird = true)
-                        CfLog.e("getThirdFastestDomain success")
-                    } catch (e: Exception) {
-                        //mIsRunning = false
-                        mThirdDomainList.remove(host)
-                        getThirdFastestDomain()
-                        CfLog.e("getThirdFastestDomain fail")
-                        //Toast.makeText(Utils.getContext(), "切换线路失败，获取三方域名存储地址失败，请检查手机网络连接情况", Toast.LENGTH_LONG)
-
-                    }
-                    data
-                }
-            }
-            try {
-                fastest(domainTasks, uid = "the_fastest_line_third")
-            } catch (e: Exception) {
-                CfLog.e(e.toString())
-                mIsRunning = false
-                ToastUtils.showLong("切换线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
-            }
-        }*/
     }
 
     /**
@@ -183,7 +152,6 @@ class ChangeApiLineUtil private constructor() {
         val apiList = listOf(*apis.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addApiDomainList(apiList)
-        getFastestApiDomain(isThird = false)
     }
 
     /**

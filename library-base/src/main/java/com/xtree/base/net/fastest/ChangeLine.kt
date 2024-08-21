@@ -9,6 +9,7 @@ import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
+import com.xtree.base.net.fastest.ChangeH5LineUtil.Companion.mCurH5DomainList
 import com.xtree.base.utils.AESUtil
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
@@ -87,6 +88,7 @@ abstract class ChangeLine {
             mThirdApiDomainList.clear()
             mIsRunning = true
             setThirdFasterDomain()
+            getThirdFastestDomain()
         }
     }
 
@@ -119,7 +121,6 @@ abstract class ChangeLine {
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addThirdDomainList(list)
-        getThirdFastestDomain()
     }
 
     /**
@@ -197,8 +198,14 @@ abstract class ChangeLine {
                     )
                     val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
                     if (mIsApi) {
+                        if (!domain.api.isNullOrEmpty()) {
+                            mCurApiDomainList.clear()
+                        }
                         addApiDomainList(domain.api)
                     } else {
+                        if (!domain.h5.isNullOrEmpty()) {
+                            mCurH5DomainList.clear()
+                        }
                         addApiDomainList(domain.h5)
                     }
                     if (mCurApiDomainList.isNotEmpty()) {
@@ -209,6 +216,9 @@ abstract class ChangeLine {
                         } else {
                             getFastestApiDomain()
                         }
+                    } else {
+                        index++
+                        getThirdFastestDomain()
                     }
                 } catch (e: Exception) {
                     CfLog.e("Exception==$e")

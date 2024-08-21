@@ -15,6 +15,7 @@ import com.drake.net.Net;
 import com.xtree.base.R;
 import com.xtree.base.adapter.MainDomainAdapter;
 import com.xtree.base.databinding.MainLayoutTopSpeedDomainBinding;
+import com.xtree.base.net.fastest.ChangeH5LineUtil;
 import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.TopSpeedDomain;
@@ -83,6 +84,9 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
                     mainDomainAdapter.setNewData(datas);
                 }
                 FastestTopDomainUtil.getInstance().start();
+
+                //每次測速也測一下H5
+                ChangeH5LineUtil.getInstance().start();
             }
         });
         mBinding.tvSpeedCheck.setOnClickListener(v -> {
@@ -102,6 +106,7 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
                 mainDomainAdapter.setChecking(true);
                 mainDomainAdapter.setNewData(datas);
                 FastestTopDomainUtil.getInstance().start();
+                ChangeH5LineUtil.getInstance().start();
             } else {
                 ToastUtils.show("测速过于频繁，请稍后再试!", Toast.LENGTH_SHORT, 0);
             }
