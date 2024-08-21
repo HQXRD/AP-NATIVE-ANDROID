@@ -58,37 +58,41 @@ android {
             resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
             resValue "string", "sentry_dsn", "https://78cf4cf46e69206c1ddc741b9ab7edca@o4507447554539520.ingest.us.sentry.io/4507456764706816"
             resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "domain_api_list", "https://app.zgntcpgxds.com:16801" +
-                    ";http://43.128.11.58:16804" +
-                    ";http://43.137.39.194:16803" +
+            resValue "string", "domain_api_list", "https://app1.g2z4l1.com:18443" +
+                    ";https://app1.b1a4q4.com:18443" +
+                    ";https://app1.n2j6i5.com:18443" +
+                    ";https://app1.g2z4l1.com:18443" +
+                    ";https://app2.r1p6b5.com" +
+                    ";https://app2.q7v2q9.com" +
+                    ";https://app2.j5t5z6.com" +
+                    ";https://app2.o7n5r1.com" +
+                    ";https://app3.e5a4y7.com" +
+                    ";https://app3.v8w7j2.com" +
+                    ";https://app3.d8l2c7.com" +
+                    ";https://app3.m3o6l7.com" +
+                    ";https://app4.u4a4a7.com" +
+                    ";https://app5.b7t6z1.com" +
+                    ";http://43.129.92.72:16804" +
+                    ";http://118.195.251.125:16803" +
                     ";http://101.43.19.60:16803" +
                     ";http://139.186.248.198:16803" +
-                    ";https://app1.g7c5e4.com" +
-                    ";https://app1.l1x7u3.com" +
-                    ";https://app1.d7u3z2.com" +
-                    ";https://app1.n6g1c2.com" +
-                    ";https://app2.y9s6f4.com" +
-                    ";https://app2.e7y4m2.com" +
-                    ";https://app2.u6z2r8.com" +
-                    ";https://app2.z3w1j8.com" +
-                    ";https://app3.g7d3w3.com" +
-                    ";https://app3.n9f4b7.com" +
-                    ";https://app3.o7o9x1.com" +
-                    ";https://app3.a8y7u9.com" +
-                    ";https://app4.f4w3f2.com" +
-                    ";https://app4.e4a9z6.com" +
-                    ";https://app5.s6r9x3.com"
-            resValue "string", "domain_url_list", "https://h11.w4m8w1.com" +
-                    ";https://h11.x4r7u1.com" +
-                    ";https://h11.o4j3u6.com" +
-                    ";https://h21.x9a3w2.com" +
-                    ";https://h21.z9j4v5.com" +
-                    ";https://h21.t3n3n3.com" +
-                    ";https://h31.v8g8z5.com" +
-                    ";https://h31.h9m1a9.com" +
-                    ";https://h31.r4c2q6.com" +
-                    ";https://h41.y4v8i4.com" +
-                    ";https://h51.i7q7y2.com" +
+                    ";https://app.bdqnmanong.com:16801" +
+                    ";https://app.queyushengwu.com:16801" +
+                    ";https://app.yuechengbj.com:16801" +
+                    ";https://app.hstxdl.com:16801" +
+                    ";https://app.qiuchongyao.com:16801" +
+                    ";https://app.tiantianwangluo.com:16801"
+            resValue "string", "domain_url_list", "https://h11.l6h2rh.xyz" +
+                    ";https://h11.k6f7bm.xyz" +
+                    ";https://h11.w2i4ek.xyz" +
+                    ";https://h21.l6h2rh.xyz" +
+                    ";https://h21.k6f7bm.xyz" +
+                    ";https://h21.w2i4ek.xyz" +
+                    ";https://h31.i6j3ak.xyz" +
+                    ";https://h31.k8q5yr.xyz" +
+                    ";https://h31.a5g8ck.xyz" +
+                    ";https://h41.p2o6cl.xyz" +
+                    ";https://h51.c7o7zr.xyz" +
                     ";https://h61.saaen.com:16801" +
                     ";https://h61.caaau.com:16801" +
                     ";https://h61.baafj.com:16801" +
