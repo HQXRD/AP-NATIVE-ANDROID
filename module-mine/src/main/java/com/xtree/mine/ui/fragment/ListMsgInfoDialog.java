@@ -173,7 +173,14 @@ public class ListMsgInfoDialog extends BottomPopupView {
                             .append(level).append(":")
                             .append("投注额≥").append(hashMap.get("min_bet"))
                             .append("元，且活跃玩家人数≥").append(hashMap.get("min_player")).append("，")
-                            .append(unit.get(1)).append(hashMap.get("ratio")).append("元/万").append("\n");
+                            .append(unit.get(1)).append(hashMap.get("ratio"));
+                    //彩票工資
+                    if (msgPersonInfoVo.type.equals("2")) {
+                        content.append("%");
+                    } else {
+                        content.append("元/万");
+                    }
+                    content.append("\n");
                 }
             } else if (msgPersonInfoVo.type.equals("3") || msgPersonInfoVo.type.equals("4") || msgPersonInfoVo.type.equals("6") || msgPersonInfoVo.type.equals("7") || msgPersonInfoVo.type.equals("9")) {
                 for (HashMap<String, Object> hashMap : ruleList) {
