@@ -59,6 +59,7 @@ import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
 import com.xtree.recharge.ui.fragment.guide.RechargeNextComponent;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.recharge.ui.widget.TipBindCardDialog;
 import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.HiWalletVo;
@@ -110,6 +111,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     PaymentTypeVo curPaymentTypeVo;
     BasePopupView ppw = null; // 底部弹窗
     BasePopupView ppw2 = null; // 底部弹窗 (二层弹窗)
+    BasePopupView ppw3 = null; // 极速充值绑定银行卡弹窗
     String bankId = ""; // 用户绑定的银行卡ID
     String bankCode = ""; // 付款银行编号 (极速充值用) ABC
     String hiWalletUrl; // 一键进入 HiWallet钱包
@@ -701,15 +703,53 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             if (isOnePayFix(vo)) {
                 if (vo.getOpBankList() != null && vo.getOpBankList().getUsed() != null
                         && !vo.getOpBankList().getUsed().isEmpty()) {
-                    bankCode = vo.getOpBankList().getUsed().get(0).getBankCode();
-                    binding.tvwBankCard.setText(vo.getOpBankList().getUsed().get(0).getBankName());
-                } else if (!vo.userBankList.isEmpty()) {
-                    String txt = vo.userBankList.get(0).name;
-                    if (txt.contains("--")) {
-                        txt = txt.split("--")[0];
+                    //去掉工商银行
+                    ArrayList<RechargeVo.OpBankListDTO.BankInfoDTO> userBankList=new ArrayList<>();
+                    for (RechargeVo.OpBankListDTO.BankInfoDTO bankCardVo:vo.getOpBankList().getUsed()){
+                        if (!TextUtils.isEmpty(bankCardVo.getBankName()) && bankCardVo.getBankName().indexOf("工商银行") == -1) {
+                            userBankList.add(bankCardVo);
+                        }
                     }
-                    bankId = vo.userBankList.get(0).id;
-                    binding.tvwBankCard.setText(txt);
+
+                    if (userBankList.isEmpty()){
+                        ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
+                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), new TipBindCardDialog.ICallBack() {
+                                    @Override
+                                    public void onClickConfirm() {
+                                        toBindPage(Constant.BIND_CARD);
+                                    }
+                                }));
+                        ppw3.show();
+                    }else{
+                        bankCode = userBankList.get(0).getBankCode();
+                        binding.tvwBankCard.setText(userBankList.get(0).getBankName());
+                    }
+                } else if (!vo.userBankList.isEmpty()) {
+                    //去掉工商银行
+                    ArrayList<BankCardVo> userBankList=new ArrayList<>();
+                    for (BankCardVo bankCardVo:vo.userBankList){
+                        if (!TextUtils.isEmpty(bankCardVo.name) && bankCardVo.name.indexOf("工商银行") == -1) {
+                            userBankList.add(bankCardVo);
+                        }
+                    }
+                    if (userBankList.isEmpty()){
+                        ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
+                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), new TipBindCardDialog.ICallBack() {
+                                    @Override
+                                    public void onClickConfirm() {
+                                        toBindPage(Constant.BIND_CARD);
+                                    }
+                                }));
+                        ppw3.show();
+                    }else{
+                        String txt = userBankList.get(0).name;
+                        if (txt.contains("--")) {
+                            txt = txt.split("--")[0];
+                        }
+                        bankId = userBankList.get(0).id;
+                        binding.tvwBankCard.setText(txt);
+                    }
+
                 }
             } else if (!vo.userBankList.isEmpty()) {
                 bankId = vo.userBankList.get(0).id;
@@ -1119,9 +1159,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         ArrayList<RechargeVo.OpBankListDTO.BankInfoDTO> bankInfoDTOS = new ArrayList<>();
         for (BankCardVo bankCardVo : vo.userBankList) {
             RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO = new RechargeVo.OpBankListDTO.BankInfoDTO();
-            bankInfoDTO.setBankCode(bankCardVo.id);
-            bankInfoDTO.setBankName(bankCardVo.name);
-            bankInfoDTOS.add(bankInfoDTO);
+            if (!TextUtils.isEmpty(bankCardVo.name) && bankCardVo.name.indexOf("工商银行") == -1) {
+                bankInfoDTO.setBankCode(bankCardVo.id);
+                bankInfoDTO.setBankName(bankCardVo.name);
+                bankInfoDTOS.add(bankInfoDTO);
+            }
+
         }
         opBankList.setmBind(bankInfoDTOS);
 
