@@ -2,6 +2,8 @@ package com.xtree.base.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -129,6 +131,21 @@ public class AppUtil {
         AssetManager am = ctx.getAssets();
         Typeface tf = Typeface.createFromAsset(am, "fonts/D-DIN-PRO-500-Medium.ttf");
         tvw.setTypeface(tf);
+    }
+
+    public static String getAppVersion(Context context) {
+        try {
+            // 获取 PackageManager 实例
+            PackageManager packageManager = context.getPackageManager();
+            // 获取当前应用的 PackageInfo 对象
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            // 获取版本号
+            String versionName = packageInfo.versionName;
+            return versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
 }
