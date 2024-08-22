@@ -32,7 +32,7 @@
             <TextView
                 android:id="@+id/tvw_title"
                 style="@style/style_cm_title"
-                android:text="@string/txt_bind_usdt"
+                android:text="@string/txt_bind_usdt_top"
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -90,11 +90,24 @@
             android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
 
+                <TextView
+                    style="@style/style_cm_tip_small_orange"
+                    android:layout_marginTop="2dp"
+                    android:drawableLeft="@mipmap/cm_ic_hint_purple"
+                    android:text="@string/txt_note_asterisks_cannot_empty"
+                    android:gravity="center"/>
+            </LinearLayout>
+<!--
             <TextView
                 style="@style/style_cm_tip_small_orange"
                 android:drawableLeft="@mipmap/cm_ic_hint_purple"
-                android:text="@string/txt_note_asterisks_cannot_empty" />
+                android:text="@string/txt_note_asterisks_cannot_empty" />-->
 
             <TextView
                 android:id="@+id/tvw_choose_title"
@@ -277,7 +290,8 @@
 
                 <TextView
                     android:id="@+id/tvw_back"
-                    style="@style/style_btn_short_cancel"/>
+                    style="@style/style_btn_short_cancel"
+                    android:text="@string/txt_back" />
 
                 <TextView
                     android:id="@+id/tvw_submit"

@@ -27,7 +27,9 @@
     <string name="txt_bind_card2">绑定银行卡</string>
     <string name="txt_bind_card">管理银行卡</string>
     <string name="txt_bind_usdt">管理USDT</string>
+    <string name="txt_bind_usdt_top">绑定USDT</string>
     <string name="txt_bind_ebpay">管理EBPAY</string>
+    <string name="txt_bind_ebpay_top">绑定EBPAY</string>
     <string name="txt_bind_topay">管理TOPAY</string>
     <string name="txt_bind_gcnyt">管理CNYT</string>
     <string name="txt_bind_mpay">管理MPAY</string>
@@ -35,7 +37,9 @@
     <string name="txt_bind_gopay">管理GOPAY</string>
     <string name="txt_bind_okpay">管理OKPAY</string>
     <string name="txt_bind_alipay">管理支付宝</string>
+    <string name="txt_bind_alipay1">绑定支付宝</string>
     <string name="txt_bind_wechat">管理微信支付</string>
+    <string name="txt_bind_wechat1">绑定信支付</string>
     <string name="txt_manage_alipay">管理支付宝</string>
     <string name="txt_manage_wechat">管理微信支付</string>
     <string name="txt_alipay">支付宝</string>
@@ -308,4 +312,5 @@
     <string name="txt_mine_alipay_name">支付宝姓名</string>
     <string name="txt_mine_alipay_nick_name">支付宝昵称</string>
     <string name="txt_alipay_code">支付宝收款码：</string>
+
 </resources>

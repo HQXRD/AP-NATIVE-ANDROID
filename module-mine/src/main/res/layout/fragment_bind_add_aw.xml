@@ -27,7 +27,7 @@
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:text="@string/txt_bind_alipay" />
+                tools:text="@string/txt_bind_alipay1" />
 
             <ImageView
                 android:id="@+id/ivw_back"
@@ -101,6 +101,7 @@
                 android:id="@+id/tv_tip_nickname"
                 style="@style/style_cm_tip_small_orange"
                 android:text="注意：如修改昵称请及时更新，否则影响收款"
+                android:drawableLeft="@mipmap/cm_ic_hint_red"
                 android:textSize="@dimen/bt_text_12sp" />
 
             <LinearLayout
@@ -199,8 +200,9 @@
                 style="@style/style_bind_title"
                 android:drawableLeft="@mipmap/mine_iv_info_review"
                 android:drawablePadding="5dp"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="50dp"
                 android:text="@string/txt_info_review"
+                android:textStyle="bold"
                 android:textColor="@color/clr_sec_verify_normal"
                 android:textSize="@dimen/bt_text_16sp"/>
             <LinearLayout

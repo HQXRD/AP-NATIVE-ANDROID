@@ -130,9 +130,9 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     binding.tvwCode.text = getString(R.string.txt_alipay_code)
                     action = "adduseronepayzfb"
                     qrcodeType = 2
-                    binding.ivAwIcon.setImageResource(R.mipmap.ic_alipay)
-                    binding.tvMsg.text = getString(R.string.txt_bind_alipay).plus(getString(R.string.txt_succ))
-                    binding.etPhone.hint = "11位手机号码或电子邮箱"
+                    binding.ivAwIcon.setImageResource(R.mipmap.bind_success)
+                    binding.tvMsg.text = getString(R.string.txt_bind_succ)
+                    binding.etPhone.hint = "请输入11位手机号码或电子邮箱"
                     binding.etPhone.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                 }
 
@@ -148,9 +148,9 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     binding.tvwCode.text = getString(R.string.txt_wechat_code)
                     action = "adduseronepaywx"
                     qrcodeType = 1
-                    binding.ivAwIcon.setImageResource(R.mipmap.ic_wechat)
-                    binding.tvMsg.text = getString(R.string.txt_bind_wechat).plus(getString(R.string.txt_succ))
-                    binding.etPhone.hint = "11位手机号码"
+                    binding.ivAwIcon.setImageResource(R.mipmap.bind_success)
+                    binding.tvMsg.text =  getString(R.string.txt_bind_succ)
+                    binding.etPhone.hint = "请输入微信支付绑定的11位手机号码"
                     binding.etPhone.inputType = InputType.TYPE_CLASS_PHONE
                 }
             }

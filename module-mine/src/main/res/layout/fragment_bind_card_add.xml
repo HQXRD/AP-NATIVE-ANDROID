@@ -76,7 +76,8 @@
 
             <TextView
                 style="@style/style_bind_title"
-                android:text="@string/txt_s_bank_num" />
+                android:text="@string/txt_s_bank_num"
+               />
 
             <EditText
                 android:id="@+id/edt_acc"
@@ -89,7 +90,7 @@
             <TextView
                 android:id="@+id/tvw_tip_address"
                 style="@style/style_cm_tip_small_grey"
-                android:text=""
+                android:text="@string/txt_remind_card"
                 android:visibility="visible"
                 tools:text="@string/txt_remind_card"
                 tools:visibility="visible" />
