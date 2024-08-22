@@ -7,6 +7,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.utils.HmacSHA256Utils;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.utils.UuidUtil;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -29,7 +30,6 @@ public class HeaderInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        HttpUrl fullUrl = chain.request().url();
         Request.Builder builder = chain.request()
                 .newBuilder();
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
@@ -44,6 +44,18 @@ public class HeaderInterceptor implements Interceptor {
         builder.addHeader("Source", "9");
         builder.addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
         builder.addHeader("X-Crypto", BuildConfig.DEBUG ? "no" : "yes");
+
+        addSignHeader(chain, builder);
+
+        //请求信息
+        return chain.proceed(builder.build());
+    }
+
+    /**
+     * 设置鉴权请求头
+     */
+    private void addSignHeader(Chain chain, Request.Builder builder) {
+        HttpUrl fullUrl = chain.request().url();
 
         long sign1Ts = System.currentTimeMillis() / 1000;
 
@@ -68,7 +80,7 @@ public class HeaderInterceptor implements Interceptor {
         String decode = encodeData.toString();
         try {
             decode = URLDecoder.decode(encodeData.toString(), "UTF-8");
-        }catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
@@ -76,11 +88,7 @@ public class HeaderInterceptor implements Interceptor {
 
         //加密签名
         builder.addHeader("X-Sign1", sign1);
-        builder.addHeader("X-Sign1-Ts", String.valueOf(sign1Ts));
-
-        //请求信息
-        return chain.proceed(builder.build());
+        builder.addHeader("X-Sign1-Ts", sign1Ts + "," + UuidUtil.getID24());
     }
-
 
 }
