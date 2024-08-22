@@ -62,7 +62,7 @@
                 android:id="@+id/tv_bank_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_below="@id/tv_bind_card_time"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentRight="true"
@@ -91,7 +91,7 @@
                 android:layout_below="@id/tv_bank_number"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="0dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:background="@mipmap/min_bind_card_lock"/>
 
 

@@ -41,7 +41,7 @@
     <string name="txt_alipay">支付宝</string>
     <string name="txt_wechat">微信</string>
 
-    <string name="txt_remind_card">请输入16到19位数字</string>
+    <string name="txt_remind_card">请认真校对银行卡号，卡号错误资金将无法到账</string>
     <string name="txt_remind_usdt_trc20">TRC20_USDT地址以T开头的数字和字母组成的34位</string>
     <string name="txt_remind_usdt_erc20">ERC20_USDT地址以0x开头的数字和字母组成的42位</string>
     <string name="txt_remind_ebpay">EBPAY地址以eb开头的数字和字母组成的34位</string>
@@ -307,5 +307,5 @@
     <string name="txt_mine_wallet_address">钱包地址</string>
     <string name="txt_mine_alipay_name">支付宝姓名</string>
     <string name="txt_mine_alipay_nick_name">支付宝昵称</string>
-    <string name="txt_alipay_code">支付宝收款码</string>
+    <string name="txt_alipay_code">支付宝收款码：</string>
 </resources>

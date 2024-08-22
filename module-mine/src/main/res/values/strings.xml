@@ -213,9 +213,9 @@
     <string name="txt_bank_acc_c">银行账号：</string>
     <string name="txt_enter_the_last_acc_name">请输入最新绑定银行卡开户人姓名</string>
     <string name="txt_enter_last_bank_card_num">请输入最新绑定银行卡卡号</string>
-    <string name="txt_note_cs_cannot_unlock_bank_card">注意：在线客服不提供账户银行卡解锁业务，若要解锁请向上级代理申请。</string>
-    <string name="txt_type_c">类型：</string>
-    <string name="txt_address_c">地址：</string>
+    <string name="txt_note_cs_cannot_unlock_bank_card">在线客服不提供账户银行卡解锁业务，若要解锁请向上级代理申请</string>
+    <string name="txt_type_c">货币类型：</string>
+    <string name="txt_address_c">提现钱包地址：</string>
     <string name="txt_wallet_address_c">钱包地址：</string>
     <string name="txt_address_should_same">两次输入的地址不一致</string>
     <string name="txt_bind_time_c">绑定时间：</string>

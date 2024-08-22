@@ -82,7 +82,12 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         binding.tvwChooseBank.setOnClickListener(v -> showChooseBank());
         binding.tvwChooseProvince.setOnClickListener(v -> showChooseProvince());
         binding.tvwChooseCity.setOnClickListener(v -> showChooseCity());
+
         binding.ivwNext.setOnClickListener(v -> doNext());
+        //新增返回上一步操作
+        binding.tvwBindBack.setOnClickListener(v -> {
+            getActivity().finish();
+        });
         binding.tvwSubmit.setOnClickListener(v -> doSubmit());
 
         binding.tvwBack.setOnClickListener(v -> {

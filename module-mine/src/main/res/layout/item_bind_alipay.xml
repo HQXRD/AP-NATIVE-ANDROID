@@ -27,6 +27,8 @@
 
             <ImageView
                 android:id="@+id/iv_bank_icon"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/mine_default_alipay" />
@@ -65,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_bank_icon"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/clr_txt_grey_08"
@@ -93,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_default_alipay_name"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:maxLines="1"
                 android:textColor="@color/clr_txt_grey_08"
