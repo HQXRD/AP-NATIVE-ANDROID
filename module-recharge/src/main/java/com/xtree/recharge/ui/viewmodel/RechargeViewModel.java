@@ -259,6 +259,8 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
      */
     public void getExPayment(String bid, Context context) {
 
+        final String[] id = {bid};
+
         BasePopupView loadingDialog = new XPopup.Builder(context)
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(true)
@@ -279,12 +281,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     @Override
                     public Publisher<?> apply(BaseResponse<PaymentDataVo> paymentDataVoBaseResponse) throws Exception {
 
-                        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(bid);
+                        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(id[0]);
 
                         if (paymentDataVoBaseResponse.getData() != null) {
                             //如果存在充值中的订单，则使用订单的渠道查询订单
                             if (paymentDataVoBaseResponse.getData().pendingOnepayfixBid > 0) {
-                                request.setPid(String.valueOf(paymentDataVoBaseResponse.getData().pendingOnepayfixBid));
+                                String pendingOnepayfixBid = String.valueOf(paymentDataVoBaseResponse.getData().pendingOnepayfixBid);
+                                request.setPid(pendingOnepayfixBid);
+                                id[0] = pendingOnepayfixBid;
                             }
                         }
 
@@ -312,7 +316,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
                         ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
                         if (data != null) {
-                            vo.getData().setBid(bid); // 跳转要用
+                            vo.getData().setBid(id[0]); // 跳转要用
                             String status = data.getStatus();
                             switch (status) {
                                 case "00": //成功
