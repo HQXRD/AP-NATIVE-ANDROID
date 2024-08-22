@@ -116,7 +116,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
                         ruleDTO.getMin_bet() +
                         "元,人数≥" +
                         ruleDTO.getMin_player() + "人,彩票工资" +
-                        ruleDTO.getRatio() + "元/万");
+                        ruleDTO.getRatio() + "%");
                 break;
             case DAYREBATE:
                 ratioTip.set("规则1:日投注额≥" +
@@ -196,7 +196,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
                         if (i > 0) {
                             sb.append(System.lineSeparator());
                         }
-                        sb.append("规则").append(i + 1).append(":日有效投注额≥").append(ruleDTO.getMin_bet()).append("元，彩票工资").append(ruleDTO.getRatio()).append("元/万");
+                        sb.append("规则").append(i + 1).append(":日有效投注额≥").append(ruleDTO.getMin_bet()).append("元，彩票工资").append(ruleDTO.getRatio()).append("%");
                     }
                     break;
                 case DAYREBATE:

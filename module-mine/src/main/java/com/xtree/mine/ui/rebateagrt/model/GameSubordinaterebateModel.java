@@ -57,7 +57,7 @@ public class GameSubordinaterebateModel extends BindModel {
         if (typeEnum != null) {
             switch (typeEnum) {
                 case USER:
-                    return ratio + "元/万";
+                    return ratio + "%";
                 default:
                     return ratio + "%";
             }

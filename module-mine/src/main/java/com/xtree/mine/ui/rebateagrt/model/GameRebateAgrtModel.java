@@ -75,7 +75,7 @@ public class GameRebateAgrtModel extends BindModel {
     public String getRebatePercentage() {
         switch (typeEnum) {
             case USER:
-                return rebatePercentage + "元/万";
+                return rebatePercentage + "%";
             case DAYREBATE:
                 return rebatePercentage + "元/千";
             default:
