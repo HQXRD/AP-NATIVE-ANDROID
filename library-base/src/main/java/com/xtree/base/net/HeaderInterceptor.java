@@ -61,16 +61,17 @@ public class HeaderInterceptor implements Interceptor {
     private void addSignHeader(Chain chain, Request.Builder builder) {
         HttpUrl fullUrl = chain.request().url();
 
-        long sign1Ts = System.currentTimeMillis() / 1000;
+        long sign1TsTime = System.currentTimeMillis() / 1000;
 
         //根据测速时本地到远端的时间差判断用户本机时间是否有偏差
         if (FastestTopDomainUtil.Companion.getFastestDomain().getValue() != null) {
             long curCTSSec = FastestTopDomainUtil.Companion.getFastestDomain().getValue().curCTSSec;
             //偏差超过20s则同步偏差
             if (Math.abs(curCTSSec) > 20) {
-                sign1Ts += curCTSSec;
+                sign1TsTime += curCTSSec;
             }
         }
+        String sign1Ts = sign1TsTime + "," + UuidUtil.getID24();
 
         String query = fullUrl.encodedQuery();
         String path = fullUrl.encodedPath();
@@ -92,7 +93,7 @@ public class HeaderInterceptor implements Interceptor {
 
         //加密签名
         builder.addHeader("X-Sign1", sign1);
-        builder.addHeader("X-Sign1-Ts", sign1Ts + "," + UuidUtil.getID24());
+        builder.addHeader("X-Sign1-Ts", sign1Ts);
     }
 
     /**
