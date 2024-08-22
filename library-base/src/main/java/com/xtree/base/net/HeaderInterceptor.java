@@ -1,10 +1,12 @@
 package com.xtree.base.net;
 
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.fastest.FastestTopDomainUtil;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.HmacSHA256Utils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+import me.xtree.mvvmhabit.base.BaseApplication;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.HttpUrl;
@@ -37,13 +40,14 @@ public class HeaderInterceptor implements Interceptor {
             builder.addHeader("Authorization", "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN));
             builder.addHeader("Cookie", "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" +
                     SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";");
-
         }
+
         builder.addHeader("Content-Type", "application/vnd.sc-api.v1.json");
         builder.addHeader("App-RNID", "87jumkljo"); //
         builder.addHeader("Source", "9");
         builder.addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
         builder.addHeader("X-Crypto", BuildConfig.DEBUG ? "no" : "yes");
+        addUserAgentHeader(chain, builder);
 
         addSignHeader(chain, builder);
 
@@ -89,6 +93,29 @@ public class HeaderInterceptor implements Interceptor {
         //加密签名
         builder.addHeader("X-Sign1", sign1);
         builder.addHeader("X-Sign1-Ts", sign1Ts + "," + UuidUtil.getID24());
+    }
+
+    /**
+     * 添加useragent请求头
+     */
+    private void addUserAgentHeader(Chain chain, Request.Builder builder) {
+        StringBuilder userAgentString = new StringBuilder();
+        userAgentString
+                .append("Android");
+
+        if (BaseApplication.getInstance() != null) {
+            userAgentString
+                    .append(",")
+                    .append("Version:")
+                    .append(AppUtil.getAppVersion(BaseApplication.getInstance().getApplicationContext()));
+        }
+
+        userAgentString
+                .append(",")
+                .append("Device:")
+                .append(Build.BRAND + "," + Build.MODEL + "," + Build.VERSION.SDK_INT);
+
+        builder.removeHeader("User-Agent").addHeader("User-Agent", userAgentString.toString());
     }
 
 }
