@@ -13,7 +13,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -98,6 +97,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<String> leftTimeData = new MutableLiveData<>();
     //截止時間
     public MutableLiveData<String> deadlinesData = new MutableLiveData<>();
+    //匹配普通银行卡时间
+    public MutableLiveData<SpannableString> pairedTimeData = new MutableLiveData<>();
+    //是否匹配普通银行卡
+    public MutableLiveData<Boolean> pairedTimeStatus = new MutableLiveData<>(false);
     public MutableLiveData<String> waitTime = new MutableLiveData<>();
     //是否可以取消订单 true 可以
     public MutableLiveData<Boolean> cancleOrderStatus = new MutableLiveData<>(false);
@@ -305,7 +308,15 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(aLong -> {
                     long l = cancleOrderDifference - aLong;
-                    leftTimeData.setValue("剩余支付时间：" + formatSeconds(l));
+                    String formatTime = formatSeconds(l);
+                    leftTimeData.setValue("剩余支付时间：" + formatTime);
+
+                    String str1 = "等待匹配中，于";
+                    String str2 = "后自动取消";
+                    SpannableString spannableString = new SpannableString(str1 + formatTime + str2);
+                    ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getApplication().getResources().getColor(R.color.clr_purple_02));
+                    spannableString.setSpan(foregroundColorSpan, str1.length(), str1.length() + formatTime.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    pairedTimeData.setValue(spannableString);
 
                     //轮训三秒间隔
                     if (aLong % 3 == 0) {
@@ -346,6 +357,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     .doOnComplete(new Action() {
                         @Override
                         public void run() throws Exception {
+                            waitTime.setValue("");
                             cancleOrderWaitStatus.setValue(false);
                         }
                     })
@@ -463,10 +475,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 toFail();
                 break;
             case "00": //成功
-                if (!canonicalName.equals(ExTransferConfirmFragment.class.getCanonicalName())) {
-                    toConfirm();
-                }
-                ToastUtils.show("该渠道充值订单已成功", Toast.LENGTH_LONG, 1);
+                toSuccess();
                 break;
             case "13": //配对中
                 break;
@@ -598,7 +607,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
-                        toFail();
+                        pairedTimeStatus.setValue(true);
+                        waitTime.setValue("");
+                        cancleOrderWaitStatus.setValue(false);
                     }
 
                     @Override
@@ -938,6 +949,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         close();
     }
 
+    public void toSuccess() {
+        startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_SUCCESS);
+        close();
+    }
+
     /**
      * 回执单示例
      */
@@ -1130,5 +1146,52 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         super.onCleared();
         clear();
     }
+
+    /**
+     * 跳过极速引导引导
+     */
+    public void skipGuide(){
+        Disposable disposable = (Disposable) model.skipGuide()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+                    @Override
+                    public void onResult(ExRechargeOrderCheckResponse vo) {
+                        CfLog.d(vo.toString());
+
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+
+                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
+                        if (data != null) {
+
+                            payOrderData.setValue(data);
+
+                            initOrder(data);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                        super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
 }
 

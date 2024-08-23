@@ -172,8 +172,12 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         if (mProfileVo != null && mProfileVo.is_binding_phone
                 && !Constant.UPDATE_PHONE2.equals(typeName)
                 && !Constant.VERIFY_BIND_PHONE2.equals(typeName)) {
+            binding.tvwTitle.setText(R.string.txt_phone_num_already);
+            binding.vDivLine.setVisibility(View.GONE);
+            binding.tvwTipHint.setHeight(0);
             binding.edtNum.setEnabled(false); // 放在前面
             binding.edtNum.setText(mProfileVo.binding_phone_info);
+            binding.edtNum.setTextColor(getResources().getColor(R.color.clr_sec_verify_grey));
         }
 
         if (Constant.VERIFY_LOGIN.equals(typeName)) {
@@ -399,6 +403,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         viewModel.liveDataCodeFail.observe(this, vo -> {
             CfLog.i("***********");
             binding.tvwCode.setEnabled(true);
+            binding.edtCode.setTextColor(getResources().getColor(R.color.clr_sec_verify_warn));
             if (!binding.edtNum.getText().toString().contains("*")) {
                 binding.edtNum.setEnabled(true);
             }
@@ -448,6 +453,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             typeName = Constant.UPDATE_PHONE2;
 
             mHandler.removeMessages(MSG_TIMER);
+            binding.vDivLine.setVisibility(View.VISIBLE);
             binding.tvwCode.setText(R.string.txt_get_code);
             binding.tvwCode.setEnabled(true);
 
@@ -540,14 +546,19 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             binding.tvwCode.setEnabled(true);
             binding.tvwTipHint.setVisibility(View.VISIBLE);
             binding.tvwTipWarn.setVisibility(View.GONE);
+            binding.edtNum.setTextColor(getResources().getColor(R.color.clr_sec_verify_normal));
         } else {
             binding.tvwCode.setEnabled(false);
             if (num.isEmpty()) {
                 binding.tvwTipHint.setVisibility(View.VISIBLE);
                 binding.tvwTipWarn.setVisibility(View.GONE);
+                binding.edtNum.setTextColor(getResources().getColor(R.color.clr_sec_verify_normal));
+            } else if (AppUtil.isPhone(num)) {
+                binding.edtNum.setTextColor(getResources().getColor(R.color.clr_sec_verify_normal));
             } else {
                 binding.tvwTipHint.setVisibility(View.GONE);
                 binding.tvwTipWarn.setVisibility(View.VISIBLE);
+                binding.edtNum.setTextColor(getResources().getColor(R.color.clr_sec_verify_warn));
             }
         }
     }
@@ -556,12 +567,14 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         String code = binding.edtCode.getText().toString().trim();
         if (code.length() == 6) {
             binding.tvwTipWarn2.setVisibility(View.INVISIBLE);
+            binding.edtCode.setTextColor(getResources().getColor(R.color.clr_sec_verify_normal));
         } else {
             binding.tvwTipWarn2.setVisibility(View.VISIBLE);
             if (code.isEmpty()) {
                 binding.tvwTipWarn2.setText(R.string.txt_enter_code_cannot_empty);
             } else {
                 binding.tvwTipWarn2.setText(R.string.txt_enter_code_6);
+                binding.edtCode.setTextColor(getResources().getColor(R.color.clr_sec_verify_warn));
             }
         }
     }
