@@ -148,9 +148,7 @@ class FastestTopDomainUtil private constructor() {
                             val result = it.await()
                             mutex.withLock {
                                 val fullUrl = result.request.url.toString()
-                                val host = result.request.url.host
-                                val hostStartIndex: Int = fullUrl.indexOf(host)
-                                val url = fullUrl.substring(0, hostStartIndex + host.length)
+                                val url = fullUrl.replace(FASTEST_API, "")
 
                                 CfLog.i("$url")
                                 var topSpeedDomain = TopSpeedDomain()
