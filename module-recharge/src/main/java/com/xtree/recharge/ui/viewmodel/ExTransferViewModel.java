@@ -1147,5 +1147,52 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         super.onCleared();
         clear();
     }
+
+    /**
+     * 跳过极速引导引导
+     */
+    public void skipGuide(){
+        Disposable disposable = (Disposable) model.skipGuide()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+                    @Override
+                    public void onResult(ExRechargeOrderCheckResponse vo) {
+                        CfLog.d(vo.toString());
+
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+
+                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
+                        if (data != null) {
+
+                            payOrderData.setValue(data);
+
+                            initOrder(data);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                        super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
 }
 

@@ -20,6 +20,7 @@ import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.EleItemBinding;
@@ -29,6 +30,8 @@ import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.Ele;
 import com.xtree.home.vo.EleVo;
 import com.xtree.home.vo.GameVo;
+
+import java.util.Objects;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 
@@ -76,10 +79,11 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
         gameVo = getArguments().getParcelable("gameVo");
         binding.refreshLayout.setEnableRefresh(false);
         binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            requestData(curPage + 1);
+            requestData();
         });
         binding.rvEleChild.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rvEleChild.addItemDecoration(new SpacesItemDecoration(10));
+
         adapter = new CachedAutoRefreshAdapter<Ele>() {
             @NonNull
             @Override
@@ -102,15 +106,21 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                     if (ClickUtil.isFastClick()) {
                         return;
                     }
-                    CfLog.i(vo1.toString());
-                    String eventName = gameVo.name != null && gameVo.name.length() > 2 ? gameVo.name.substring(0, 2) : "gm2";
-                    TagUtils.tagEvent(getContext(), eventName, vo1.getId()); // 打点
-                    BrowserActivity.start(getContext(), gameVo.name, DomainUtil.getH5Domain() + gameVo.playURL + vo1.getId(), false, true);
+                    if (gameVo.cid == 43) {
+                        viewModel.getPlayUrl("addz", vo1.getCode(), vo1.getName());
+                    } else {
+                        CfLog.i(vo1.toString());
+                        String eventName = gameVo.name != null && gameVo.name.length() > 2 ? gameVo.name.substring(0, 2) : "gm2";
+                        TagUtils.tagEvent(getContext(), eventName, vo1.getId()); // 打点
+                        BrowserActivity.start(getContext(), gameVo.name, DomainUtil.getH5Domain() + gameVo.playURL + vo1.getId(), false, true);
+                    }
                 });
             }
 
         };
-        requestData(1);
+        //第一次加载时，显示加载圈
+        LoadingDialog.show(requireContext());
+        requestData();
         binding.rvEleChild.setAdapter(adapter);
     }
 
@@ -119,6 +129,9 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
         super.initViewObservable();
         viewModel.liveDataEle.observe(getViewLifecycleOwner(), eleVo -> {
             if (eleVo.getList() == null || eleVo.getList().isEmpty()) {
+                if (curPage == 1) {
+                    binding.tvwNoData.setVisibility(View.VISIBLE);
+                }
                 binding.refreshLayout.finishLoadMoreWithNoMoreData();
                 return;
             } else {
@@ -127,13 +140,20 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
             adapter.addAll(eleVo.getList());
             curPage += 1;
         });
+        viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
+            String url = Objects.requireNonNull(map.get("url")).toString();
+            String name = Objects.requireNonNull(map.get("name")).toString();
+            // 跳转到游戏H5
+            CfLog.i("URL: " + url);
+            BrowserActivity.start(getContext(), name, url, false, true);
+        });
     }
 
     /**
      * 加载更多
      */
-    private void requestData(int page) {
-        viewModel.getEle(gameVo.cid, page, 20, gameVo.cateId, position);
+    private void requestData() {
+        viewModel.getEle(gameVo.cid, curPage, 20, gameVo.cateId, position);
     }
 
     private static class SpacesItemDecoration extends RecyclerView.ItemDecoration {

@@ -103,7 +103,14 @@ public class RouterFragmentPath {
         public static final String PAGER_TRANSFER_EX_VOUCHER = Transfer + "/ExTransferVoucherFragment";
         //极速转账-客服
         public static final String PAGER_TRANSFER_EX_CHAT = Transfer + "/CommChatFragment";
-
+        //引导 - 极速转账-提交订单
+        public static final String PAGER_TRANSFER_EX_COMMIT_GUI = Transfer + "/GuideExTransferCommitFragment";
+        //极速转账-转账汇款 -上传凭证
+        public static final String PAGER_TRANSFER_EX_PAYEE_GUI = Transfer + "/GuideExTransferPayeeFragment";
+        //极速转账-上传凭证 -回执单
+        public static final String PAGER_TRANSFER_EX_VOUCHER_GUI = Transfer + "/GuideExTransferVoucherFragment";
+        //极速转账-确认付款
+        public static final String PAGER_TRANSFER_EX_CONFIRM_GUI = Transfer + "/GuiExTransferConfirmFragment";
     }
 
     /**
