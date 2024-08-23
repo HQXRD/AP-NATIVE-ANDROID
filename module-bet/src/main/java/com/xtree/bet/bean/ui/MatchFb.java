@@ -120,6 +120,9 @@ public class MatchFb implements Match{
      */
     @Override
     public boolean isFootBallSecondHalf() {
+        if (matchInfo == null || matchInfo.mc == null) {
+            return false;
+        }
         return matchInfo.mc.pe == 1003 || matchInfo.mc.pe == 1004;
     }
 
@@ -337,6 +340,9 @@ public class MatchFb implements Match{
      */
     @Override
     public String getSportId() {
+        if (this.matchInfo == null) {
+            return "";
+        }
         return String.valueOf(this.matchInfo.sid);
     }
     /**

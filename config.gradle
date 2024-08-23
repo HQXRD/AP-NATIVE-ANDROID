@@ -70,7 +70,7 @@ ext {
             "logging-interceptor"                  : "com.squareup.okhttp3:logging-interceptor:3.9.1",
             "fastjson"                             : "com.alibaba:fastjson:1.2.31",
             "mixpanel"                             : "com.mixpanel.android:mixpanel-android:7.+",
-            "XPopup"                               : "com.github.li-xiaojun:XPopup:2.4.6",
+            "XPopup"                               : "com.github.li-xiaojun:XPopup:2.10.0",
             "XBanner"                              : "com.github.xiaohaibin:XBanner:androidx_v1.2.8",
             "banner"                               : "com.youth.banner:banner:2.1.0",
             "base-rvadapter"                       : "com.zhy:base-rvadapter:3.0.3",
@@ -95,7 +95,10 @@ ext {
             "agentweb-download"                    : "com.github.Justson:Downloader:v5.0.4-androidx",
             // Kotlin反射库
             "kotlin-stdlib"                        : "org.jetbrains.kotlin:kotlin-stdlib:1.6.10",
-            "kotlin-reflect"                       : "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+            "kotlin-reflect"                       : "org.jetbrains.kotlin:kotlin-reflect:1.6.10",
+            //html解析
+            "jsoup"                                : "org.jsoup:jsoup:1.14.3"
+
     ]
 }
 

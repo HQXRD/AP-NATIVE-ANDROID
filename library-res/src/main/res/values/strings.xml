@@ -54,12 +54,14 @@
 
     <string name="txt_enter_login_name">请输入账号</string>
     <string name="txt_enter_login_pwd">请输入密码</string>
+    <string name="txt_verification_hint">请输入验证码</string>
 
     <string name="txt_reset">重置</string>
     <string name="txt_confirm">确定</string>
     <string name="txt_cancel">取消</string>
     <string name="txt_back">返回</string>
     <string name="txt_submit">提交</string>
+    <string name="txt_next">下一步</string>
     <string name="txt_note_asterisks_cannot_empty">说明：*为必填信息！</string>
     <string name="txt_i_know">我知道了</string>
 
@@ -271,4 +273,33 @@
     <string name="txt_withdrawal_usdt_title">USDT提款</string>
     <string name="txt_update_bottom_tip">打开浏览器下载安装</string>
     <string name="txt_update_bottom_error_tip">如更新失败，点击此处下载安装</string>
+
+    <!--  全局验证页 -->
+    <string name="txt_vf_failed">验证失败</string>
+    <string name="txt_rc_skip_boot">跳过引导</string>
+    <string name="txt_rc_enter_boot">进入引导</string>
+    <string name="txt_recharge_guide">充值引导</string>
+    <string name="txt_senior_player">资深玩家</string>
+    <string name="txt_new_player">新手玩家</string>
+    <string name="txt_otp_not_four_number">请输入4位数字的验证码</string>
+    <string name="txt_verification_is_empty">验证码不能为空</string>
+    <!--充值引导  -->
+    <string name="txt_recharge_bank">请选择付款银行卡</string>
+    <string name="txt_recharge_name">充值姓名需要和您绑定提款银行卡 \n时的姓名一致</string>
+    <string name="txt_recharge_money">请输入充值金额，建议使用下方快捷金额按钮</string>
+    <string name="txt_recharge_nex">点击【下一步】进行充值订单匹配</string>
+    <string name="txt_recharge_view_jump">跳过</string>
+    <string name="txt_recharge_view_next">下一步</string>
+    <string name="txt_recharge_view_pro">上一步</string>
+    <string name="txt_guide_ex_tran_commit">匹配成功后自动会自动进入下一步</string>
+    <string name="txt_guide_ex_tran_confirm">已匹配到我们的收款银行卡信息，请通过 \n您的银行卡进行转账汇款</string>
+    <string name="txt_guide_ex_pay_upload2">注意剩余时间，转账时间剩不多货或超时切\n勿转账，超时打款不予上分</string>
+    <string name="txt_guide_ex_pay_upload">转账后请及时点击【上传凭证】将充值 \n的回执单完成流程，否则是为充值失败</string>
+    <string name="txt_guide_ex_pay_upload1">不予上分损失自负</string>
+    <string name="txt_guide_ex_pay_sure">回执单成功完成上传后， \n点击【确定】按钮</string>
+    <string name="txt_guide_ex_pay_sure1">上传完回执单后，系统会根据您提供的\N回执单，识别出来付款银行和卡号。若无法识别您也可以自行填写</string>
+    <string name="txt_guide_ex_confirm1">充值已完成，请耐心等候上分。</string>
+    <string name="txt_guide_ex_confirm2">若有疑问可联系客服。</string>
+    <string name="txt_guide_ex_pay_upload_time">注意剩余时间，请在规定时间内完成回执单上传 \n若超时未完成上传，请联系客服</string>
+    <string name="txt_guide_ex_pay_upload_time1">请点击【上传图片】将汇款回执单进行上传\n您也可以点击【回执单示例】产看回执单的示例</string>
 </resources>

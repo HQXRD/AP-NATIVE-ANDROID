@@ -226,7 +226,7 @@
 
             <TextView
                 android:id="@+id/tvw_left"
-                style="@style/style_btn_short_cancel"
+                style="@style/style_btn_short"
                 android:text="上一步"
                 android:onClick="@{() -> model.onBackPressed()}"/>
 

@@ -46,7 +46,7 @@ public class RechargeOrderBankDialog extends BottomPopupView {
         binding = DialogRcOrderBankBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
-        binding.tvwTitle.setText(mRechargePayVo.payname);
+        binding.tvwTitle.setText(mRechargePayVo.payname + getResources().getString(R.string.txt_recharge));
         binding.tvwMoney.setText(mRechargePayVo.money);
         AppUtil.setTypeFaceDin(getContext(), binding.tvwMoney);
 

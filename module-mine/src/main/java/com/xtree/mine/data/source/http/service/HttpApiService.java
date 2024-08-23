@@ -50,6 +50,7 @@ import com.xtree.mine.vo.UserBankProvinceVo;
 import com.xtree.mine.vo.UserBindBaseVo;
 import com.xtree.mine.vo.UserUsdtConfirmVo;
 import com.xtree.mine.vo.UserUsdtTypeVo;
+import com.xtree.mine.vo.RegisterVerificationCodeVo;
 import com.xtree.mine.vo.VerificationCodeVo;
 import com.xtree.mine.vo.VerifyVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
@@ -99,12 +100,27 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<LoginResultVo>> login(@Body Map<String, String> map);
 
+    /**
+     * 验证码登录
+     * @param map
+     * @return
+     */
+    @POST("/api/auth/login")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<LoginResultVo>> loginAndVer(@Body Map<String, String> map);
+
+
     @POST("/api/register/kygprka")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<LoginResultVo>> register(@Body Map<String, String> map);
+    /**
+    *获取注册验证码
+     */
+    @GET("/api/captcha")
+    Flowable<BaseResponse<RegisterVerificationCodeVo>> getCaptcha();
 
     @GET("/api/settings/?")
-    Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);
+    Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap(encoded = true) Map<String, String> filters);
 
     /**
      * 获取 默认 推荐 code

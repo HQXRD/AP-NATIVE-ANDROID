@@ -43,6 +43,17 @@ public class TagUtils {
     public static final String EVENT_TRANSFER = "transfer";
     public static final String EVENT_BIND_YHK = "bind_yhk";
     public static final String EVENT_BIND_USDT = "bind_usdt";
+    //反诈拦截
+    public static final String EVENT_ANTI_FRAUD = "anti_fraud";
+    //测速
+    public static final String EVENT_FASTEST = "fastest_api";
+    //测速失败
+    public static final String EVENT_FASTEST_KEY_FAIL = "fastest_api_fail";
+    public static final String KEY_FASTEST_START = "开始测速";
+    public static final String KEY_FASTEST_RESTART = "测速浮窗点击重新测速按钮";
+    public static final String KEY_FASTEST_ERROR = "测速失败";
+    public static final String KEY_FASTEST_GETTHIRDDOMAIN = "获取三方域名列表成功";
+    public static final String KEY_FASTEST_GETTHIRDDOMAIN_ERROR = "获取三方域名列表失败";
 
     private static String CHANNEL_NAME = ""; // 本包的渠道名,关于页显示当前安装包的渠道名用的。
     private static String MEDIA_SOURCE = ""; // 旧包的渠道名,就是升级到最新官方安装包前的渠道名。

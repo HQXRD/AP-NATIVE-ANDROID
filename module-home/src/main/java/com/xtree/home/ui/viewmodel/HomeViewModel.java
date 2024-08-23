@@ -359,8 +359,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 //if (vo.cid == 41) {
                 //    vo.status = 2;
                 //}
-            } else if (vo.status == 2 || vo.cid == 17 || vo.cid == 33) {
-                // 33:MG电子 17:CQ9娱乐
+            } else if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43) {
+                // 33:MG电子 17:CQ9娱乐 43:奥丁电子
                 // 已下架,不要加到列表里面了
                 CfLog.w("not show: " + vo);
                 continue;

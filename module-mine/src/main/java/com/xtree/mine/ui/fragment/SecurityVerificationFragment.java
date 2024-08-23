@@ -133,17 +133,17 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
         String txtEmail = getString(R.string.txt_email_addr);
         if (Constant.BIND.equals(typeName) || TextUtils.isEmpty(typeName)) {
             fragmentList.add(bindEmailFragment);
-            fragmentList.add(bindPhoneFragment);
+            fragmentList.add(0, bindPhoneFragment);
             tabList.add(txtEmail);
-            tabList.add(txtPhone);
+            tabList.add(0, txtPhone);
         } else if (Constant.BIND_PHONE.equals(typeName) || Constant.VERIFY_BIND_EMAIL.equals(typeName) || Constant.VERIFY_BIND_PHONE2.equals(typeName)) {
             fragmentList.add(bindPhoneFragment);
             tabList.add(txtPhone);
-            binding.tblType.setVisibility(View.INVISIBLE);
+            binding.tblType.setVisibility(View.GONE);
         } else if (Constant.BIND_EMAIL.equals(typeName) || Constant.VERIFY_BIND_PHONE.equals(typeName) || Constant.VERIFY_BIND_EMAIL2.equals(typeName)) {
             fragmentList.add(bindEmailFragment);
             tabList.add(txtEmail);
-            binding.tblType.setVisibility(View.INVISIBLE);
+            binding.tblType.setVisibility(View.GONE);
         } else {
             // 去验证
             if ((Constant.VERIFY_LOGIN.equals(typeName) && !TextUtils.isEmpty(email)) || (mProfileVo != null && mProfileVo.is_binding_email)) {
@@ -151,11 +151,11 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
                 tabList.add(txtEmail);
             }
             if ((Constant.VERIFY_LOGIN.equals(typeName) && !TextUtils.isEmpty(phone)) || (mProfileVo != null && mProfileVo.is_binding_phone)) {
-                fragmentList.add(bindPhoneFragment);
-                tabList.add(txtPhone);
+                fragmentList.add(0, bindPhoneFragment);
+                tabList.add(0, txtPhone);
             }
             if (fragmentList.size() == 1) {
-                binding.tblType.setVisibility(View.INVISIBLE);
+                binding.tblType.setVisibility(View.GONE);
             }
         }
 

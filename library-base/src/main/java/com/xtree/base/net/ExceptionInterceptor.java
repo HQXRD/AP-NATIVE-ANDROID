@@ -74,6 +74,9 @@ public class ExceptionInterceptor extends DecompressInterceptor {
             TagUtils.tagEvent(Utils.getContext(), "event_json_conversion_error", DomainUtil.getApiUrl());
             if (result.contains("诈骗") || result.contains("公检法") || result.contains("反诈中心")) {
                 //CfLog.e("被劫持地址：" + request.url());
+
+                TagUtils.tagEvent(Utils.getContext(), TagUtils.EVENT_ANTI_FRAUD, DomainUtil.getApiUrl());
+
                 BaseResponse baseResponse = new BaseResponse();
                 baseResponse.setStatus(CODE_100002);
                 try {

@@ -41,7 +41,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
- * 投注确认页面
+ * 设置菜单
  */
 public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, TemplateBtCarViewModel> {
     public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";

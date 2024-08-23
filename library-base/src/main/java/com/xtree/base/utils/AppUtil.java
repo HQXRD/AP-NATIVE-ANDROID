@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -54,6 +55,28 @@ public class AppUtil {
                 .withString("url", url).navigation();
     }
 
+    public synchronized static void goGlobeVerify(String ip, String type) {
+
+        CfLog.i("*********");
+//        AppManager.getAppManager().AppExit();
+
+        String html = Constant.URL_PAGE_GLOBE_VERIFY_WY;
+
+        if (!TextUtils.isEmpty(type) && type.equals("wy")) {
+            //网易验证
+            html = Constant.URL_PAGE_GLOBE_VERIFY_WY;
+        } else {
+            //阿里验证
+            html = Constant.URL_PAGE_GLOBE_VERIFY_ALI;
+        }
+
+        String url = DomainUtil.getH5Domain2() + html + "?ip=" + ip;
+
+        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_GLOBE_VERIFY)
+                .withString("title", "安全验证")
+                .withString("url", url).navigation();
+    }
+
     /**
      * 今日是否弹窗
      *
@@ -86,6 +109,19 @@ public class AppUtil {
      */
     public static boolean isEmail(String num) {
         String regex = "^[\\w]+([-+.][\\w]+)*@[\\w]+([-.][\\w]+)*\\.[\\w]+([-.][\\w]+)*$"; // 邮箱
+        return num.matches(regex);
+    }
+
+    /**
+     * 检测邮箱是否符合多端(HQAP2-4526)
+     *
+     * 依据Email正则表达式 ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$
+     *
+     * @param num 邮箱
+     * @return true:是 false:否
+     */
+    public static boolean isMultiSegmentEmail(String num){
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(?:\\.[a-zA-Z]{2,})?$ "; // 多段邮箱
         return num.matches(regex);
     }
 

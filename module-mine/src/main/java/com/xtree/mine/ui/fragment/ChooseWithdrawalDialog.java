@@ -309,7 +309,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
 
     /*关闭loading*/
     private void dismissMasksLoading() {
-        loadingView.dismiss();
+        if (loadingView != null) {
+            loadingView.dismiss();
+        }
     }
 
     /**

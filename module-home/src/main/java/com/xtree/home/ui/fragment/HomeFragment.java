@@ -25,8 +25,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -191,6 +189,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getVipInfo(); // 获取VIP信息
             //viewModel.getFBGameTokenApi();
             //viewModel.getPMGameTokenApi();
+
+            initRechargeFloatingWindows();
         });
 
         viewModel.liveDataBanner.observe(getViewLifecycleOwner(), list -> {
@@ -345,16 +345,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     public void initView() {
-        if (!isFloating) {
-            CfLog.i("rechargeFloatingWindows.show");
-            mRechargeFloatingWindows = new RechargeFloatingWindows(getActivity());
-            mRechargeFloatingWindows.show();
-            isFloating = true;
-        }
-        if (TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
-            mRechargeFloatingWindows.removeView();
-            isFloating = false;
-        }
         //用户余额点击
         binding.clLoginYet.setOnClickListener(v -> {
             selectUpdate = true;
@@ -473,39 +463,50 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
-        GameAdapter.ICallBack mCallBack = vo -> {
-            if (ClickUtil.isFastClick()) {
-                return;
+        GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
+            @Override
+            public void onClick(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                CfLog.i(vo.toString());
+                if (vo.cid == 7) {
+                    startContainerFragment(RouterFragmentPath.Home.AUG);
+                    return;
+                }
+                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1|| vo.cid == 43) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("vo", vo);
+                    startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
+                    return;
+                }
+
+                LoadingDialog.show(getContext());
+                viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
             }
-            CfLog.i(vo.toString());
-            if (vo.cid == 7) {
-                startContainerFragment(RouterFragmentPath.Home.AUG);
-                return;
+
+            @Override
+            public void getToken(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
+                    viewModel.getFBXCGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
+                    viewModel.getFBGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
+                    viewModel.getPMXCGameTokenApi(false);
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_PM)) {
+                    viewModel.getPMGameTokenApi(false);
+                    return;
+                }
             }
-            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1|| vo.cid == 43) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("vo", vo);
-                startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
-                viewModel.getFBXCGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
-                viewModel.getFBGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
-                viewModel.getPMXCGameTokenApi(false);
-                return;
-            }
-            if (TextUtils.equals(vo.alias, PLATFORM_PM)) {
-                viewModel.getPMGameTokenApi(false);
-                return;
-            }
-            LoadingDialog.show(getContext());
-            viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
         };
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
@@ -565,7 +566,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             });
         }
 
-        initFootball();
     }
 
     @Override
@@ -573,15 +573,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     }
 
-    private void initFootball() {
-        RequestOptions options = new RequestOptions()
-                .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.DATA);
-        Glide.with(this)
-                .asGif()
-                .load(R.mipmap.hm_football_gif)
-                .apply(options)
-                .into(binding.ivGif);
+    /**
+     * 启动充提记录悬浮窗
+     */
+    private void initRechargeFloatingWindows() {
+        if (!isFloating) {
+            CfLog.i("rechargeFloatingWindows.show");
+            mRechargeFloatingWindows = new RechargeFloatingWindows(getActivity());
+            mRechargeFloatingWindows.show();
+            isFloating = true;
+        }
+        if (TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
+            mRechargeFloatingWindows.removeView();
+            isFloating = false;
+        }
     }
 
     private String getString(String result) {

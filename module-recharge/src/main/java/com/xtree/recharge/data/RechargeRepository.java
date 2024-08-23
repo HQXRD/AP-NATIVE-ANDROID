@@ -120,4 +120,9 @@ public class RechargeRepository extends BaseModel implements HttpDataSource, Loc
         return mHttpDataSource.rechargeOrderCheck(request);
     }
 
+    @Override
+    public Flowable<BaseResponse<Object>> skipGuide() {
+        return mHttpDataSource.skipGuide();
+    }
+
 }

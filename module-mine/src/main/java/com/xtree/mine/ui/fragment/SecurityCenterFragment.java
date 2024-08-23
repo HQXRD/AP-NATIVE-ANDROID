@@ -28,6 +28,9 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
+/**
+ * 安全中心
+ */
 @Route(path = RouterFragmentPath.Mine.PAGER_SECURITY_CENTER)
 public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterBinding, VerifyViewModel> {
 

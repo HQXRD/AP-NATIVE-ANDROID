@@ -20,6 +20,13 @@ public class DomainUtil {
         //apiUrl = "https://pre-dsport.oxldkm.com"; // 测试/内网 环境
         //apiUrl = "https://app1.vcchgk.com"; // 生产环境
         String url = SPUtils.getInstance().getString(SPKeyGlobal.KEY_API_URL, apiUrl);
+
+        //有调试域名优先使用调试域名
+        String debugUrl = SPUtils.getInstance().getString(SPKeyGlobal.DEBUG_APPLY_DOMAIN);
+        if (!TextUtils.isEmpty(debugUrl)) {
+            return debugUrl;
+        }
+
         return url;
     }
 
@@ -40,6 +47,10 @@ public class DomainUtil {
      */
     public static String getH5Domain() {
         String url = SPUtils.getInstance().getString(SPKeyGlobal.KEY_H5_URL, h5Url);
+        String debugUrl = SPUtils.getInstance().getString(SPKeyGlobal.DEBUG_APPLY_DOMAIN);
+        if (!TextUtils.isEmpty(debugUrl)) {
+            return debugUrl+ "/";
+        }
         return url + "/";
     }
 
@@ -50,6 +61,10 @@ public class DomainUtil {
      */
     public static String getH5Domain2() {
         String url = SPUtils.getInstance().getString(SPKeyGlobal.KEY_H5_URL, h5Url);
+        String debugUrl = SPUtils.getInstance().getString(SPKeyGlobal.DEBUG_APPLY_DOMAIN);
+        if (!TextUtils.isEmpty(debugUrl)) {
+            return debugUrl;
+        }
         return url; //.substring(0, domainUrl.length() - 1);
     }
 

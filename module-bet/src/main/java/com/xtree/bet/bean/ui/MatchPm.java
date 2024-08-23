@@ -170,8 +170,8 @@ public class MatchPm implements Match {
                 if (!TextUtils.isEmpty(score) && score.contains("|")) {
                     score = score.substring(score.indexOf("|") + 1, score.length());
                     if (!TextUtils.isEmpty(score) && score.contains(":") && score.split(":").length > 1) {
-                        sc.add(Integer.valueOf(score.split(":")[0]));
-                        sc.add(Integer.valueOf(score.split(":")[1]));
+                        sc.add(Double.valueOf(score.split(":")[0]).intValue()); // 修复小数转换整数异常
+                        sc.add(Double.valueOf(score.split(":")[1]).intValue());
                     }
                 }
                 return sc;
@@ -337,7 +337,7 @@ public class MatchPm implements Match {
      */
     @Override
     public String getIconMain() {
-        if (matchInfo == null || matchInfo.mhlu == null || matchInfo.mhlu.isEmpty()) {
+        if (matchInfo == null || matchInfo.mhlu == null || matchInfo.mhlu.isEmpty() || TextUtils.isEmpty(matchInfo.mhlu.get(0))) {
             return "";
         }
         String logoUrl = matchInfo.mhlu.get(0);
@@ -362,7 +362,7 @@ public class MatchPm implements Match {
      */
     @Override
     public String getIconVisitor() {
-        if (matchInfo == null || matchInfo.malu == null || matchInfo.malu.isEmpty()) {
+        if (matchInfo == null || matchInfo.malu == null || matchInfo.malu.isEmpty() || TextUtils.isEmpty(matchInfo.malu.get(0))) {
             return "";
         }
         String logoUrl = matchInfo.malu.get(0);

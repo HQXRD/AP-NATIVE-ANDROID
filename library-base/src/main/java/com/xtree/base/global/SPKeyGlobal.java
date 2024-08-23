@@ -67,4 +67,7 @@ public class SPKeyGlobal {
     public static final String IS_FIRST_OPEN_BROWSER = "isFirstOpenBrowser"; // 是否第一次打开webView组件
 
     public static final String PROMOTION_CODE ="PromotionCode";//注册推广码
+
+    //DEBUG
+    public static final String DEBUG_APPLY_DOMAIN ="debug_apply_domain";//debug 设置指定域名
 }

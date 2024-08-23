@@ -4,11 +4,11 @@ import static me.xtree.mvvmhabit.http.ExceptionHandle.ERROR.HIJACKED_ERROR;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.fastest.ChangeApiLineUtil;
+import com.xtree.base.net.fastest.SpeedApiLine;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
-import com.xtree.base.net.fastest.ChangeApiLineUtil;
 import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.net.fastest.SpeedApiLine;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.LoadingDialog;
 
@@ -119,6 +119,16 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 // 谷歌验证
                 onFail(ex);
                 break;
+            case CodeRule.CODE_900001:
+
+//                ValidateResponse validateResponse = new Gson().fromJson(baseResponse.getDataString(), ValidateResponse.class);
+//
+//                if (validateResponse != null && validateResponse.getData() != null && validateResponse.getData().containsKey("ip")) {
+//                    AppUtil.goGlobeVerify(validateResponse.getData().get("ip"));
+//                } else {
+//                    AppUtil.goGlobeVerify("");
+//                }
+                break;
             case HttpCallBack.CodeRule.CODE_100002:
                 TagUtils.tagEvent(Utils.getContext(), "API JSON数据转换失败", DomainUtil.getApiUrl());
                 ToastUtils.showShort("当前网络环境异常，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
@@ -143,21 +153,21 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
                 AppUtil.goWeb403();
-            } else if(rError.code == HIJACKED_ERROR){
+            } else if (rError.code == HIJACKED_ERROR) {
                 HijackedException hijackedException = (HijackedException) t.getCause();
                 TagUtils.tagEvent(Utils.getContext(), "API JSON数据转换失败", hijackedException.getUrl());
                 TagUtils.tagEvent(Utils.getContext(), "event_hijacked", t.getMessage());
                 TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名被劫持，切换线路开始...");
-                if(!SpeedApiLine.INSTANCE.isRunning()) {
+                if (!SpeedApiLine.INSTANCE.isRunning()) {
                     ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
                     SpeedApiLine.INSTANCE.addHijeckedDomainList(((HijackedException) t.getCause()).getHost());
                 }
                 SpeedApiLine.INSTANCE.start();
-            } else{
+            } else {
                 TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
                 TagUtils.tagEvent(Utils.getContext(), "event_network_error", DomainUtil.getApiUrl() + "：" + t.getMessage());
                 TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名无法访问，切换线路开始...");
-                if(!SpeedApiLine.INSTANCE.isRunning()) {
+                if (!SpeedApiLine.INSTANCE.isRunning()) {
                     ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中...");
                     SpeedApiLine.INSTANCE.addHijeckedDomainList(DomainUtil.getApiUrl());
                 }
@@ -226,6 +236,10 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         static final int CODE_30713 = 30713;
         static final int CODE_20203 = 20203; //用户名或密码错误
         static final int CODE_20217 = 20217; //已修改密码或被踢出
+        public static final int CODE_20204 = 20204;//需要用户获取登录验证码
+        public static final int CODE_20205 = 20205;
+        public static final int CODE_20206 = 20206;
+        public static final int CODE_900001 = 900001; // 全局验证
     }
 
 }

@@ -106,7 +106,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                     if (ClickUtil.isFastClick()) {
                         return;
                     }
-                    if (gameVo.cid == 43) {//奥丁场馆
+                    if (gameVo.cid == 43) {
                         viewModel.getPlayUrl("addz", vo1.getCode(), vo1.getName());
                     } else {
                         CfLog.i(vo1.toString());
