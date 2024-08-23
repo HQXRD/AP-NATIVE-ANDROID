@@ -743,4 +743,23 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                 });
         addSubscribe(disposable);
     }
+
+    /**
+     * 通过bid获取充值渠道信息
+     */
+    public RechargeVo getChargeInfoById(String bid) {
+        PaymentDataVo value = liveDataPaymentData.getValue();
+        if (value != null && value.chongzhiList != null) {
+            for (PaymentTypeVo paymentTypeVo : value.chongzhiList) {
+                if (paymentTypeVo != null) {
+                    for (RechargeVo rechargeVo : paymentTypeVo.payChannelList) {
+                        if (rechargeVo != null && rechargeVo.bid.equals(bid)) {
+                            return rechargeVo;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

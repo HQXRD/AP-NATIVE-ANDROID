@@ -1136,6 +1136,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             if (vo != null && vo.sysParamPrefix.contains(ONE_PAY_FIX) && !TextUtils.isEmpty(vo.bankId)) {
                 if (TextUtils.isEmpty(vo.orderurl)) {
                     CfLog.i("RechargeOrderVo, bankId: " + vo.bankId);
+                    LoadingDialog.show(getContext());
                     viewModel.checkOrder(vo.bankId); // 根据充值渠道ID 查询订单详情 (极速充值)
                     viewModel.liveDataExpTitle.setValue(vo.payport_nickname);
                 } else {
@@ -1471,6 +1472,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 极速充值 点下一步返回结果, 应跳转到 提交订单/转账汇款页
         viewModel.liveDataExpOrderData.observe(getViewLifecycleOwner(), vo -> {
             CfLog.i(vo.toString());
+
+            viewModel.liveDataExpTitle.setValue(null);
+
             isNeedReset = true; // 取消选中,如果用户再点击,又要查未完成订单和详情
             String realName = binding.edtName.getText().toString().trim();
             String txt = binding.tvwRealAmount.getText().toString();
@@ -1506,6 +1510,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             request.setPayBankCode(vo.getData().getPayBankCode()); // bankCode
             request.setPayName(vo.getData().getPayName()); // realName
             request.setPayBankName(vo.getData().getPayBankName()); // binding.tvwBankCard.getText().toString()
+
+            //根据bid设置标题
+            RechargeVo rechargeVo = viewModel.getChargeInfoById(request.getPid());
+            if (rechargeVo != null) {
+                viewModel.liveDataExpTitle.setValue(rechargeVo.title);
+            }
 
             RxBus.getDefault().postSticky(request);
             String status = vo.getData().getStatus();
