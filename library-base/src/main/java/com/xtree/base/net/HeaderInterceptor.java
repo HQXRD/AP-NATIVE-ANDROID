@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.utils.HmacSHA256Utils;
 import com.xtree.base.utils.TagUtils;
 
@@ -45,6 +46,16 @@ public class HeaderInterceptor implements Interceptor {
         builder.addHeader("X-Crypto", BuildConfig.DEBUG ? "no" : "yes");
 
         long sign1Ts = System.currentTimeMillis() / 1000;
+
+        //根据测速时本地到远端的时间差判断用户本机时间是否有偏差
+        if (FastestTopDomainUtil.Companion.getFastestDomain().getValue() != null) {
+            long curCTSSec = FastestTopDomainUtil.Companion.getFastestDomain().getValue().curCTSSec;
+            //偏差超过20s则同步偏差
+            if (Math.abs(curCTSSec) > 20) {
+                sign1Ts += curCTSSec;
+            }
+        }
+
         String query = fullUrl.encodedQuery();
         String path = fullUrl.encodedPath();
         StringBuilder encodeData = new StringBuilder();
