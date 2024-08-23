@@ -16,6 +16,7 @@ import com.xtree.base.utils.EventConstant
 import com.xtree.base.utils.TagUtils
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
+import com.xtree.base.vo.FastestDomainResponse
 import com.xtree.base.vo.TopSpeedDomain
 import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
@@ -57,6 +58,9 @@ class FastestTopDomainUtil private constructor() {
         @get:Synchronized
         var mIsFinish: Boolean = true
         val fastestDomain = SingleLiveData<TopSpeedDomain>()
+        private lateinit var timerObservable: Observable<Long>
+
+        val showTip = SingleLiveData<Boolean>()
     }
 
     lateinit var thirdApiScopeNet : AndroidScope
@@ -143,13 +147,24 @@ class FastestTopDomainUtil private constructor() {
                         try {
                             val result = it.await()
                             mutex.withLock {
-                                val host = result.request.url.host
-                                CfLog.i("$host")
+                                val fullUrl = result.request.url.toString()
+                                val url = fullUrl.replace(FASTEST_API, "")
+
+                                CfLog.i("$url")
                                 var topSpeedDomain = TopSpeedDomain()
-                                topSpeedDomain.url = host
+                                topSpeedDomain.url = url
                                 topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
-                                CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
-                                mCurApiDomainList.remove(host)
+
+                                val response = Gson().fromJson(
+                                    result.body?.string(),
+                                    FastestDomainResponse::class.java
+                                )
+                                response?.timestamp?.let {
+                                    CfLog.e("域名：api------$it")
+                                    topSpeedDomain.curCTSSec = it - (curTime / 1000)
+                                }
+                                CfLog.e("域名：api------$url---${topSpeedDomain.speedSec}")
+                                mCurApiDomainList.remove(url)
 
                                 //debug模式 显示所有测速线路 release模式 只显示4条
                                 if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {
@@ -294,9 +309,5 @@ class FastestTopDomainUtil private constructor() {
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addThirdDomainList(list)
-    }
-
-    private fun checkDomain() {
-
     }
 }

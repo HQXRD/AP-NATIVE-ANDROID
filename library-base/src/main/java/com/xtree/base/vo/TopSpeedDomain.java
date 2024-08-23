@@ -5,6 +5,7 @@ import android.os.Parcel;
 public class TopSpeedDomain implements BaseBean, Comparable<TopSpeedDomain> {
     public String url;
     public long speedSec;
+    public long curCTSSec = 0;
 
     @Override
     public int describeContents() {
@@ -15,11 +16,13 @@ public class TopSpeedDomain implements BaseBean, Comparable<TopSpeedDomain> {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.url);
         dest.writeLong(this.speedSec);
+        dest.writeLong(this.curCTSSec);
     }
 
     public void readFromParcel(Parcel source) {
         this.url = source.readString();
         this.speedSec = source.readLong();
+        this.curCTSSec = source.readLong();
     }
 
     public TopSpeedDomain() {
@@ -28,6 +31,7 @@ public class TopSpeedDomain implements BaseBean, Comparable<TopSpeedDomain> {
     protected TopSpeedDomain(Parcel in) {
         this.url = in.readString();
         this.speedSec = in.readLong();
+        this.curCTSSec = in.readLong();
     }
 
     public static final Creator<TopSpeedDomain> CREATOR = new Creator<TopSpeedDomain>() {
