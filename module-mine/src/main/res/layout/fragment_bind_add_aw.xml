@@ -384,6 +384,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
 
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/clr_grey_07"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
             <LinearLayout
                 style="@style/style_cm_btn_ll"
                 android:layout_marginBottom="12dp">
