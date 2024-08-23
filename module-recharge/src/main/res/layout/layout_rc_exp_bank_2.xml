@@ -38,7 +38,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@mipmap/rc_exp_bank_rst_2"
+                android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lav_icon"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@mipmap/rc_exp_bank_rst_2"
+                app:layout_constraintBottom_toBottomOf="@id/ivw_01"
+                app:layout_constraintEnd_toEndOf="@id/ivw_01"
+                app:layout_constraintStart_toStartOf="@id/ivw_01"
+                app:layout_constraintTop_toTopOf="@id/ivw_01"
+                app:lottie_autoPlay="true"
+                app:lottie_imageAssetsFolder="images_ld"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loudou" />
 
             <TextView
                 android:id="@+id/tvw_time_left"

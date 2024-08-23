@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--下一步-->
+        <ImageView
+            android:id="@+id/iv_guide_bank_pro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="40dp"
+            android:background="@mipmap/rc_guide_pro" />
+
+        <ImageView
+            android:id="@+id/iv_guide_bank_jump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_guide_bank_pro"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@id/iv_guide_bank_pro"
+            android:background="@mipmap/rc_guide_jump" />
+
+        <ImageView
+            android:id="@+id/iv_guide_bank_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_guide_bank_jump"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="1dp"
+            android:layout_toRightOf="@id/iv_guide_bank_jump"
+            android:background="@mipmap/rc_guide_next" />
+
+        <TextView
+            android:id="@+id/tv_guide_bank_arr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_guide_bank_pro"
+            android:layout_alignLeft="@id/iv_guide_bank_pro"
+            android:text="@string/txt_recharge_money"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+        <ImageView
+            android:id="@+id/iv_guide_bank_arr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/tv_guide_bank_arr"
+            android:layout_below="@id/tv_guide_bank_arr"
+            android:background="@mipmap/re_money_up_left_arrow" />
+    </RelativeLayout>
+
+
+</LinearLayout>

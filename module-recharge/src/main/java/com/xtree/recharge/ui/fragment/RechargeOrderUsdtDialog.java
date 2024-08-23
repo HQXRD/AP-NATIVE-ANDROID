@@ -43,7 +43,7 @@ public class RechargeOrderUsdtDialog extends BottomPopupView {
         binding = DialogRcOrderUsdtBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
-        binding.tvwTitle.setText(mRechargePayVo.payname);
+        binding.tvwTitle.setText(mRechargePayVo.payname + getResources().getString(R.string.txt_recharge));
         binding.tvwMoney.setText(mRechargePayVo.money);
         binding.tvwRateAmount.setText(mRechargePayVo.rateamount);
         binding.tvwRate.setText(mRechargePayVo.rate);

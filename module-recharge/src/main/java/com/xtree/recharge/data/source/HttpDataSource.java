@@ -15,6 +15,7 @@ import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import retrofit2.http.GET;
 
 /**
  * Created by goldze on 2019/3/26.
@@ -57,4 +58,12 @@ public interface HttpDataSource {
      * 查询订单信息
      */
     Flowable<ExRechargeOrderCheckResponse> rechargeOrderCheck(ExRechargeOrderCheckRequest request);
+
+
+    /**
+     * 新增跳过引导接口
+     * 引导极速充值接口使用
+     */
+    @GET("api/deposit/skipOnepayfixGuide?")
+    Flowable<BaseResponse<Object>> skipGuide();
 }

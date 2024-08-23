@@ -49,7 +49,7 @@ public class DomainUtil {
         String url = SPUtils.getInstance().getString(SPKeyGlobal.KEY_H5_URL, h5Url);
         String debugUrl = SPUtils.getInstance().getString(SPKeyGlobal.DEBUG_APPLY_DOMAIN);
         if (!TextUtils.isEmpty(debugUrl)) {
-            return debugUrl;
+            return debugUrl+ "/";
         }
         return url + "/";
     }

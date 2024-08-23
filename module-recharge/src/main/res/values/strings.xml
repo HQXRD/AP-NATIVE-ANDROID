@@ -97,8 +97,8 @@
     <string name="txt_minutes">分钟</string>
     <string name="txt_rc_submit_succ_pay_in_minutes_pls">充值申请提交成功\n请在%1$s之内完成支付</string>
     <string name="txt_rc_show_pay_dialog">弹出支付窗口</string>
-    <string name="txt_notice_c">注意事项：</string>
-    <string name="txt_notice_important_c">重要提示：</string>
+    <string name="txt_notice">注意事项</string>
+    <string name="txt_notice_important">重要提示</string>
     <string name="txt_rc_browser_continue">如果您的浏览器提示充值跳转页面存在未经证实信息网站或非法网站等类似信息，请您不要关闭页面，忽略警告，放心点击继续访问。</string>
     <string name="txt_rc_dont_save_account_or_qrcode">请不要保留收款账号或二维码进行重复充值，否则可能造成充值失败，感谢您的配合。</string>
     <string name="txt_rc_wait_long_or_orders_not_processed_contact_cs">高峰期若充值订单处理时间过长或多个订单未处理，请联系客服为您手动处理充值订单。</string>
