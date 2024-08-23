@@ -1,4 +1,4 @@
-package com.xtree.mine.ui.fragment;
+package com.xtree.mine.ui.fragment.withdrawal;
 
 import android.app.Application;
 import android.content.Context;

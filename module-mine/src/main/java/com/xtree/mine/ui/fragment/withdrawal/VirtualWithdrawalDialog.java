@@ -1,4 +1,4 @@
-package com.xtree.mine.ui.fragment;
+package com.xtree.mine.ui.fragment.withdrawal;
 
 import android.app.Application;
 import android.content.Context;
@@ -28,7 +28,6 @@ import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
-import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalVirtualBinding;

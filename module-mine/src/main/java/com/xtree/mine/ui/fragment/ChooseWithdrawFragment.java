@@ -14,6 +14,8 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
+import com.xtree.mine.ui.fragment.withdrawal.BankWithdrawalDialog;
+import com.xtree.mine.ui.fragment.withdrawal.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 

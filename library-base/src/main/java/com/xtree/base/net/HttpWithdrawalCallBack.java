@@ -1,0 +1,199 @@
+package com.xtree.base.net;
+
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.widget.LoadingDialog;
+
+import io.reactivex.subscribers.DisposableSubscriber;
+import me.xtree.mvvmhabit.http.BaseResponse3;
+import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
+import me.xtree.mvvmhabit.utils.KLog;
+import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
+
+public abstract class HttpWithdrawalCallBack<T> extends DisposableSubscriber<T> {
+    public abstract void onResult(T t);
+
+    @Override
+    public void onNext(T o) {
+        LoadingDialog.finish();
+        /*if (o instanceof BaseResponse2) {
+            KLog.w("json is not normal (BaseResponse2)");
+            BaseResponse2 rsp2 = (BaseResponse2) o;
+            if (rsp2.authorization != null) {
+                SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, rsp2.authorization.token);
+                SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, rsp2.authorization.token_type);
+            }
+            onResult(o);
+            return;
+        }
+        if (!(o instanceof BaseResponse)) {
+            KLog.w("json is not normal");
+            onResult(o);
+            return;
+        }*/
+        BaseResponse3 baseResponse = (BaseResponse3) o;
+        BusinessException ex = new BusinessException(baseResponse.getStatus(), baseResponse.getMessage(), baseResponse.getData());
+        int status = baseResponse.getStatus() == -1 ? baseResponse.getCode() : baseResponse.getStatus();
+        switch (status) {
+            case CodeRule.CODE_0:
+            case CodeRule.CODE_10000:
+                if (baseResponse.getAuthorization() != null) {
+                    SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, baseResponse.getAuthorization().token);
+                    SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, baseResponse.getAuthorization().token_type);
+                }
+                //请求成功, 正确的操作方式
+                if (baseResponse.getData() == null) {
+                    onFail(ex);
+                } else {
+                    onResult((T) baseResponse.getData());
+                }
+                break;
+            case CodeRule.CODE_300:
+                //请求失败，不打印Message
+                KLog.e("请求失败");
+                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
+                break;
+            case CodeRule.CODE_330:
+                //请求失败，打印Message
+                ToastUtils.showShort(baseResponse.getMessage());
+                break;
+            case CodeRule.CODE_500:
+                //服务器内部异常
+                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
+                break;
+            case CodeRule.CODE_503:
+                //参数为空
+                KLog.e("参数为空");
+                break;
+            case CodeRule.CODE_502:
+                //没有数据
+                KLog.e("没有数据");
+                break;
+            case CodeRule.CODE_10003:
+            case CodeRule.CODE_10039:
+            case CodeRule.CODE_20203:
+            case CodeRule.CODE_30004:
+                ToastUtils.showShort(baseResponse.getMessage());
+                break;
+            //case HttpCallBack.CodeRule.CODE_510:
+            //    //无效的Token，提示跳入登录页
+            //    ToastUtils.showShort("token已过期，请重新登录");
+            //    //关闭所有页面
+            //    AppManager.getAppManager().finishAllActivity();
+            //    //跳入登录界面
+            //    //*****该类仅供参考，实际业务Code, 根据需求来定义，******//
+            //    break;
+            //case HttpCallBack.CodeRule.CODE_530:
+            //    ToastUtils.showShort("请先登录");
+            //    break;
+            //case HttpCallBack.CodeRule.CODE_551:
+            case CodeRule.CODE_20101:
+            case CodeRule.CODE_20102:
+            case CodeRule.CODE_20103:
+            case CodeRule.CODE_20106:
+            case CodeRule.CODE_20107:
+            case CodeRule.CODE_20217:
+            case CodeRule.CODE_20111:
+            case CodeRule.CODE_30003:
+            case CodeRule.CODE_30713:
+                KLog.e("登出状态,销毁token. " + baseResponse);
+                SPUtils.getInstance().remove(SPKeyGlobal.USER_TOKEN);
+                SPUtils.getInstance().remove(SPKeyGlobal.USER_SHARE_SESSID);
+                SPUtils.getInstance().remove(SPKeyGlobal.HOME_PROFILE);
+                SPUtils.getInstance().remove(SPKeyGlobal.HOME_VIP_INFO);
+                SPUtils.getInstance().remove(SPKeyGlobal.HOME_NOTICE_LIST);
+                SPUtils.getInstance().remove(SPKeyGlobal.USER_ID);
+                //SPUtils.getInstance().remove(SPKeyGlobal.USER_NAME);
+                SPUtils.getInstance().remove(SPKeyGlobal.MSG_PERSON_INFO);
+                RetrofitClient.init();
+                ToastUtils.showShort("请重新登录");
+                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+                break;
+            case CodeRule.CODE_20208:
+            case CodeRule.CODE_30018:
+                // 异地登录/换设备登录
+                // 谷歌验证
+                onFail(ex);
+                break;
+            default:
+                KLog.e("status is not normal: " + baseResponse);
+                onFail(ex);
+                break;
+        }
+    }
+
+    @Override
+    public void onError(Throwable t) {
+        LoadingDialog.finish();
+        KLog.e("error: " + t.toString());
+        //t.printStackTrace();
+        if (t instanceof ResponseThrowable) {
+            ResponseThrowable rError = (ResponseThrowable) t;
+            ToastUtils.showShort(rError.message);
+            return;
+        } else if (t instanceof BusinessException) {
+            BusinessException rError = (BusinessException) t;
+            ToastUtils.showShort(rError.message);
+            return;
+        }
+        //其他全部甩锅网络异常
+        ToastUtils.showShort("网络异常");
+    }
+
+    public void onFail(BusinessException t) {
+        LoadingDialog.finish();
+        KLog.e("error: " + t.toString());
+        ToastUtils.showShort(t.message);
+    }
+
+    @Override
+    public void onComplete() {
+        LoadingDialog.finish();
+    }
+
+    public static final class CodeRule {
+        //请求成功, 正确的操作方式
+        static final int CODE_0 = 0;
+        static final int CODE_10000 = 10000;
+        //请求失败，不打印Message
+        static final int CODE_300 = 300;
+        //请求失败，打印Message
+        static final int CODE_330 = 330;
+        //服务器内部异常
+        static final int CODE_500 = 500;
+        //参数为空
+        static final int CODE_503 = 503;
+        //没有数据
+        static final int CODE_502 = 502;
+        //无效的Token
+        //static final int CODE_510 = 510;
+        //未登录
+        //static final int CODE_530 = 530;
+        //请求的操作异常终止：未知的页面类型
+        //static final int CODE_551 = 551;
+
+        static final int CODE_10003 = 10003; // TOO_MANY_REQ = '请求太频繁',
+        static final int CODE_10039 = 10039; // SAME_REQ = '重复提交',
+        // 登出状态,销毁当前 token
+        static final int CODE_20101 = 20101;
+        static final int CODE_20102 = 20102;
+        static final int CODE_20103 = 20103;
+        static final int CODE_20106 = 20106; // KICKED = '账号已在其他地方登录，请重新登录',
+        static final int CODE_20107 = 20107; // 长时间未操作，请重新登录
+        static final int CODE_20111 = 20111;
+        public static final int CODE_20208 = 20208; // 异地登录(本次登录并非常用设备或地区， 需要进行安全验证)
+        public static final int CODE_30018 = 30018; // 谷歌验证
+        static final int CODE_30003 = 30003;
+        static final int CODE_30004 = 30004; // 被踢下线, 禁止登录
+        static final int CODE_30713 = 30713;
+        static final int CODE_20203 = 20203; //用户名或密码错误
+        static final int CODE_20217 = 20217; //已修改密码或被踢出
+    }
+
+    public static final class FBCodeRule {
+        static final int PB_CODE_14010 = 14010;
+    }
+}

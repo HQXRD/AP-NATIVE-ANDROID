@@ -1,6 +1,5 @@
-package com.xtree.mine.ui.fragment;
+package com.xtree.mine.ui.fragment.withdrawal;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,21 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
-import com.xtree.mine.vo.BankCardCashVo;
+import com.xtree.mine.vo.USDTCashVo;
 
 import java.util.ArrayList;
 
-/**
- * 取款顶部View Adapter 通用体现 通用提现4 大额提现 固额提现
- */
-public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
-    private Context context;
-    private ArrayList<BankCardCashVo.ChannelVo> arrayList;
-    private IFruitHorCallback callback;
+/* USDT提款顶顶 选项卡View*/
+public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
+    public interface IUSDTFruitHorCallback {
+        void callbackWithFruitHor(USDTCashVo.Channel selectVo);
+    }
 
-    public FruitHorRecyclerViewAdapter(Context context, ArrayList<BankCardCashVo.ChannelVo> arrayList, IFruitHorCallback callback) {
+    private ArrayList<USDTCashVo.Channel> arrayList;
+    private IUSDTFruitHorCallback callback;
+
+    public FruitHorUSDTRecyclerViewAdapter(ArrayList<USDTCashVo.Channel> arrayList, IUSDTFruitHorCallback callback) {
         super();
-        this.context = context;
         this.arrayList = arrayList;
         this.callback = callback;
     }
@@ -34,17 +33,15 @@ public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_bank_withdrawal_top_child, parent, false);
-        final ViewHolder viewHolder = new ViewHolder(itemView);
+        final USDTViewHolder viewHolder = new USDTViewHolder(itemView);
 
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        ViewHolder viewHolder = (ViewHolder) holder;
+        USDTViewHolder viewHolder = (USDTViewHolder) holder;
         viewHolder.showTextView.setText(arrayList.get(position).name);
         if (arrayList.get(position).flag) {
             viewHolder.showLayout.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
@@ -62,7 +59,7 @@ public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
         });
     }
 
-    private void referArray(BankCardCashVo.ChannelVo viewModel, ArrayList<BankCardCashVo.ChannelVo> arrayList) {
+    private void referArray(USDTCashVo.Channel viewModel, ArrayList<USDTCashVo.Channel> arrayList) {
         for (int i = 0; i < arrayList.size(); i++) {
             if (arrayList.get(i).name.equals(viewModel.name)) {
                 arrayList.get(i).flag = true;
@@ -82,18 +79,12 @@ public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
         return this.arrayList.size();
     }
 
-    private void referViewHolder(int position) {
-        for (int i = 0; i < arrayList.size(); i++) {
-
-        }
-    }
-
-    private static class ViewHolder extends RecyclerView.ViewHolder {
+    private static class USDTViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
         private TextView showTextView;
         private LinearLayout showLayout;
 
-        public ViewHolder(@NonNull View itemView) {
+        public USDTViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
             showTextView = itemView.findViewById(R.id.tv_top_child);
@@ -125,4 +116,5 @@ public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
             }
         }
     }
+
 }

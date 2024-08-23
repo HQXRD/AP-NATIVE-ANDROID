@@ -654,6 +654,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (updateView != null && updateView.isShow()) {
             return;
         }
+        if (!vo.download_url.contains(".apk")){
+            ToastUtils.showError("下载地址异常");
+            return;
+        }
         AppUpdateDialog dialog = new AppUpdateDialog(getContext(), isWeakUpdate, vo, new AppUpdateDialog.IAppUpdateCallBack() {
             @Override
             public void onUpdateCancel() {

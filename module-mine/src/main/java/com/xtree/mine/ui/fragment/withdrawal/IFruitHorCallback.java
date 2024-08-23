@@ -1,4 +1,4 @@
-package com.xtree.mine.ui.fragment;
+package com.xtree.mine.ui.fragment.withdrawal;
 
 import com.xtree.mine.vo.BankCardCashVo;
 
