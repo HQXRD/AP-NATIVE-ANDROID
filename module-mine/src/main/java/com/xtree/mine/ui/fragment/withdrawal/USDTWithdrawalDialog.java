@@ -549,8 +549,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
 
 
 
-    ItemTextBinding binding2;
-    BasePopupView ppw = null; // 底部弹窗 (选择**菜单)
+
 
     /**
      * 显示USDT收款地址

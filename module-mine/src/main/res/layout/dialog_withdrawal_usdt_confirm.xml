@@ -41,7 +41,8 @@
 
     <View style="@style/style_withdraw_dividing_line" />
 
-    <LinearLayout style="@style/style_withdraw_confirm_ll"
+    <LinearLayout
+        style="@style/style_withdraw_confirm_ll"
         android:visibility="gone">
 
         <TextView
@@ -54,7 +55,9 @@
             tools:text="" />
     </LinearLayout>
 
-    <View style="@style/style_withdraw_dividing_line" android:visibility="gone" />
+    <View
+        style="@style/style_withdraw_dividing_line"
+        android:visibility="gone" />
 
     <LinearLayout style="@style/style_withdraw_confirm_ll">
 

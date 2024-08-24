@@ -535,20 +535,6 @@
                     android:textColor="@color/update_progress_start_color"
                     android:textSize="16sp" />
 
-                <!-- <ImageView
-                     android:id="@+id/iv_continue_confirm_next"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_marginTop="40dp"
-                     android:background="@mipmap/ic_continue" />
-
-                 <ImageView
-                     android:id="@+id/iv_continue_confirm_previous"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_below="@id/iv_continue_confirm_next"
-                     android:background="@mipmap/cm_btn_withdrawal_closure" />
- -->
             </LinearLayout>
 
         </LinearLayout>
