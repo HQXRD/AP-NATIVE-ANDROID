@@ -11,22 +11,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
-import com.xtree.mine.vo.USDTCashVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
 
 import java.util.ArrayList;
 
 /* USDT提款顶顶 选项卡View*/
 public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
     public interface IUSDTFruitHorCallback {
-        void callbackWithFruitHor(USDTCashVo.Channel selectVo);
+        void callbackWithFruitHor(WithdrawalListVo.WithdrawalItemVo selectVo);
     }
 
-    private ArrayList<USDTCashVo.Channel> arrayList;
+    private ArrayList<WithdrawalListVo.WithdrawalItemVo>arrayList;
     private IUSDTFruitHorCallback callback;
 
-    public FruitHorUSDTRecyclerViewAdapter(ArrayList<USDTCashVo.Channel> arrayList, IUSDTFruitHorCallback callback) {
+    public FruitHorUSDTRecyclerViewAdapter(ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo, IUSDTFruitHorCallback callback) {
         super();
-        this.arrayList = arrayList;
+        this.arrayList = listVo;
         this.callback = callback;
     }
 
@@ -59,7 +59,7 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
         });
     }
 
-    private void referArray(USDTCashVo.Channel viewModel, ArrayList<USDTCashVo.Channel> arrayList) {
+    private void referArray(WithdrawalListVo.WithdrawalItemVo viewModel, ArrayList<WithdrawalListVo.WithdrawalItemVo> arrayList) {
         for (int i = 0; i < arrayList.size(); i++) {
             if (arrayList.get(i).name.equals(viewModel.name)) {
                 arrayList.get(i).flag = true;

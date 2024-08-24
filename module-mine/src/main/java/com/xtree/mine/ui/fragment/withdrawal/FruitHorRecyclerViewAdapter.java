@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
-import com.xtree.mine.vo.BankCardCashVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
 
 import java.util.ArrayList;
 
@@ -21,10 +21,10 @@ import java.util.ArrayList;
  */
 public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
     private Context context;
-    private ArrayList<BankCardCashVo.ChannelVo> arrayList;
+    private ArrayList<WithdrawalListVo.WithdrawalItemVo> arrayList;
     private IFruitHorCallback callback;
 
-    public FruitHorRecyclerViewAdapter(Context context, ArrayList<BankCardCashVo.ChannelVo> arrayList, IFruitHorCallback callback) {
+    public FruitHorRecyclerViewAdapter(Context context, ArrayList<WithdrawalListVo.WithdrawalItemVo> arrayList, IFruitHorCallback callback) {
         super();
         this.context = context;
         this.arrayList = arrayList;
@@ -45,7 +45,7 @@ public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.showTextView.setText(arrayList.get(position).name);
+        viewHolder.showTextView.setText(arrayList.get(position).title);
         if (arrayList.get(position).flag) {
             viewHolder.showLayout.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
         } else {
@@ -62,12 +62,12 @@ public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
         });
     }
 
-    private void referArray(BankCardCashVo.ChannelVo viewModel, ArrayList<BankCardCashVo.ChannelVo> arrayList) {
-        for (int i = 0; i < arrayList.size(); i++) {
-            if (arrayList.get(i).name.equals(viewModel.name)) {
-                arrayList.get(i).flag = true;
+    private void referArray(WithdrawalListVo.WithdrawalItemVo viewModel, ArrayList<WithdrawalListVo.WithdrawalItemVo> bankWithdrawalList) {
+        for (int i = 0; i < bankWithdrawalList.size(); i++) {
+            if (bankWithdrawalList.get(i).title.equals(viewModel.title)) {
+                bankWithdrawalList.get(i).flag = true;
             } else {
-                arrayList.get(i).flag = false;
+                bankWithdrawalList.get(i).flag = false;
             }
 
         }
