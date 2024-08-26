@@ -143,7 +143,9 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     public void onFail(BusinessException t) {
         LoadingDialog.finish();
         KLog.e("error: " + t.toString());
-        ToastUtils.showShort(t.message);
+        if (t.code !=CodeRule.CODE_30321){
+            ToastUtils.showShort(t.message);
+        }
     }
 
     @Override
@@ -188,6 +190,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         static final int CODE_30713 = 30713;
         static final int CODE_20203 = 20203; //用户名或密码错误
         static final int CODE_20217 = 20217; //已修改密码或被踢出
+        static final int CODE_30321 = 30321;//OBG余额至少为1元,登入游戏失败,请充值OBG游戏转账后再试!
     }
 
     public static final class FBCodeRule {
