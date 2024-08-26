@@ -338,7 +338,7 @@
     <string name="txt_withdraw_input_mix_tip">提款金额不能小于最小提款金额</string>
     <string name="txt_withdraw_input_max_tip">提款金额不能大于最大提款金额</string>
     <string name="txt_withdraw_address_tip">请选择提款地址</string>
-    <string name="txt_withdraw_submit_tip">账户提款申请成功</string>、
+    <string name="txt_withdraw_submit_tip">账户提款申请成功</string>
     <string name="txt_withdrawal_usdt_title">USDT提款</string>
     <string name="txt_choose_quota_error_tip">暂无余额,请刷新重试</string>
     <string name="txt_bind_other_type_tip">您还未绑定%1$s地址,是否前往绑定?</string>
