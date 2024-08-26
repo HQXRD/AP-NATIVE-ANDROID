@@ -26,7 +26,7 @@ public interface ApiService {
      *
      * @return
      */
-    @GET("/api/settings/?")
+    @GET("/api/settings")
     Flowable<BaseResponse<HotLeagueInfo>> getSettings(@QueryMap(encoded = true) Map<String, String> filters);
 
     /**

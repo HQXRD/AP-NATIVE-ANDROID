@@ -119,7 +119,7 @@ public interface HttpApiService {
     @GET("/api/captcha")
     Flowable<BaseResponse<RegisterVerificationCodeVo>> getCaptcha();
 
-    @GET("/api/settings/?")
+    @GET("/api/settings")
     Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap(encoded = true) Map<String, String> filters);
 
     /**
