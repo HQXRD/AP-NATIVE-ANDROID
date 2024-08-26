@@ -1,8 +1,7 @@
 package com.xtree.mine.vo.response;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
 
@@ -93,7 +92,7 @@ public class CommissionsReportsResponse extends BaseResponse2 {
      * zhksInfo
      */
     @SerializedName("zhks_info")
-    private List<?> zhksInfo;
+    private Object zhksInfo;
 
     public String getSSystemImagesAndCssPath() {
         return sSystemImagesAndCssPath;
@@ -215,11 +214,13 @@ public class CommissionsReportsResponse extends BaseResponse2 {
         this.commissionInfo = commissionInfo;
     }
 
-    public List<?> getZhksInfo() {
-        return zhksInfo;
+    public ZhksInfoDTO getZhksInfo() {
+        Gson gson = new Gson();
+        String json = gson.toJson(zhksInfo);
+        return gson.fromJson(json, ZhksInfoDTO.class);
     }
 
-    public void setZhksInfo(List<?> zhksInfo) {
+    public void setZhksInfo(Object zhksInfo) {
         this.zhksInfo = zhksInfo;
     }
 
@@ -515,6 +516,62 @@ public class CommissionsReportsResponse extends BaseResponse2 {
 
         public void setAdjustIncome(String adjustIncome) {
             this.adjustIncome = adjustIncome;
+        }
+    }
+
+    public static class ZhksInfoDTO {
+
+        /**
+         * profitloss
+         */
+        @SerializedName("profitloss")
+        private String profitloss;
+        /**
+         * ratio
+         */
+        @SerializedName("ratio")
+        private String ratio;
+        /**
+         * people
+         */
+        @SerializedName("people")
+        private String people;
+        /**
+         * selfMoney
+         */
+        @SerializedName("self_money")
+        private String selfMoney;
+
+        public String getProfitloss() {
+            return profitloss;
+        }
+
+        public void setProfitloss(String profitloss) {
+            this.profitloss = profitloss;
+        }
+
+        public String getRatio() {
+            return ratio;
+        }
+
+        public void setRatio(String ratio) {
+            this.ratio = ratio;
+        }
+
+        public String getPeople() {
+            return people;
+        }
+
+        public void setPeople(String people) {
+            this.people = people;
+        }
+
+        public String getSelfMoney() {
+            return selfMoney;
+        }
+
+        public void setSelfMoney(String selfMoney) {
+            this.selfMoney = selfMoney;
         }
     }
 }
