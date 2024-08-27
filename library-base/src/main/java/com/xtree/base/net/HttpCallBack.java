@@ -5,6 +5,7 @@ import static me.xtree.mvvmhabit.http.ExceptionHandle.ERROR.HIJACKED_ERROR;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.fastest.ChangeApiLineUtil;
+import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.net.fastest.SpeedApiLine;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
@@ -163,6 +164,9 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                     SpeedApiLine.INSTANCE.addHijeckedDomainList(((HijackedException) t.getCause()).getHost());
                 }
                 SpeedApiLine.INSTANCE.start();
+            } else if (rError.code == 401) {
+                TagUtils.tagEvent(Utils.getContext(), "401 鉴权失败");
+                FastestTopDomainUtil.getInstance().start();
             } else {
                 TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
                 TagUtils.tagEvent(Utils.getContext(), "event_network_error", DomainUtil.getApiUrl() + "：" + t.getMessage());

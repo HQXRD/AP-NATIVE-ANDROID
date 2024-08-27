@@ -8,8 +8,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.HttpWithdrawalCallBack;
+import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AwardsRecordVo;
@@ -37,7 +39,9 @@ import java.util.HashMap;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * 选择支付银行卡ViewModel
@@ -509,9 +513,19 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                         CfLog.e("onError message =  " + message);
                         AwardsRecordVo awardrecordVo = new AwardsRecordVo();
                         //链接超时
-                        awardrecordVo.networkStatus = 1; //链接超时
-                        awardrecordVoMutableLiveData.setValue(awardrecordVo);
+                        awardrecordVo.networkStatus = 1;
 
+                        if (t instanceof ResponseThrowable) {
+                            ResponseThrowable rError = (ResponseThrowable) t;
+                            if (rError.code == 401) {
+                                awardrecordVo.networkStatus = 2;
+
+                                TagUtils.tagEvent(Utils.getContext(), "401 鉴权失败");
+                                FastestTopDomainUtil.getInstance().start();
+                            }
+                        }
+
+                        awardrecordVoMutableLiveData.setValue(awardrecordVo);
                     }
 
                     @Override

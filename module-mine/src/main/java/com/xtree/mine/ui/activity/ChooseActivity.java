@@ -110,7 +110,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     //链接超时
                     showNetError();
                     finish();
-                    return;
+                } else if (awardsRecordVo.networkStatus == 2) {
+                    finish();
                 } else {
                     showChooseList();
                 }
