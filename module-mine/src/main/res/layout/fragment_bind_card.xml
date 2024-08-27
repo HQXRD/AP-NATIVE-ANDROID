@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_white"
+        android:background="@color/clr_grey_07"
         android:orientation="vertical"
         tools:context=".ui.fragment.BindCardFragment">
 
@@ -25,12 +25,13 @@
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/tvw_title"
                 style="@style/style_cm_title"
-                android:text="@string/txt_bind_card"
+                android:text="@string/txt_bind_card2"
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -53,34 +54,44 @@
 
         <LinearLayout style="@style/style_cm_btn_ll">
 
-            <TextView
-                android:id="@+id/tvw_add"
-                style="@style/style_btn"
-                android:minEms="6"
-                android:text="@string/txt_add_bind" />
+
 
             <TextView
                 android:id="@+id/tvw_lock"
-                style="@style/style_btn"
+                style="@style/style_btn_short_cancel"
                 android:minEms="6"
                 android:text="@string/txt_lock_card" />
+            <TextView
+                android:id="@+id/tvw_add"
+                style="@style/style_btn_short"
+                android:minEms="6"
+                android:text="@string/txt_add_bind" />
         </LinearLayout>
-
+        <TextView
+            style="@style/style_cm_tip_small_orange"
+            android:layout_marginTop="2dp"
+            android:drawableLeft="@mipmap/cm_ic_hint_purple"
+            android:text="@string/txt_precautions"
+            android:gravity="center"
+            android:textColor="@color/clr_sec_verify_normal"/>
         <TextView
             android:id="@+id/tvw_tip"
             style="@style/style_cm_tip_small_grey"
             android:textSize="12sp"
+            android:layout_marginLeft="30dp"
             tools:text="@string/txt_bind_most_cards" />
 
         <TextView
             style="@style/style_cm_tip_small_grey"
             android:text="@string/txt_lock_cards"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:layout_marginLeft="30dp"/>
 
         <TextView
             style="@style/style_cm_tip_small_grey"
             android:text="@string/txt_u_cannot_unlock_cards"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:layout_marginLeft="30dp"/>
     </LinearLayout>
 
 </layout>

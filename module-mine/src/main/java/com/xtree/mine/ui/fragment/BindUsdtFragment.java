@@ -83,10 +83,18 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemBindCardBinding.bind(holder.itemView);
                 UsdtVo vo = get(position);
-                binding2.tvwUserName.setText(vo.user_name);
-                binding2.tvwBindTime.setText(vo.utime);
-                binding2.tvwType.setText(vo.usdt_type);
-                binding2.tvwAccount.setText(vo.usdt_card);
+
+                binding2.tvBankName.setText(vo.usdt_type);
+                binding2.tvBindCardTime.setText(vo.utime);
+                binding2.tvBankNumber.setText(vo.usdt_card);
+
+
+
+            /*    binding2.tvwUserName.setText(vo.user_name);
+                binding2.tvwBindTime.setText(vo.utime);//绑定时间
+                binding2.tvwType.setText(vo.usdt_type); //类型
+
+                binding2.tvwAccount.setText(vo.usdt_card);//账户
                 binding2.tvwStatus.setVisibility(View.GONE);
                 binding2.tvwTypeTitle.setText(R.string.txt_type_c);
                 binding2.tvwAccTitle.setText(R.string.txt_wallet_address_c);
@@ -95,7 +103,7 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
                     binding2.llType.setVisibility(View.VISIBLE);
                 } else {
                     binding2.llType.setVisibility(View.GONE);
-                }
+                }*/
 
                 if (vo.status.equals("1")) {
                     binding2.tvwRebind.setVisibility(View.VISIBLE);

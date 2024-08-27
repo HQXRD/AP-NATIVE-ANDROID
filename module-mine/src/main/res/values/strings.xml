@@ -137,7 +137,7 @@
     <string name="txt_change_succ">修改成功</string>
     <string name="txt_get_code">获取验证码</string>
     <string name="txt_already_send_code">已发送验证码</string>
-    <string name="txt_bind_succ">绑定成功</string>
+    <string name="txt_bind_succ">绑定成功!</string>
     <string name="txt_verify_succ">验证成功</string>
     <string name="txt_enter_new_phone">请输入新手机</string>
     <string name="txt_enter_new_email">请输入新邮箱</string>
@@ -213,9 +213,9 @@
     <string name="txt_bank_acc_c">银行账号：</string>
     <string name="txt_enter_the_last_acc_name">请输入最新绑定银行卡开户人姓名</string>
     <string name="txt_enter_last_bank_card_num">请输入最新绑定银行卡卡号</string>
-    <string name="txt_note_cs_cannot_unlock_bank_card">注意：在线客服不提供账户银行卡解锁业务，若要解锁请向上级代理申请。</string>
-    <string name="txt_type_c">类型：</string>
-    <string name="txt_address_c">地址：</string>
+    <string name="txt_note_cs_cannot_unlock_bank_card">在线客服不提供账户银行卡解锁业务，若要解锁请向上级代理申请</string>
+    <string name="txt_type_c">货币类型：</string>
+    <string name="txt_address_c">提现钱包地址：</string>
     <string name="txt_wallet_address_c">钱包地址：</string>
     <string name="txt_address_should_same">两次输入的地址不一致</string>
     <string name="txt_bind_time_c">绑定时间：</string>
@@ -402,9 +402,11 @@
     <string name="txt_choose_quota_error_tip">暂无余额,请刷新重试</string>
     <string name="txt_alipay_name">支付宝姓名：</string>
     <string name="txt_wechat_name">微信姓名：</string>
+    <string name="txt_alipay_name_1">支付宝姓名</string>
+    <string name="txt_wechat_name_1">微信姓名</string>
     <string name="txt_alipay_nickname">支付宝昵称：</string>
     <string name="txt_wechat_nickname">微信昵称：</string>
-    <string name="txt_alipay_code">支付宝收款码：</string>
+
     <string name="txt_wechat_code">微信收款码：</string>
     <string name="txt_alipay_phone">支付宝账号：</string>
     <string name="txt_wechat_phone">微信账号：</string>

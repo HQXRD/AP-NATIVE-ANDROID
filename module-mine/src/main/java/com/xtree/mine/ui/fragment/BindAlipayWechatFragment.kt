@@ -23,6 +23,7 @@ import com.xtree.base.widget.TipDialog
 import com.xtree.mine.BR
 import com.xtree.mine.R
 import com.xtree.mine.databinding.FragmentBindAwBinding
+import com.xtree.mine.databinding.ItemBindAlipayBinding
 import com.xtree.mine.databinding.ItemBindAwBinding
 import com.xtree.mine.ui.viewmodel.BindCardViewModel
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory
@@ -53,29 +54,40 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
             ivwBack.setOnClickListener { v: View? -> requireActivity().finish() }
             mAdapter = object : CachedAutoRefreshAdapter<AWVo>() {
                 override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CacheViewHolder {
-                    return CacheViewHolder(LayoutInflater.from(context).inflate(R.layout.item_bind_aw, parent, false))
+                   /* return CacheViewHolder(LayoutInflater.from(context).inflate(R.layout.item_bind_aw, parent, false))*/
+                     return CacheViewHolder(LayoutInflater.from(context).inflate(R.layout.item_bind_alipay, parent, false))
                 }
 
                 override fun onBindViewHolder(holder: CacheViewHolder, position: Int) {
-                    val binding2 = ItemBindAwBinding.bind(holder.itemView)
+                   // val binding2 = ItemBindAwBinding.bind(holder.itemView)
+                    val binding2 = ItemBindAlipayBinding.bind(holder.itemView)
                     val vo = get(position)
                     when (mark) {
                         getString(R.string.txt_bind_zfb_type) -> {
-                            binding2.tvwUserName.text = getString(R.string.txt_alipay_phone).plus(vo.wxzfb_id)
-                            binding2.tvName.setText(R.string.txt_alipay_name)
+                            binding2.tvwUserName.text = vo.user_id
+                            binding2.tvDefaultAlipayPayCode.setText(R.string.txt_alipay_phone)
+                            binding2.tvDefaultAlipayName.setText(R.string.txt_alipay_name_1)
+
+                            binding2.ivBankIcon.setImageResource(R.mipmap.mine_default_alipay)
+
+                           /* binding2.tvName.setText(R.string.txt_alipay_name)
                             binding2.tvNickname.setText(R.string.txt_alipay_nickname)
-                            binding2.tvCode.setText(R.string.txt_alipay_code)
+                            binding2.tvCode.setText(R.string.txt_alipay_code)*/
                         }
 
                         getString(R.string.txt_bind_wechat_type) -> {
-                            binding2.tvwUserName.text = getString(R.string.txt_wechat_phone).plus(vo.wxzfb_id)
-                            binding2.tvName.setText(R.string.txt_wechat_name)
+                            //binding2.tvwUserName.text = getString(R.string.txt_wechat_phone).plus(vo.wxzfb_id)
+                            binding2.tvwUserName.text =vo.user_id
+                            binding2.tvDefaultAlipayPayCode.setText(R.string.txt_wechat_code)
+                            binding2.tvDefaultAlipayName.setText(R.string.txt_wechat_name_1)
+                            binding2.ivBankIcon.setImageResource(R.mipmap.mine_default_wechat)
+                            /*binding2.tvName.setText(R.string.txt_wechat_name)
                             binding2.tvNickname.setText(R.string.txt_wechat_nickname)
-                            binding2.tvCode.setText(R.string.txt_wechat_code)
+                            binding2.tvCode.setText(R.string.txt_wechat_code)*/
                         }
                     }
 
-                    binding2.tvNameContent.text = vo.wxzfb_username
+                    binding2.tvName.text = vo.wxzfb_username
                     binding2.tvNicknameContent.text = vo.nickname
                     binding2.tvwBindTime.text = vo.utime
                     binding2.tvwRebind.setOnClickListener {

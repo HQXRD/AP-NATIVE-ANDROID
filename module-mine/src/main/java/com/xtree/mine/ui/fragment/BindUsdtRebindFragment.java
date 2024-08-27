@@ -84,6 +84,8 @@ public class BindUsdtRebindFragment extends BaseFragment<FragmentBindUsdtRebindB
 
         binding.tvwChoose.setOnClickListener(v -> showChooseType());
         binding.ivwNext.setOnClickListener(v -> doNext());
+        //新增返回按钮事件
+        binding.tvwBindBack.setOnClickListener(v -> getActivity().finish());
         binding.tvwSubmit.setOnClickListener(v -> doSubmit());
 
         binding.tvwBack.setOnClickListener(v -> {

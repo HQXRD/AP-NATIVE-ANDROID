@@ -24,10 +24,12 @@
 
     <string name="txt_go_recharge">去充值</string>
     <string name="txt_go_withdraw">去提款</string>
-
+    <string name="txt_bind_card2">绑定银行卡</string>
     <string name="txt_bind_card">管理银行卡</string>
     <string name="txt_bind_usdt">管理USDT</string>
+    <string name="txt_bind_usdt_top">绑定USDT</string>
     <string name="txt_bind_ebpay">管理EBPAY</string>
+    <string name="txt_bind_ebpay_top">绑定EBPAY</string>
     <string name="txt_bind_topay">管理TOPAY</string>
     <string name="txt_bind_gcnyt">管理CNYT</string>
     <string name="txt_bind_mpay">管理MPAY</string>
@@ -35,13 +37,15 @@
     <string name="txt_bind_gopay">管理GOPAY</string>
     <string name="txt_bind_okpay">管理OKPAY</string>
     <string name="txt_bind_alipay">管理支付宝</string>
+    <string name="txt_bind_alipay1">绑定支付宝</string>
     <string name="txt_bind_wechat">管理微信支付</string>
+    <string name="txt_bind_wechat1">绑定信支付</string>
     <string name="txt_manage_alipay">管理支付宝</string>
     <string name="txt_manage_wechat">管理微信支付</string>
     <string name="txt_alipay">支付宝</string>
     <string name="txt_wechat">微信</string>
 
-    <string name="txt_remind_card">请输入16到19位数字</string>
+    <string name="txt_remind_card">请认真校对银行卡号，卡号错误资金将无法到账</string>
     <string name="txt_remind_usdt_trc20">TRC20_USDT地址以T开头的数字和字母组成的34位</string>
     <string name="txt_remind_usdt_erc20">ERC20_USDT地址以0x开头的数字和字母组成的42位</string>
     <string name="txt_remind_ebpay">EBPAY地址以eb开头的数字和字母组成的34位</string>
@@ -302,4 +306,11 @@
     <string name="txt_guide_ex_confirm2">若有疑问可联系客服。</string>
     <string name="txt_guide_ex_pay_upload_time">注意剩余时间，请在规定时间内完成回执单上传 \n若超时未完成上传，请联系客服</string>
     <string name="txt_guide_ex_pay_upload_time1">请点击【上传图片】将汇款回执单进行上传\n您也可以点击【回执单示例】产看回执单的示例</string>
+    <string name="txt_mine_bind_bank_number">银行卡号</string>
+    <string name="txt_mine_rebind_usdt">重新绑定</string>
+    <string name="txt_mine_wallet_address">钱包地址</string>
+    <string name="txt_mine_alipay_name">支付宝姓名</string>
+    <string name="txt_mine_alipay_nick_name">支付宝昵称</string>
+    <string name="txt_alipay_code">支付宝收款码：</string>
+
 </resources>

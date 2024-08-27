@@ -83,6 +83,8 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
 
         binding.tvwChoose.setOnClickListener(v -> showChooseType());
         binding.ivwNext.setOnClickListener(v -> doNext());
+        //新增返回按钮
+        binding.tvwBindBack.setOnClickListener(v -> getActivity().finish());
         binding.tvwSubmit.setOnClickListener(v -> doSubmit());
 
         binding.tvwBack.setOnClickListener(v -> {
