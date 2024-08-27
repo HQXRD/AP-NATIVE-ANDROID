@@ -1072,7 +1072,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
                     @Override
                     public void onClickRight() {
-                        new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), "", hiWalletUrl)).show();
+                        new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(BrowserDialog.newInstance(getContext(), hiWalletUrl)).show();
                         ppw.dismiss();
                     }
                 }));
