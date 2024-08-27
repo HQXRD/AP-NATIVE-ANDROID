@@ -11,7 +11,7 @@ public class ClickUtil {
      */
     public static boolean isFastClick() {
         long curClickTime = System.currentTimeMillis();
-        if ((curClickTime - lastClickTime) < MIN_CLICK_DELAY_TIME) {
+        if (Math.abs((curClickTime - lastClickTime)) < MIN_CLICK_DELAY_TIME) {
             return true;
         }
         lastClickTime = curClickTime;
