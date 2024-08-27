@@ -73,7 +73,7 @@ class ChangeH5LineUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurH5DomainList.map { host ->
                 Get<Response>(
-                    getFastestAPI(host,"/#/activity"),
+                    getFastestAPI(host,FASTEST_H5_API),
                     tag = "the_fastest_line", block = {
                         setGroup(FASTEST_GOURP_NAME_H5)
                         FASTEST_BLOCK(this)
@@ -90,9 +90,7 @@ class ChangeH5LineUtil private constructor() {
                             val result = it.await()
                             mutex.withLock {
                                 val fullUrl = result.request.url.toString()
-                                val host = result.request.url.host
-                                val hostStartIndex: Int = fullUrl.indexOf(host)
-                                val url = fullUrl.substring(0, hostStartIndex + host.length)
+                                val url = fullUrl.replace(FASTEST_H5_API, "")
 
                                 result.body?.string()?.let {
                                     val doc: Document = Jsoup.parse(it)
