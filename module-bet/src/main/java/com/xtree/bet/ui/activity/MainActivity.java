@@ -48,6 +48,7 @@ import com.xtree.base.widget.TipDialog;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.request.UploadExcetionReq;
+import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
 import com.xtree.bet.bean.response.fb.HotLeague;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
@@ -311,7 +312,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
                 }
             }
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             finish();
         }
 
@@ -864,7 +865,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             BtSettingDialogFragment btSettingDialogFragment = BtSettingDialogFragment.getInstance(mLeagueIdList);
             btSettingDialogFragment.show(getSupportFragmentManager(), "BtSettingDialogFragment");
         } else if (index == 0) {
-            startContainerFragment(RouterFragmentPath.Bet.PAGER_BET_TUTORIAL);
+            startContainerFragment(RouterFragmentPath.Bet.PAGER_BET_AT);
         }
     }
 
@@ -1135,6 +1136,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.statistical(playMethodType);
         viewModel.getUserBalance();
         viewModel.getGameSwitch();
+
+        viewModel.getAnnouncement();
+        binding.ivwClose.setOnClickListener(view -> {
+            binding.llNotice.setVisibility(View.GONE);
+            binding.ivwNotice.setVisibility(View.VISIBLE);
+        });
+        binding.ivwNotice.setOnClickListener(view -> {
+            binding.llNotice.setVisibility(View.VISIBLE);
+            binding.ivwNotice.setVisibility(View.INVISIBLE);
+        });
+        binding.llNotice.setOnClickListener(view -> {
+            startContainerFragment(RouterFragmentPath.Bet.PAGER_BET_ANNOUNCEMENT);
+        });
     }
 
     @Override
@@ -1447,6 +1461,22 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             AppUtil.goBrowser(this, url);
         });
 
+        viewModel.announcementData.observe(this, list -> {
+            if (list == null || list.isEmpty()) {
+                binding.llNotice.setVisibility(View.GONE);
+                binding.ivwNotice.setVisibility(View.GONE);
+            } else {
+                StringBuffer sb = new StringBuffer();
+                if (list.size() > 10) {
+                    list = list.subList(0, 10);
+                }
+                for (FBAnnouncementInfo.RecordsDTO vo : list) {
+                    sb.append(vo.co + "      ");
+                }
+                binding.llNotice.setVisibility(View.VISIBLE);
+                binding.tvwNotice.setText(sb.toString());
+            }
+        });
     }
 
     /**

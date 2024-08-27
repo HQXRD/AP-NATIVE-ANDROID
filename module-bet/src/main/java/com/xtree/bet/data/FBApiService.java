@@ -14,6 +14,7 @@ import com.xtree.bet.bean.response.fb.BtCashOutStatusInfo;
 import com.xtree.bet.bean.response.fb.BtConfirmInfo;
 import com.xtree.bet.bean.response.fb.BtRecordRsp;
 import com.xtree.bet.bean.response.fb.BtResultInfo;
+import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.MatchListRsp;
@@ -132,5 +133,12 @@ public interface FBApiService {
     @POST("/v1/order/getCashOutsByIds")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<BaseResponse<List<BtCashOutStatusInfo>>> getCashOutsByIds(@Body BtCashOutStatusReq btCashOutStatusReq);
+
+    /**
+     * 公告列表集合 近30天数据
+     */
+    @POST("/v1/bulletin/listPage")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<FBAnnouncementInfo>> getListPage(@Body Map<String, String> map);
 
 }

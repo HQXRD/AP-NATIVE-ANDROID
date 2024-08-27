@@ -14,6 +14,7 @@ import com.xtree.bet.bean.response.pm.BtConfirmInfo;
 import com.xtree.bet.bean.response.pm.BtRecordRsp;
 import com.xtree.bet.bean.response.pm.BtResultInfo;
 import com.xtree.bet.bean.response.pm.CgOddLimitInfo;
+import com.xtree.bet.bean.response.pm.FrontListInfo;
 import com.xtree.bet.bean.response.pm.LeagueAreaInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
@@ -180,4 +181,10 @@ public interface PMApiService {
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<List<BtCashOutStatusInfo>>> queryOrderPreSettleConfirm();
 
+    /**
+     * 公告列表集合
+     */
+    @POST("/yewu11/v2/notice/frontListPB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<FrontListInfo>> frontListPB();
 }

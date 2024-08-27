@@ -91,6 +91,7 @@ dependencies {
     api rootProject.ext.dependencies["brv"]
     api rootProject.ext.dependencies["kotlin-stdlib"]
     api rootProject.ext.dependencies["kotlin-reflect"]
+    api rootProject.ext.dependencies["BaseQuickAdapter"]
 
     api rootProject.ext.dependencies["jsoup"]
 

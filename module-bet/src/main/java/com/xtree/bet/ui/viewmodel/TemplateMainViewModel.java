@@ -1,9 +1,9 @@
 package com.xtree.bet.ui.viewmodel;
 
-import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
-import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -15,14 +15,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.vo.BaseBean;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.HotLeagueInfo;
+import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
 import com.xtree.bet.bean.response.fb.HotLeague;
-import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.LeaguePm;
@@ -87,6 +86,11 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
      */
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
     public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
+
+    /**
+     * 赛事公告
+     */
+    public SingleLiveData<List<FBAnnouncementInfo.RecordsDTO>> announcementData = new SingleLiveData<>();
     /**
      * 第一次进入主页时获取列表数据完成
      */
