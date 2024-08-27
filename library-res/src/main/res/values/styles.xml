@@ -601,7 +601,7 @@
     </style>
 
     <style name="style_btn_short">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginStart">6dp</item>
@@ -612,12 +612,14 @@
         <item name="android:text">@string/txt_confirm</item>
         <item name="android:textColor">@color/clr_text_btn_selector</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginLeft">20dp</item>
     </style>
 
     <style name="style_btn_short_cancel" parent="style_btn_short">
         <item name="android:background">@drawable/bg_btn_short_cancel_selector</item>
         <item name="android:text">@string/txt_cancel</item>
         <item name="android:textColor">@color/clr_grey_13</item>
+        <item name="android:layout_marginRight">20dp</item>
     </style>
 
     <!-- 充值 弹窗 按钮 渐变 -->
@@ -1063,7 +1065,7 @@
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:gravity">start</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColor">@color/clr_sec_verify_normal</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -1504,6 +1506,41 @@
         <item name="android:text"></item>
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textColorHint">@color/clr_grey_2</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <!-- 绑定银行卡 带边框,占一整行的 -->
+    <style name="style_bind_cm_edt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:hint"></item>
+        <item name="android:inputType">text</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">64</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:tag"></item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- 通用下拉框 带边框,一行有两个或多个下拉菜单的 -->
+    <style name="style_bind_cm_spinner2" parent="style_cm_edt">
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawableEnd">@mipmap/cm_ic_expand</item>
+    </style>
+    <!-- 绑定信息确认页面,占一整行的 -->
+    <style name="style_bind_confirm_bank_left_txt" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textSize">14sp</item>
     </style>
 </resources>

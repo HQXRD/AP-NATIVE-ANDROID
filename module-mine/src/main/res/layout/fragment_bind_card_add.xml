@@ -14,7 +14,7 @@
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_white"
+        android:background="@color/clr_grey_07"
         android:orientation="vertical"
         tools:context=".ui.fragment.BindCardAddFragment">
 
@@ -22,6 +22,7 @@
             android:id="@+id/cl_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +32,8 @@
             <TextView
                 android:id="@+id/tvw_title"
                 style="@style/style_cm_title"
-                android:text="@string/txt_bind_card"
+                android:textColor="@color/clr_awards_txt_black"
+                android:text="@string/txt_bind_card2"
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -46,21 +48,36 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/clr_div_line"
+            />
         <LinearLayout
             android:id="@+id/ll_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-            <TextView
-                style="@style/style_cm_tip_small_orange"
-                android:text="@string/txt_note_asterisks_cannot_empty" />
+                <TextView
+                    style="@style/style_cm_tip_small_orange"
+                    android:layout_marginTop="2dp"
+                    android:drawableLeft="@mipmap/cm_ic_hint_purple"
+                    android:text="@string/txt_note_asterisks_cannot_empty"
+                    android:gravity="center"/>
+            </LinearLayout>
+
 
             <TextView
                 style="@style/style_bind_title"
-                android:text="@string/txt_s_bank_num" />
+                android:text="@string/txt_s_bank_num"
+               />
 
             <EditText
                 android:id="@+id/edt_acc"
@@ -73,7 +90,7 @@
             <TextView
                 android:id="@+id/tvw_tip_address"
                 style="@style/style_cm_tip_small_grey"
-                android:text=""
+                android:text="@string/txt_remind_card"
                 android:visibility="visible"
                 tools:text="@string/txt_remind_card"
                 tools:visibility="visible" />
@@ -101,7 +118,7 @@
 
             <TextView
                 android:id="@+id/tvw_choose_bank"
-                style="@style/style_cm_spinner"
+                style="@style/style_bind_cm_spinner2"
                 android:hint="@string/txt_choose_bank" />
 
             <TextView
@@ -114,12 +131,12 @@
 
                 <TextView
                     android:id="@+id/tvw_choose_province"
-                    style="@style/style_cm_spinner2"
+                    style="@style/style_bind_cm_spinner2"
                     android:hint="@string/txt_choose_province" />
 
                 <TextView
                     android:id="@+id/tvw_choose_city"
-                    style="@style/style_cm_spinner2"
+                    style="@style/style_bind_cm_spinner2"
                     android:hint="@string/txt_choose_city" />
             </LinearLayout>
 
@@ -133,9 +150,26 @@
                 android:hint="@string/txt_enter_branch"
                 android:imeOptions="actionDone" />
 
-            <ImageView
+           <!-- <ImageView
                 android:id="@+id/ivw_next"
-                style="@style/style_cm_btn_next" />
+                style="@style/style_cm_btn_next" />-->
+            <LinearLayout
+                android:id="@+id/layout_tvw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvw_bind_back"
+                    style="@style/style_btn_short_cancel"
+                    android:text="@string/txt_back" />
+
+                <TextView
+                    android:id="@+id/ivw_next"
+                    style="@style/style_btn_short"
+                    android:text="@string/txt_next" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -148,101 +182,294 @@
 
             <TextView
                 style="@style/style_bind_title"
-                android:text="@string/txt_info_review" />
+                android:drawableLeft="@mipmap/mine_iv_info_review"
+                android:drawablePadding="5dp"
+                android:layout_marginLeft="30dp"
+                android:text="@string/txt_info_review"
+                android:textColor="@color/clr_sec_verify_normal"
+                android:textSize="@dimen/bt_text_16sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_bind_card_add"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <LinearLayout style="@style/style_bind_confirm_ll"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </LinearLayout>
+                        <TextView
+                            style="@style/style_bind_confirm_bank_left_txt"
+                            android:text="@string/txt_nickname_c"
+                            android:layout_gravity="center"
+                            android:layout_weight="2"/>
 
-            <LinearLayout style="@style/style_bind_confirm_ll">
+                        <TextView
+                            android:id="@+id/tvw_nickname"
+                            style="@style/style_bind_confirm_value"
+                            tools:text="XXX"
+                            android:layout_gravity="center"
+                            android:layout_weight="2.5"/>
+                    </LinearLayout>
 
-                <TextView
-                    style="@style/style_bind_confirm_bank_title"
-                    android:text="@string/txt_nickname_c" />
 
-                <TextView
-                    android:id="@+id/tvw_nickname"
-                    style="@style/style_bind_confirm_value"
-                    tools:text="DEMO" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/clr_grey_07"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+                <LinearLayout style="@style/style_bind_confirm_ll"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                style="@style/style_bind_confirm_bank_left_txt"
+                                android:text="@string/txt_bind_bank_c"
+                              />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/tvw_bank"
+                                style="@style/style_bind_confirm_value"
+                                tools:text="XXX"
+                               />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/clr_grey_07"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+                <LinearLayout style="@style/style_bind_confirm_ll"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                style="@style/style_bind_confirm_bank_left_txt"
+                                android:text="@string/txt_bank_province_c"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/tvw_bank_province"
+                                style="@style/style_bind_confirm_value"
+                                tools:text="XXX"
+                               />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/clr_grey_07"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+                <LinearLayout style="@style/style_bind_confirm_ll"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                style="@style/style_bind_confirm_bank_left_txt"
+                                android:text="@string/txt_bank_city_c"
+                               />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/tvw_bank_city"
+                                style="@style/style_bind_confirm_value"
+                                tools:text="XX"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/clr_grey_07"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+                <LinearLayout style="@style/style_bind_confirm_ll"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                style="@style/style_bind_confirm_bank_left_txt"
+                                android:text="@string/txt_branch_name_c"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/tvw_branch"
+                                style="@style/style_bind_confirm_value"
+                                tools:text="XX"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/clr_grey_07"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+                <LinearLayout style="@style/style_bind_confirm_ll"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                style="@style/style_bind_confirm_bank_left_txt"
+                                android:text="@string/txt_acc_name_c"
+                              />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/tvw_real_name"
+                                style="@style/style_bind_confirm_value"
+                                tools:text="XX"
+                               />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/clr_grey_07"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+                <LinearLayout style="@style/style_bind_confirm_ll"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                style="@style/style_bind_confirm_bank_left_txt"
+                                android:text="@string/txt_bank_acc_c"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <TextView
+                                android:id="@+id/tvw_acc"
+                                style="@style/style_bind_confirm_value"
+                                tools:text="XX"
+                               />
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/clr_grey_07"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+
             </LinearLayout>
 
-            <LinearLayout style="@style/style_bind_confirm_ll">
-
-                <TextView
-                    style="@style/style_bind_confirm_bank_title"
-                    android:text="@string/txt_bind_bank_c" />
-
-                <TextView
-                    android:id="@+id/tvw_bank"
-                    style="@style/style_bind_confirm_value"
-                    tools:text="DEMO" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/style_bind_confirm_ll">
-
-                <TextView
-                    style="@style/style_bind_confirm_bank_title"
-                    android:text="@string/txt_bank_province_c" />
-
-                <TextView
-                    android:id="@+id/tvw_bank_province"
-                    style="@style/style_bind_confirm_value"
-                    tools:text="XXX" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/style_bind_confirm_ll">
-
-                <TextView
-                    style="@style/style_bind_confirm_bank_title"
-                    android:text="@string/txt_bank_city_c" />
-
-                <TextView
-                    android:id="@+id/tvw_bank_city"
-                    style="@style/style_bind_confirm_value"
-                    tools:text="XX" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/style_bind_confirm_ll">
-
-                <TextView
-                    style="@style/style_bind_confirm_bank_title"
-                    android:text="@string/txt_branch_name_c" />
-
-                <TextView
-                    android:id="@+id/tvw_branch"
-                    style="@style/style_bind_confirm_value"
-                    tools:text="XX" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/style_bind_confirm_ll">
-
-                <TextView
-                    style="@style/style_bind_confirm_bank_title"
-                    android:text="@string/txt_acc_name_c" />
-
-                <TextView
-                    android:id="@+id/tvw_real_name"
-                    style="@style/style_bind_confirm_value"
-                    tools:text="XX" />
-            </LinearLayout>
-
-            <LinearLayout style="@style/style_bind_confirm_ll">
-
-                <TextView
-                    style="@style/style_bind_confirm_bank_title"
-                    android:text="@string/txt_bank_acc_c" />
-
-                <TextView
-                    android:id="@+id/tvw_acc"
-                    style="@style/style_bind_confirm_value"
-                    tools:text="XX" />
-            </LinearLayout>
 
             <LinearLayout style="@style/style_cm_btn_ll">
 
                 <TextView
                     android:id="@+id/tvw_back"
-                    style="@style/style_btn_back" />
+                    style="@style/style_btn_short_cancel"
+                    android:text="@string/txt_back" />
 
                 <TextView
                     android:id="@+id/tvw_submit"
-                    style="@style/style_btn" />
+                    style="@style/style_btn_short"
+                    android:text="@string/txt_next"/>
             </LinearLayout>
         </LinearLayout>
 

@@ -59,7 +59,7 @@
                 android:visibility="gone"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:background="@drawable/bt_bind_aw"
+                style="@style/style_btn_long"
                 android:text="@string/txt_add_bind" />
 
             <TextView
