@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -54,10 +55,23 @@ public class AppUtil {
                 .withString("url", url).navigation();
     }
 
-    public static void goGlobeVerify(String ip) {
+    public synchronized static void goGlobeVerify(String ip, String type) {
+
         CfLog.i("*********");
 //        AppManager.getAppManager().AppExit();
-        String url = DomainUtil.getH5Domain2() + Constant.URL_PAGE_GLOBE_VERIFY + "?ip=" + ip;
+
+        String html = Constant.URL_PAGE_GLOBE_VERIFY_WY;
+
+        if (!TextUtils.isEmpty(type) && type.equals("wy")) {
+            //网易验证
+            html = Constant.URL_PAGE_GLOBE_VERIFY_WY;
+        } else {
+            //阿里验证
+            html = Constant.URL_PAGE_GLOBE_VERIFY_ALI;
+        }
+
+        String url = DomainUtil.getH5Domain2() + html + "?ip=" + ip;
+
         ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_GLOBE_VERIFY)
                 .withString("title", "安全验证")
                 .withString("url", url).navigation();

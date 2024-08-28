@@ -26,4 +26,8 @@ dependencies {
 
     //comm100 客服SDK
     api project(':LocalRepo:VisitorLBS')
+    //
+    implementation 'com.airbnb.android:lottie:3.0.7'
+    //引用三方遮罩
+    implementation 'com.binioter:guideview:1.0.0'
 }

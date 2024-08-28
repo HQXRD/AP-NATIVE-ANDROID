@@ -5,8 +5,8 @@ android {
         // 测试环境 测试用
         xingCai_pre {
             applicationId "com.${name.toLowerCase()}.app" //
-            versionName "1.3.3"
-            versionCode 133
+            versionName "1.3.2"
+            versionCode 132
             resValue "string", "app_name", "杏彩T${versionCode}"
             resValue "string", "domain_api", "https://ap3sport.oxldkm.com"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
@@ -47,8 +47,8 @@ android {
         // 生产环境 发布用
         xingCai_OL {
             applicationId "com.sptxc.app" // xcsport
-            versionName "1.3.3"
-            versionCode 133
+            versionName "1.3.2"
+            versionCode 132
             resValue "string", "app_name", "XC Sports"
             resValue "string", "domain_api", "https://app4.f4w3f2.com"
             resValue "string", "domain_url", "https://h51.h2b4u5.com"

@@ -15,8 +15,12 @@ import java.util.concurrent.TimeUnit
 
 //测速API
 const val FASTEST_API = "/?speedTest=1"
+const val FASTEST_H5_API = "/#/activity"
+
 //测速请求组
 const val FASTEST_GOURP_NAME = "fstestaRequest"
+
+const val FASTEST_GOURP_NAME_H5 = "fstestaRequestH5"
 
 //测速接口配置
 val FASTEST_BLOCK: (UrlRequest.() -> Unit) = {
