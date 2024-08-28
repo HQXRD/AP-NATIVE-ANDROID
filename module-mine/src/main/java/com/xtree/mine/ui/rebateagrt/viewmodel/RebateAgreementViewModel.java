@@ -145,8 +145,8 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                     if (raMenu.type.getIds().contains(id)) {
                                         //用户等级=2才可以显示佣金报表
                                         if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
-                                            int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
-                                            if (level == 2) {
+                                            int userType = SPUtils.getInstance().getInt(SPKeyGlobal.USER_TYPE);
+                                            if (userType != 0) {
                                                 newDatas.add(raMenu);
                                             }
                                         } else {
