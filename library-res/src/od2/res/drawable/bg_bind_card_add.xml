@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="270"
+        android:endColor="@color/clr_awards_bt_end"
+        android:startColor="@color/clr_awards_bt_end" />
+    <corners
+        android:radius="20dp" />
+
+</shape>

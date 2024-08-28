@@ -105,8 +105,8 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         binding.tvwModel.setText(Build.MODEL);
         binding.tvwScreen.setText(width + " x " + height);
         binding.tvwTag.setText(TagUtils.isTag() + "");
-        binding.tvwApiList.setText(getString(R.string.domain_api_list).replace(";", "\n").trim());
-        binding.tvwH5List.setText(getString(R.string.domain_url_list).replace(";", "\n").trim());
+        binding.tvwApiList.setText(DomainUtil.getDomainApiListString().replace(";", "\n").trim());
+        binding.tvwH5List.setText(DomainUtil.getDomainUrlListString().replace(";", "\n").trim());
 
         String debugUrl = SPUtils.getInstance().getString(SPKeyGlobal.DEBUG_APPLY_DOMAIN);
         binding.tvwVfGlobe.setChecked(!TextUtils.isEmpty(debugUrl));

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@mipmap/rc_ic_pmt_wykc_selected" android:maxLevel="91" />
+    <item android:drawable="@mipmap/rc_ic_pmt_wykc_selected" android:maxLevel="113" />
+    <item android:drawable="@mipmap/rc_ic_pmt_zfb_selected" android:maxLevel="122" />
+    <item android:drawable="@mipmap/rc_ic_pmt_wykc_selected" android:maxLevel="151" />
+    <item android:drawable="@mipmap/rc_ic_pmt_usdt_selected" android:maxLevel="169" />
+    <item android:drawable="@mipmap/rc_ic_pmt_usdt_selected" android:maxLevel="170" />
+    <item android:drawable="@mipmap/rc_ic_pmt_jisuchongzhi_selected" android:maxLevel="189" />
+    <item android:drawable="@mipmap/rc_ic_pmt_ebkc_selected" android:maxLevel="191" />
+    <item android:drawable="@mipmap/rc_ic_pmt_ucybf_selected" android:maxLevel="205" />
+    <item android:drawable="@mipmap/rc_ic_pmt_ucybf_selected" android:maxLevel="206" />
+    <item android:drawable="@mipmap/rc_ic_pmt_topay_selected" android:maxLevel="208" />
+    <item android:drawable="@mipmap/rc_ic_pmt_cn_selected" android:maxLevel="210" />
+    <item android:drawable="@mipmap/rc_ic_pmt_yhk_selected" android:maxLevel="211" />
+    <item android:drawable="@mipmap/rc_ic_pmt_yhk_selected" android:maxLevel="217" />
+    <item android:drawable="@mipmap/rc_ic_pmt_gobao_selected" android:maxLevel="223" />
+    <item android:drawable="@mipmap/rc_ic_pmt_yhk_selected" android:maxLevel="226" />
+    <item android:drawable="@mipmap/rc_ic_pmt_gopay_selected" android:maxLevel="227" />
+    <item android:drawable="@mipmap/rc_ic_pmt_okpay_selected" android:maxLevel="228" />
+    <item android:drawable="@mipmap/rc_ic_pmt_cn_selected" android:maxLevel="229" />
+
+    <item android:drawable="@mipmap/rc_ic_pmt_happy_selected" android:maxLevel="999" />
+    <item android:drawable="@mipmap/rc_ic_pmt_beiyong_selected" android:maxLevel="1000" />
+    <item android:drawable="@mipmap/rc_ic_pmt_shandiankuaichong_selected" android:maxLevel="205" />
+    <item android:drawable="@mipmap/rc_ic_pmt_shandiankuaichong_selected" android:maxLevel="206" />
+
+    <item android:drawable="@mipmap/rc_ic_pmt_jisuchongzhi_selected" android:maxLevel="999999" />
+    <item android:drawable="@mipmap/rc_ic_pmt_qq_selected" android:maxLevel="999999" />
+    <item android:drawable="@mipmap/rc_ic_pmt_szrmb_selected" android:maxLevel="999999" />
+    <item android:drawable="@mipmap/rc_ic_pmt_wx_selected" android:maxLevel="999999" />
+
+</level-list>

@@ -115,7 +115,7 @@ abstract class ChangeLine {
      * 设置三方存储domain域名地址
      */
     private fun setThirdFasterDomain() {
-        val urls = Utils.getContext().getString(R.string.domain_url_list_third)
+        val urls = DomainUtil.getDomainUrlListThirdString()
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addThirdDomainList(list)
@@ -126,9 +126,9 @@ abstract class ChangeLine {
      * 线路竞速
      */
     private fun setFasterApiDomain() {
-        var apis = Utils.getContext().getString(R.string.domain_api_list)
+        var apis = DomainUtil.getDomainApiListString()
         if (!mIsApi) {
-            apis = Utils.getContext().getString(R.string.domain_url_list) // 不能为空,必须正确
+            apis = DomainUtil.getDomainUrlListString() // 不能为空,必须正确
         }
         val apiList = listOf(*apis.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())

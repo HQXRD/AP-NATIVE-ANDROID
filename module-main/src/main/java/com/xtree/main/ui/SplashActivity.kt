@@ -8,6 +8,7 @@ import android.os.Message
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.xtree.base.global.SPKeyGlobal
+import com.xtree.base.net.RetrofitClient
 import com.xtree.base.router.RouterActivityPath
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.TagUtils
@@ -60,8 +61,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     }
 
     private fun init() {
-        val api = getString(R.string.domain_api) // 不能为空,必须正确
-        val url = getString(R.string.domain_url) // 如果为空或者不正确,转用API的
+        val api = DomainUtil.getDomainApiString() // 不能为空,必须正确
+        val url = DomainUtil.getDomainUrlString() // 如果为空或者不正确,转用API的
 
         if (api.startsWith("http://") || api.startsWith("https://")) {
             DomainUtil.setApiUrl(api)

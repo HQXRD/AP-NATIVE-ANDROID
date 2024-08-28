@@ -1,5 +1,25 @@
 <resources>
     <string name="app_name">library-res</string>
+
+<!--    应用配置-->
+    <string name="domain_url">http</string>
+    <string name="domain_url_list">http;http</string>
+    <string name="domain_url_list_third">http;http</string>
+    <string name="domain_api">http</string>
+    <string name="domain_api_list">http;http</string>
+    <string name="domain_url_pre">http</string>
+    <string name="domain_url_list_pre">http;http</string>
+    <string name="domain_url_list_third_pre">http;http</string>
+    <string name="domain_api_pre">http</string>
+    <string name="domain_api_list_pre">http;http</string>
+    <string name="channel_name">xingcai</string>
+    <string name="build_time">20240112</string>
+    <string name="mixpanel_token">abc123</string>
+    <string name="ms_secret_key">abc123</string>
+    <string name="sentry_dsn">abc123</string>
+    <bool name="is_tag">false</bool>
+
+
     <string name="txt_vip_center">VIP中心</string>
     <string name="txt_withdraw">提款</string>
     <string name="txt_feedback">反馈信息</string>
@@ -231,20 +251,10 @@
     <string name="txt_withdraw_flow_close_single">适用： %1$s </string>
     <string name="txt_withdraw_flow_close_tip">适用： %1$s 等 %2$s</string>
     <string name="txt_withdraw_flow_open_tip">适用： %1$s %2$s</string>
-    <string name="domain_url">http</string>
-    <string name="domain_url_list">http;http</string>
-    <string name="domain_url_list_third">http;http</string>
-    <string name="domain_api">http</string>
-    <string name="domain_api_list">http;http</string>
-    <string name="channel_name">xingcai</string>
-    <string name="build_time">20240112</string>
-    <string name="mixpanel_token">abc123</string>
-    <string name="ms_secret_key">abc123</string>
-    <string name="sentry_dsn">abc123</string>
+
     <string name="txt_agree">同意</string>
     <string name="text_no_agree">不同意</string>
     <string name="txt_precautions">注意事项</string>
-    <bool name="is_tag">false</bool>
     <string name="txt_withdrawal_virtual_tip">收款账号</string>
 
     <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>

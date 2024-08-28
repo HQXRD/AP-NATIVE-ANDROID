@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 按下时的字体颜色 -->
+    <item android:color="@color/clr_purple_01" android:state_pressed="true" />
+
+    <!-- 禁用时的字体颜色 -->
+    <item android:color="@color/clr_white_14" android:state_enabled="false" />
+
+    <item android:color="@color/clr_white" />
+
+</selector>

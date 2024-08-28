@@ -2,9 +2,12 @@ package com.xtree.base.utils;
 
 import android.text.TextUtils;
 
+import com.xtree.base.BuildConfig;
+import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 public class DomainUtil {
 
@@ -82,4 +85,68 @@ public class DomainUtil {
         }
     }
 
+    /**
+     * 内置api域名组
+     */
+    public static String getDomainApiListString() {
+        int domainMode = SPUtils.getInstance().getInt(SPKeyGlobal.DOMAIN_MODE, 0);
+
+        //测试环境
+        if (BuildConfig.DEBUG && domainMode == 2) {
+            return Utils.getContext().getString(R.string.domain_api_list_pre);
+        }
+        return Utils.getContext().getString(R.string.domain_api_list);
+    }
+
+    /**
+     * 内置url域名组
+     */
+    public static String getDomainUrlListString() {
+        int domainMode = SPUtils.getInstance().getInt(SPKeyGlobal.DOMAIN_MODE, 0);
+
+        //测试环境
+        if (BuildConfig.DEBUG && domainMode == 2) {
+            return Utils.getContext().getString(R.string.domain_url_list_pre);
+        }
+        return Utils.getContext().getString(R.string.domain_url_list);
+    }
+
+    /**
+     * 内置远端api域名组
+     */
+    public static String getDomainUrlListThirdString() {
+        int domainMode = SPUtils.getInstance().getInt(SPKeyGlobal.DOMAIN_MODE, 0);
+
+        //测试环境
+        if (BuildConfig.DEBUG && domainMode == 2) {
+            return Utils.getContext().getString(R.string.domain_url_list_third_pre);
+        }
+        return Utils.getContext().getString(R.string.domain_url_list_third);
+    }
+
+    /**
+     * 内置url域名
+     */
+    public static String getDomainUrlString() {
+        int domainMode = SPUtils.getInstance().getInt(SPKeyGlobal.DOMAIN_MODE, 0);
+
+        //测试环境
+        if (BuildConfig.DEBUG && domainMode == 2) {
+            return Utils.getContext().getString(R.string.domain_url_pre);
+        }
+        return Utils.getContext().getString(R.string.domain_url);
+    }
+
+    /**
+     * 内置api域名
+     */
+    public static String getDomainApiString() {
+        int domainMode = SPUtils.getInstance().getInt(SPKeyGlobal.DOMAIN_MODE, 0);
+
+        //测试环境
+        if (BuildConfig.DEBUG && domainMode == 2) {
+            return Utils.getContext().getString(R.string.domain_api_pre);
+        }
+        return Utils.getContext().getString(R.string.domain_api);
+    }
 }

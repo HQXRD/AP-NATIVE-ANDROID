@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 if (isBuildModule.toBoolean()) {
     //作为独立App应用运行
     apply plugin: 'com.android.application'
@@ -26,7 +28,18 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+        flavorDimensions "channelName"
     }
+
+    productFlavors {
+        def json = file("${rootProject.projectDir.path}/channel_config/groupAll.json").getText("UTF-8")
+        def flavors = new JsonSlurper().parseText(json)
+        flavors.each { flavor ->
+            "${flavor.channel_name}" {
+            }
+        }
+    }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']

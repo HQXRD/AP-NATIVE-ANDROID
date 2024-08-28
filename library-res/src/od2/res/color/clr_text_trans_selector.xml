@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 未选中时的字体颜色 -->
+    <item android:color="@color/clr_grey_50" android:state_selected="false" />
+
+    <!-- 选中时的字体颜色 -->
+    <item android:color="@color/clr_grey_80" android:state_selected="true" />
+
+    <item android:color="@color/clr_grey_50" />
+
+</selector>

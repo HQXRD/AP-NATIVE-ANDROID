@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 plugins {
     //id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -14,7 +16,18 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+        flavorDimensions "channelName"
     }
+
+    productFlavors {
+        def json = file("${rootProject.projectDir.path}/channel_config/groupAll.json").getText("UTF-8")
+        def flavors = new JsonSlurper().parseText(json)
+        flavors.each { flavor ->
+            "${flavor.channel_name}" {
+            }
+        }
+    }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']

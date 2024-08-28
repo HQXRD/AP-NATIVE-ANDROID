@@ -5,6 +5,9 @@ package com.xtree.base.global;
  * Created by goldze on 2018/6/21 0021.
  */
 public class SPKeyGlobal {
+    //INT : 1-relase 2-test
+    public static final String DOMAIN_MODE = "domain_mode";
+
     public static final String KEY_API_URL = "key_api_url";
     public static final String KEY_H5_URL = "key_h5_url";
     public static final String USER_INFO = "user_info";

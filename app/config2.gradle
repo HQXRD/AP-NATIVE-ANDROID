@@ -1,138 +1,96 @@
+import groovy.json.JsonSlurper
+
 android {
     flavorDimensions "channelName"
-
     productFlavors {
-        // 测试环境 测试用
-        xingCai_pre {
-            applicationId "com.${name.toLowerCase()}.app" //
-            versionName "1.3.3"
-            versionCode 133
-            resValue "string", "app_name", "杏彩T${versionCode}"
-            resValue "string", "domain_api", "https://ap3sport.oxldkm.com"
-            resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
-            resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "sentry_dsn", "https://78cf4cf46e69206c1ddc741b9ab7edca@o4507447554539520.ingest.us.sentry.io/4507456764706816"
-            resValue "bool", "is_tag", "false" // 是否开启统计
-            resValue "string", "domain_api_list", "https://ap3sport.oxldkm.com;"
-            resValue "string", "domain_url_list", "https://ap3sport.oxldkm.com;"
-            resValue "string", "domain_url_list_third", "https://ap3sport.oxldkm.com/xc/app_config.json"
-            multiDexEnabled true
-            dimension "channelName"
-        }
-        // 生产环境 测试用
-        /*xingCai_uat {
-            applicationId "com.${name.toLowerCase()}.app"
-            //applicationId "com.xcr01.app" // xcsport xcr01
-            versionName "1.2.0"
-            versionCode 120
-            resValue "string", "app_name", "杏彩R${versionCode}"
-            resValue "string", "domain_url", "https://www.weres.bar"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
-            resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
-            resValue "bool", "is_tag", "false" // 是否开启统计
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_url_list", "https://www.weres.bar" +
-                    //"https://huidu.asbetgame688.com" + // 灰度测试用
-                    ";https://app.cpmuseumdimsum.com:16801" +
-                    ";https://app.zgntcpgxds.com:16801" +
-                    ";https://app.jyuelab.com:16801" +
-                    ";https://app.eyoumoban.com:16801"
-            multiDexEnabled true
-            dimension "channelName"
-        }*/
-        // 生产环境 发布用
-        xingCai_OL {
-            applicationId "com.sptxc.app" // xcsport
-            versionName "1.3.3"
-            versionCode 133
-            resValue "string", "app_name", "XC Sports"
-            resValue "string", "domain_api", "https://app4.f4w3f2.com"
-            resValue "string", "domain_url", "https://h51.h2b4u5.com"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
-            resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
-            resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
-            resValue "string", "sentry_dsn", "https://78cf4cf46e69206c1ddc741b9ab7edca@o4507447554539520.ingest.us.sentry.io/4507456764706816"
-            resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "domain_api_list", "https://app1.g2z4l1.com:18443" +
-                    ";https://app1.b1a4q4.com:18443" +
-                    ";https://app1.n2j6i5.com:18443" +
-                    ";https://app1.g2z4l1.com:18443" +
-                    ";https://app2.r1p6b5.com" +
-                    ";https://app2.q7v2q9.com" +
-                    ";https://app2.j5t5z6.com" +
-                    ";https://app2.o7n5r1.com" +
-                    ";https://app3.e5a4y7.com" +
-                    ";https://app3.v8w7j2.com" +
-                    ";https://app3.d8l2c7.com" +
-                    ";https://app3.m3o6l7.com" +
-                    ";https://app4.u4a4a7.com" +
-                    ";https://app5.b7t6z1.com" +
-                    ";http://43.129.92.72:16804" +
-                    ";http://118.195.251.125:16803" +
-                    ";http://101.43.19.60:16803" +
-                    ";http://139.186.248.198:16803" +
-                    ";https://app.bdqnmanong.com:16801" +
-                    ";https://app.queyushengwu.com:16801" +
-                    ";https://app.yuechengbj.com:16801" +
-                    ";https://app.hstxdl.com:16801" +
-                    ";https://app.qiuchongyao.com:16801" +
-                    ";https://app.tiantianwangluo.com:16801"
-            resValue "string", "domain_url_list", "https://h11.l6h2rh.xyz" +
-                    ";https://h11.k6f7bm.xyz" +
-                    ";https://h11.w2i4ek.xyz" +
-                    ";https://h21.l6h2rh.xyz" +
-                    ";https://h21.k6f7bm.xyz" +
-                    ";https://h21.w2i4ek.xyz" +
-                    ";https://h31.i6j3ak.xyz" +
-                    ";https://h31.k8q5yr.xyz" +
-                    ";https://h31.a5g8ck.xyz" +
-                    ";https://h41.p2o6cl.xyz" +
-                    ";https://h51.c7o7zr.xyz" +
-                    ";https://h61.saaen.com:16801" +
-                    ";https://h61.caaau.com:16801" +
-                    ";https://h61.baafj.com:16801" +
-                    ";https://h61.aaagx.com:16801" +
-                    ";https://h61.xuanwujx.com:16801" +
-                    ";https://h61.yhlims.com:16801" +
-                    ";https://h61.bfangwang.com:16801"
-            resValue "string", "domain_url_list_third", "https://cn2app.e2f9f5.com/xc/app_config.json" +
-                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
-                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
-                    ";https://cn2app.v2a1c6.com/xc/app_config.json" +
-                    ";https://scdnapp.i2q9r4.com/xc/app_config.json" +
-                    ";https://scdnapp.o6j6r6.com/xc/app_config.json" +
-                    ";https://aliapp.v9u4a4.com/xc/app_config.json" +
-                    ";https://aliapp.l2r1l7.com/xc/app_config.json"
-            multiDexEnabled true
-            dimension "channelName"
-        }
 
+        def json = file("${rootProject.projectDir.path}/channel_config/groupAll.json").getText("UTF-8")
+        def flavors = new JsonSlurper().parseText(json)
+        flavors.each { flavor ->
+            def fileName = flavor.channel_name
+            def channelJson = file("${rootProject.projectDir.path}/channel_config/channels/${fileName}.json").getText("UTF-8")
+            def channelInfo = new JsonSlurper().parseText(channelJson)
+            print("渠道 ：" + flavor.channel_name)
+            def domainUrlListStr = ""
+            channelInfo.domain_url_list.each { domain ->
+                domainUrlListStr += domain.toString()
+            }
+            def domainListThirdStr = ""
+            channelInfo.domain_url_list_third.each { domain ->
+                domainListThirdStr += domain.toString()
+            }
+            def domainApiListStr = ""
+            channelInfo.domain_api_list.each { domain ->
+                domainApiListStr += domain.toString()
+            }
+            def domainUrlListPreStr = ""
+            channelInfo.domain_url_list_pre.each { domain ->
+                domainUrlListPreStr += domain.toString()
+            }
+            def domainListThirdPreStr = ""
+            channelInfo.domain_url_list_third_pre.each { domain ->
+                domainListThirdPreStr += domain.toString()
+            }
+            def domainApiListPreStr = ""
+            channelInfo.domain_api_list_pre.each { domain ->
+                domainApiListPreStr += domain.toString()
+            }
+            "${flavor.channel_name}" {
+                applicationId channelInfo.applicationId
+                versionName channelInfo.versionName
+                versionCode channelInfo.versionCode
+                resValue "string", "app_name", "\"${channelInfo.app_name}\""
+                resValue "string", "channel_name",  "\"${channelInfo.channel_name}\""  // 渠道名称
+                resValue "string", "build_time", "${buildTime()}"
+                resValue "string", "mixpanel_token",  "\"${channelInfo.mixpanel_token}\""
+                resValue "string", "ms_secret_key",  "\"${channelInfo.ms_secret_key}\""
+                resValue "string", "sentry_dsn",  "\"${channelInfo.sentry_dsn}\""
+                resValue "bool", "is_tag",  "${channelInfo.is_tag}" // 是否开启统计
+                resValue "string", "domain_url",  "\"${channelInfo.domain_url}\""
+                resValue "string", "domain_url_list", "\"${domainUrlListStr}\""
+                resValue "string", "domain_url_list_third", "\"${domainListThirdStr}\""
+                resValue "string", "domain_api", "\"${channelInfo.domain_api}\""
+                resValue "string", "domain_api_list", "\"${domainApiListStr}\""
+                resValue "string", "domain_url_pre",  "\"${channelInfo.domain_url_pre}\""
+                resValue "string", "domain_url_list_pre", "\"${domainUrlListPreStr}\""
+                resValue "string", "domain_url_list_third_pre", "\"${domainListThirdPreStr}\""
+                resValue "string", "domain_api_pre", "\"${channelInfo.domain_api_pre}\""
+                resValue "string", "domain_api_list_pre", "\"${domainApiListPreStr}\""
+                multiDexEnabled true
+                dimension "channelName"
+                manifestPlaceholders = [
+                        label       : channelInfo.app_name,
+                        channel_name: flavor.channel_name
+                ]
+            }
+        }
     }
 
-    applicationVariants.all { variant ->
+
+    /*applicationVariants.all { variant ->
         variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 // 打包输出路径 发布用
-                //variant.getPackageApplication().outputDirectory = new File("${project.rootDir.absolutePath}/outputs")
                 //variant.getPackageApplicationProvider().get().outputDirectory = new File("${project.rootDir.absolutePath}/outputs")
                 // 打包文件名
-                def name1 = variant.flavorName.split("_")[0]
-                def name2 = variant.flavorName.split("_")[1]
+                //def name = variant.flavorName.split("_")[0]
                 def name = variant.flavorName
+
+                //outputFileName = "${variant.flavorName}_v${variant.versionCode}${tp}_${releaseTime()}.apk"
                 //outputFileName = "${name}_v${variant.versionCode}_${variant.buildType.name}.apk"
-                def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
-                //outputFileName = "${name}_v${variant.versionCode}.apk" // xxx_v1xx.apk
-                //outputFileName = "${name1}_v${variant.versionCode}_${name2}${tp}.apk" // 自己用
-                outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
+                def tp = "${if (variant.buildType.name == 'debug') '_tt' else ''}"
+                //outputFileName = "${name}_v${variant.versionCode}_${releaseTime()}${tp}.apk"
+                //outputFileName = "${name}_v${variant.versionName.replace(".", "_")}_${releaseTime()}${tp}.apk"
+                outputFileName = "${name}_v${variant.versionCode}a${tp}.apk"
+
+                //var name1 = "${name}".split("_")[0]
+                //var name2 = "${name}".replace("${name1}", "")
+                //outputFileName = "${name1}_v${variant.versionCode}${name2}${tp}.apk"
             }
+
         }
-    }
+    }*/
 
 }
 
@@ -158,10 +116,10 @@ androidJunkCode {
         excludeActivityJavaFile = false
         //是否排除生成Activity的Java文件,默认false(layout和写入AndroidManifest.xml还会执行)，主要用于处理类似神策全埋点编译过慢问题
         otherCountPerPackage = 50 //每个包下生成其它类的数量
-        methodCountPerClass = 20 //每个类下生成方法数量
+        methodCountPerClass = 30 //每个类下生成方法数量
         resPrefix = "sc_"  //生成的layout、drawable、string等资源名前缀
-        drawableCount = 5  //生成drawable资源数量
-        stringCount = 20  //生成string数量
+        drawableCount = 15  //生成drawable资源数量
+        stringCount = 200  //生成string数量
     }
 
     variantConfig {
@@ -172,14 +130,62 @@ androidJunkCode {
 
         xingCaiDebug config2
         xingCaiRelease config2
-        xingCai_ECDebug config2
-        xingCai_ECRelease config2
         xingCai_OLDebug config2
         xingCai_OLRelease config2
         xingCai_preDebug config2
         xingCai_preRelease config2
     }
 
+}
+
+/**
+ * 返回随机的包名，适合下架比较快的应用
+ * @param name 渠道名
+ * @return 返回随机的包名 com.xxx.name
+ */
+static def getPluginPkg() {
+    // 返回随机的包名 com.xxx.name
+    return "com.${getRandomStr()}.plugin.ui"
+}
+
+/**
+ * 返回随机数 1-9
+ * @return 随机数
+ */
+static def getRandomNum() {
+    def num = Math.abs(new Random().nextInt(99))
+    int random = 1 + num.toInteger() % 9
+    return random
+}
+
+static def getRandomNum5() {
+    def num = Math.abs(new Random().nextInt(99))
+    int random = 1 + num.toInteger() % 5
+    return random
+}
+
+static def getRandomStr() {
+    def characters = "abcdefghijklmnopqrstuvwxyz"
+    def num = Math.abs(new Random().nextInt(99))
+    int length = 2 + num.toInteger() % 5
+    def str = ""
+    Random random = new Random()
+    for (i in 0..<length) {
+        str += characters.charAt(random.nextInt(characters.length()))
+    }
+    return str
+}
+
+static def getResPrefix() {
+    /*def characters = "abcdefghijklmnopqrstuvwxyz"
+    int length = 2 + Math.abs(new Random().nextInt(3))
+    def str = ""
+    Random random = new Random()
+    for (i in 0..<length) {
+        str += characters.charAt(random.nextInt(characters.length()))
+    }
+    return str*/
+    return "${"${getRandomStr()}".substring(0, 2)}_"
 }
 
 def static buildTime() {

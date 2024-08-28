@@ -175,10 +175,7 @@ class ChangeH5LineUtil private constructor() {
     }
 
     private fun setFasterH5Domain() {
-        var urls = Utils.getContext().getString(R.string.domain_url_list) // 如果为空或者不正确,转用API的
-        /*if (urls.length < 10) {
-            urls = getString(R.string.domain_api_list) // 如果域名列表为空,就使用API列表
-        }*/
+        var urls = DomainUtil.getDomainUrlListString() // 如果为空或者不正确,转用API的
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
 
@@ -190,7 +187,7 @@ class ChangeH5LineUtil private constructor() {
      * 设置三方存储domain域名地址
      */
     private fun setThirdFasterDomain() {
-        val urls = Utils.getContext().getString(R.string.domain_url_list_third)
+        val urls = DomainUtil.getDomainUrlListThirdString()
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addThirdDomainList(list)

@@ -1,0 +1,1546 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--将ActionBar隐藏,这里使用ToolBar-->
+        <item name="windowActionBar">false</item>
+        <!-- 使用 API Level 22以上编译的话，要拿掉前綴字 -->
+        <item name="windowNoTitle">true</item>
+        <!--colorPrimary 对应ToolBar的颜色-->
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <!--colorPrimaryDark对应状态栏的颜色-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--colorAccent 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色。-->
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="ViewLineStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/viewLineColor</item>
+    </style>
+
+    <style name="ViewVerticalLineStyle">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/viewLineColor</item>
+    </style>
+
+    <style name="CustomDialog" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <style name="PwdCheckboxStyle">
+        <item name="android:button">@drawable/checkbox_bg_selector</item>
+    </style>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="imageCorn" format="dimension" />
+    </declare-styleable>
+
+    <!-- 日期和类型选择组件 (报表用) -->
+    <declare-styleable name="filterView">
+        <attr name="typeName1" format="string" />
+        <attr name="type1Visibility" format="integer" />
+        <attr name="typeName2" format="string" />
+        <attr name="type2Visibility" format="integer" />
+        <attr name="statusName" format="string" />
+        <attr name="statusVisibility" format="integer" />
+    </declare-styleable>
+
+    <!-- 每个页面顶部标题栏的样式-标题 -->
+    <style name="style_cm_title_top">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/clr_txt_black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!-- 每个页面标题栏的样式-返回按钮 -->
+    <style name="style_ic_title_back">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:src">@mipmap/cm_ic_back</item>
+    </style>
+
+    <!-- 每个页面标题栏的样式-右边小按钮 -->
+    <style name="style_ic_title_right">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <!-- 每个页面标题栏的样式-右边小按钮 -->
+    <style name="style_cm_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:layout_marginTop">@dimen/layout_margin</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <!-- 首页-左边的游戏类型 -->
+    <style name="style_hm_game_type">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:button">@drawable/hm_game_type_selector</item>
+    </style>
+
+    <style name="style_hm_txt_bold">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">XXX</item>
+        <item name="android:textColor">@color/clr_hm_txt_black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_hm_txt_normal_12">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">XXX</item>
+        <item name="android:textColor">@color/clr_hm_txt_black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_hm_recharge">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:textColor">@color/clr_hm_txt_grey_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_item_img">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <!-- 我的-5个菜单 白色字 -->
+    <style name="style_menu_white">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textColor">@color/me_level_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 我的-12个菜单 黑色字 -->
+    <style name="style_menu_black" parent="style_menu_white">
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_black</item>
+    </style>
+
+    <!-- 我的-安全中心-验证 底部提示信息 灰色小字 -->
+    <style name="style_info_grey_50">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:textColor">@color/clr_grey_50</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_info2_grey_50">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textColor">@color/clr_grey_50</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- 我的-安全中心-验证 标题 -->
+    <style name="style_security_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+    <!-- 我的-安全中心-验证 标题 2 -->
+    <style name="style_security_title2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:textColor">@color/clr_sec_verify_normal</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- 我的-安全中心-验证 分割线 -->
+    <style name="style_dividing_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/clr_grey_080</item>
+    </style>
+    <!-- 取款-提款流水-未完成活动流水 -->
+    <style name="style_awards_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/bt_color_botton</item>
+    </style>
+    <!-- 取款-提款流水-未完成活动流水 -->
+    <style name="style_awards_top_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:background">@color/clr_gap_bg</item>
+    </style>
+    <!-- 我的-安全中心-验证 获取验证码 -->
+    <style name="style_get_code">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:background">@drawable/bg_get_code_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">6</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">获取验证码</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 我的-账户管理-item -->
+    <style name="style_choose_account">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/btn_acc_item_selector</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 提款-item -->
+    <style name="style_withdraw_money_account">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/btn_acc_item_selector</item>
+        <item name="android:textColor">@color/clr_white</item>
+    </style>
+
+    <!-- 充值页-选取金额 按钮背景 -->
+    <style name="style_rdo_blc">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ckb_ic_blc_selector</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@color/clr_purple_05</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 充值页-底部 提示小字 灰色 -->
+    <style name="style_rc_tip_small_grey" parent="style_cm_tip_small_grey">
+        <item name="android:textColor">@color/clr_grey_40</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 充值页 输入框左边的标题 -->
+    <style name="style_rc_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">80dp</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 充值页 弹窗 -->
+    <style name="style_rc_dlg_root">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/clr_transparent</item>
+    </style>
+
+    <style name="style_rc_dlg_bg_top">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:src">@mipmap/bg_google_auth</item>
+    </style>
+
+    <style name="style_rc_dlg_bg_top2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">-2dp</item>
+        <item name="android:scaleType">fitStart</item>
+        <item name="android:src">@color/clr_white</item>
+    </style>
+
+    <style name="style_rc_dlg_bg_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:src">@mipmap/bg_dlg_top</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="style_rc_dlg_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="style_rc_dlg_close">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:src">@mipmap/ic_pop_close3</item>
+    </style>
+
+    <style name="style_rc_dlg_cs">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:src">@mipmap/cm_ic_cs3</item>
+    </style>
+
+    <style name="style_rc_dlg_money">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="style_rc_dlg_hourglass">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@mipmap/cm_ic_hourglass</item>
+    </style>
+
+    <style name="style_rc_dlg_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="style_rc_dlg_key">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:minEms">1</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_dlg_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_dlg_copy">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textColor">@color/clr_purple_12</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_exp_bank_top">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="style_rc_exp_bank_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textColor">@color/clr_black</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_exp_bank_status">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_purple_02</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_exp_bank_status2" parent="style_rc_exp_bank_status">
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:drawableTop">@mipmap/cm_ic_time_left</item>
+    </style>
+
+    <!-- 通用 标题 样式 -->
+    <style name="style_forget_password_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:minEms">4</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/clr_filter_txt_gray</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="style_rdo_amount">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ic_bg_amount_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_purple_05</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_rdo_type">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ic_bg_type_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_purple_05</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_ll_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="style_ll_row_2" parent="style_ll_row">
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="style_fb_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--反馈查看详情页面linearlayout风格-->
+    <style name="style_ll_row_feedback">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!--反馈录入页面提示语言风格-->
+    <style name="style_tx_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--反馈录入页面提示语言风格-->
+    <style name="style_fb_tip_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+
+    </style>
+
+    <!-- 通用 提示小字 灰色 -->
+    <style name="style_cm_tip_small_grey">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_13</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 通用 提示小字 桔红色 -->
+    <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
+        <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
+        <item name="android:textColor">@color/clr_orange_03</item>
+    </style>
+    <!-- 通用 提示小字 桔红色 2 -->
+    <style name="style_cm_tip_small_orange2" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_red_19</item>
+    </style>
+    <!-- 通用 提示小字 桔红色 -->
+    <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/bt_text_color_primary_3</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 通用 提示小字 桔黄色 -->
+    <style name="style_cm_tip_small_yellow2" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_orange_08</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 通用 提示小字 紫色 -->
+    <style name="style_cm_tip_small_purple" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_purple_02</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_cm_tip_small_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_txt_black_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_cm_tip_small_title_warn" parent="style_cm_tip_small_title">
+        <item name="android:drawableStart">@mipmap/cm_ic_hint_purple</item>
+    </style>
+
+    <!-- 通用 下一步按钮 -->
+    <style name="style_cm_btn_next">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:background">@mipmap/cm_btn_next</item>
+    </style>
+
+    <!-- 通用 提交和返回两个按钮 外部的框 -->
+    <style name="style_cm_btn_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">36dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- 通用 按钮 背景为颜色,可变色(大部分地方使用) -->
+    <style name="style_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@drawable/bg_btn_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="style_btn_long">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@drawable/bg_btn_long_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_btn_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="style_btn_long2" parent="style_btn_long">
+        <item name="android:background">@drawable/bg_btn_long2_selector</item>
+    </style>
+
+    <style name="style_btn_short">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:background">@drawable/bg_btn_short_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:text">@string/txt_confirm</item>
+        <item name="android:textColor">@color/clr_text_btn_selector</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+    </style>
+
+    <style name="style_btn_short_cancel" parent="style_btn_short">
+        <item name="android:background">@drawable/bg_btn_short_cancel_selector</item>
+        <item name="android:text">@string/txt_cancel</item>
+        <item name="android:textColor">@color/clr_grey_13</item>
+        <item name="android:layout_marginRight">20dp</item>
+    </style>
+
+    <!-- 充值 弹窗 按钮 渐变 -->
+    <style name="style_btn_frame">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@drawable/bg_btn_r10_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 充值 弹窗 列表项 纯色 -->
+    <style name="style_rdo_recommend">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_btn_r10_white_selector</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_text_main_selector</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- 通用 按钮 背景为灰色,可变色(返回/取消等地方使用) -->
+    <style name="style_btn_back" parent="style_btn">
+        <item name="android:background">@drawable/bg_btn_grey_selector</item>
+        <item name="android:text">@string/txt_back</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+    </style>
+    <!-- 通用 小按钮 背景为颜色,可变色 (重新绑定) -->
+    <style name="style_btn_small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_get_code_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!-- 通用 筛选 标题 外框 -->
+    <style name="style_filter_info_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- 通用 筛选 值的下划线 -->
+    <style name="style_filter_info_div_row" parent="style_filter_info_row">
+        <item name="android:layout_marginTop">1dp</item>
+    </style>
+    <!-- 通用 筛选 标题 样式 -->
+    <style name="style_filter_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:minEms">4</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/clr_filter_txt_gray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_filter_info_div_left" parent="style_filter_info_title">
+        <item name="android:layout_height">1dp</item>
+    </style>
+    <!-- 通用 筛选 值 样式 -->
+    <style name="style_filter_info_value" parent="style_filter_info_title">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/clr_filter_txt_black</item>
+    </style>
+    <!-- 通用 筛选 值 下拉 -->
+    <style name="style_filter_info_spn" parent="style_filter_info_value">
+        <item name="android:drawableEnd">@mipmap/bt_icon_expand</item>
+    </style>
+    <!-- 通用 筛选 下划线 -->
+    <style name="style_filter_info_dividing">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/clr_grey_080</item>
+    </style>
+    <!-- 通用 弹窗 分隔线 白色 -->
+    <style name="style_dlg_info_dividing">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@color/clr_div_line</item>
+    </style>
+
+    <style name="style_cm_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/bg_edt_selector</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
+        <item name="android:hint"></item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_color_hint</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--反馈详情输入框风格-->
+    <style name="style_feedback_edit_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@color/clr_white</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--虚拟币提现 虚拟币地址选择框 -->
+    <style name="style_withdraw_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_feedback_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">32</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--提现输入背景-->
+    <style name="style_withdraw_money_bg">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">@dimen/bt_text_12sp</item>
+    </style>
+    <!--提现Edittext-->
+    <style name="style_bank_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+    <!--usdt提现Edittext-->
+    <style name="style_usdt_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">40</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_text_color_hint</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+    <!-- 通用输入框 带边框,占一整行的 -->
+    <style name="style_cm_edt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:hint"></item>
+        <item name="android:inputType">text</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">64</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:tag"></item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 通用下拉框 带边框,占一整行的 -->
+    <style name="style_cm_spinner" parent="style_cm_edt">
+        <item name="android:drawableEnd">@mipmap/bt_icon_expand</item>
+    </style>
+
+    <!-- 通用下拉框 带边框,一行有两个或多个下拉菜单的 -->
+    <style name="style_cm_spinner2" parent="style_cm_edt">
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawableEnd">@mipmap/bt_icon_expand</item>
+    </style>
+    <!-- 通用下拉框 不带边框,一行有两个或多个下拉菜单的 小字-->
+    <style name="style_cm_spinner3" parent="style_cm_edt">
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawableEnd">@mipmap/bt_icon_expand</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 通用 金额输入框(带背景) -->
+    <style name="style_cm_edit_amount">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
+        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:hint"></item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_grey_20</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_wd_info_value2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 转账页 灰色区 -->
+    <style name="style_trans_ll">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- 转账页 灰色区 场馆名 -->
+    <style name="style_trans_name">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">6</item>
+        <item name="android:textColor">@color/clr_grey_50</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 转账页 灰色区 场馆余额 -->
+    <style name="style_trans_value" parent="style_trans_name">
+        <item name="android:hint">0.0000</item>
+        <item name="android:textColorHint">@color/clr_grey_50</item>
+        <item name="android:textColor">@color/clr_text_trans_selector</item>
+    </style>
+
+    <!-- 转账页 灰色区 分割线 -->
+    <style name="style_trans_dividing_line">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@mipmap/cm_dividing_line</item>
+    </style>
+
+    <!-- 登录页 账号输入框 -->
+    <style name="style_cm_edt_account">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@null</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:drawableStart">@mipmap/cm_ic_login_user</item>
+        <item name="android:inputType">text</item>
+        <item name="android:maxLength">32</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:hint">@string/txt_enter_login_name</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+        <item name="android:textColorHint">@color/clr_grey_2</item>
+    </style>
+    <!-- 登录页 密码输入框 -->
+    <style name="style_cm_edt_pwd" parent="style_cm_edt_account">
+        <item name="android:drawableStart">@mipmap/cm_ic_login_pwd</item>
+        <item name="android:hint">@string/txt_enter_login_pwd</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+    <!-- 登录页 输入验证码框 -->
+    <style name="style_cm_verification" >
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@mipmap/me_input_bg</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">4</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+        <item name="android:textColorHint">@color/clr_grey_2</item>
+    </style>
+    <!-- 登录页 验证码图片样式 -->
+    <style name="style_cm_image_verification" >
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+    <!-- 登录页 眼睛 睁开/关闭 -->
+    <style name="style_cm_ckb_eye">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:button">@drawable/ic_eye_selector</item>
+        <item name="android:padding">6dp</item>
+    </style>
+
+    <!-- 登录页 复选框 -->
+    <style name="style_cm_ckb_normal">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingHorizontal" tools:targetApi="o">6dp</item>
+        <item name="android:button">@drawable/checkbox_bg_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 复选框 颜色 -->
+    <style name="style_theme_cm_ckb">
+        <item name="colorAccent">@color/clr_purple_02</item>
+        <item name="colorControlNormal">@color/clr_purple_01</item>
+    </style>
+
+    <style name="style_cm_ckb">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@drawable/ckb_selector</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:textColor">@color/clr_purple_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 我的-账户管理-绑定-新增页 标题 -->
+    <style name="style_bind_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 我的-账户管理-绑定-新增页 值 -->
+    <style name="style_bind_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_bind_confirm_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- 我的-账户管理-绑定-确认页 标题 -->
+    <style name="style_bind_confirm_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- 通用 google动态绑定按钮 -->
+    <style name="style_bind_google_btn_next">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:background">@mipmap/btn_google_bind_bg_bt</item>
+    </style>
+
+    <style name="style_bind_confirm_bank_title" parent="style_bind_confirm_title">
+        <item name="android:minEms">7</item>
+    </style>
+
+    <!-- 我的-账户管理-绑定-确认页 值 -->
+    <style name="style_bind_confirm_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/clr_sec_verify_normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 报表 列表项 行 -->
+    <style name="style_item_ll_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- 报表 列表项 行 -->
+    <style name="style_item_ll_row_2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="style_item_ll_row_0" parent="style_item_ll_row">
+        <item name="android:layout_marginTop">0dp</item>
+    </style>
+    <!-- 报表 列表项 标题和值 基类 -->
+    <style name="style_item_report_base">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:minEms">5</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textColor">@color/clr_filter_txt_gray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- 报表 列表项 标题灰色 靠左 -->
+    <style name="style_item_report_title" parent="style_item_report_base">
+        <item name="android:gravity">start</item>
+    </style>
+    <!-- 报表 列表项 标题灰色 居中 -->
+    <style name="style_item_report_title_center" parent="style_item_report_base">
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- 报表 列表项 标题灰色 靠右 -->
+    <style name="style_item_report_title_end" parent="style_item_report_base">
+        <item name="android:gravity">end</item>
+    </style>
+    <!-- 报表 详情 标题 靠右 (适合一行两个的) -->
+    <style name="style_item_report_title_end2" parent="style_item_report_base">
+        <item name="android:gravity">end</item>
+        <item name="android:textColor">@color/clr_txt_grey_08</item>
+        <item name="android:layout_weight">0</item>
+    </style>
+
+    <!-- 报表 列表项 值 黑色 靠左 -->
+    <style name="style_item_report_value" parent="style_item_report_base">
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+    </style>
+
+    <!-- 报表 列表项 值 黑色 靠左 -->
+    <style name="style_item_report_value_2" parent="style_item_report_base">
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+    </style>
+
+    <!-- 报表 列表项 值 黑色 居中 -->
+    <style name="style_item_report_value_center" parent="style_item_report_value">
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- 报表 列表项 值 黑色 靠右 -->
+    <style name="style_item_report_value_end" parent="style_item_report_value">
+        <item name="android:gravity">end</item>
+    </style>
+    <!-- 选择提款方式文字风格 -->
+    <style name="style_choose_withdrawal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textSize">@dimen/bt_text_16sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- usdt提款教程 -->
+    <style name="style_usdt_tutorial">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/clr_tutorial</item>
+        <item name="android:textSize">@dimen/bt_text_16sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="style_custom_progress_bar" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/bg_progressbar</item>
+    </style>
+
+    <style name="style_withdraw_show_title" parent="style_withdraw_title">
+        <item name="android:minEms">7</item>
+    </style>
+
+    <!-- 提款 中间 textView侧风格-->
+    <style name="style_withdraw_bottom_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- 提款 textView侧风格-->
+    <style name="style_withdraw_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- 提款 分割线   -->
+    <style name="style_withdraw_dividing_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/clr_gap_bg</item>
+    </style>
+
+    <style name="style_withdraw_confirm_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!--  提款 右侧textview显示 风格-->
+    <style name="style_withdraw_confirm_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--  奥丁 提款 顶部账户数量-->
+    <style name="style_withdraw_confirm_odin_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!--  奥丁 提款 右侧textview显示 风格-->
+    <style name="style_withdraw_confirm_odin_value">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--  奥丁提款 设置提款请求 右侧textview显示 风格-->
+    <style name="style_withdraw_request_odin_value">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--提款金额 红色 风格-->
+    <style name="style_withdraw_amount_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--  提款 右侧textview显示 风格-->
+    <style name="style_withdraw_bottom_confirm_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--  提款 成功/失败 风格-->
+    <style name="style_withdraw_image_value">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!--  提款 成功/失败 风格-->
+    <style name="style_withdraw_text_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="style_withdraw_bottom_text_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--  首页 aug棋牌 -->
+    <style name="style_aug_tab">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="PMTipCheckBoxTheme">
+        <item name="colorAccent">@color/clr_purple_01</item>
+        <item name="colorControlNormal">@color/clr_purple_01</item>
+    </style>
+    <!-- 我的钱包-5个菜单 -->
+    <style name="style_wallet_menu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_wallet_space">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <!-- 提款页-上半部分-彩色按钮 -->
+    <style name="style_rdo_wd_menu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_rdo_wd_selector</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_menu_text_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-灰色框 -->
+    <style name="style_wd_info_area">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/layout_margin</item>
+        <item name="android:background">@color/clr_grey_03</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-行框 -->
+    <style name="style_wd_info_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-标题 -->
+    <style name="style_wd_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_wd_info_title2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/bt_text_color_primary_3</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-值(紫色) -->
+    <style name="style_wd_info_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/clr_purple_02</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--谷歌动态口令密钥提示语风格-->
+    <style name="style_google_key">
+        <item name="android:textColor">@color/clr_orange_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--谷歌动态口令提示语风格-->
+    <style name="style_google_prompt">
+        <item name="android:textColor">@color/clr_google_txt_black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--谷歌动态口令提示语风格-->
+    <style name="style_google_prompt_bottom">
+        <item name="android:textColor">@color/bt_text_color_primary_3</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_virtual_text">
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">1dp</item>
+    </style>
+
+    <!--activity背景透明-->
+    <style name="style_trans_theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+    <!-- 奥丁通用 按钮 背景为颜色,可变色(大部分地方使用) -->
+    <style name="odin_style_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@drawable/bg_btn_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 奥丁 通用 按钮 背景为灰色,可变色(返回/取消等地方使用) -->
+    <style name="odin_style_btn_back" parent="style_btn">
+        <item name="android:background">@drawable/bg_btn_grey_selector</item>
+        <item name="android:text">@string/txt_back</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="odin_style_withdraw_confirm_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- 奥丁 通用 提现顶部View 风格 -->
+    <style name="odin_style_withdraw_top_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">140dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <!-- 通用 按钮 背景为颜色,可变色(大部分地方使用) -->
+    <style name="style_activity_refresh_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@mipmap/cm_btn_long2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 通用 按钮 背景为颜色,可变色(谷歌验证) -->
+    <style name="style_cm_auth_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/bg_edt_auth_selector</item>
+        <item name="android:hint"></item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_color_hint</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 重置登录密码 眼睛 睁开/关闭 -->
+    <style name="style_me_cpd_eye">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:button">@drawable/ic_eye_cpd_selector</item>
+        <item name="android:padding">6dp</item>
+    </style>
+
+    <!-- 谷歌绑定输入框 带边框,占一整行的 -->
+    <style name="style_google_edt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:hint"></item>
+        <item name="android:inputType">text</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">64</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:tag"></item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_grey_2</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <!-- 绑定银行卡 带边框,占一整行的 -->
+    <style name="style_bind_cm_edt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:hint"></item>
+        <item name="android:inputType">text</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">64</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:tag"></item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- 通用下拉框 带边框,一行有两个或多个下拉菜单的 -->
+    <style name="style_bind_cm_spinner2" parent="style_cm_edt">
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawableEnd">@mipmap/cm_ic_expand</item>
+    </style>
+    <!-- 绑定信息确认页面,占一整行的 -->
+    <style name="style_bind_confirm_bank_left_txt" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>

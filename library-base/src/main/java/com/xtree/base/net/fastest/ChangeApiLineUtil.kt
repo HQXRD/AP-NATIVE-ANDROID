@@ -179,7 +179,7 @@ class ChangeApiLineUtil private constructor() {
      * 线路竞速
      */
     private fun setFasterApiDomain() {
-        val apis = Utils.getContext().getString(R.string.domain_api_list) // 不能为空,必须正确
+        val apis = DomainUtil.getDomainApiListString() // 不能为空,必须正确
         val apiList = listOf(*apis.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addApiDomainList(apiList)
@@ -190,7 +190,7 @@ class ChangeApiLineUtil private constructor() {
      * 设置三方存储domain域名地址
      */
     private fun setThirdFasterDomain() {
-        val urls = Utils.getContext().getString(R.string.domain_url_list_third)
+        val urls = DomainUtil.getDomainUrlListThirdString()
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addThirdDomainList(list)

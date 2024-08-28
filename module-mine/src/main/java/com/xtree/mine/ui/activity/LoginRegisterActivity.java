@@ -41,9 +41,11 @@ import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.PromotionCodeVo;
+import com.xtree.base.widget.ConfigSwitchDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
+import com.xtree.mine.BuildConfig;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
 import com.xtree.mine.databinding.ActivityLoginBinding;
@@ -260,6 +262,12 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initView() {
+
+        if (BuildConfig.DEBUG) {
+            binding.tvConfig.setVisibility(View.VISIBLE);
+            binding.tvConfig.setOnClickListener(v -> new ConfigSwitchDialog().show(getSupportFragmentManager(), ConfigSwitchDialog.class.getName()));
+        }
+
 
         mRegisterHandler = new RegisterVerificationHandler((Looper.getMainLooper()));
         mainThreadHandler = new Handler();

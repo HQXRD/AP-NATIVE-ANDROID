@@ -2,6 +2,28 @@
 ===
 这里会对项目封装的工具类和向上提供能力的组件做出罗列和解析，以便项目成员清晰使用，提高开发效率。
 
+换肤功能 使用
+---
+为了支持项目换肤和扩展平台马甲包需求，更新了项目架构，目前只在odin分支使用
+
+### 如何创建一个平台包？
+
+#### Step 1
+    于根目录channel_config/groupAll.json内增加平台对象 
+
+#### Step 2
+    于根目录channel_config/channels/内增加平台json信息文件
+
+#### Step 3
+    于library-res组件内创建src/平台名称/文件夹，资源内容与main相同即可替换资源
+
+一键切换环境功能 使用
+---
+为了方便测试和包管理，特增加此功能用于应用内切换环境
+
+### 如何切换？
+    当apk为debug模式时，在登录页面有"切换环境"文字，点击操作即可
+
 Recyclerview 使用
 ---
 为了能更敏捷高性能的使用列表，提高开发效率，为Recyclerview增加了databinding的特性，且为了提供高稳定性和更丰富的扩展功能，引入了[BRV](https://liangjingkanji.github.io/BRV/index.html)作为封装底座，具体用法如下：
@@ -117,7 +139,7 @@ Recyclerview 使用
     datas.ste(new ArrayList());
 ### 多类型列表
 对于多类型列表使用也很简单，我们只需要增加ItemType即可
-       
+
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
