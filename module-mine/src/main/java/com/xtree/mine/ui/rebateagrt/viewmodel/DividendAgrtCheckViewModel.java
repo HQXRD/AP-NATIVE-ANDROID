@@ -172,6 +172,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
     }
 
     private void initMode() {
+
+        int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+
         if (event.getMode() == 1) {
 
             viewMode.set(CREATE_MODO);
@@ -198,6 +201,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                 };
                 List<Map<String, List<String>>> maps = JSON.parseObject(event.getRules(), type);
 
+                ArrayList<DividendAgrtCheckModel> checkModels = new ArrayList<>();
                 for (Map<String, List<String>> map : maps) {
                     for (Map.Entry<String, List<String>> entry : map.entrySet()) {
                         DividendAgrtCheckModel model = new DividendAgrtCheckModel();
@@ -214,9 +218,20 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                             model.setProfit(value.get(1));
                             model.setPeople(value.get(2));
                         }
-                        bindModels.add(model);
+                        checkModels.add(model);
                     }
                 }
+
+                if (level >= 4 && !checkModels.isEmpty()) {
+                    DividendAgrtCheckModel dividendAgrtCheckModel = checkModels.get(0);
+                    dividendAgrtCheckModel.filter2EditMode.set(false);
+                    //第一条规则连续亏损周期默认为1
+                    dividendAgrtCheckModel.setLoseStreak("1");
+                    bindModels.add(dividendAgrtCheckModel);
+                } else {
+                    bindModels.addAll(checkModels);
+                }
+
                 formatItem();
                 datas.setValue(bindModels);
             } else {
@@ -262,10 +277,13 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         if (ClickUtil.isFastClick()) {
             return;
         }
+
+        int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+
         DividendAgrtCheckModel model = new DividendAgrtCheckModel();
         model.editMode.set(true);
         model.deleteMode.set(true);
-        if (event.getMode() == 2) {
+        if (event.getMode() == 2 || level >= 4) {
             model.filter2EditMode.set(false);
         }
         model.setSelectRatioCallBack(selectRatioConsumer);
