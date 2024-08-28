@@ -28,7 +28,7 @@ android {
 
     signingConfigs {
         cfg {
-            storeFile file("hx5.jks")
+            storeFile file("xingcai.jks")
             storePassword "xingcai666a"
             keyAlias "app"
             keyPassword "xingcai666a"
