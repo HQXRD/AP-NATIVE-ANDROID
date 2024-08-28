@@ -96,9 +96,11 @@ ext {
             // Kotlin反射库
             "kotlin-stdlib"                        : "org.jetbrains.kotlin:kotlin-stdlib:1.6.10",
             "kotlin-reflect"                       : "org.jetbrains.kotlin:kotlin-reflect:1.6.10",
-            //html解析
-            "jsoup"                                : "org.jsoup:jsoup:1.14.3"
 
+            //html解析
+            "jsoup"                                : "org.jsoup:jsoup:1.14.3",
+
+            "BaseQuickAdapter"        : "io.github.cymchad:BaseRecyclerViewAdapterHelper:3.0.14",
     ]
 }
 

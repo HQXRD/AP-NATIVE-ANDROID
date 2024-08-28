@@ -37,6 +37,7 @@ import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.PMConstants;
+import com.xtree.bet.constant.SportTypeItem;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
@@ -65,7 +66,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     private Map<String, Match> mMapMatch = new HashMap<>();
     private Map<String, League> mMapLeague = new HashMap<>();
     private List<MatchInfo> mChampionMatchInfoList = new ArrayList<>();
-    private Map<String, List<Integer>> sportCountMap = new HashMap<>();
+    private Map<String, List<SportTypeItem>> sportCountMap = new HashMap<>();
     private List<MenuInfo> mMenuInfoList = new ArrayList<>();
     private PMHttpCallBack mPmHttpCallBack;
 
@@ -189,7 +190,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             Constants.SPORT_ICON = icons;
         }
 
-
         sportItemData.postValue(SPORT_NAMES);
     }
 
@@ -260,11 +260,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     public void searchMatch(String searchWord, boolean isChampion) {
         mSearchWord = searchWord;
         mIsChampion = isChampion;
-        if(!isChampion) {
-            if(mPmHttpCallBack != null) {
+        if (!isChampion) {
+            if (mPmHttpCallBack != null) {
                 ((PMLeagueListCallBack) mPmHttpCallBack).searchMatch(searchWord);
             }
-        }else {
+        } else {
             mChampionMatchList.clear();
             if (!TextUtils.isEmpty(searchWord)) {
                 List<MatchInfo> matchInfoList = new ArrayList<>();
@@ -417,7 +417,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         Flowable flowable = model.getPMApiService().matchesPagePB(pmListReq);
-        if(isStepSecond){
+        if (isStepSecond) {
             flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
         }
         pmListReq.setCps(mPageSize);
@@ -435,7 +435,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (isRefresh) {
             mNoLiveheaderLeague = null;
         }
-
 
         if ((type == 1 && needSecondStep) // 获取今日中的全部滚球赛事列表
                 || isTimerRefresh) { // 定时刷新赔率变更
@@ -559,7 +558,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (TextUtils.isEmpty(mSearchWord)) {
                             championLeagueList(matchListRsp.data);
                             championMatchListData.postValue(mChampionMatchList);
-                        }else {
+                        } else {
                             searchMatch(mSearchWord, true);
                         }
                         if (mCurrentPage == 1) {
@@ -599,7 +598,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         Map<String, String> map = new HashMap<>();
         String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
-        if(TextUtils.equals(platform, PLATFORM_PMXC)){
+        if (TextUtils.equals(platform, PLATFORM_PMXC)) {
             map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID));
         }
         map.put("sys", "7");
@@ -622,12 +621,20 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                                         SPORT_IDS[index] = String.valueOf(subMenu.menuId);
                                     }
                                 }
-                                List<Integer> sportCountList = new ArrayList<>();
-                                String[] sportArr = getSportId(playMethodType);
-                                for (String sportId : sportArr) {
-                                    sportCountList.add(sslMap.get(sportId));
+                                String[] sportArr = SPORT_IDS;
+                                List<SportTypeItem> sportTypeItemList = new ArrayList<>();
+                                for (int i = 0; i < sportArr.length; i++) {
+                                    SportTypeItem item = new SportTypeItem();
+                                    if (sslMap.get(sportArr[i]) == null) {
+                                        item.num = 0;
+                                    } else {
+                                        item.num = sslMap.get(sportArr[i]);
+                                    }
+                                    item.id = sportArr[i];
+                                    item.position = i;
+                                    sportTypeItemList.add(item);
                                 }
-                                sportCountMap.put(String.valueOf(menuInfo.menuType), sportCountList);
+                                sportCountMap.put(String.valueOf(menuInfo.menuType), sportTypeItemList);
                             }
 
                         }

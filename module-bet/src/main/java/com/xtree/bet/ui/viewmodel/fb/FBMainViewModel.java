@@ -15,22 +15,24 @@ import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
+import com.xtree.bet.bean.response.fb.MatchInfo;
+import com.xtree.bet.bean.response.fb.MatchListRsp;
 import com.xtree.bet.bean.response.fb.MatchTypeInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeStatisInfo;
 import com.xtree.bet.bean.response.fb.StatisticalInfo;
-import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
-import com.xtree.bet.bean.response.fb.MatchInfo;
-import com.xtree.bet.bean.response.fb.MatchListRsp;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayGroup;
@@ -38,20 +40,19 @@ import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.FBConstants;
+import com.xtree.bet.constant.SportTypeItem;
 import com.xtree.bet.data.BetRepository;
+import com.xtree.bet.ui.viewmodel.MainViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
+import com.xtree.bet.ui.viewmodel.callback.LeagueListCallBack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
-
-import com.xtree.base.net.FBHttpCallBack;
-import com.xtree.bet.ui.viewmodel.MainViewModel;
-import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
-import com.xtree.bet.ui.viewmodel.callback.LeagueListCallBack;
-
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -70,7 +71,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<MatchInfo> mChampionMatchInfoList = new ArrayList<>();
     private Map<String, Match> mChampionMatchMap = new HashMap<>();
     private StatisticalInfo mStatisticalInfo;
-    private Map<String, List<Integer>> sportCountMap = new HashMap<>();
+    private Map<String, List<SportTypeItem>> sportCountMap = new HashMap<>();
     private int goingOnPageSize = 300;
     private int pageSize = 50;
 
@@ -300,9 +301,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     public void searchMatch(String searchWord, boolean isChampion) {
         mSearchWord = searchWord;
         mIsChampion = isChampion;
-        if(!isChampion) {
+        if (!isChampion) {
             mLeagueListCallBack.searchMatch(searchWord);
-        }else {
+        } else {
             mChampionMatchList.clear();
             if (!TextUtils.isEmpty(searchWord)) {
                 List<MatchInfo> matchInfoList = new ArrayList<>();
@@ -362,7 +363,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             FBListReq.setSportId(sportIds);
         }
 
-
         Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
@@ -404,7 +404,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (TextUtils.isEmpty(mSearchWord)) {
                             championLeagueList(matchListRsp.records);
                             championMatchListData.postValue(mChampionMatchList);
-                        }else {
+                        } else {
                             searchMatch(mSearchWord, true);
                         }
                         if (mCurrentPage == 1) {
@@ -442,18 +442,30 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 .subscribeWith(new FBHttpCallBack<StatisticalInfo>() {
                     @Override
                     public void onResult(StatisticalInfo statisticalInfo) {
+
                         mStatisticalInfo = statisticalInfo;
                         for (MatchTypeInfo matchTypeInfo : statisticalInfo.sl) {
                             Map<String, Integer> sslMap = new HashMap<>();
                             for (MatchTypeStatisInfo matchTypeStatisInfo : matchTypeInfo.ssl) {
                                 sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
                             }
-                            List<Integer> sportCountList = new ArrayList<>();
-                            for (String sportId : SPORT_IDS) {
-                                sportCountList.add(sslMap.get(sportId));
+
+                            ArrayList<SportTypeItem> sportTypeItemList = new ArrayList<>();
+                            for (int i = 0; i < SPORT_IDS.length; i++) {
+                                SportTypeItem item = new SportTypeItem();
+                                String sportId = SPORT_IDS[i];
+                                if (sslMap.get(sportId) == null) {
+                                    item.num = 0;
+                                } else {
+                                    item.num = sslMap.get(sportId);
+                                }
+                                item.id = SPORT_IDS[i];
+                                item.position = i;
+                                sportTypeItemList.add(item);
                             }
-                            sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportCountList);
+                            sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportTypeItemList);
                         }
+                        Log.i("mStatisticalData1", "1");
                         statisticalData.postValue(sportCountMap);
                     }
 

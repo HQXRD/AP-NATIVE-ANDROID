@@ -114,7 +114,7 @@ public class FBConstants {
     public static String SPORT_ID_DZLQ = "178";
 
     /**
-     * 玩法ID，与PLAY_METHOD_NAMES一一对应
+     * 玩法ID，与PLAY_METHOD_NAMES一一对应 "今日", "滚球", "早盘", "串关", "冠军"
      */
     public static String[] PLAY_METHOD_TYPES = new String[]{"6", "1", "4", "2", "7"};
 

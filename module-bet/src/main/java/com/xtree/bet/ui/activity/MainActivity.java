@@ -24,6 +24,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
@@ -55,11 +57,13 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.SPKey;
+import com.xtree.bet.constant.SportTypeItem;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.FragmentMainBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.adapter.ChampionMatchAdapter;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
+import com.xtree.bet.ui.adapter.TabSportAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtRecordDialogFragment;
 import com.xtree.bet.ui.fragment.BtSettingDialogFragment;
@@ -108,7 +112,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     /**
      * 赛事统计数据
      */
-    private Map<String, List<Integer>> mStatisticalData;
+    private Map<String, List<SportTypeItem>> mStatisticalData;
     /**
      * 滚球比赛列表
      */
@@ -130,6 +134,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 玩法类型，默认为今日+滚球
      */
     private int playMethodType = 6;
+
     private int playMethodPos;
     private int sportTypePos = -1;
     private int hotLeaguePos;
@@ -153,6 +158,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     private Handler mHandler = new Handler();
     private Runnable searchRunnable;
+    private TabSportAdapter tabSportAdapter;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -313,7 +319,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
                 }
             }
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             finish();
         }
 
@@ -362,6 +368,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.ivwGameSearch.setOnClickListener(this);
         binding.tvwCancel.setOnClickListener(this);
 
+        tabSportAdapter = new TabSportAdapter(new ArrayList<>());
+        tabSportAdapter.setAnimationEnable(false);
+        binding.tabSportType.setAdapter(tabSportAdapter);
+        binding.tabSportType.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        binding.tabSportType.setHasFixedSize(true);
         //初始化网页版
         initGoWeb();
 
@@ -408,14 +419,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     if (playMethodPos == 0 || playMethodPos == 3) {
                         viewModel.getHotMatchCount(playMethodType, viewModel.hotLeagueList);
                     }
-                    /*viewModel.statistical(playMethodType);
-                    initTimer();
-                    if (playMethodPos == 2 || playMethodPos == 4) {
-                        getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
-                                playMethodType, searchDatePos, false, true);
-                    } else if (playMethodPos == 0 || playMethodPos == 3) {
-                        viewModel.getHotMatchCount(playMethodType, viewModel.hotLeagueList);
-                    }*/
                 }
             }
 
@@ -429,44 +432,32 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
             }
         });
-        binding.tabSportType.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (sportTypePos != tab.getPosition()) {
-                    hideSearchView();
-                    binding.srlLeague.resetNoMoreData();
-                    searchDatePos = 0;
-                    mIsChange = true;
-                    isFirstInto = true;
-                    mLeagueIdList.clear();
-                    showSearchDate();
-                    sportTypePos = tab.getPosition();
-                    mSportName = viewModel.getSportName(playMethodType)[sportTypePos];
-                    viewModel.setHotLeagueList(mSportName);
-                    mLeagueGoingOnList.clear();
-                    mLeagueList.clear();
-                    updateStatisticalData();
-                    viewModel.statistical(playMethodType);
-                    initTimer();
-                    String sportId = String.valueOf(getSportId());
-                    getMatchData(sportId, mOrderBy, mLeagueIdList, null,
-                            playMethodType, searchDatePos, false, true);
-                    if ((sportId == null || TextUtils.equals("0", sportId)) && (playMethodPos == 0 || playMethodPos == 3)) {
-                        viewModel.getHotMatchCount(playMethodType, viewModel.hotLeagueList);
-                    }
+        tabSportAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (sportTypePos != tabSportAdapter.getItem(position).position) {
+                hideSearchView();
+                binding.srlLeague.resetNoMoreData();
+                searchDatePos = 0;
+                mIsChange = true;
+                isFirstInto = true;
+                mLeagueIdList.clear();
+                showSearchDate();
+                sportTypePos = tabSportAdapter.getItem(position).position;
+                mSportName = tabSportAdapter.getItem(position).name;
+                viewModel.setHotLeagueList(mSportName);
+                mLeagueGoingOnList.clear();
+                mLeagueList.clear();
+                updateStatisticalData();
+                viewModel.statistical(playMethodType);
+                initTimer();
+                String sportId = String.valueOf(getSportId());
+                getMatchData(sportId, mOrderBy, mLeagueIdList, null,
+                        playMethodType, searchDatePos, false, true);
+                if ((sportId == null || TextUtils.equals("0", sportId)) && (playMethodPos == 0 || playMethodPos == 3)) {
+                    viewModel.getHotMatchCount(playMethodType, viewModel.hotLeagueList);
                 }
             }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
         });
+
         binding.tabSearchDate.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -579,6 +570,23 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         });
 
+    }
+
+    private void autoClickItem(RecyclerView recyclerView, int position) {
+        // 找到指定位置的ViewHolder
+        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+        if (viewHolder != null) {
+            // 获取itemView并模拟点击
+            viewHolder.itemView.performClick();
+        } else {
+            // 如果ViewHolder为空，可能是因为RecyclerView还没有完全渲染或item不可见，需要滚动到该位置并再尝试
+            recyclerView.post(() -> {
+                RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(position);
+                if (vh != null) {
+                    vh.itemView.performClick();
+                }
+            });
+        }
     }
 
     private void initNetFloatWindows() {
@@ -1236,46 +1244,62 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         });
         viewModel.sportItemData.observe(this, matchitemList -> {
-            binding.tabSportType.removeAllTabs();
             sportTypePos = -1;
-            for (int i = 0; i < matchitemList.length; i++) {
-                View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_match_item_tab_item, null);
-                TextView tvName = view.findViewById(R.id.tab_item_name);
-                TextView tvMatchCount = view.findViewById(R.id.iv_match_count);
-                ImageView ivIcon = view.findViewById(R.id.iv_icon);
-                if (i < Constants.SPORT_ICON.length) {
-                    ivIcon.setBackgroundResource(Constants.SPORT_ICON[i]);
-                }
-                tvName.setText(matchitemList[i]);
-                tvMatchCount.setText(String.valueOf(0));
-                ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_match_item_text);
-                tvName.setTextColor(colorStateList);
-                tvMatchCount.setTextColor(colorStateList);
-
-                CfLog.i("tabSportType"+(new Gson().toJson(matchitemList)));
-                binding.tabSportType.addTab(binding.tabSportType.newTab().setCustomView(view), false);
+            if (mStatisticalData == null) {
+                return;
             }
+            List<SportTypeItem> list = mStatisticalData.get(String.valueOf(playMethodType));
+
+            List<SportTypeItem> newList = new ArrayList<>();
+            int allCount = 0;
+            KLog.i("2222   " + new Gson().toJson(list));
             String[] sportNameArray = viewModel.getSportName(playMethodType);
 
-            if (!TextUtils.isEmpty(mSportName)) {
-                int index = 0;
-                if (playMethodPos != 4) {
-                    index = 1;
-                }
-                for (int i = 0; i < sportNameArray.length; i++) {
-                    if (TextUtils.equals(mSportName, sportNameArray[i])) {
-                        index = i;
+            for (int i = 0; i < list.size(); i++) {
+                Integer count = list.get(i).num;
+
+                if (count != null) {
+                    if (count == 0 && i != 0) {
+                        continue;
+                    }
+                    if (i == sportNameArray.length) {
                         break;
                     }
+                    SportTypeItem item = list.get(i);
+                    item.name = sportNameArray[i];
+                    if (item.name.equals(mSportName)) {
+                        item.isSelected = true;
+                    } else {
+                        item.isSelected = false;
+                    }
+                    item.iconId = Constants.SPORT_ICON[i];
+                    newList.add(item);
+                } else {
+                    break;
                 }
-
-                final int fIndex = index;
-                binding.tabSportType.post(() -> binding.tabSportType.getTabAt(fIndex).select());
-
-            } else {
-                binding.tabSportType.getTabAt(1).select();
+                if (playMethodPos == 1) {
+                    if (i == 0) {
+                        continue;
+                    }
+                    CfLog.i("allCount     " + allCount);
+                    allCount += count;
+                }
             }
 
+            if (playMethodPos == 1) {
+                CfLog.i("allCount     " + allCount);
+                newList.get(0).num = allCount;
+            }
+            KLog.i("22223     " + new Gson().toJson(newList));
+
+            tabSportAdapter.setList(newList);
+            final int selectPosition;
+            if (playMethodPos == 0 || playMethodPos == 1 || playMethodPos == 3) {
+                selectPosition = 1;
+            } else {
+                selectPosition = 0;
+            }
+            binding.tabSportType.postDelayed(() -> autoClickItem(binding.tabSportType, selectPosition), 15);
         });
         viewModel.leagueItemData.observe(this, leagueItemList -> {
             mLeagueItemList = leagueItemList;
@@ -1370,6 +1394,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
         });
         viewModel.statisticalData.observe(this, statisticalData -> {
+            CfLog.i("mStatisticalData     " + new Gson().toJson(mStatisticalData));
             this.mStatisticalData = statisticalData;
             updateStatisticalData();
         });
@@ -1400,25 +1425,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.hotMatchCountData.observe(this, hotMatchCount -> {
             if (playMethodPos == 0 || playMethodPos == 3) {
                 mHotMatchCount = hotMatchCount;
-                if (playMethodPos == 0 || playMethodPos == 3) {
-                    if (binding.tabSportType.getTabAt(0) != null) {
-                        View view = binding.tabSportType.getTabAt(0).getCustomView();
-                        TextView tvHotCount = view.findViewById(R.id.iv_match_count);
-                        tvHotCount.setText(String.valueOf(mHotMatchCount));
-                    }
+                if (tabSportAdapter.getData().size() > 0) {
+                    SportTypeItem hotItem = tabSportAdapter.getItem(0);
+                    hotItem.num = mHotMatchCount;
+                    tabSportAdapter.setData(0, hotItem);
                 }
+
             }
         });
 
         viewModel.tokenInvalidEvent.observe(this, unused -> {
             String sportId = String.valueOf(getSportId());
-            /*if (sportTypePos != -1) {
-                if(playMethodPos == 2 || playMethodPos == 4){
-                    sportTypePos = 0;
-                }else{
-                    sportTypePos = 1;
-                }
-            }*/
             viewModel.getHotLeague(mPlatform);
             viewModel.statistical(playMethodType);
             getMatchData(sportId, mOrderBy, mLeagueIdList, null,
@@ -1595,38 +1612,65 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     //传了个 ty类型,和数量数组
-    private void updateStatisticalData() {
-        int allCount = 0;
-        TextView tvAllCount = null;
-        if (playMethodPos == 1) {
-            View view = binding.tabSportType.getTabAt(0).getCustomView();
-            tvAllCount = view.findViewById(R.id.iv_match_count);
-        }
+    private synchronized void updateStatisticalData() {
 
-        if (mStatisticalData != null) {
-            int tabCount = binding.tabSportType.getTabCount();
-            for (int i = 0; i < tabCount; i++) {
-                View view = binding.tabSportType.getTabAt(i).getCustomView();
-                TextView tvCount = view.findViewById(R.id.iv_match_count);
-                int size = mStatisticalData.get(String.valueOf(playMethodType)).size();
-                if (i == size) {
+        if (mStatisticalData == null) {
+            return;
+        }
+        List<SportTypeItem> list = mStatisticalData.get(String.valueOf(playMethodType));
+        List<SportTypeItem> newList = new ArrayList<>();
+        CfLog.i("playMethodType1     " + new Gson().toJson(list));
+        int allCount = 0;
+        String[] sportNameArray = viewModel.getSportName(playMethodType);
+
+        for (int i = 0; i < list.size(); i++) {
+            Integer count = list.get(i).num;
+            if (count != null) {
+                if (count == 0 && i != 0) {
+                    continue;
+                }
+                if (i == sportNameArray.length) {
                     break;
                 }
-                Integer count = mStatisticalData.get(String.valueOf(playMethodType)).get(i);
-
-                if (count != null) {
-                    tvCount.setText(String.valueOf(count));
+                SportTypeItem item = list.get(i);
+                item.name = sportNameArray[i];
+                if (item.name.equals(mSportName)) {
+                    item.isSelected = true;
                 } else {
-                    count = 0;
+                    item.isSelected = false;
                 }
-                if (playMethodPos == 1) {
-                    allCount += count;
+                item.iconId = Constants.SPORT_ICON[i];
+                newList.add(item);
+            } else {
+                break;
+            }
+
+            if (playMethodPos == 1) {
+                if (i == 0) {
+                    continue;
                 }
+                CfLog.i("allCount     " + allCount);
+                allCount += count;
             }
         }
-        if (tvAllCount != null) {
-            tvAllCount.setText(String.valueOf(allCount));
+
+        if (playMethodPos == 1) {
+            CfLog.i("allCount     " + allCount);
+            newList.get(0).num = allCount;
         }
+        if (playMethodPos == 0 || playMethodPos == 3) {
+            if (newList.get(0) != null) {
+                newList.get(0).num = mHotMatchCount;
+            }
+        }
+        //第一次进来时默认选第二个数
+        if (TextUtils.isEmpty(mSportName)) {
+            binding.tabSportType.post(() -> autoClickItem(binding.tabSportType, 1));
+            mSportName = newList.get(1).name;
+            newList.get(1).isSelected = true;
+        }
+        KLog.i("playMethodType3     " + new Gson().toJson(newList));
+        tabSportAdapter.setList(newList);
 
     }
 

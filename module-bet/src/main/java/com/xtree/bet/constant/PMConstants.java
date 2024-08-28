@@ -44,7 +44,7 @@ public class PMConstants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_yl_selector};
 
     /**
-     * 玩法ID，与PLAY_METHOD_NAMES一一对应
+     * 玩法ID，与PLAY_METHOD_NAMES一一对应 "今日", "滚球", "早盘", "串关", "冠军"
      */
     public static String[] PLAY_METHOD_TYPES = new String[]{"3", "1", "4", "11", "100"};
 
