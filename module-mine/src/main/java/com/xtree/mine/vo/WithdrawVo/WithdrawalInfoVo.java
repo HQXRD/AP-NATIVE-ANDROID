@@ -2,12 +2,16 @@ package com.xtree.mine.vo.WithdrawVo;
 
 import java.util.ArrayList;
 
-import me.xtree.mvvmhabit.http.BaseResponse2;
-
 /**
  * 提款渠道详情
  */
-public class WithdrawalInfoVo extends BaseResponse2 {
+public class WithdrawalInfoVo {
+
+    //chain 字段现阶段用以USDT提款判断
+    //"chain": "ERC20_USDT,TRC20_USDT" 表示user_bank_info字段中所有的提款地址均可使用
+    //"chain": "TRC20_USDT" 表示user_bank_info字段中usdt_type字段对应的"TRC20_USDT"的提款地址可使用
+    public String chain;
+
     public String code;
     public String fast_iframe_url;//第三方支付 不为空时候加载web页面
 
@@ -35,8 +39,6 @@ public class WithdrawalInfoVo extends BaseResponse2 {
                 '}';
     }
 
-    /*  public int status ;
-      public String message;*/
     public boolean money_fixed;
     public boolean is_digital;
     public String quota;
@@ -95,7 +97,7 @@ public class WithdrawalInfoVo extends BaseResponse2 {
         public String user_id;
         public String account;
 
-        /*""id": "3131",
+       /* ""id": "3131",
 				"user_name": "elly40",
 				"usdt_type": "TRC20_USDT",
 				"status": "1",

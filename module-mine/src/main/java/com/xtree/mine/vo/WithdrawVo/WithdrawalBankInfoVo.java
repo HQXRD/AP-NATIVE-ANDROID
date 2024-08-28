@@ -3,12 +3,11 @@ package com.xtree.mine.vo.WithdrawVo;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xtree.mvvmhabit.http.BaseResponse2;
-
 /**
  * 銀行卡提款 渠道信息
  */
-public class WithdrawalBankInfoVo extends BaseResponse2 {
+public class WithdrawalBankInfoVo  {
+    public String check;//post多加一个check参数，新增返回参数：check ,需带入下一个接口 {{host}}/api/withdrawal/verify
     public String code;
     /*
        "is_digital": false,
@@ -30,6 +29,7 @@ public class WithdrawalBankInfoVo extends BaseResponse2 {
     public Object money_options; //多金额选项
     public List<String> fixamountList = new ArrayList<>(); // 自己加的
     public ArrayList<WithdrawalAmountVo> amountVoList = new ArrayList<>();//针对固额 多金额封装对象
+
 
     public boolean money_fixed; //固额开启标志 true 代表有固额选项；false:没有固额选线
     public boolean is_digital;
@@ -105,5 +105,4 @@ public class WithdrawalBankInfoVo extends BaseResponse2 {
         public String amount ;
         public boolean flag;//是否被选中的标记
     }
-
 }

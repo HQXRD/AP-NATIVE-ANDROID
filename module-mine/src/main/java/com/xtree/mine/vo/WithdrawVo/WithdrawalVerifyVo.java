@@ -1,11 +1,22 @@
 package com.xtree.mine.vo.WithdrawVo;
 
-import me.xtree.mvvmhabit.http.BaseResponse2;
-
 /**
  * 验证当前渠道
  */
-public class WithdrawalVerifyVo extends BaseResponse2 {
+public class WithdrawalVerifyVo {
+    @Override
+    public String toString() {
+        return "WithdrawalVerifyVo{" +
+                "is_digital=" + is_digital +
+                ", money='" + money + '\'' +
+                ", money_real='" + money_real + '\'' +
+                ", fee='" + fee + '\'' +
+                ", quota='" + quota + '\'' +
+                ", quota_need_deduct=" + quota_need_deduct +
+                ", balance='" + balance + '\'' +
+                ", user_bank_info=" + user_bank_info +
+                '}';
+    }
 
     public boolean is_digital;
     public String money;
@@ -15,7 +26,7 @@ public class WithdrawalVerifyVo extends BaseResponse2 {
     public String quota;
     public boolean quota_need_deduct;
     public String balance;
-    public UserBankInfo user_bank_info;
+    public UserBankInfo user_bank_info;//当前渠道绑定的提款地址
 
     public class UserBankInfo {
         public String id;
@@ -57,4 +68,5 @@ public class WithdrawalVerifyVo extends BaseResponse2 {
                 "utime": "2024-03-23 16:06:11",
                 "atime": "2024-03-23 16:06:11"*/
     }
+
 }

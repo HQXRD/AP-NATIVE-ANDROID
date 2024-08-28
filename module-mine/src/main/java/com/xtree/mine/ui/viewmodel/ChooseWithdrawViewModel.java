@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.HttpWithdrawalCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.mine.R;
@@ -64,12 +65,21 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<OtherWebWithdrawVo> otherWebWithdrawVoMutableLiveData = new MutableLiveData<>();//微信、支付宝提款
 
     //提款接入新接口
+    //提款接入新接口
     public MutableLiveData<WithdrawalQuotaVo> quotaVoMutableLiveData = new MutableLiveData<>();//获取提款额度
-    public MutableLiveData<ArrayList<WithdrawalListVo>> withdrawalListVoMutableLiveData = new MutableLiveData();//获取提现渠道猎豹
-    public MutableLiveData<WithdrawalInfoVo> withdrawalInfoVoMutableLiveData = new MutableLiveData<>();//获取提款渠道详细信息
-    public MutableLiveData<WithdrawalBankInfoVo> bankInfoVoMutableLiveData = new MutableLiveData<>();//银行卡获取提款渠道详细信息
+    public MutableLiveData<String> quotaErrorData = new MutableLiveData<>();//获取提款提款额度错误
+    public MutableLiveData<WithdrawalListVo> withdrawalListVoMutableLiveData = new MutableLiveData();//获取提现渠道
+
+    public MutableLiveData<WithdrawalInfoVo> withdrawalInfoVoMutableLiveData = new MutableLiveData<>();// 获取提现渠道 错误信息
+    public MutableLiveData<String> withdrawalListErrorData = new MutableLiveData<>();// 获取提现渠道 错误信息
+    public MutableLiveData<WithdrawalBankInfoVo> withdrawalBankInfoVoMutableLiveData = new MutableLiveData<>();// 银行卡获取提款渠道详细信息
+    public MutableLiveData<String> bankInfoVoErrorData = new MutableLiveData<>();// / 银行卡获取提款渠道详细信息 错误信息
+
     public MutableLiveData<WithdrawalVerifyVo> verifyVoMutableLiveData = new MutableLiveData<>();//验证当前渠道信息
+    public MutableLiveData<String> verifyVoErrorData = new MutableLiveData<>();//验证当前渠道信息 错位信息
     public MutableLiveData<WithdrawalSubmitVo> submitVoMutableLiveData = new MutableLiveData<>();//提款提交
+
+    public MutableLiveData<String> submitVoErrorData = new MutableLiveData<>();//提款提交
 
     public ChooseWithdrawViewModel(@NonNull Application application) {
         super(application);
@@ -596,8 +606,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
 
     }
 
-
-    //接入提款新接口
+//接入提款新接口
 
     /**
      * 提款获取可用额度
@@ -606,7 +615,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().getWithdrawalQuota()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<WithdrawalQuotaVo>() {
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalQuotaVo>() {
                     @Override
                     public void onResult(WithdrawalQuotaVo vo) {
                         quotaVoMutableLiveData.setValue(vo);
@@ -615,26 +624,17 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     //增加网络异常抓取
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);  ex.message = "连接超时";
-                        Throwable throwable = t;
-                        String message = throwable.getMessage();
-                        CfLog.e("onError message =  " + message);
-                        WithdrawalQuotaVo vo = new WithdrawalQuotaVo();
-                        //链接超时
-                        vo.networkStatus = 1; //链接超时
-                        quotaVoMutableLiveData.setValue(vo);
 
                     }
 
                     @Override
                     public void onFail(BusinessException t) {
                         // super.onFail(t);
-                        String message = t.getMessage();
-                        CfLog.e("onError message =  " + message);
-                        WithdrawalQuotaVo vo = new WithdrawalQuotaVo();
-                        //链接超时
-                        vo.networkStatus = 1; //链接超时
-                        quotaVoMutableLiveData.setValue(vo);
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        quotaErrorData.setValue(errorMessage);
+                        CfLog.e("withdrawalInfoVoMutableLiveData onFail message =  " + t.toString());
                     }
 
                 });
@@ -644,13 +644,13 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     /**
      * 获取可提现渠道列表
      */
-    public void getWithdrawalList() {
-        Disposable disposable = (Disposable) model.getApiService().getWithdrawalList()
+    public void getWithdrawalList(final String checkCode) {
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalList(checkCode)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<ArrayList<WithdrawalListVo>>() {
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalListVo>() {
                     @Override
-                    public void onResult(ArrayList<WithdrawalListVo> withdrawalListVos) {
+                    public void onResult(WithdrawalListVo withdrawalListVos) {
                         withdrawalListVoMutableLiveData.setValue(withdrawalListVos);
                     }
 
@@ -673,20 +673,18 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     }
 
     /**
-     * 获取可提现渠道列表
+     * 获取当前选中的提款详情
      */
-    public void getWithdrawalInfo(final String name) {
+    public void getWithdrawalInfo(final String wtype, final String check) {
         //wtype
         //	hipayht
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("wtype", name);
-        Disposable disposable = (Disposable) model.getApiService().getWithdrawalInfo(map)
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalInfo(wtype, check)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<WithdrawalInfoVo>() {
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalInfoVo>() {
                     @Override
                     public void onResult(WithdrawalInfoVo vo) {
-                        CfLog.e("withdrawalInfoVoMutableLiveData  message=" + vo.message + "/n vo=" + vo.toString());
+
                         withdrawalInfoVoMutableLiveData.setValue(vo);
                     }
 
@@ -695,17 +693,20 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         //super.onError(t);  ex.message = "连接超时";
 
-                        CfLog.e("onError message =  " + t.toString());
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = t.getMessage();
+                        CfLog.e("onError --->exception.getMessage()=" + exception.getMessage() + "|t.getMessage()=" + t.getMessage());
+                        withdrawalListErrorData.setValue(errorMessage);
                     }
 
                     @Override
                     public void onFail(BusinessException t) {
                         // super.onFail(t);
-                        CfLog.e("onFail message =  " + t.toString());
-                        WithdrawalInfoVo vo = new WithdrawalInfoVo();
-                        vo.message = t.message;
-                        vo.code = String.valueOf(t.code);
-                        withdrawalInfoVoMutableLiveData.setValue(vo);
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        withdrawalListErrorData.setValue(errorMessage);
+                        CfLog.e("withdrawalInfoVoMutableLiveData onFail message =  " + t.toString());
                     }
 
                 });
@@ -713,17 +714,16 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     }
 
     /**
-     * 获取可提现渠道列表
+     * 获取银行卡渠道详情
+     *
+     * @param wtype
+     * @param check
      */
-    public void getWithdrawalBankInfo(final String name) {
-        //wtype
-        //	hipayht
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("wtype", name);
-        Disposable disposable = (Disposable) model.getApiService().getWithdrawalBankInfo(map)
+    public void getWithdrawalBankInfo(final String wtype, final String check) {
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalBankInfo(wtype, check)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<WithdrawalBankInfoVo>() {
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalBankInfoVo>() {
                     @Override
                     public void onResult(WithdrawalBankInfoVo vo) {
 
@@ -745,7 +745,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                         } else {
                             CfLog.e(" *********** getWithdrawalBankInfo 暂未开启固额");
                         }
-                        bankInfoVoMutableLiveData.setValue(vo);
+                        withdrawalBankInfoVoMutableLiveData.setValue(vo);
                     }
 
                     //增加网络异常抓取
@@ -759,11 +759,11 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onFail(BusinessException t) {
                         // super.onFail(t);
-                        CfLog.e("onFail message =  " + t.toString());
-                        WithdrawalBankInfoVo vo = new WithdrawalBankInfoVo();
-                        vo.message = t.message;
-                        vo.code = String.valueOf(t.code);
-                        bankInfoVoMutableLiveData.setValue(vo);
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        bankInfoVoErrorData.setValue(errorMessage);
+                        CfLog.e("withdrawalInfoVoMutableLiveData onFail message =  " + t.toString());
                     }
 
                 });
@@ -772,14 +772,12 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
 
     /**
      * 验证当前渠道信息
-     *
-     * @param map
      */
     public void postWithdrawalVerify(final HashMap<String, Object> map) {
         Disposable disposable = (Disposable) model.getApiService().postWithdrawalVerify(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<WithdrawalVerifyVo>() {
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalVerifyVo>() {
                     @Override
                     public void onResult(WithdrawalVerifyVo vo) {
                         CfLog.e("withdrawalInfoVoMutableLiveData  vo .getStatus = " + vo);
@@ -797,7 +795,10 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onFail(BusinessException t) {
                         // super.onFail(t);
-                        CfLog.e("onError message =  " + t.toString());
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        verifyVoErrorData.setValue(errorMessage);
                     }
 
                 });
@@ -805,15 +806,13 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     }
 
     /**
-     * 验证当前渠道信息
-     *
-     * @param map
+     * 提款提交
      */
     public void postWithdrawalSubmit(final HashMap<String, Object> map) {
         Disposable disposable = (Disposable) model.getApiService().postWithdrawalSubmit(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<WithdrawalSubmitVo>() {
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalSubmitVo>() {
                     @Override
                     public void onResult(WithdrawalSubmitVo vo) {
                         CfLog.e("withdrawalInfoVoMutableLiveData  vo .getStatus = " + vo);
@@ -831,10 +830,14 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onFail(BusinessException t) {
                         // super.onFail(t);
-                        CfLog.e("onError message =  " + t.toString());
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        submitVoErrorData.setValue(errorMessage);
                     }
 
                 });
         addSubscribe(disposable);
     }
+
 }

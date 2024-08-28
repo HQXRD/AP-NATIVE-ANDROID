@@ -92,7 +92,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         super(context);
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
+    public static ChooseWithdrawalDialog newInstance(Context context,
+                                                     LifecycleOwner owner,
+                                                     IChooseDialogBack callBack,
+                                                     BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
 
         dialog.context = context;
@@ -102,7 +105,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         return dialog;
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final String checkCode, final FragmentActivity activity) {
+    public static ChooseWithdrawalDialog newInstance(Context context,
+                                                     LifecycleOwner owner,
+                                                     IChooseDialogBack callBack,
+                                                     BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose,
+                                                     final String checkCode,
+                                                     final FragmentActivity activity) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
 
         dialog.context = context;
