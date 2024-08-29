@@ -11,7 +11,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/DynamicAppTheme"
         android:fullBackupContent="@xml/appcenter_backup_rule_under_11"
         android:dataExtractionRules="@xml/appcenter_backup_rule_over_12"
         tools:replace="android:icon,android:label,android:theme">
