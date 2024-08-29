@@ -13,6 +13,7 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+    <!-- Purple Theme example-->
 
     <style name="ViewLineStyle">
         <item name="android:layout_width">match_parent</item>
