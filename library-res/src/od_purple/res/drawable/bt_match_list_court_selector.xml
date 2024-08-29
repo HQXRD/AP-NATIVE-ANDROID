@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/bt_icon_court_selected" android:state_selected="true"/>
+    <item android:drawable="@mipmap/bt_icon_court" android:state_selected="false"/>
+</selector>

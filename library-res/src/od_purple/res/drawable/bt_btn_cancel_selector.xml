@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient android:angle="270"
+        android:centerColor="@color/bt_bg_color_keyboard"
+        android:endColor="@color/bt_bg_color_keyboard"
+        android:startColor="@color/bt_bg_color_keyboard" />
+    <corners android:radius="22dp" />
+</shape>

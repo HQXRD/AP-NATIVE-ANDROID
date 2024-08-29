@@ -1,0 +1,330 @@
+<resources>
+    <string name="app_name">library-res</string>
+
+    <!--    应用配置-->
+    <string name="domain_url">http</string>
+    <string name="domain_url_list">http;http</string>
+    <string name="domain_url_list_third">http;http</string>
+    <string name="domain_api">http</string>
+    <string name="domain_api_list">http;http</string>
+    <string name="domain_url_pre">http</string>
+    <string name="domain_url_list_pre">http;http</string>
+    <string name="domain_url_list_third_pre">http;http</string>
+    <string name="domain_api_pre">http</string>
+    <string name="domain_api_list_pre">http;http</string>
+    <string name="channel_name">xingcai</string>
+    <string name="build_time">20240112</string>
+    <string name="mixpanel_token">abc123</string>
+    <string name="ms_secret_key">abc123</string>
+    <string name="sentry_dsn">abc123</string>
+    <bool name="is_tag">false</bool>
+
+
+    <string name="txt_vip_center">VIP中心</string>
+    <string name="txt_withdraw">提款</string>
+    <string name="txt_feedback">反馈信息</string>
+    <string name="txt_custom_center">客服中心</string>
+    <string name="txt_contact_custom">联系客服</string>
+    <string name="txt_recharge_tutorial">充值教程</string>
+    <string name="txt_msg_center">消息中心</string>
+    <string name="txt_kind_tips">温馨提示</string>
+
+    <string name="txt_bind_card_type">bindcard</string>
+    <string name="txt_bind_usdt_type">bindusdt</string>
+    <string name="txt_bind_ebpay_type">bindebpay</string>
+    <string name="txt_bind_topay_type">bindtopay</string>
+    <string name="txt_bind_gcnyt_type">bindhiwallet</string>
+    <string name="txt_bind_mpay_type">bindmpay</string>
+    <string name="txt_bind_gobao_type">bindgobao</string>
+    <string name="txt_bind_gopay_type">bindgopay</string>
+    <string name="txt_bind_okpay_type">bindokpay</string>
+    <!--HQAP2-2769增加绑定微信支付宝-->
+    <string name="txt_bind_wechat_type">bindcardwx</string>
+    <string name="txt_bind_zfb_type">bindcardzfb</string>
+
+    <string name="txt_go_recharge">去充值</string>
+    <string name="txt_go_withdraw">去提款</string>
+    <string name="txt_bind_card2">绑定银行卡</string>
+    <string name="txt_bind_card">管理银行卡</string>
+    <string name="txt_bind_usdt">管理USDT</string>
+    <string name="txt_bind_usdt_top">绑定USDT</string>
+    <string name="txt_bind_ebpay">管理EBPAY</string>
+    <string name="txt_bind_ebpay_top">绑定EBPAY</string>
+    <string name="txt_bind_topay">管理TOPAY</string>
+    <string name="txt_bind_gcnyt">管理CNYT</string>
+    <string name="txt_bind_mpay">管理MPAY</string>
+    <string name="txt_bind_gobao">管理GOBAO</string>
+    <string name="txt_bind_gopay">管理GOPAY</string>
+    <string name="txt_bind_okpay">管理OKPAY</string>
+    <string name="txt_bind_alipay">管理支付宝</string>
+    <string name="txt_bind_alipay1">绑定支付宝</string>
+    <string name="txt_bind_wechat">管理微信支付</string>
+    <string name="txt_bind_wechat1">绑定信支付</string>
+    <string name="txt_manage_alipay">管理支付宝</string>
+    <string name="txt_manage_wechat">管理微信支付</string>
+    <string name="txt_alipay">支付宝</string>
+    <string name="txt_wechat">微信</string>
+
+    <string name="txt_remind_card">请认真校对银行卡号，卡号错误资金将无法到账</string>
+    <string name="txt_remind_usdt_trc20">TRC20_USDT地址以T开头的数字和字母组成的34位</string>
+    <string name="txt_remind_usdt_erc20">ERC20_USDT地址以0x开头的数字和字母组成的42位</string>
+    <string name="txt_remind_ebpay">EBPAY地址以eb开头的数字和字母组成的34位</string>
+    <string name="txt_remind_topay">TOPAY地址以tp开头的18位 或字母开头的16位</string>
+    <string name="txt_remind_gcnyt">地址以CNYT开头的20位英文或数字</string>
+    <string name="txt_remind_mpay">地址以mp开头加10位数字</string>
+    <string name="txt_remind_gobao">地址以24位字母数字组成</string>
+    <string name="txt_remind_gopay">地址以16位字母数字组成</string>
+    <string name="txt_remind_okpay">地址以16位字母数字组成</string>
+
+    <string name="txt_enter_login_name">请输入账号</string>
+    <string name="txt_enter_login_pwd">请输入密码</string>
+    <string name="txt_verification_hint">请输入验证码</string>
+
+    <string name="txt_reset">重置</string>
+    <string name="txt_confirm">确定</string>
+    <string name="txt_cancel">取消</string>
+    <string name="txt_back">返回</string>
+    <string name="txt_submit">提交</string>
+    <string name="txt_next">下一步</string>
+    <string name="txt_note_asterisks_cannot_empty">说明：*为必填信息！</string>
+    <string name="txt_i_know">我知道了</string>
+
+    <string name="txt_type">类型</string>
+    <string name="txt_status">状态</string>
+    <string name="txt_all">所有</string>
+    <string name="txt_succ">成功</string>
+    <string name="txt_fail">失败</string>
+    <string name="txt_processed">已处理</string>
+    <string name="txt_match">已配对</string>
+    <string name="txt_man">人工</string>
+    <string name="txt_process">处理中</string>
+    <string name="txt_to_process">待处理</string>
+    <string name="txt_expired">超时无效</string>
+    <string name="txt_settled">已结算</string>
+    <string name="txt_unsettle">未结算</string>
+    <string name="txt_add_game">加入游戏</string>
+    <string name="txt_send_bonus">奖金派送</string>
+    <string name="txt_minus_money">追号扣款</string>
+    <string name="txt_now_return_money">当其追号反款</string>
+    <string name="txt_game_minus">游戏扣款</string>
+    <string name="txt_return_order">撤单返款</string>
+    <string name="txt_special_money">特殊金额处理</string>
+    <string name="txt_over_money_minus">单挑超额扣款</string>
+    <string name="txt_over_money_return">单挑超额返款</string>
+
+    <string name="txt_bank_process">银行处理中</string>
+    <string name="txt_wait_review">等待风控审核</string>
+    <string name="txt_in_operation">操作中</string>
+    <string name="txt_timeout_manual_process">处理超时人工处理中</string>
+    <string name="txt_withdrawing">出款中</string>
+    <string name="txt_others">其他</string>
+    <string name="txt_reviewed">已审核</string>
+    <string name="txt_rc_succ">充值成功</string>
+    <string name="txt_rc_fail">充值失败</string>
+    <string name="txt_confiscated">已没收</string>
+
+    <string name="txt_all_status">所有状态</string>
+    <string name="txt_received">已到账</string>
+    <string name="txt_unreceived">未领取</string>
+
+    <string name="txt_rebate_ty">体育返水</string>
+    <string name="txt_rebate_zr">真人返水</string>
+    <string name="txt_rebate_qp">棋牌返水</string>
+    <string name="txt_rebate_dj">电竞返水</string>
+
+    <string name="txt_report_acc_change">账变记录</string>
+    <string name="txt_report_game_change">游戏账变记录</string>
+    <string name="txt_report_profit">盈亏报表</string>
+    <string name="txt_report_rebate">返水报表</string>
+    <string name="txt_report_3d">三方转账</string>
+    <string name="txt_report_bt">投注记录</string>
+    <string name="txt_report_recharge">充提记录</string>
+
+    <string name="txt_venue_all">所有平台</string>
+    <string name="txt_venue_cp">中心钱包</string>
+    <string name="txt_venue_pt">PT娱乐</string>
+    <string name="txt_venue_bbin">BBIN娱乐</string>
+    <string name="txt_venue_ag">AG街机捕鱼</string>
+    <string name="txt_venue_obgqp">DB棋牌</string>
+    <string name="txt_venue_obgdj">DB电竞</string>
+    <string name="txt_venue_yy">云游棋牌</string>
+    <string name="txt_venue_aug">AUG棋牌</string>
+
+    <string name="txt_query_type">查询类型</string>
+    <string name="txt_record_recharge">充值记录</string>
+    <string name="txt_record_withdraw">提款记录</string>
+    <string name="txt_record_feedback">未到账反馈记录</string>
+
+    <string name="txt_no_data">没有数据</string>
+    <string name="txt_remark">备注</string>
+    <string name="txt_rst_tie">平</string>
+    <string name="txt_rst_win">赢</string>
+    <string name="txt_rst_lose">输</string>
+    <string name="txt_rst_c">投注失败</string>
+    <string name="txt_rst_v">未结算</string>
+    <string name="txt_rst_co">提前结算</string>
+    <string name="txt_rst_j">投注失败</string>
+    <string name="txt_rst_cancel_ord">取消</string>
+    <string name="txt_rst_half_lose">输一半</string>
+    <string name="txt_rst_half_win">赢一半</string>
+    <string name="txt_rst_void">无效</string>
+    <string name="txt_rst_def">未结算</string>
+
+    <string name="txt_yes">是</string>
+    <string name="txt_no">否</string>
+    <string name="txt_tip">提示</string>
+    <string name="txt_google_auth_fail">绑定谷歌验证码失败</string>
+    <string name="txt_submitted_suc">提交成功</string>
+    <string name="txt_usdt">提款账户</string>
+
+    <string name="txt_copy">复制</string>
+    <string name="txt_copied">已复制</string>
+    <string name="txt_yuan">元</string>
+    <string name="txt_pcs">个</string>
+    <string name="txt_set_withdrawal_request">1.设置提款请求</string>
+    <string name="text_confirm_withdrawal_message">2.确认提款消息</string>
+    <string name="text_over_withdrawal_request">3.完成申请</string>
+
+    <string name="txt_withdrawal_request">设置提款请求</string>
+    <string name="text_withdrawal_confirm">确认提款消息</string>
+    <string name="text_withdrawal_over">完成申请</string>
+
+    <string name="txt_lottery_info">彩种信息</string>
+    <string name="txt_question">常见问题</string>
+    <string name="txt_play_intro">玩法介绍</string>
+    <string name="txt_tutorial">教程</string>
+
+    <!-- 充值页 -->
+    <string name="txt_rc_anti_fraud">防骗教程</string>
+    <string name="txt_rc_download">立即下载</string>
+    <string name="txt_rc_tip_hi_wallet">使用嗨钱包支付 0手续费 秒到账</string>
+    <string name="txt_rc_bind_personal_info">请先绑定个人信息</string>
+    <string name="txt_rc_bind_phone_now">立即绑定手机号</string>
+    <string name="txt_rc_bind_bank_card_now">立即绑定银行卡</string>
+    <string name="txt_rc_bind_phone_email_pls">您没有绑定手机或邮箱，请先绑定</string>
+    <string name="txt_rc_bind_phone">绑定手机</string>
+    <string name="txt_rc_bind_email">绑定邮箱</string>
+    <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
+    <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
+    <string name="txt_no_binding">您没有绑定手机或邮箱请先完成绑定</string>
+    <string name="txt_rc_not_tip">今日不再提示</string>
+    <string name="txt_rc_i_know_close">我知道了，关闭弹窗</string>
+    <string name="txt_rc_manual_tip_1">若其它支付方式失败，建议您使用人工充值功能，同专人客服引导您进行充值</string>
+    <string name="txt_rc_manual_title">为了保护您的资金安全</string>
+    <string name="txt_rc_m_pls_check_signal">请核对人工客服提供的暗号是否为</string>
+    <string name="txt_rc_m_3">如果客服没有主动询问您或发给您的 %1$s否则引发的不到账等情况，概不负责。</string>
+    <string name="txt_rc_m_4">暗号不相符，请勿进行交易。</string>
+    <string name="txt_rc_m_5">注：使用人工充值，最低金额要求1000。</string>
+    <string name="txt_rc_m_ok">我已记住暗号</string>
+    <string name="txt_rc_step">充值步骤</string>
+    <string name="txt_rc_cnyt_tutorial">CNYT充值教程</string>
+    <string name="txt_rc_usdt_tutorial">USDT充值教程</string>
+    <string name="txt_rc_cnyt_content">
+    1. 请先下载或通过上方【一键进入】注册嗨钱包账号\n
+    2. 登录嗨钱包账号，并购买适量的CNYT\n
+    3. 在嗨钱包中通过【转账】进行扫码支付\n
+    4.平台填写金额应当与汇款金额完全一致，否则将无法及时到账</string>
+    <string name="txt_rc_usdt_content">
+    1. 请先下载注册USDT虚拟钱包账号\n
+    2. 登录USDT虚拟钱包账号，并购买适量的USDT\n
+    3. 在USDT虚拟钱包中通过【转账】进行进行扫码支付或输入收款地址进行支付\n
+    4. 平台填写金额应当与汇款金额完全一致，否则将无法及时到账\n
+    </string>
+    <string name="txt_rc_hi_wlt_content">目前登入账号尚未绑定嗨钱包账号，\n确认是否继续操作？</string>
+    <string name="txt_rc_hi_reg">注册嗨钱包</string>
+    <string name="txt_rc_hi_down">下载嗨钱包</string>
+
+    <string name="txt_update">版本更新</string>
+    <string name="txt_update_tip">更新中，请稍候...</string>
+    <string name="txt_update_down_over_tip">下载完成</string>
+    <string name="txt_update_down_fail_tip">下载失败，请稍候重试</string>
+    <string name="txt_network_error">网络异常，请稍后重试</string>
+    <string name="txt_update_version">已经是最新版本</string>
+    <string name="txt_withdrawal_network_error">网络链接超时，请检查您的网络后重试</string>
+    <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
+    <string name="txt_withdrawal_not_supported_tip">暂不支持该渠道提款，请联系您的上级或客服！</string>
+    <!--提款-->
+    <string name="txt_withdrawal_bank">银行卡提款</string>
+    <string name="txt_withdraw_flow">提款流水</string>
+    <string name="txt_withdrawal">提款</string>
+    <string name="txt_withdraw_bank_top_tip">注意：每天限制提款 %1$s 次，您已提款 %2$s 次，提款时间为 %3$s  至 %4$s  您今日剩余提款额度为 %5$s 元</string>
+    <string name="txt_withdraw_flow_close_single">适用： %1$s </string>
+    <string name="txt_withdraw_flow_close_tip">适用： %1$s 等 %2$s</string>
+    <string name="txt_withdraw_flow_open_tip">适用： %1$s %2$s</string>
+
+    <string name="txt_agree">同意</string>
+    <string name="text_no_agree">不同意</string>
+    <string name="txt_precautions">注意事项</string>
+    <string name="txt_withdrawal_virtual_tip">收款账号</string>
+
+    <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>
+    <string name="txt_refer_data_tip">刷新</string>
+    <string name="txt_ip_error_tip">本次登录并非常用IP地址,需要进行安全验证</string>
+    <string name="txt_chang_psw_input_error">请先输入新密码</string>
+    <string name="txt_chang_psw_input_length_error">密码长度为6-16位</string>
+    <string name="txt_chang_psw_input_twice_error">两次密码输入不一致</string>
+    <string name="txt_chang_psw_input_format_error">密码格式不正确,请重新你输入</string>
+
+    <string name="txt_insufficient_balance">" 余额不足"</string>
+    <string name="txt_no_withdrawal_address_for_this_withdrawal_type">暂时没有该提款类型的提款地址</string>
+    <string name="txt_no_withdrawal_address_for_trc20_type">暂时没有该提款类型的提款地址</string>
+
+    <string name="txt_sport_official">杏彩体育官方版</string>
+    <string name="txt_sport_inter">杏彩体育旗舰版</string>
+
+    <string name="txt_bind_tip">您还未绑定%1$s,是否前往绑定?</string>
+    <string name="txt_bind_other_type_tip">您还未绑定%1$s地址,是否前往绑定?</string>
+    <string name="txt_bind_error_sys_tip">您尚未绑定</string>
+    <string name="txt_bind_bank_tip">银行卡</string>
+    <string name="txt_bind_usdt_tip">USDT提款</string>
+    <string name="txt_withdrawal_usdt_tip">USDT介绍及提款教程</string>
+    <string name="txt_single_withdrawal_range">单笔取款范围 %1$s-%2$s 元</string>
+    <string name="txt_withdraw_input_error_tip">请输入提款金额</string>
+    <string name="txt_withdraw_input_mix_tip">提款金额不能小于最小提款金额</string>
+    <string name="txt_withdraw_input_max_tip">提款金额不能大于最大提款金额</string>
+    <string name="txt_withdraw_address_tip">请选择提款地址</string>
+    <string name="txt_withdraw_submit_tip">账户提款申请成功</string>
+    <string name="txt_withdrawal_usdt_title">USDT提款</string>
+    <string name="txt_update_bottom_tip">打开浏览器下载安装</string>
+    <string name="txt_update_bottom_error_tip">如更新失败，点击此处下载安装</string>
+
+    <!--  全局验证页 -->
+    <string name="txt_vf_failed">验证失败</string>
+    <string name="txt_rc_skip_boot">跳过引导</string>
+    <string name="txt_rc_enter_boot">进入引导</string>
+    <string name="txt_recharge_guide">充值引导</string>
+    <string name="txt_senior_player">资深玩家</string>
+    <string name="txt_new_player">新手玩家</string>
+    <string name="txt_otp_not_four_number">请输入4位数字的验证码</string>
+    <string name="txt_verification_is_empty">验证码不能为空</string>
+    <!--充值引导  -->
+    <string name="txt_recharge_bank">请选择付款银行卡</string>
+    <string name="txt_recharge_name">充值姓名需要和您绑定提款银行卡 \n时的姓名一致</string>
+    <string name="txt_recharge_money">请输入充值金额，建议使用下方快捷金额按钮</string>
+    <string name="txt_recharge_nex">点击【下一步】进行充值订单匹配</string>
+    <string name="txt_recharge_view_jump">跳过</string>
+    <string name="txt_recharge_view_next">下一步</string>
+    <string name="txt_recharge_view_pro">上一步</string>
+    <string name="txt_guide_ex_tran_commit">匹配成功后自动会自动进入下一步</string>
+    <string name="txt_guide_ex_tran_confirm">已匹配到我们的收款银行卡信息，请通过 \n您的银行卡进行转账汇款</string>
+    <string name="txt_guide_ex_pay_upload2">注意剩余时间，转账时间剩不多货或超时切\n勿转账，超时打款不予上分</string>
+    <string name="txt_guide_ex_pay_upload">转账后请及时点击【上传凭证】将充值 \n的回执单完成流程，否则是为充值失败</string>
+    <string name="txt_guide_ex_pay_upload1">不予上分损失自负</string>
+    <string name="txt_guide_ex_pay_sure">回执单成功完成上传后， \n点击【确定】按钮</string>
+    <string name="txt_guide_ex_pay_sure1">上传完回执单后，系统会根据您提供的\N回执单，识别出来付款银行和卡号。若无法识别您也可以自行填写</string>
+    <string name="txt_guide_ex_confirm1">充值已完成，请耐心等候上分。</string>
+    <string name="txt_guide_ex_confirm2">若有疑问可联系客服。</string>
+    <string name="txt_guide_ex_pay_upload_time">注意剩余时间，请在规定时间内完成回执单上传 \n若超时未完成上传，请联系客服</string>
+    <string name="txt_guide_ex_pay_upload_time1">请点击【上传图片】将汇款回执单进行上传\n您也可以点击【回执单示例】产看回执单的示例</string>
+    <string name="txt_mine_bind_bank_number">银行卡号</string>
+    <string name="txt_mine_rebind_usdt">重新绑定</string>
+    <string name="txt_mine_wallet_address">钱包地址</string>
+    <string name="txt_mine_alipay_name">支付宝姓名</string>
+    <string name="txt_mine_alipay_nick_name">支付宝昵称</string>
+    <string name="txt_alipay_code">支付宝收款码：</string>
+
+
+    <!--测速浮窗-->
+    <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
+
+</resources>
