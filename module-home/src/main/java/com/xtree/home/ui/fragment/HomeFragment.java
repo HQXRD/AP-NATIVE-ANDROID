@@ -8,6 +8,9 @@ import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,6 +100,24 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private boolean isSelectedGame = false;
     private int gameGroup = -1;
 
+    private static  final  int MSG_REFRESH_NOTICE = 1001;//刷新公告
+    //刷新公共Handler
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_REFRESH_NOTICE:
+                    viewModel.getNotices(); // 获取公告
+                    break;
+                default:
+                    CfLog.i("****** default");
+                    break;
+            }
+        }
+    };
+
+
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_home;
@@ -125,7 +146,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         checkUpdate(); // 检查更新
         if (!TextUtils.isEmpty(token)) {
             CfLog.i("******");
-            viewModel.getProfile();
+            viewModel.getProfile();//获取更人信息
             //viewModel.getRedPocket(); // VIP有没有红包 (小红点)
             viewModel.getRewardRed(); // 主页 我的按钮小红点
         }
@@ -237,11 +258,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     .asCustom(new ECAnimDialog(requireContext(), getString(url)));
             ppw.show();
         });
-
+        //获取首页公告
         viewModel.liveDataNotice.observe(getViewLifecycleOwner(), list -> {
             if (list.isEmpty()) {
                 binding.llNotice.setVisibility(View.GONE);
                 binding.ivwNotice.setVisibility(View.GONE);
+                //发送重试Message
+                Message msg2 = new Message();
+                msg2.what = MSG_REFRESH_NOTICE;
+                mHandler.sendMessage(msg2);
             } else {
                 StringBuffer sb = new StringBuffer();
                 for (NoticeVo vo : list) {
