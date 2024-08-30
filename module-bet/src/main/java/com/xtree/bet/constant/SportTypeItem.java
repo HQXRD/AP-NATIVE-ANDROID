@@ -1,8 +1,7 @@
 package com.xtree.bet.constant;
 
 public class SportTypeItem {
-    public String id;
-    public int position;
+    public int id;
     public String code;
     public String name;
     public int order;
@@ -10,24 +9,17 @@ public class SportTypeItem {
     public int menuId;
     //彩种赛事数量
     public int num;
-    public boolean isSelected;
 
     public SportTypeItem() {
     }
 
-    public SportTypeItem(String id, String code, String name) {
+    public SportTypeItem(int id, String code, String name, Integer iconId) {
         this.id = id;
         this.code = code;
         this.name = name;
+        this.iconId = iconId;
     }
-
-    public SportTypeItem(String id, String code, String name, Integer order) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-        this.order = order;
-    }
-    public SportTypeItem(String id, String code, String name, Integer order, Integer iconId) {
+    public SportTypeItem(int id, String code, String name, Integer order, Integer iconId) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -35,7 +27,7 @@ public class SportTypeItem {
         this.iconId = iconId;
     }
 
-    public SportTypeItem(String id, String code, String name, Integer order, Integer iconId, int menuId) {
+    public SportTypeItem(int id, String code, String name, Integer order, Integer iconId, int menuId) {
         this.id = id;
         this.code = code;
         this.name = name;

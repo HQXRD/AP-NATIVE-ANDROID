@@ -150,8 +150,8 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public TemplateMainViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
         //SPORT_NAMES = SPORT_NAMES_TODAY_CG;
-        Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
-        //sportItemData.postValue(SPORT_NAMES);
+        //Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
+        sportItemData.postValue(new String[]{});
     }
 
     public void setPlayMethodTabData() {
@@ -165,7 +165,6 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         playSearchData.setValue(dateList);
     }
 
-    public abstract void setSportIds(int playMethodPos);
 
     public void setSportItems(int playMethodPos, int playMethodType) {
 
@@ -182,13 +181,13 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     }
 
     public void setSportIcons(int playMethodPos) {
-        if (playMethodPos == 0 || playMethodPos == 3) {
-            Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
-        } else if (playMethodPos == 1) {
-            Constants.SPORT_ICON = Constants.SPORT_ICON_LIVE;
-        } else {
-            Constants.SPORT_ICON = Constants.SPORT_ICON_NOMAL;
-        }
+        //if (playMethodPos == 0 || playMethodPos == 3) {
+        //    Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
+        //} else if (playMethodPos == 1) {
+        //    Constants.SPORT_ICON = Constants.SPORT_ICON_LIVE;
+        //} else {
+        //    Constants.SPORT_ICON = Constants.SPORT_ICON_NOMAL;
+        //}
     }
 
     public String getScore(List<League> leagueList, long matchId) {

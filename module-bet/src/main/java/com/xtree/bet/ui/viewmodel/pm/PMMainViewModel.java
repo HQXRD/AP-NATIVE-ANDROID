@@ -5,13 +5,6 @@ import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401038;
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
-import static com.xtree.bet.constant.PMConstants.SPORT_ICON_ADDITIONAL;
-import static com.xtree.bet.constant.PMConstants.SPORT_IDS;
-import static com.xtree.bet.constant.PMConstants.SPORT_IDS_DEFAULT;
-import static com.xtree.bet.constant.PMConstants.SPORT_NAMES;
-import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_LIVE;
-import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_NOMAL;
-import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 
 import android.app.Application;
@@ -35,7 +28,6 @@ import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
-import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.SportTypeItem;
 import com.xtree.bet.data.BetRepository;
@@ -45,7 +37,6 @@ import com.xtree.bet.ui.viewmodel.callback.PMLeagueListCallBack;
 import com.xtree.bet.ui.viewmodel.callback.PMListCallBack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +60,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     private Map<String, List<SportTypeItem>> sportCountMap = new HashMap<>();
     private List<MenuInfo> mMenuInfoList = new ArrayList<>();
     private PMHttpCallBack mPmHttpCallBack;
+
+    private HashMap<Integer, SportTypeItem> mMatchGames = new HashMap<>();
 
     private int mGoingOnPageSize = 300;
     private int mPageSize = 20;
@@ -106,91 +99,90 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
-        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
-        SPORT_IDS = SPORT_IDS_DEFAULT;
-        sportItemData.postValue(SPORT_NAMES);
+        sportItemData.postValue(new String[]{});
     }
 
-    @Override
-    public void setSportIds(int playMethodPos) {
-        if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
-            SPORT_IDS = new String[14];
-            SPORT_IDS[0] = "0";
-        } else {
-            SPORT_IDS = new String[13];
-        }
-        int playMethodType = Integer.valueOf(getPlayMethodTypes()[playMethodPos]);
-        for (MenuInfo menuInfo : mMenuInfoList) {
-            Map<String, Integer> sslMap = new HashMap<>();
-            if (playMethodType == menuInfo.menuType) {
-                for (MenuInfo subMenu : menuInfo.subList) {
-                    sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
-
-                    int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
-                    if (index != -1) {
-                        SPORT_IDS[index] = String.valueOf(subMenu.menuId);
-                    }
-
-                }
-                break;
-            }
-        }
-    }
+    //@Override
+    //public void setSportIds(int playMethodPos) {
+    //    if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
+    //        SPORT_IDS = new String[14];
+    //        SPORT_IDS[0] = "0";
+    //    } else {
+    //        SPORT_IDS = new String[13];
+    //    }
+    //    int playMethodType = Integer.valueOf(getPlayMethodTypes()[playMethodPos]);
+    //    for (MenuInfo menuInfo : mMenuInfoList) {
+    //        Map<String, Integer> sslMap = new HashMap<>();
+    //        if (playMethodType == menuInfo.menuType) {
+    //            for (MenuInfo subMenu : menuInfo.subList) {
+    //                sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
+    //
+    //                int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
+    //                if (index != -1) {
+    //                    SPORT_IDS[index] = String.valueOf(subMenu.menuId);
+    //                }
+    //
+    //            }
+    //            break;
+    //        }
+    //    }
+    //}
 
     public void setSportItems(int playMethodPos, int playMethodType) {
-        if (playMethodPos == 0 || playMethodPos == 3) {
-            if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
-                SPORT_NAMES = SPORT_NAMES_TODAY_CG;
-            }
-        } else if (playMethodPos == 1) {
-            if (SPORT_NAMES != SPORT_NAMES_LIVE) {
-                SPORT_NAMES = SPORT_NAMES_LIVE;
-            }
-        } else {
-            if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
-                SPORT_NAMES = SPORT_NAMES_NOMAL;
-            }
-        }
-        setSportIds(playMethodPos);
-
-        if (playMethodPos == 4) {
-            List<String> additionalIds = new ArrayList<>();
-            List<String> additionalNames = new ArrayList<>();
-            List<Integer> additionalIcons = new ArrayList<>();
-            for (int i = 0; i < SPORT_IDS.length; i++) {
-                additionalIds.add(SPORT_IDS[i]);
-                additionalNames.add(SPORT_NAMES[i]);
-                additionalIcons.add(Constants.SPORT_ICON[i]);
-            }
-
-            for (MenuInfo menuInfo : mMenuInfoList) {
-                if (playMethodType == menuInfo.menuType) {
-                    for (MenuInfo subMenu : menuInfo.subList) {
-                        int index = Arrays.asList(PMConstants.SPORT_TYPES_ADDITIONAL).indexOf(subMenu.menuType);
-                        if (index != -1 && subMenu.count > 0) {
-                            additionalIds.add(String.valueOf(subMenu.menuId));
-                            additionalNames.add(subMenu.menuName);
-                            additionalIcons.add(SPORT_ICON_ADDITIONAL[index]);
-                        }
-                    }
-                    break;
-                }
-            }
-
-            String[] ids = new String[additionalIds.size()];
-            String[] names = new String[additionalNames.size()];
-            int[] icons = new int[additionalIcons.size()];
-            additionalIds.toArray(ids);
-            additionalNames.toArray(names);
-            for (int i = 0; i < additionalIcons.size(); i++) {
-                icons[i] = additionalIcons.get(i);
-            }
-            PMConstants.SPORT_IDS = ids;
-            PMConstants.SPORT_NAMES = names;
-            Constants.SPORT_ICON = icons;
-        }
-
-        sportItemData.postValue(SPORT_NAMES);
+        sportItemData.postValue(new String[]{});
+        //if (playMethodPos == 0 || playMethodPos == 3) {
+        //    if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
+        //        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+        //    }
+        //} else if (playMethodPos == 1) {
+        //    if (SPORT_NAMES != SPORT_NAMES_LIVE) {
+        //        SPORT_NAMES = SPORT_NAMES_LIVE;
+        //    }
+        //} else {
+        //    if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
+        //        SPORT_NAMES = SPORT_NAMES_NOMAL;
+        //    }
+        //}
+        ////setSportIds(playMethodPos);
+        //
+        //if (playMethodPos == 4) {
+        //    List<String> additionalIds = new ArrayList<>();
+        //    List<String> additionalNames = new ArrayList<>();
+        //    List<Integer> additionalIcons = new ArrayList<>();
+        //    for (int i = 0; i < SPORT_IDS.length; i++) {
+        //        additionalIds.add(SPORT_IDS[i]);
+        //        additionalNames.add(SPORT_NAMES[i]);
+        //        additionalIcons.add(Constants.SPORT_ICON[i]);
+        //    }
+        //
+        //    for (MenuInfo menuInfo : mMenuInfoList) {
+        //        if (playMethodType == menuInfo.menuType) {
+        //            for (MenuInfo subMenu : menuInfo.subList) {
+        //                int index = Arrays.asList(PMConstants.SPORT_TYPES_ADDITIONAL).indexOf(subMenu.menuType);
+        //                if (index != -1 && subMenu.count > 0) {
+        //                    additionalIds.add(String.valueOf(subMenu.menuId));
+        //                    additionalNames.add(subMenu.menuName);
+        //                    additionalIcons.add(SPORT_ICON_ADDITIONAL[index]);
+        //                }
+        //            }
+        //            break;
+        //        }
+        //    }
+        //
+        //    String[] ids = new String[additionalIds.size()];
+        //    String[] names = new String[additionalNames.size()];
+        //    int[] icons = new int[additionalIcons.size()];
+        //    additionalIds.toArray(ids);
+        //    additionalNames.toArray(names);
+        //    for (int i = 0; i < additionalIcons.size(); i++) {
+        //        icons[i] = additionalIcons.get(i);
+        //    }
+        //    PMConstants.SPORT_IDS = ids;
+        //    PMConstants.SPORT_NAMES = names;
+        //    Constants.SPORT_ICON = icons;
+        //}
+        //
+        //sportItemData.postValue(SPORT_NAMES);
     }
 
     /**
@@ -210,11 +202,12 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         pmListReq.setCps(mGoingOnPageSize);
         String sportIds = "";
         if (mMenuInfoList.isEmpty()) {
-            for (String sportId : SPORT_IDS_DEFAULT) {
-                if (!TextUtils.equals("0", sportId)) {
-                    sportIds += sportId + ",";
-                }
-            }
+            //for (String sportId : SPORT_IDS_DEFAULT) {
+            //    if (!TextUtils.equals("0", sportId)) {
+            //        sportIds += sportId + ",";
+            //    }
+            //}
+            return;
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 if (playMethodType == menuInfo.menuType) {
@@ -356,24 +349,24 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         if (mMenuInfoList.isEmpty()) {
-            pmListReq.setEuid(SPORT_IDS_DEFAULT[sportPos]);
+            pmListReq.setEuid(sportId);
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
                 if (mPlayType == menuInfo.menuType) {
                     String sportIds = "";
                     for (MenuInfo subMenu : menuInfo.subList) {
-                        if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+                        if (TextUtils.equals(sportId, "0") || TextUtils.equals(sportId, "1111")) {
                             sportIds += subMenu.menuId + ",";
                         } else {
-                            if (subMenu.menuName.contains(SPORT_NAMES[sportPos])) {
+                            if (TextUtils.equals(String.valueOf(subMenu.menuId), sportId)) {
                                 isFound = true;
                                 pmListReq.setEuid(String.valueOf(subMenu.menuId));
                                 break;
                             }
                         }
                     }
-                    if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+                    if (TextUtils.equals(sportId, "0") || TextUtils.equals(sportId, "1111")) {
                         isFound = true;
                         pmListReq.setEuid(sportIds.substring(0, sportIds.length() - 1));
                     }
@@ -495,14 +488,14 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         //pbListReq.setOddType(oddType);
 
         if (mMenuInfoList.isEmpty()) {
-            pmListReq.setEuid(PMConstants.SPORT_IDS_CHAMPION_SPECAIL[sportPos]);
+            pmListReq.setEuid(sportId);
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
                 if (playMethodType == menuInfo.menuType) {
                     for (MenuInfo subMenu : menuInfo.subList) {
 
-                        if (subMenu.menuName.contains(SPORT_NAMES[sportPos])) {
+                        if (TextUtils.equals(String.valueOf(subMenu.menuType),sportId)) {
                             isFound = true;
                             pmListReq.setEuid(String.valueOf(subMenu.menuId));
                             break;
@@ -610,33 +603,61 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                     @Override
                     public void onResult(List<MenuInfo> menuInfoList) {
                         mMenuInfoList = menuInfoList;
+                        if (mMatchGames.isEmpty()) {
+                            mMatchGames = PMConstants.getMatchGames();
+                        }
                         for (MenuInfo menuInfo : menuInfoList) {
-                            Map<String, Integer> sslMap = new HashMap<>();
-
-                            for (MenuInfo subMenu : menuInfo.subList) {
-                                sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
-                                if (playMethodType == menuInfo.menuType) {
-                                    int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
-                                    if (index != -1) {
-                                        SPORT_IDS[index] = String.valueOf(subMenu.menuId);
-                                    }
+                            //"3", "1", "4", "11", "100"; 只有"今日", "滚球", "早盘", "串关", "冠军"数据才添加，提升效率
+                            if (menuInfo.menuType == 3 || menuInfo.menuType == 1 || menuInfo.menuType == 4 || menuInfo.menuType == 11
+                                    || menuInfo.menuType == 100) {
+                                ArrayList<SportTypeItem> sportTypeItemList = new ArrayList<>();
+                                //Map<String, Integer> sslMap = new HashMap<>();
+                                if (menuInfo.menuType == 3 || menuInfo.menuType == 11) {//今日 串关 加热门
+                                    SportTypeItem item1 = new SportTypeItem();
+                                    item1.id = 1111;
+                                    item1.num = 0;
+                                    sportTypeItemList.add(item1);
+                                }else if (menuInfo.menuType == 1) {//滚球 加全部
+                                    SportTypeItem item2 = new SportTypeItem();
+                                    item2.id = 0;
+                                    item2.num = menuInfo.count;
+                                    sportTypeItemList.add(item2);
                                 }
-                                String[] sportArr = SPORT_IDS;
-                                List<SportTypeItem> sportTypeItemList = new ArrayList<>();
-                                for (int i = 0; i < sportArr.length; i++) {
+                                for (MenuInfo subMenu : menuInfo.subList) {
+                                    if (subMenu.count <= 0 || mMatchGames.get(subMenu.menuType) == null) {
+                                        continue;
+                                    }
+
                                     SportTypeItem item = new SportTypeItem();
-                                    if (sslMap.get(sportArr[i]) == null) {
-                                        item.num = 0;
-                                    } else {
-                                        item.num = sslMap.get(sportArr[i]);
-                                    }
-                                    item.id = sportArr[i];
-                                    item.position = i;
+                                    item.id = subMenu.menuType;
+                                    item.menuId = subMenu.menuId;
+                                    item.num = subMenu.count;
                                     sportTypeItemList.add(item);
-                                }
-                                sportCountMap.put(String.valueOf(menuInfo.menuType), sportTypeItemList);
-                            }
+                                    //sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
 
+                                    //sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
+                                    //if (playMethodType == menuInfo.menuType) {
+                                    //    int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
+                                    //    if (index != -1) {
+                                    //        SPORT_IDS[index] = String.valueOf(subMenu.menuId);
+                                    //    }
+                                    //}
+                                    //String[] sportArr = SPORT_IDS;
+                                    //List<SportTypeItem> sportTypeItemList = new ArrayList<>();
+                                    //for (int i = 0; i < sportArr.length; i++) {
+                                    //    SportTypeItem item = new SportTypeItem();
+                                    //    if (sslMap.get(sportArr[i]) == null) {
+                                    //        item.num = 0;
+                                    //    } else {
+                                    //        item.num = sslMap.get(sportArr[i]);
+                                    //    }
+                                    //    item.id = Integer.parseInt(sportArr[i]);
+                                    //    sportTypeItemList.add(item);
+                                    //}
+                                    sportCountMap.put(String.valueOf(menuInfo.menuType), sportTypeItemList);
+                                }
+
+                            }
                         }
 
                         statisticalData.postValue(sportCountMap);
@@ -663,13 +684,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     @Override
-    public String[] getSportId(int playMethodType) {
-        return SPORT_IDS;
-    }
-
-    @Override
-    public String[] getSportName(int playMethodType) {
-        return SPORT_NAMES;
+    public HashMap<Integer, SportTypeItem> getMatchGames() {
+        return PMConstants.getMatchGames();
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {

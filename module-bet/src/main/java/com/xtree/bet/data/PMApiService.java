@@ -47,7 +47,7 @@ public interface PMApiService {
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<MatchListRsp>> matchesPagePB(@Body PMListReq pmListReq);
     /**
-     * 获取 PM赛事列表
+     * 获取 PM赛事列表 分页获取非滚球赛事信息
      * @return
      */
     @POST("/yewu11/v1/m/noLiveMatchesPagePB")

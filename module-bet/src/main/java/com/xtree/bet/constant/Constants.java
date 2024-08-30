@@ -14,66 +14,66 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class Constants {
 
-    public static int[] SPORT_ICON;
-
-    //早盘和冠军
-    public static int[] SPORT_ICON_NOMAL = new int[]{
-            project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_wq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_snk_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_bq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_ymq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_mszq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_dzlq_selector,};
-
-    //滚球
-    public static int[] SPORT_ICON_LIVE = new int[]{
-            project.tqyb.com.library_res.R.drawable.bt_match_item_live_all_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_wq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_snk_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_bq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_ymq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_mszq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_dzlq_selector,};
-
-    //今日或串关
-    public static int[] SPORT_ICON_TODAY_CG = new int[]{
-            project.tqyb.com.library_res.R.drawable.bt_match_item_hot_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_wq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_snk_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_bq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_ymq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_mszq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_dzlq_selector,};
+    //public static int[] SPORT_ICON;
+    //
+    ////早盘和冠军
+    //public static int[] SPORT_ICON_NOMAL = new int[]{
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_wq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_snk_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_bq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_ymq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_mszq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_dzlq_selector,};
+    //
+    ////滚球
+    //public static int[] SPORT_ICON_LIVE = new int[]{
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_live_all_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_wq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_snk_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_bq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_ymq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_mszq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_dzlq_selector,};
+    //
+    ////今日或串关
+    //public static int[] SPORT_ICON_TODAY_CG = new int[]{
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_hot_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_wq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_snk_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_bq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_ymq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_mszq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_dzlq_selector,};
 
     /**
      * 获取比分类型
