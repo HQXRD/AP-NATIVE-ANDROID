@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    主色调 (Primary Color)-->
+    <!--    primaryColor：#F3A3CA（粉色调）-->
+    <!--    primaryVariant：#787ED（蓝色调）-->
+    <!--    强调色 (Accent Color)-->
+    <!--    secondaryColor：#9887D2（主色）-->
+    <!--    文本颜色 (Text Colors)-->
+    <!--    textPrimary：#302E36（一级文字）-->
+    <!--    textSecondary：#5B5768（二级文字）-->
+    <!--    textTertiary：#9A96A4（描边文字色）-->
+    <!--    按钮颜色 (Button Colors)-->
+    <!--    buttonText：#FFFFFF（按钮反白字）-->
+    <!--    状态颜色 (Status Colors)-->
+    <!--    successColor：#54AF62（成功）-->
+    <!--    errorColor：#EE5A5A（失败）-->
+    <!--    warningColor：#FBB516（强调）-->
+    <!--    背景颜色 (Background Colors)-->
+    <!--    backgroundPrimary：#FFF8FC（投注渐变）-->
+
+
+    <!--    根据 Material Design 命名规则，可以将图片中各级文字颜色命名如下：-->
+
+    <!--    一级文字 (Primary Text)-->
+    <!--    textPrimary：#302E36-->
+    <!--    二级文字 (Secondary Text)-->
+    <!--    textSecondary：#5B5768-->
+    <!--    三级文字 (Tertiary Text)-->
+    <!--    textTertiary：#9A96A4-->
+    <!--    四级文字 (Quaternary Text)-->
+    <!--    textQuaternary：#C7C4D0-->
+    <!--    五级文字 (Quinary Text)-->
+    <!--    textQuinary：#F8F8F8-->
+    <!--    六级文字 (Senary Text)-->
+    <!--    textSenary：#FBFBFB-->
+
+    <!--    主题色-->
+    <color name="primaryColor">#F3A3CA</color>
+    <color name="primaryVariant">#8877ED</color>
+    <color name="secondaryColor">#9887D2</color>
+    <color name="tertiaryColor">#13A1DE</color>
+    <!--    主题色-->
+
+    <!--   状态-->
+    <color name="successColor">#54AF62</color>
+    <color name="errorColor">#EE5A5A</color>
+    <color name="warningColor">#FBB516</color>
+    <color name="winColor">#F34E6C</color>
+    <color name="loseColor">#4AC6A1</color>
+    <color name="drawColor">#E9AF3E</color>
+    <color name="unsettleColor">#C8C8C8</color>
+    <color name="invalidColor">#BEBED0</color>
+    <color name="infoColor">#E66AA6</color>
+    <!--   状态-->
+
+    <!--    文字-->
+    <color name="textDescriptionColor">#9A96A4</color>
+    <color name="textPrimaryColor">#302E36</color>
+    <color name="textSecondaryColor">#5B5768</color>
+    <color name="textTertiaryColor">#9A96A4</color>
+    <color name="textQuaternaryColor">#C7C4D0</color>
+    <color name="textQuinaryColor">#F8F8F8</color>
+    <color name="textSenaryColor">#FBFBFB</color>
+    <!--    文字-->
+
+    <!--    渐变-->
+    <color name="closeGradient1Color">#DB98C4</color>
+    <color name="closeGradient2Color">#EFE5FF</color>
+
+    <color name="titleGradient1Color">#E7DAFF</color>
+    <color name="titleGradient2Color">#CFEFE5FF</color>
+
+    <color name="betGradient1Color">#FFF8FC</color>
+    <color name="betGradient2Color">#F4EFFF</color>
+
+    <color name="lotteryLabelGradient1Color">#E7DAFF</color>
+    <color name="lotteryLabelGradient2Color">#00EFE5FF</color>
+
+    <color name="lotteryTitleGradient1Color">#F8ECFF</color>
+    <color name="lotteryTitleGradient2Color">#00F8ECFF</color>
+
+    <color name="moneyGradient1Color">#FFFFFF</color>
+    <color name="moneyGradient2Color">#52BBACFD</color>
+    <color name="moneyGradient3Color">#00F2EFFF</color>
+
+    <color name="moneyDefaultGradient1Color">#87F0EAFF</color>
+    <color name="moneyDefaultGradient2Color">#ECE8FF</color>
+
+    <!--    渐变-->
+
+    <!--    其他-->
+    <color name="dividerColor">#EEEDF0</color>
+    <color name="buttonText">#FFFFFF</color>
+    <color name="parlayLabelColor">#95845A</color>
+    <color name="parlayBackgroundColor">#33C8A54E</color>
+    <!--    其他-->
+
+</resources>

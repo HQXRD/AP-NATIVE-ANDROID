@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/hm_gm_ty_01_both" android:maxLevel="91" />
+    <item android:drawable="@mipmap/hm_gm_ty_01_left" android:maxLevel="92" />
+    <item android:drawable="@mipmap/hm_gm_ty_01_right" android:maxLevel="93" />
+
+    <item android:drawable="@mipmap/hm_gm_ty_01" android:maxLevel="101" />
+    <item android:drawable="@mipmap/hm_gm_ty_03" android:maxLevel="102" />
+    <item android:drawable="@mipmap/hm_gm_ty_02" android:maxLevel="103" />
+    <item android:drawable="@mipmap/hm_gm_ty_05" android:maxLevel="105" />
+    <item android:drawable="@mipmap/hm_gm_ty_06" android:maxLevel="106" />
+    <item android:drawable="@mipmap/hm_gm_ty_04" android:maxLevel="107" />
+
+    <item android:drawable="@mipmap/hm_gm_zr_01" android:maxLevel="201" />
+    <item android:drawable="@mipmap/hm_gm_zr_02" android:maxLevel="202" />
+    <item android:drawable="@mipmap/hm_gm_zr_03" android:maxLevel="203" />
+    <item android:drawable="@mipmap/hm_gm_zr_04" android:maxLevel="204" />
+    <item android:drawable="@mipmap/hm_gm_zr_05" android:maxLevel="205" />
+
+    <item android:drawable="@mipmap/hm_gm_dz_00" android:maxLevel="300" />
+    <item android:drawable="@mipmap/hm_gm_dz_01" android:maxLevel="301" />
+    <item android:drawable="@mipmap/hm_gm_dz_02" android:maxLevel="302" />
+    <item android:drawable="@mipmap/hm_gm_dz_03" android:maxLevel="303" />
+    <item android:drawable="@mipmap/hm_gm_dz_04" android:maxLevel="304" />
+    <item android:drawable="@mipmap/hm_gm_dz_05" android:maxLevel="305" />
+    <item android:drawable="@mipmap/hm_gm_dz_06" android:maxLevel="306" />
+    <item android:drawable="@mipmap/hm_gm_dz_07" android:maxLevel="307" />
+    <item android:drawable="@mipmap/hm_gm_dz_08" android:maxLevel="308" />
+    <item android:drawable="@mipmap/hm_gm_dz_09" android:maxLevel="309" />
+    <item android:drawable="@mipmap/hm_gm_dz_10" android:maxLevel="310" />
+    <item android:drawable="@mipmap/hm_gm_dz_11" android:maxLevel="311" />
+
+    <item android:drawable="@mipmap/hm_gm_dj_01" android:maxLevel="401" />
+    <item android:drawable="@mipmap/hm_gm_dj_02" android:maxLevel="402" />
+    <item android:drawable="@mipmap/hm_gm_dj_03" android:maxLevel="403" />
+    <item android:drawable="@mipmap/hm_gm_dj_04" android:maxLevel="404" />
+
+    <item android:drawable="@mipmap/hm_gm_qp_01" android:maxLevel="501" />
+    <item android:drawable="@mipmap/hm_gm_qp_02" android:maxLevel="502" />
+    <item android:drawable="@mipmap/hm_gm_qp_03" android:maxLevel="503" />
+    <item android:drawable="@mipmap/hm_gm_qp_04" android:maxLevel="504" />
+    <item android:drawable="@mipmap/hm_gm_qp_05" android:maxLevel="505" />
+
+    <item android:drawable="@mipmap/hm_gm_cp_01" android:maxLevel="601" />
+
+    <item android:drawable="@mipmap/hm_gm_ty_01" android:maxLevel="1000" />
+</level-list>

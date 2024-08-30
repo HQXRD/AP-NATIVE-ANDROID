@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/bt_quick_amount_check" android:state_selected="true"/>
+    <item android:drawable="@drawable/bt_bg_keyboard_item" android:state_selected="false"/>
+</selector>
