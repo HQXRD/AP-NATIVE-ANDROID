@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Purple Theme example-->
+    <attr name="specialButtonStyle" format="reference" />
+
+</resources>

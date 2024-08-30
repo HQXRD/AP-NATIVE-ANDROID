@@ -18,6 +18,7 @@ android {
         def flavors = new JsonSlurper().parseText(json)
         flavors.each { flavor ->
             "${flavor.channel_name}" {
+                sourceSets.main.res.srcDirs += ["src/${flavor.channel_name}/theme/"]
             }
         }
     }
