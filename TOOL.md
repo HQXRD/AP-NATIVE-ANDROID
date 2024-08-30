@@ -16,10 +16,13 @@
 
 #### Step 3
     于library-res组件内创建src/平台名称/文件夹，资源内容与main相同即可替换资源
-    1，values/theme_colors.xml 是皮肤所需用到的所有颜色，大部分命名方式参考material
-    2, values/themes_styles.xml 里面定义了应用中所有和主题相关的样式，包括颜色、字体、图片
-    3，values/themes_attrs.xml 是给添加样式到主题里面，预留以后可以在应用中换肤，把属性给layout的view去使用
-    4, layout/item_text.xml 里面有怎么使用自定义属性的简单例子
+
+    以od_purple渠道名为例
+    1, .../渠道名/theme是主题相关的资源文件，包括颜色、字体、图片、样式
+    2，.../渠道名/theme/values/themes_colors.xml 是皮肤所需用到的所有颜色，大部分命名方式参考material
+    2, .../渠道名/theme/values/themes_styles.xml 里面定义了应用中所有和主题相关的样式，包括颜色、字体、图片
+    3，.../渠道名/theme/values/themes_attrs.xml 是给添加样式到主题里面，预留以后可以在应用中换肤，把属性给layout的view去使用
+    4, .../渠道名/res/layout/item_text.xml 里面有怎么使用自定义属性的简单例子
 
 一键切换环境功能 使用
 ---
