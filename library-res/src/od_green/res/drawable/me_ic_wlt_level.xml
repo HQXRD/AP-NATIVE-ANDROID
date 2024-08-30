@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@mipmap/me_ic_wlt_center"
+        android:maxLevel="0" />
+    <item
+        android:drawable="@mipmap/me_ic_wlt_pt"
+        android:maxLevel="1" />
+    <item
+        android:drawable="@mipmap/me_ic_wlt_bbin"
+        android:maxLevel="2" />
+    <item
+        android:drawable="@mipmap/me_ic_wlt_ag"
+        android:maxLevel="3" />
+    <item
+        android:drawable="@mipmap/me_ic_wlt_obgdj"
+        android:maxLevel="4" />
+    <item
+        android:drawable="@mipmap/me_ic_wlt_yy"
+        android:maxLevel="5" />
+    <item
+        android:drawable="@mipmap/me_ic_wlt_obgqp"
+        android:maxLevel="6" />
+    <item
+        android:drawable="@mipmap/me_ic_wlt_center"
+        android:maxLevel="100" />
+</level-list>

@@ -10,5 +10,21 @@
   {
     "channel_name": "od_purple",
     "label": "奥丁-紫色"
+  },
+  {
+    "channel_name": "od_green",
+    "label": "奥丁-绿色"
+  },
+  {
+    "channel_name": "od_yellow_powder",
+    "label": "奥丁-黄粉"
+  },
+  {
+  "channel_name": "od_light_blue",
+  "label": "奥丁-浅蓝"
+  },
+  {
+    "channel_name": "od_blue",
+    "label": "奥丁-蓝"
   }
 ]

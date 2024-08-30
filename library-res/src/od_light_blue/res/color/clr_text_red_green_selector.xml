@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 选中时的字体颜色 clr_red_01 -->
+    <item android:color="@color/clr_red_01" android:state_selected="true" />
+
+    <item android:color="@color/clr_green_01" android:state_selected="false" />
+
+    <!-- 平局时的颜色 -->
+    <item android:color="@color/clr_filter_txt_black" android:state_activated="true" />
+
+</selector>

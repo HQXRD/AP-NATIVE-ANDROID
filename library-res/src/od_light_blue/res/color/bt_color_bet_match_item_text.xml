@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 投注列表页比赛类型（足球，篮球等）字体颜色 -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <item android:color="@color/bt_tab_match_textcolor_selected" android:state_selected="true" />
+    <item android:color="@color/bt_text_color_primary" />
+
+</selector>

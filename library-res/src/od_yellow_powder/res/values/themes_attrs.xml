@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Purple Theme 自定义属性-->
+    <declare-styleable name="DynamicTheme">
+        <attr name="specialButtonStyle" format="reference" />
+    </declare-styleable>
+
+    <!-- Purple Theme example-->
+    <style name="DynamicAppTheme" parent="AppTheme">
+        <item name="specialButtonStyle">@style/SpecialButtonStyle</item>
+    </style>
+
+</resources>

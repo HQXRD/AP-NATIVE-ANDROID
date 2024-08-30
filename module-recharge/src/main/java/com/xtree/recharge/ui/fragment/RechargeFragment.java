@@ -24,8 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.binioter.guideview.Guide;
-import com.binioter.guideview.GuideBuilder;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
@@ -778,10 +777,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         setPrePay(vo, amount); // 设置预计支付
         setNextButton();
         //只有是极速充值 才显示充值引导
-        if (isOnePayFix(vo))
+       /* if (isOnePayFix(vo))
         {
             showGuideDialog(vo);
-        }
+        }*/
 
     }
 
@@ -1920,10 +1919,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //CfLog.d("amount: " + amount);
         return amount;
     }
-    /*  显示充值引导页面流程*/
-    /**
+   /* *//*  显示充值引导页面流程*//*
+    *//**
      * 显示充值引导弹窗
-     */
+     *//*
     private void  showGuideDialog(RechargeVo vo){
         showGuideView = new  XPopup.Builder(getContext())
                 .asCustom(GuideDialog.newInstance(getContext(), new GuideDialog.IGuideDialogCallback() {
@@ -1942,9 +1941,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         showGuideView.show();
     }
     private Guide bankGuide ;
-    /**
+    *//**
      *  显示付款银行卡引导页面
-     */
+     *//*
     private void showGuideByBank(RechargeVo vo){
         if (vo.fixedamount_info.length>8){
 
@@ -1982,9 +1981,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
     }
     private Guide nameGuide;
-    /**
+    *//**
      * 显示充值引导页面
-     */
+     *//*
     private void showGuideByName(RechargeVo vo , boolean isShowBack){
         if (isShowBack){
             if (vo.fixedamount_info.length>8){
@@ -2036,9 +2035,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private Guide moneyGuide  ;
-    /**
+    *//**
      * 显示充值金额页面
-     */
+     *//*
     private void showGuideByMoney(RechargeVo vo , boolean isBackShow){
         if (isBackShow){
             if (vo.fixedamount_info.length>8){
@@ -2094,9 +2093,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
 
     private Guide nextGuide;
-    /**
+    *//**
      * 显示充值 下一步 引导页面
-     */
+     *//*
     private void showGuideByNext(RechargeVo vo){
         if (vo.fixedamount_info.length>8){
             binding.mainScrollview.scrollTo(0 , 2000);
@@ -2140,12 +2139,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
     }
 
-    /**
+    *//**
      * 跳过引导
-     */
+     *//*
     private void shipGuide(){
         //跳过引导
         LoadingDialog.show(getContext());
         viewModel.skipGuide();
-    }
+    }*/
 }

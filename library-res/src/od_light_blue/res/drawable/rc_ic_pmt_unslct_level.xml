@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@mipmap/rc_ic_pmt_wykc" android:maxLevel="91" />
+    <item android:drawable="@mipmap/rc_ic_pmt_wykc" android:maxLevel="113" />
+    <item android:drawable="@mipmap/rc_ic_pmt_zfb" android:maxLevel="122" />
+    <item android:drawable="@mipmap/rc_ic_pmt_wykc" android:maxLevel="151" />
+    <item android:drawable="@mipmap/rc_ic_pmt_usdt" android:maxLevel="169" />
+    <item android:drawable="@mipmap/rc_ic_pmt_usdt" android:maxLevel="170" />
+    <item android:drawable="@mipmap/rc_ic_pmt_jisuchongzhi" android:maxLevel="189" />
+    <item android:drawable="@mipmap/rc_ic_pmt_ebkc" android:maxLevel="191" />
+    <item android:drawable="@mipmap/rc_ic_pmt_ucybf" android:maxLevel="205" />
+    <item android:drawable="@mipmap/rc_ic_pmt_ucybf" android:maxLevel="206" />
+    <item android:drawable="@mipmap/rc_ic_pmt_topay" android:maxLevel="208" />
+    <item android:drawable="@mipmap/rc_ic_pmt_cn" android:maxLevel="210" />
+    <item android:drawable="@mipmap/rc_ic_pmt_yhk" android:maxLevel="211" />
+    <item android:drawable="@mipmap/rc_ic_pmt_yhk" android:maxLevel="217" />
+    <item android:drawable="@mipmap/rc_ic_pmt_gobao" android:maxLevel="223" />
+    <item android:drawable="@mipmap/rc_ic_pmt_yhk" android:maxLevel="226" />
+    <item android:drawable="@mipmap/rc_ic_pmt_gopay" android:maxLevel="227" />
+    <item android:drawable="@mipmap/rc_ic_pmt_okpay" android:maxLevel="228" />
+    <item android:drawable="@mipmap/rc_ic_pmt_cn" android:maxLevel="229" />
+
+    <item android:drawable="@mipmap/rc_ic_pmt_happy" android:maxLevel="999" />
+    <item android:drawable="@mipmap/rc_ic_pmt_beiyong" android:maxLevel="1000" />
+    <item android:drawable="@mipmap/rc_ic_pmt_shandiankuaichong" android:maxLevel="205" />
+    <item android:drawable="@mipmap/rc_ic_pmt_shandiankuaichong" android:maxLevel="206" />
+
+    <item android:drawable="@mipmap/rc_ic_pmt_jisuchongzhi" android:maxLevel="999999" />
+    <item android:drawable="@mipmap/rc_ic_pmt_qq" android:maxLevel="999999" />
+    <item android:drawable="@mipmap/rc_ic_pmt_szrmb" android:maxLevel="999999" />
+    <item android:drawable="@mipmap/rc_ic_pmt_wx" android:maxLevel="999999" />
+
+</level-list>

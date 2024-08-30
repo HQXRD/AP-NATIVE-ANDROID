@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/hm_tp_sport_unchecked" android:maxLevel="1" />
+    <item android:drawable="@mipmap/hm_tp_cs_unchecked" android:maxLevel="2" />
+    <item android:drawable="@mipmap/hm_tp_slots_unchecked" android:maxLevel="3" />
+    <item android:drawable="@mipmap/hm_tp_esport_unchecked" android:maxLevel="4" />
+    <item android:drawable="@mipmap/hm_tp_board_unchecked" android:maxLevel="5" />
+    <item android:drawable="@mipmap/hm_tp_lottory_unchecked" android:maxLevel="6" />
+    <item android:drawable="@mipmap/hm_tp_fishing_unchecked" android:maxLevel="7" />
+    <item android:drawable="@mipmap/hm_tp_sport_unchecked" android:maxLevel="100" />
+</level-list>
