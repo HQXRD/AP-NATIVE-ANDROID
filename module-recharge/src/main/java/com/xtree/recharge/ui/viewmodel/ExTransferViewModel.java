@@ -786,6 +786,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
+                        showBankEdit.setValue(true);
                     }
                 });
 
