@@ -34,8 +34,6 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseWithdrawaBinding;
-import com.xtree.mine.ui.fragment.BindUsdtAddFragment;
-import com.xtree.mine.ui.fragment.FundPassWordFragment;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
@@ -45,8 +43,8 @@ import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
 import com.xtree.mine.vo.withdrawals.WithdrawalQuotaVo;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
@@ -202,7 +200,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 sortingWithdrawalListByType("1", withdrawalListVoArrayList.listdata, bankWithdrawalList);
                 sortingWithdrawalListByType("2", withdrawalListVoArrayList.listdata, usdtWithdrawalList);
                 referListUI(sortTypeList(withdrawalListVoArrayList.listdata));
-
             } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
             }
@@ -347,9 +344,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     private void referListUI(ArrayList<WithdrawalListVo.WithdrawalItemVo> vo) {
 
         if (vo != null && vo.size() > 0) {
-
-            Collections.sort(vo);
-            Collections.reverse(vo);
             WithdrawalListAdapter adapter = new WithdrawalListAdapter(getContext(), vo, this);
             binding.lvChoose.setVisibility(View.VISIBLE);
             binding.lvChoose.setAdapter(adapter);
@@ -637,25 +631,17 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      */
     private ArrayList<WithdrawalListVo.WithdrawalItemVo> sortTypeList(ArrayList<WithdrawalListVo.WithdrawalItemVo> infoList) {
         //列表去重
-        TreeSet treeSet = new TreeSet(infoList);
-        infoList.clear();
-        infoList.addAll(treeSet);
+        Set<WithdrawalListVo.WithdrawalItemVo> set = new LinkedHashSet<>(infoList);
+        ArrayList<WithdrawalListVo.WithdrawalItemVo> newList = new ArrayList<>(set);
 
-        CfLog.e("sortTypeList  infoList1= " + infoList.size());
+        CfLog.e("sortTypeList  infoList1= " + newList.size());
         ArrayList<WithdrawalListVo.WithdrawalItemVo> arrayList = new ArrayList<WithdrawalListVo.WithdrawalItemVo>();
-        for (int i = 0; i < infoList.size(); i++) {
+        for (int i = 0; i < newList.size(); i++) {
             //只添加enable为 true状态的，即是开启该提款通道的体况方式
-            if (infoList.get(i).enable == true) {
-                arrayList.add(infoList.get(i));
+            if (newList.get(i).enable) {
+                arrayList.add(newList.get(i));
             }
         }
-        HashSet set = new HashSet(arrayList);
-        arrayList.clear();
-        arrayList.addAll(set);
-        Collections.reverse(arrayList);
-        //列表排序
-        //Collections.sort(arrayList);
-        Collections.reverse(arrayList);
         return arrayList;
     }
 
