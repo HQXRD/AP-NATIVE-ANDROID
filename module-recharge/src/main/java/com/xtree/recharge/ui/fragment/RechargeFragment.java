@@ -13,6 +13,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.xtree.base.mvvm.ExKt;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
@@ -47,15 +47,11 @@ import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.recycleview.GridSpaceItemDecoration;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
-import com.xtree.recharge.ui.fragment.guide.GuideDialog;
-import com.xtree.recharge.ui.fragment.guide.RechargeBankComponent;
-import com.xtree.recharge.ui.fragment.guide.RechargeMoneyComponent;
-import com.xtree.recharge.ui.fragment.guide.RechargeNameComponent;
-import com.xtree.recharge.ui.fragment.guide.RechargeNextComponent;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
@@ -81,6 +77,7 @@ import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -240,11 +237,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             onClickPaymentType(vo);
         });
 
-        binding.rcvPmt.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        //binding.rcvPmt.setAdapter(rechargeAdapter);
+        ExKt.initGrid(binding.rcvPmt,ConvertUtils.dp2px(8f),3);
         binding.rcvPmt.setAdapter(mTypeAdapter);
         binding.rcvPmt.setNestedScrollingEnabled(false); // 禁止滑动
-
         mChannelAdapter = new RechargeChannelAdapter(getContext(), vo -> {
             CfLog.i(vo.toInfo());
             curRechargeVo = vo;
@@ -1623,10 +1618,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 || (bk.getOthers() != null && !bk.getOthers().isEmpty())
                 || (bk.getUsed() != null && !bk.getUsed().isEmpty())
                 || (bk.getHot() != null && !bk.getHot().isEmpty());
-        if (vo.paycode.contains(ONE_PAY_FIX) && isNotEmpty) {
-            return true;
-        }
-        return false;
+        return vo.paycode.contains(ONE_PAY_FIX) && isNotEmpty;
     }
 
     /**
@@ -1919,8 +1911,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //CfLog.d("amount: " + amount);
         return amount;
     }
-   /* *//*  显示充值引导页面流程*//*
-    *//**
+    /* *//*  显示充值引导页面流程*//*
+     *//**
      * 显示充值引导弹窗
      *//*
     private void  showGuideDialog(RechargeVo vo){

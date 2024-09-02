@@ -23,6 +23,11 @@
     2, .../渠道名/theme/values/themes_styles.xml 里面定义了应用中所有和主题相关的样式，包括颜色、字体、图片
     3，.../渠道名/theme/values/themes_attrs.xml 是给添加样式到主题里面，预留以后可以在应用中换肤，把属性给layout的view去使用
     4, .../渠道名/res/layout/item_text.xml 里面有怎么使用自定义属性的简单例子
+#### Step 4
+    约束条件：
+    1，所有图片引用改成drawable形式（不同皮肤有些可能是图片，有些可能是xml）
+    2，样式相关必须通过主题下的attr属性去使用 (方便以后做应用内切换)
+    3，图片资源统一使用3x图放到drawable-xxhdpi目录下 （figma上是适应iOS的，安卓有些差异）
 
 一键切换环境功能 使用
 ---

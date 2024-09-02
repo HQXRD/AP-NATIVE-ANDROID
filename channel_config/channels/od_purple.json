@@ -2,7 +2,7 @@
   "applicationId": "com.od.purple.app",
   "app_name": "奥丁-紫色",
   "versionName":"1.0.0",
-  "versionCode":100,
+  "versionCode":1000,
   "channel_name": "od_purple",
   "is_tag": false,
   "mixpanel_token": "aeb0e83d57c9c765a9f0c1631f16e1d8",

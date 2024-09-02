@@ -73,7 +73,7 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
         }
 
         binding.ivwIcon.setTag(vo);
-        Glide.with(ctx).load(url).placeholder(R.mipmap.rc_ic_type_cs).into(binding.ivwIcon);
+        Glide.with(ctx).load(url).placeholder(R.drawable.rc_ic_type_cs).into(binding.ivwIcon);
         String depositfee_rate = "0.0";
         for (int i = 0; i < vo.payChannelList.size(); i++) {
             RechargeVo t2 = vo.payChannelList.get(i);
@@ -136,7 +136,7 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
         binding2.ivwBg.setSelected(isSelected);
         binding2.tvwTitle.setSelected(isSelected);
         binding2.tvwDepRate.setSelected(isSelected);
-        Glide.with(ctx).load(url).placeholder(R.mipmap.rc_ic_type_cs).into(binding2.ivwIcon);
+        Glide.with(ctx).load(url).placeholder(R.drawable.rc_ic_type_cs).into(binding2.ivwIcon);
     }
 
 }

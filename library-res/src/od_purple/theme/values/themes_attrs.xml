@@ -2,5 +2,10 @@
 <resources>
     <!-- Purple Theme example-->
     <attr name="clr_item_text_attr" format="reference" />
+    <attr name="ivw_bg_attr" format="reference" />
+    <attr name="clr_rc_rate_attr" format="reference" />
+    <attr name="ivw_hot_attr" format="reference" />
+    <attr name="ivw_rcmd_attr" format="reference" />
+    <attr name="ivw_icon_attr" format="reference" />
 
 </resources>

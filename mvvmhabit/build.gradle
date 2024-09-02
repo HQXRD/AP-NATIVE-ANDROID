@@ -95,6 +95,9 @@ dependencies {
 
     api rootProject.ext.dependencies["jsoup"]
 
+    //屏幕设计稿适配
+    api rootProject.ext.viewDependencies["AndroidAutoSize"]
+
     configurations.all {
         resolutionStrategy {
             force 'org.jetbrains.kotlin:kotlin-stdlib-common:1.7.10',

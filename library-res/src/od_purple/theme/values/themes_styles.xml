@@ -5,5 +5,19 @@
     <style name="clr_item_text_style">
         <item name="android:textColor">@color/clr_item_text_selector</item>
     </style>
-
+    <style name="clr_rc_rate_style">
+        <item name="android:textColor">@color/clr_rc_rate_selector</item>
+    </style>
+    <style name="ivw_bg_style">
+        <item name="android:src">@drawable/bg_item_rc_type_selector</item>
+    </style>
+    <style name="ivw_hot_style">
+        <item name="android:src">@drawable/rc_ic_hot</item>
+    </style>
+    <style name="iivw_rcmd_style">
+        <item name="android:src">@drawable/rc_ic_recommend</item>
+    </style>
+    <style name="ivw_icon_style">
+        <item name="android:src">@drawable/rc_ic_type_cs</item>
+    </style>
 </resources>

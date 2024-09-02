@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
@@ -26,6 +27,7 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter
 import com.xtree.base.mvvm.recyclerview.BindModel
+import com.xtree.base.widget.recycleview.GridSpaceItemDecoration
 
 /**
  *Created by KAKA on 2024/3/8.
@@ -33,7 +35,7 @@ import com.xtree.base.mvvm.recyclerview.BindModel
  */
 
 @BindingAdapter(
-    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool","spanCount"],
+    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool", "spanCount"],
     requireAll = false
 )
 fun RecyclerView.init(
@@ -65,7 +67,9 @@ fun RecyclerView.init(
         }
     } ?: run {
         when (layoutManager) {
-            null -> if (this.layoutManager == null) spanCount?.run { grid(spanCount) } ?: run { linear() }
+            null -> if (this.layoutManager == null) spanCount?.run { grid(spanCount) }
+                ?: run { linear() }
+
             else -> this.layoutManager = layoutManager
         }
 
@@ -130,7 +134,10 @@ fun TabLayout.init(setSelectedListener: OnTabSelectedListener?, tabs: List<Strin
     value = ["onRefreshLoadMoreListener", "onLoadMoreListener"],
     requireAll = false
 )
-fun SmartRefreshLayout.init(onRefreshLoadMoreListener: OnRefreshLoadMoreListener?, onLoadMoreListener: OnLoadMoreListener?) {
+fun SmartRefreshLayout.init(
+    onRefreshLoadMoreListener: OnRefreshLoadMoreListener?,
+    onLoadMoreListener: OnLoadMoreListener?
+) {
     onRefreshLoadMoreListener?.let { setOnRefreshListener(it) }
     onLoadMoreListener?.let { setOnLoadMoreListener(it) }
 }
@@ -162,9 +169,11 @@ fun setImageUrl(
     val widthSize = (if ((width ?: 0) > 0) width else view.width) ?: -1
     val heightSize = (if ((height ?: 0) > 0) height else view.height) ?: -1
     // 根据定义的 cacheEnable 参数来决定是否缓存
-    val diskCacheStrategy = if (cacheEnable == true) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE
+    val diskCacheStrategy =
+        if (cacheEnable == true) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE
     // 设置编码格式，在Android 11(R)上面使用高清无损压缩格式 WEBP_LOSSLESS ， Android 11 以下使用PNG格式，PNG格式时会忽略设置的 quality 参数。
-    val encodeFormat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Bitmap.CompressFormat.WEBP_LOSSLESS else Bitmap.CompressFormat.PNG
+    val encodeFormat =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Bitmap.CompressFormat.WEBP_LOSSLESS else Bitmap.CompressFormat.PNG
     val glide = Glide.with(view.context)
         .asDrawable()
         .load(source)
@@ -185,4 +194,15 @@ fun setImageUrl(
         }
     }
     glide.into(view)
+}
+
+fun RecyclerView.initGrid(
+    space: Int,
+    spanCount: Int,
+) {
+    layoutManager = GridLayoutManager(context, spanCount)
+    val divider = GridSpaceItemDecoration(space, true)
+    itemAnimator = null
+    addItemDecoration(divider)
+    setHasFixedSize(true)
 }

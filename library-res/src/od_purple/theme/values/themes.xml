@@ -4,6 +4,11 @@
     <!-- Purple Theme example-->
     <style name="DynamicAppTheme" parent="AppTheme">
         <item name="clr_item_text_attr">@style/clr_item_text_style</item>
+        <item name="clr_rc_rate_attr">@style/clr_rc_rate_style</item>
+        <item name="ivw_hot_attr">@style/ivw_hot_style</item>
+        <item name="ivw_rcmd_attr">@style/iivw_rcmd_style</item>
+        <item name="ivw_icon_attr">@style/ivw_icon_style</item>
+        <item name="ivw_bg_attr">@style/ivw_bg_style</item>
     </style>
 
 </resources>
