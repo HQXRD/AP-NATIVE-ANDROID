@@ -2,9 +2,8 @@
 <resources>
 <!--    注意，这里不能直接用在view里面，请使用themes_attrs里面的自定义属性-->
     <!-- Purple Theme example-->
-    <style name="SpecialButtonStyle">
-        <item name="android:background">@drawable/btn_login_register_commit</item>
-        <item name="android:textColor">@color/buttonText</item>
+    <style name="clr_item_text_style">
+        <item name="android:textColor">@color/clr_item_text_selector</item>
     </style>
 
 </resources>

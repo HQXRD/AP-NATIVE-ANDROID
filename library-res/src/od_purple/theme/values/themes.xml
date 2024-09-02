@@ -3,7 +3,7 @@
 
     <!-- Purple Theme example-->
     <style name="DynamicAppTheme" parent="AppTheme">
-        <item name="specialButtonStyle">@style/SpecialButtonStyle</item>
+        <item name="clr_item_text_attr">@style/clr_item_text_style</item>
     </style>
 
 </resources>
