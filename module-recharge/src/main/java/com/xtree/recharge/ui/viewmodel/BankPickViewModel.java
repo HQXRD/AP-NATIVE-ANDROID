@@ -2,6 +2,7 @@ package com.xtree.recharge.ui.viewmodel;
 
 import android.app.Application;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
@@ -139,16 +140,19 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
                         if (bankListData.getmBind() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getmBind()) {
-                                BankPickModel m = new BankPickModel();
-                                m.setItemType(0);
-                                m.setBankId(bankInfoDTO.getBankCode());
-                                String value = bankInfoDTO.getBankName();
-                                if (value.contains("-")) {
-                                    String[] split = value.split("--");
-                                    value = split[0];
+                                if (!TextUtils.isEmpty(bankInfoDTO.getBankName()) && bankInfoDTO.getBankName().indexOf("工商银行") == -1) {
+                                    BankPickModel m = new BankPickModel();
+                                    m.setItemType(0);
+                                    m.setBankId(bankInfoDTO.getBankCode());
+                                    String value = bankInfoDTO.getBankName();
+                                    if (value.contains("-")) {
+                                        String[] split = value.split("--");
+                                        value = split[0];
+                                    }
+                                    m.setBankName(value);
+                                    mbind.add(m);
                                 }
-                                m.setBankName(value);
-                                mbind.add(m);
+
                             }
                             BankPickGroupModel mBindGroup = new BankPickGroupModel();
                             mBindGroup.setTitle("您的绑定卡银行");
@@ -161,6 +165,13 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
                         if (bankListData.getUsed() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getUsed()) {
+                                if (!TextUtils.isEmpty(bankInfoDTO.getBankName()) && bankInfoDTO.getBankName().indexOf("工商银行") == -1) {
+                                    BankPickModel m = new BankPickModel();
+                                    m.setItemType(3);
+                                    m.setBankCode(bankInfoDTO.getBankCode());
+                                    m.setBankName(bankInfoDTO.getBankName());
+                                    other.add(m);
+                                }
                                 BankPickModel m = new BankPickModel();
                                 m.setItemType(1);
                                 m.setBankCode(bankInfoDTO.getBankCode());
@@ -178,6 +189,13 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
                         if (bankListData.getTop() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
+                                if (!TextUtils.isEmpty(bankInfoDTO.getBankName()) && bankInfoDTO.getBankName().indexOf("工商银行") == -1) {
+                                    BankPickModel m = new BankPickModel();
+                                    m.setItemType(3);
+                                    m.setBankCode(bankInfoDTO.getBankCode());
+                                    m.setBankName(bankInfoDTO.getBankName());
+                                    other.add(m);
+                                }
                                 BankPickModel m = new BankPickModel();
                                 m.setItemType(3);
                                 m.setBankCode(bankInfoDTO.getBankCode());
@@ -194,11 +212,14 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
                         if (bankListData.getHot() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
-                                BankPickModel m = new BankPickModel();
-                                m.setItemType(2);
-                                m.setBankCode(bankInfoDTO.getBankCode());
-                                m.setBankName(bankInfoDTO.getBankName());
-                                hot.add(m);
+                                if (!TextUtils.isEmpty(bankInfoDTO.getBankName()) && bankInfoDTO.getBankName().indexOf("工商银行") == -1) {
+                                    BankPickModel m = new BankPickModel();
+                                    m.setItemType(2);
+                                    m.setBankCode(bankInfoDTO.getBankCode());
+                                    m.setBankName(bankInfoDTO.getBankName());
+                                    hot.add(m);
+                                }
+
                             }
                             BankPickGroupModel hotGroup = new BankPickGroupModel();
                             hotGroup.setTitle("热门银行");
@@ -210,11 +231,14 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
                         if (bankListData.getOthers() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
-                                BankPickModel m = new BankPickModel();
-                                m.setItemType(3);
-                                m.setBankCode(bankInfoDTO.getBankCode());
-                                m.setBankName(bankInfoDTO.getBankName());
-                                other.add(m);
+                                if (!TextUtils.isEmpty(bankInfoDTO.getBankName()) && bankInfoDTO.getBankName().indexOf("工商银行") == -1) {
+                                    BankPickModel m = new BankPickModel();
+                                    m.setItemType(3);
+                                    m.setBankCode(bankInfoDTO.getBankCode());
+                                    m.setBankName(bankInfoDTO.getBankName());
+                                    other.add(m);
+                                }
+
                             }
                             BankPickGroupModel othersGroup = new BankPickGroupModel();
                             othersGroup.setTitle("其他银行");
