@@ -1,22 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    注意，这里不能直接用在view里面，请使用themes_attrs里面的自定义属性-->
+    <!--    注意，这里不能直接用在view里面，请使用themes_attrs里面的自定义属性-->
     <!-- Purple Theme example-->
+    <style name="primaryAttrStyle">
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="primaryVariantAttrStyle">
+        <item name="android:textColor">@color/primaryVariant</item>
+    </style>
+
+    <style name="secondaryAttrStyle">
+        <item name="android:textColor">@color/secondaryColor</item>
+    </style>
+
+    <style name="tertiaryAttrStyle">
+        <item name="android:textColor">@color/tertiaryColor</item>
+    </style>
+
+    <style name="textDescriptionAttrStyle">
+        <item name="android:textColor">@color/textDescriptionColor</item>
+    </style>
+
+    <style name="textPrimaryAttrStyle">
+        <item name="android:textColor">@color/textPrimaryColor</item>
+    </style>
+
+    <style name="textSecondaryAttrStyle">
+        <item name="android:textColor">@color/textSecondaryColor</item>
+    </style>
+
+    <style name="textTertiaryAttrStyle">
+        <item name="android:textColor">@color/textTertiaryColor</item>
+    </style>
+
+    <style name="textQuaternaryAttrStyle">
+        <item name="android:textColor">@color/textQuaternaryColor</item>
+    </style>
+
+    <style name="textQuinaryAttrStyle">
+        <item name="android:textColor">@color/textQuinaryColor</item>
+    </style>
+
+    <style name="textSenaryAttrStyle">
+        <item name="android:textColor">@color/textSenaryColor</item>
+    </style>
+
     <style name="clr_item_text_style">
         <item name="android:textColor">@color/clr_item_text_selector</item>
     </style>
+
     <style name="clr_rc_rate_style">
         <item name="android:textColor">@color/clr_rc_rate_selector</item>
     </style>
+
     <style name="ivw_bg_style">
         <item name="android:src">@drawable/bg_item_rc_type_selector</item>
     </style>
+
     <style name="ivw_hot_style">
         <item name="android:src">@drawable/rc_ic_hot</item>
     </style>
+
     <style name="iivw_rcmd_style">
         <item name="android:src">@drawable/rc_ic_recommend</item>
     </style>
+
     <style name="ivw_icon_style">
         <item name="android:src">@drawable/rc_ic_type_cs</item>
     </style>

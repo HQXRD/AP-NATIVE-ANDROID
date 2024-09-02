@@ -14,7 +14,7 @@
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/cm_bg_page"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -113,6 +113,7 @@
                 android:id="@+id/ll_root2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/layout_margin">
 
@@ -128,10 +129,13 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/style_cm_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="0dp"
                         android:text="@string/txt_choose_recharge_channel"
-                        android:textSize="15sp" />
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/ivw_1k"
@@ -148,24 +152,24 @@
 
                     <TextView
                         android:id="@+id/tvw_anti_fraud"
+                        style="?attr/textPrimaryAttr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
                         android:drawableStart="@mipmap/cm_ic_anti_fraud"
                         android:drawablePadding="4dp"
                         android:text="@string/txt_rc_anti_fraud"
-                        android:textColor="@color/clr_txt_black_01"
                         android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tvw_tutorial"
+                        style="?attr/textPrimaryAttr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/layout_margin"
                         android:drawableStart="@mipmap/cm_ic_tutorial"
                         android:drawablePadding="4dp"
                         android:text="@string/txt_recharge_tutorial"
-                        android:textColor="@color/clr_txt_black_01"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -174,7 +178,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/dividerColor2" />
 
                 <LinearLayout
                     android:id="@+id/ll_cur_pmt"
@@ -187,9 +198,12 @@
                     tools:visibility="visible">
 
                     <TextView
-                        style="@style/style_cm_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="0dp"
                         android:text="@string/txt_cur_recharge_channel"
+                        android:textColor="@color/black"
                         android:textSize="14sp" />
 
                     <ImageView

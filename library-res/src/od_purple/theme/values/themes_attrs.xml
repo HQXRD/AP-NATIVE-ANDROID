@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Purple Theme example-->
+
+    <attr name="primaryAttr" format="reference" />
+    <attr name="primaryVariantAttr" format="reference" />
+    <attr name="secondaryAttr" format="reference" />
+    <attr name="tertiaryAttr" format="reference" />
+
+    <attr name="textDescriptionAttr" format="reference" />
+    <attr name="textPrimaryAttr" format="reference" />
+    <attr name="textSecondaryAttr" format="reference" />
+    <attr name="textTertiaryAttr" format="reference" />
+    <attr name="textQuaternaryAttr" format="reference" />
+    <attr name="textQuinaryAttr" format="reference" />
+    <attr name="textSenaryAttr" format="reference" />
+
     <attr name="clr_item_text_attr" format="reference" />
     <attr name="ivw_bg_attr" format="reference" />
     <attr name="clr_rc_rate_attr" format="reference" />

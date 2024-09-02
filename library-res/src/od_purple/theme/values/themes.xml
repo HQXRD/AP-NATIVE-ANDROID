@@ -3,6 +3,20 @@
 
     <!-- Purple Theme example-->
     <style name="DynamicAppTheme" parent="AppTheme">
+
+        <item name="primaryAttr">@style/primaryAttrStyle</item>
+        <item name="primaryVariantAttr">@style/primaryVariantAttrStyle</item>
+        <item name="secondaryAttr">@style/secondaryAttrStyle</item>
+        <item name="tertiaryAttr">@style/tertiaryAttrStyle</item>
+
+        <item name="textDescriptionAttr">@style/textDescriptionAttrStyle</item>
+        <item name="textPrimaryAttr">@style/textPrimaryAttrStyle</item>
+        <item name="textSecondaryAttr">@style/textSecondaryAttrStyle</item>
+        <item name="textTertiaryAttr">@style/textTertiaryAttrStyle</item>
+        <item name="textQuaternaryAttr">@style/textQuaternaryAttrStyle</item>
+        <item name="textQuinaryAttr">@style/textQuinaryAttrStyle</item>
+        <item name="textSenaryAttr">@style/textSenaryAttrStyle</item>
+
         <item name="clr_item_text_attr">@style/clr_item_text_style</item>
         <item name="clr_rc_rate_attr">@style/clr_rc_rate_style</item>
         <item name="ivw_hot_attr">@style/ivw_hot_style</item>
