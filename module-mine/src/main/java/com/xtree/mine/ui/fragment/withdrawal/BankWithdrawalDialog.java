@@ -527,7 +527,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         viewModel.submitVoErrorData.observe(owner, vo -> {
             final String message = vo;
             if (message != null && !TextUtils.isEmpty(message)) {
-                refreshSubmitUI(null, message);
+                showErrorDialog(vo);
             } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
             }
@@ -1217,7 +1217,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             return;
         }
         errorPopView = new XPopup.Builder(getContext())
-                .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
+                .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, true, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
                         errorPopView.dismiss();

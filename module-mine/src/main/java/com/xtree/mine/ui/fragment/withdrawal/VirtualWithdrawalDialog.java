@@ -433,25 +433,15 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
             }
 
         });
-        //提款完成申请 错误信息
-        viewModel.submitVoErrorData.observe(owner, vo -> {
-            final String message = vo;
-            if (message != null && !TextUtils.isEmpty(message)) {
-                refreshSubmitUI(null, message);
-            } else {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-            }
-        });
         //完成提交 状态确认页面
         viewModel.submitVoErrorData.observe(owner, vo -> {
             final String message = vo;
             if (message != null && !TextUtils.isEmpty(message)) {
-                refreshSubmitUI(null, message);
+                showErrorDialog(vo);
             } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
             }
         });
-
     }
 
 
@@ -463,7 +453,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
             return;
         }
         errorPopView = new XPopup.Builder(getContext())
-                .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
+                .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, true, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
                         errorPopView.dismiss();
