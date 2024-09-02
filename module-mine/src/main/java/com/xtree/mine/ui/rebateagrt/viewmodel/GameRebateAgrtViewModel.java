@@ -703,6 +703,11 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                         super.onFail(t);
                         finishLoadMore(false);
                     }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
                 });
         addSubscribe(disposable);
     }
