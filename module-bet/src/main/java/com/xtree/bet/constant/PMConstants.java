@@ -33,7 +33,7 @@ public class PMConstants {
             MATCH_GAMES.put(43, new SportTypeItem(43, "handball", "手球", 11, R.drawable.bt_match_item_sq_selector, 40215));
             MATCH_GAMES.put(52, new SportTypeItem(52, "golf", "高尔夫", 12, R.drawable.bt_match_item_golf_selector, 40254));
             MATCH_GAMES.put(20037, new SportTypeItem(20037, "cricket", "板球", 13, R.drawable.bt_match_item_wbq_selector, 40260));
-            MATCH_GAMES.put(44, new SportTypeItem(44, "boxing", "拳击", 14, R.drawable.bt_match_item_qj_selector, 40216));
+            MATCH_GAMES.put(44, new SportTypeItem(44, "boxing", "拳击/格斗", 14, R.drawable.bt_match_item_qj_selector, 40216));
             MATCH_GAMES.put(20038, new SportTypeItem(20038, "darts", "飞镖", 15, R.drawable.bt_match_item_darts_selector, 40258));
             MATCH_GAMES.put(24, new SportTypeItem(24, "waterpolo", "水球", 41, R.drawable.bt_match_item_water_ball_selector));
             MATCH_GAMES.put(51, new SportTypeItem(51, "cycling", "自行车", 16, R.drawable.bt_match_item_cycling_selector, 40265));
@@ -45,7 +45,7 @@ public class PMConstants {
             MATCH_GAMES.put(3001, new SportTypeItem(3001, "dota2", "DOTA2", 42, R.drawable.bt_match_item_data_selector));
             MATCH_GAMES.put(3002, new SportTypeItem(3002, "lol", "英雄联盟", 43, R.drawable.bt_match_item_lol_selector));
             MATCH_GAMES.put(3003, new SportTypeItem(3003, "kog", "王者荣耀", 44, R.drawable.bt_match_item_yl_selector));
-            MATCH_GAMES.put(80, new SportTypeItem(80, "e-football", "电子足球", 29, R.drawable.bt_match_item_dzzq_selector));
+            MATCH_GAMES.put(90, new SportTypeItem(90, "e-football", "电子足球", 29, R.drawable.bt_match_item_dzzq_selector));
             MATCH_GAMES.put(91, new SportTypeItem(91, "e-basketball", "电子篮球", 30, R.drawable.bt_match_item_dzlq_selector));
         }
         return MATCH_GAMES;

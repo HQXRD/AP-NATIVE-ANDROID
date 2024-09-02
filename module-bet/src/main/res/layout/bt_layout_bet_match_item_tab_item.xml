@@ -32,12 +32,13 @@
 
     <TextView
         android:id="@+id/tab_item_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_icon"
         android:layout_marginTop="2dp"
         android:paddingStart="2dp"
         tools:text="足球"
+        android:lines="1"
         android:textColor="@color/bt_color_bet_match_item_text"
         android:textSize="@dimen/bt_text_10sp" />
 </LinearLayout>

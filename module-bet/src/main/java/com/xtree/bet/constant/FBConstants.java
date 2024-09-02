@@ -32,7 +32,7 @@ public class FBConstants {
             MATCH_GAMES.put(4, new SportTypeItem(4, "rugby", "橄榄球", 11, R.drawable.bt_match_item_glq_selector));
             MATCH_GAMES.put(8, new SportTypeItem(8, "handball", "手球", 12, R.drawable.bt_match_item_sq_selector));
             MATCH_GAMES.put(10, new SportTypeItem(10, "floorball", "地板球", 24, R.drawable.bt_match_item_dbq_selector));
-            MATCH_GAMES.put(12, new SportTypeItem(12, "golf", "高尔夫球", 17, R.drawable.bt_match_item_golf_selector));
+            MATCH_GAMES.put(12, new SportTypeItem(12, "golf", "高尔夫", 17, R.drawable.bt_match_item_golf_selector));
             MATCH_GAMES.put(14, new SportTypeItem(14, "cricket", "板球", 15, R.drawable.bt_match_item_wbq_selector));
             MATCH_GAMES.put(17, new SportTypeItem(17, "futsal", "五人足球", 25, R.drawable.bt_match_item_wrzq_selector));
             MATCH_GAMES.put(18, new SportTypeItem(18, "mixedmartialarts", "综合", 13, R.drawable.bt_match_item_zhgd_selector));
@@ -46,7 +46,7 @@ public class FBConstants {
             MATCH_GAMES.put(93, new SportTypeItem(93, "specials", "特殊投注", 22, R.drawable.bt_match_item_tstz_selector));
             MATCH_GAMES.put(94, new SportTypeItem(94, "stockcarracing", "赛车", 23, R.drawable.bt_match_item_sc_selector));
             MATCH_GAMES.put(100, new SportTypeItem(100, "olympic", "奥林匹克", 24, R.drawable.bt_match_item_olympic_selector));
-            MATCH_GAMES.put(164, new SportTypeItem(164, "dota2", "刀塔2", 26, R.drawable.bt_match_item_data_selector));
+            MATCH_GAMES.put(164, new SportTypeItem(164, "dota2", "DOTA2", 26, R.drawable.bt_match_item_data_selector));
             MATCH_GAMES.put(165, new SportTypeItem(165, "lol", "英雄联盟", 27, R.drawable.bt_match_item_lol_selector));
             MATCH_GAMES.put(180, new SportTypeItem(180, "kog", "王者荣耀", 28, R.drawable.bt_match_item_yl_selector));
             MATCH_GAMES.put(177, new SportTypeItem(177, "e-football", "电子足球", 29, R.drawable.bt_match_item_dzzq_selector));

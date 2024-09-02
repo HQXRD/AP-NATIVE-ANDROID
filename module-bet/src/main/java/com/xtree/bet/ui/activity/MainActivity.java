@@ -92,6 +92,7 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.Messenger;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -375,7 +376,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.tvwCancel.setOnClickListener(this);
 
         tabSportAdapter = new TabSportAdapter(new ArrayList<>(), viewModel.getMatchGames());
-        //tabSportAdapter.setAnimationEnable(false);
+        tabSportAdapter.setAnimationEnable(false);
         binding.tabSportType.setAdapter(tabSportAdapter);
         binding.tabSportType.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         binding.tabSportType.setHasFixedSize(true);
@@ -391,7 +392,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) tab.getCustomView()).setTextSize(16);
-
+                CfLog.i("playMethodPos   "+playMethodPos+"  "+tab.getPosition());
                 if (playMethodPos != tab.getPosition()) {
                     hideSearchView();
                     mIsChange = true;
@@ -405,7 +406,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                         setCgBtCar();
                     }
                     showSearchDate();
-                    CfLog.i("playMethodPos   " + playMethodPos);
+                    //CfLog.i("playMethodPos   " + playMethodPos);
                     playMethodPos = tab.getPosition();
                     if (tab.getPosition() == 4) {
                         binding.srlLeague.setEnableLoadMore(false);
@@ -1264,6 +1265,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
             List<SportTypeItem> list = mStatisticalData.get(String.valueOf(playMethodType));
             tabSportAdapter.setList(list);
+            binding.tabSportType.scrollToPosition(0);
             final int selectPosition;
             if (playMethodPos == 0 || playMethodPos == 1 || playMethodPos == 3) {
                 selectPosition = 1;

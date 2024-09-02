@@ -151,7 +151,6 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         super(application, model);
         //SPORT_NAMES = SPORT_NAMES_TODAY_CG;
         //Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
-        sportItemData.postValue(new String[]{});
     }
 
     public void setPlayMethodTabData() {

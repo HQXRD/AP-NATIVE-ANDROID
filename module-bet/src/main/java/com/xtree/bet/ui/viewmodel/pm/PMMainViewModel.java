@@ -490,23 +490,24 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (mMenuInfoList.isEmpty()) {
             pmListReq.setEuid(sportId);
         } else {
-            for (MenuInfo menuInfo : mMenuInfoList) {
-                boolean isFound = false;
-                if (playMethodType == menuInfo.menuType) {
-                    for (MenuInfo subMenu : menuInfo.subList) {
-
-                        if (TextUtils.equals(String.valueOf(subMenu.menuType),sportId)) {
-                            isFound = true;
-                            pmListReq.setEuid(String.valueOf(subMenu.menuId));
-                            break;
-                        }
-                    }
-                }
-                if (isFound) {
-                    break;
-                }
-            }
-        }
+            pmListReq.setEuid(sportId);
+            //for (MenuInfo menuInfo : mMenuInfoList) {
+            //    boolean isFound = false;
+            //    if (playMethodType == menuInfo.menuType) {
+            //        for (MenuInfo subMenu : menuInfo.subList) {
+            //
+            //            if (TextUtils.equals(String.valueOf(subMenu.menuType),sportId)) {
+            //                isFound = true;
+            //                pmListReq.setEuid(String.valueOf(subMenu.menuId));
+            //                break;
+            //            }
+            //        }
+            //    }
+            //    if (isFound) {
+            //        break;
+            //    }
+            //}
+        }//再试试断网情况 和弱网情况
 
         Disposable disposable = (Disposable) model.getPMApiService().noLiveMatchesPagePB(pmListReq)
                 .compose(RxUtils.schedulersTransformer())
