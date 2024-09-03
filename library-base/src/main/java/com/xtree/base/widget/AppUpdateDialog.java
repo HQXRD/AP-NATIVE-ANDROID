@@ -115,7 +115,7 @@ public class AppUpdateDialog extends CenterPopupView {
         CfLog.i("apkFile: " + apkFile.getAbsolutePath());
         binding = DialogUpdateBinding.bind(findViewById(R.id.ll_root_update));
         //设置 打开浏览器下载安装
-        binding.tvInstallTip.setText(getContext().getString(R.string.txt_update_bottom_tip));
+        binding.tvInstallTip.setText(getContext().getString(R.string.txt_update_bottom_error_tip));
         binding.tvInstallTip.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(vo.download_url)){
                 AppUtil.goBrowser(getContext(), vo.download_url);
