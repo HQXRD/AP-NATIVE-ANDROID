@@ -48,8 +48,8 @@ public class Constant {
 
     public static final String URL_PARTNER = "https://sc.sc/"; // 官方合营
     public static final String URL_ACTIVITY = "/webapp/?isNative=1#/activity/"; // 网页前缀
-    public static final String URL_SPORT_RULES_OFFICIAL = "/static/activity/sportRules/index.html"; // 体育规则
-    public static final String URL_SPORT_RULES_INTER = "/static/activity/sportRules-xm/index.html"; // 体育规则
+    public static final String URL_SPORT_RULES_OFFICIAL = "/static/activity/sportRules-xm/index.html"; // 体育规则
+    public static final String URL_SPORT_RULES_INTER = "/static/activity/sportRules/index.html"; // 体育规则
     public static final String URL_QA = "/webapp/#/my/qa"; // 常见问题
     public static final String URL_TUTORIAL = "/static/vir-tutorial/cnyt.html"; // 充值教程
     public static final String URL_ANTI_FRAUD = "/static/vir-tutorial/antiScam_m.html"; // 防骗教程

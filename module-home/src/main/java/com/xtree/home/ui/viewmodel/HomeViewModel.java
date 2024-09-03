@@ -142,7 +142,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 .subscribeWith(new HttpCallBack<List<PublicDialogVo>>() {
                     @Override
                     public void onResult(List<PublicDialogVo> list) {
-                        CfLog.i("publicLink        "+list);
+                        CfLog.i("publicLink        " + list);
                         liveDataPublicLink.setValue(list);
                     }
 
@@ -229,7 +229,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         BtDomainUtil.setDefaultFbDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.addFbDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.setFbDomainUrl(fbService.getDomains());
-                        if(!isFirst){
+                        if (!isFirst) {
                             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                                     withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_FB).navigation();
                         }
@@ -259,7 +259,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         BtDomainUtil.setDefaultFbxcDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.addFbxcDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.setFbxcDomainUrl(fbService.getDomains());
-                        if(!isFirst){
+                        if (!isFirst) {
                             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                                     withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_FBXC).navigation();
                         }
@@ -289,7 +289,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
                         BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
-                        if(!isFirst){
+                        if (!isFirst) {
                             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                                     withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_PM).navigation();
                         }
@@ -319,7 +319,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
                         BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
-                        if(!isFirst){
+                        if (!isFirst) {
                             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                                     withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_PMXC).navigation();
                         }
@@ -354,13 +354,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 // 原生的,或者需要请求接口的
                 CfLog.w("******: " + vo);
             }
-            //杏彩官方和杏彩旗舰 status==2也依旧往下执行
-            if (vo.cid == 41 || vo.cid == 42) {
-                //if (vo.cid == 41) {
-                //    vo.status = 2;
-                //}
-            } else if (vo.status == 2 || vo.cid == 17 || vo.cid == 33) {
-                // 33:MG电子 17:CQ9娱乐
+            if (vo.status == 2 || vo.cid == 17 || vo.cid == 33) {
+                // 33:MG电子 17:CQ9娱乐 33：MG电子
                 // 已下架,不要加到列表里面了
                 CfLog.w("not show: " + vo);
                 continue;
@@ -476,9 +471,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 });
         addSubscribe(disposable);
     }
-    /**
-     * 获取 个人信息
-     */
+
     public void getProfile() {
         Disposable disposable = (Disposable) model.getApiService().getProfile()
                 .compose(RxUtils.schedulersTransformer())
