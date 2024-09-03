@@ -345,10 +345,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
         viewModel.liveDataMsgUnread.observe(getViewLifecycleOwner(), vo -> {
             if (vo == 0) {
-                binding.ivNotice.setVisibility(View.GONE);
                 binding.tvNoticeNum.setVisibility(View.GONE);
             } else {
-                binding.ivNotice.setVisibility(View.VISIBLE);
+
                 binding.tvNoticeNum.setVisibility(View.VISIBLE);
                 binding.tvNoticeNum.setText("+" + vo);
             }
