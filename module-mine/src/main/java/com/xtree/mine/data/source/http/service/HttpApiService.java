@@ -110,9 +110,9 @@ public interface HttpApiService {
     Flowable<BaseResponse<LoginResultVo>> loginAndVer(@Body Map<String, String> map);
 
 
-    @POST("/api/register/kygprka")
+    @POST("/api/register/{code}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<LoginResultVo>> register(@Body Map<String, String> map);
+    Flowable<BaseResponse<LoginResultVo>> register(@Path("code") String code, @Body Map<String, String> map);
     /**
     *获取注册验证码
      */

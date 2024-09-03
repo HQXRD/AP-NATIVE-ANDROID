@@ -593,29 +593,42 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             if (!mIsAcc || !mIsPwd1 || !mIsPwd2) {
                 return;
             }
-
-            final String netCode =
-                    SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
-            if (code != null && !TextUtils.isEmpty(code)
-                    &&registerVerificationCodeVo !=null
-                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
-                viewModel.register(account, pwd1, code, registerVerificationCodeVo.key, verificationTxt);
-            } else if ( (netCode != null && !TextUtils.isEmpty(netCode))
-                    &&registerVerificationCodeVo !=null
-                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
-                viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt);
-            } else {
-                //增加
-                if (registerVerificationCodeVo != null
-                        && registerVerificationCodeVo.key != null
-                        && !TextUtils.isEmpty(registerVerificationCodeVo.key)
-                        && verificationTxt != null) {
-                    //为获取推广码 使用默认的推广码
-                    viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt);
-                } else {
-                    viewModel.register(account, pwd1, "kygprka", "", "");
-                }
+             String netCode="";
+            final String promotionCode=SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
+            if (!TextUtils.isEmpty(code)){
+                netCode=code;
+            }else if (!TextUtils.isEmpty(promotionCode)){
+                netCode=promotionCode;
+            }else {
+                netCode="kygprka";
             }
+            if (registerVerificationCodeVo !=null&&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
+                viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt);
+            }else{
+                viewModel.register(account, pwd1, netCode, "", "");
+            }
+//            final String netCode =
+//                    SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
+//            if (code != null && !TextUtils.isEmpty(code)
+//                    &&registerVerificationCodeVo !=null
+//                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
+//                viewModel.register(account, pwd1, code, registerVerificationCodeVo.key, verificationTxt);
+//            } else if ( (netCode != null && !TextUtils.isEmpty(netCode))
+//                    &&registerVerificationCodeVo !=null
+//                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
+//                viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt);
+//            } else {
+//                //增加
+//                if (registerVerificationCodeVo != null
+//                        && registerVerificationCodeVo.key != null
+//                        && !TextUtils.isEmpty(registerVerificationCodeVo.key)
+//                        && verificationTxt != null) {
+//                    //为获取推广码 使用默认的推广码
+//                    viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt);
+//                } else {
+//                    viewModel.register(account, pwd1, "kygprka", "", "");
+//                }
+//            }
         });
         //点击 注册 验证码图片 手动刷新验证码图片
         binding.ivVerification.setOnClickListener(v -> {

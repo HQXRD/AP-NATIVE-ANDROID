@@ -335,7 +335,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         map.put("needCaptcha","1");
 
         CfLog.e("*********** register  code1=" + map);
-        Disposable disposable = (Disposable) model.getApiService().register(map)
+        Disposable disposable = (Disposable) model.getApiService().register(code,map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<LoginResultVo>() {
@@ -412,8 +412,11 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
                         SPUtils.getInstance().put(SPKeyGlobal.PUBLIC_KEY, public_key);
                         SPUtils.getInstance().put("customer_service_url", vo.customer_service_url);
-                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, vo.promption_code);//推广code
-
+                        if (!TextUtils.isEmpty(vo.promption_code)){
+                            SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, vo.promption_code);//推广code
+                        }else if (!TextUtils.isEmpty(vo.default_promption_code)){
+                            SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, vo.default_promption_code);//推广code
+                        }
                         liveDataSettings.setValue(vo);
                     }
 
@@ -436,7 +439,10 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
                     @Override
                     public void onResult(PromotionCodeVo promotionCodeVo) {
-                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, promotionCodeVo.domian);//推广code
+                        if (!TextUtils.isEmpty(promotionCodeVo.domain)){
+                            SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, promotionCodeVo.domain);//推广code
+                        }
+
                         promotionCodeVoMutableLiveData.setValue(promotionCodeVo);
                     }
 
