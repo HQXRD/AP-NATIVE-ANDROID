@@ -16,7 +16,7 @@
     <string name="txt_recharge">充值</string>
     <string name="txt_feedback">反馈信息</string>
     <string name="txt_next">下一步</string>
-    <string name="txt_choose_recharge_channel">请选择充值渠道：</string>
+    <string name="txt_choose_recharge_channel">请选择充值方式：</string>
     <string name="txt_is_to_open_hiwallet_wallet">是否打开HiWallet钱包</string>
     <string name="txt_is_to_open_hiwallet_title">即将进入嗨钱包页面</string>
     <string name="txt_is_to_open_hiwallet_content">尚未注册，请注册后进行登录\n已经有嗨钱包账号，点击返回按钮后，进行登录\n登录后，即可体验嗨钱包的功能</string>

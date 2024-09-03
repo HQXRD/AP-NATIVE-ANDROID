@@ -3,16 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="1dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tvw_title"
-        style="@style/style_rdo_type"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
+        style="?attr/rc_channel_attr"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:gravity="center"
         android:text=""
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,14 +22,10 @@
         android:id="@+id/tvw_dep_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="2dp"
         android:background="@drawable/bg_rc_dsp_rate"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
         android:text=""
         android:textColor="@color/clr_white"
-        android:textSize="10sp"
+        android:textSize="8sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="加送2%" />

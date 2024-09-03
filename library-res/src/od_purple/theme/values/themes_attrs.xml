@@ -22,4 +22,7 @@
     <attr name="ivw_rcmd_attr" format="reference" />
     <attr name="ivw_icon_attr" format="reference" />
 
+    <attr name="rc_channel_attr" format="reference" />
+    <attr name="style_cm_title_attr" format="reference" />
+
 </resources>

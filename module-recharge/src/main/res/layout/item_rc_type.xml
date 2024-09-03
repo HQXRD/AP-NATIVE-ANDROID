@@ -5,13 +5,13 @@
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:layout_width="112dp"
-    tools:layout_height="78dp">
+    tools:layout_width="wrap_content"
+    tools:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivw_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="84dp"
+        android:layout_height="70dp"
         android:adjustViewBounds="true"
         android:padding="1dp"
         style="?attr/ivw_bg_attr"
@@ -66,8 +66,6 @@
         style="?attr/ivw_hot_attr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="18dp"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -13,7 +13,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.xtree.base.mvvm.ExKt;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +30,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.mvvm.ExKt;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
@@ -47,7 +47,6 @@ import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
-import com.xtree.base.widget.recycleview.GridSpaceItemDecoration;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
@@ -237,21 +236,22 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             onClickPaymentType(vo);
         });
 
-        ExKt.initGrid(binding.rcvPmt,ConvertUtils.dp2px(8f),3);
+        ExKt.initGrid(binding.rcvPmt, ConvertUtils.dp2px(5f), 4);
         binding.rcvPmt.setAdapter(mTypeAdapter);
         binding.rcvPmt.setNestedScrollingEnabled(false); // 禁止滑动
+
         mChannelAdapter = new RechargeChannelAdapter(getContext(), vo -> {
             CfLog.i(vo.toInfo());
             curRechargeVo = vo;
             viewModel.curRechargeLiveData.setValue(curRechargeVo);
             onClickPayment(vo);
         });
-        binding.rcvPayChannel.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        ExKt.initLinear(binding.rcvPayChannel, ConvertUtils.dp2px(8f), LinearLayoutManager.HORIZONTAL, false);
         binding.rcvPayChannel.setAdapter(mChannelAdapter);
 
         mAmountAdapter = new AmountAdapter(getContext(), str -> binding.edtAmount.setText(str));
+        ExKt.initGrid(binding.rcvAmount, ConvertUtils.dp2px(8f), 4);
         binding.rcvAmount.setAdapter(mAmountAdapter);
-        binding.rcvAmount.setLayoutManager(new GridLayoutManager(getContext(), 4));
 
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.ivwRule.setOnClickListener(v -> {

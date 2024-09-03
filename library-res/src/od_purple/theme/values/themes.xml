@@ -23,6 +23,8 @@
         <item name="ivw_rcmd_attr">@style/iivw_rcmd_style</item>
         <item name="ivw_icon_attr">@style/ivw_icon_style</item>
         <item name="ivw_bg_attr">@style/ivw_bg_style</item>
+        <item name="rc_channel_attr">@style/rc_channel_style</item>
+        <item name="style_cm_title_attr">@style/rc_channel_style</item>
     </style>
 
 </resources>

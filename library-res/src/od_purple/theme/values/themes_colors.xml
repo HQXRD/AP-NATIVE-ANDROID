@@ -92,8 +92,12 @@
     <color name="dividerColor">#EEEDF0</color>
     <color name="dividerColor2">#38D9D9D9</color>
     <color name="buttonText">#FFFFFF</color>
+    <color name="buttonShadowColor">#1A8869E6</color>
+    <color name="strokeColor">#9179E7</color>
     <color name="parlayLabelColor">#95845A</color>
     <color name="parlayBackgroundColor">#33C8A54E</color>
+    <color name="channelTextSelectColor">#775493</color>
+    <color name="channelTextColor">#C4B2FF</color>
     <!--    其他-->
 
 </resources>

@@ -69,4 +69,20 @@
     <style name="ivw_icon_style">
         <item name="android:src">@drawable/rc_ic_type_cs</item>
     </style>
+
+    <style name="rc_channel_style">
+        <item name="android:background">@drawable/bg_channel_selector</item>
+        <item name="android:textColor">@drawable/bg_channel_text_selector</item>
+    </style>
+
+    <!-- 每个页面标题栏的样式-右边小按钮 -->
+    <style name="cm_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:layout_marginTop">@dimen/layout_margin</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">17sp</item>
+    </style>
 </resources>
