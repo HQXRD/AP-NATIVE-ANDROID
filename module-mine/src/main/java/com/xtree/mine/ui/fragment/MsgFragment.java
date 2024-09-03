@@ -69,6 +69,10 @@ public class MsgFragment extends BaseFragment<FragmentMsgBinding, MsgViewModel> 
         tabList.add(txtMsgPerson);
 
         mAdapter.notifyDataSetChanged();
+        int isMsgPerson = getArguments().getInt("isMsgPerson", 0);
+        if (isMsgPerson == 1) {
+            binding.vpMain.setCurrentItem(1);
+        }
     }
 
     @Override

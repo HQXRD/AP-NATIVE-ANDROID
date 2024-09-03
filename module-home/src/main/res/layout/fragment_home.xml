@@ -95,6 +95,7 @@
 
                     <TextView
                         android:id="@+id/tvw_name"
+                        android:layout_marginTop="5dp"
                         style="@style/style_hm_txt_normal_12"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -109,6 +110,32 @@
                         app:layout_constraintBottom_toBottomOf="@id/tvw_name"
                         app:layout_constraintStart_toEndOf="@id/tvw_name"
                         app:layout_constraintTop_toTopOf="@id/tvw_name" />
+
+                    <ImageView
+                        android:id="@+id/iv_notice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:src="@mipmap/hm_ic_notice"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        app:layout_constraintStart_toEndOf="@+id/ivw_vip"
+                        app:layout_constraintBottom_toBottomOf="@id/tvw_name"
+                        app:layout_constraintTop_toTopOf="@id/tvw_name" />
+
+                    <TextView
+                        android:id="@+id/tv_notice_num"
+                        android:layout_width="26dp"
+                        android:layout_height="14.5dp"
+                        android:background="@mipmap/hm_bg_nm"
+                        android:gravity="center"
+                        tools:text="+99"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        app:layout_constraintStart_toEndOf="@+id/iv_notice"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tvw_balance"
