@@ -28,9 +28,9 @@
     ";https://app.jyuelab.com:16801",
     ";https://app.kylinshe.com:16801",
     ";https://app.eyoumoban.com:16801"],
-  "domain_url_pre": "https://ap3sport.oxldkm.com",
-  "domain_url_list_pre": ["https://ap3sport.oxldkm.com"],
-  "domain_url_list_third_pre": ["https://ap3sport.oxldkm.com/xc/app_config.json"],
-  "domain_api_pre": "https://ap3sport.oxldkm.com",
-  "domain_api_list_pre": ["https://ap3sport.oxldkm.com"]
+  "domain_url_pre": "https://odinpresport2.oxldkm.com",
+  "domain_url_list_pre": ["https://odinpresport2.oxldkm.com"],
+  "domain_url_list_third_pre": ["https://odinpresport2.oxldkm.com/xc/app_config.json"],
+  "domain_api_pre": "https://odinpresport2.oxldkm.com",
+  "domain_api_list_pre": ["https://odinpresport2.oxldkm.com"]
 }
