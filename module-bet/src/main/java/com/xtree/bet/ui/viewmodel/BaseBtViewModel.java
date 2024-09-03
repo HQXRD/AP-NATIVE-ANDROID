@@ -200,11 +200,9 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                     public void onResult(Map<String, Object> vo) {
                         // "url": "https://user-h5-bw3.d91a21f.com?token=7c9c***039a"
                         // "url": { "launch_url": "https://cdn-ali.***.com/h5V01/h5.html?sn=dy12&xxx" }
-                        CfLog.i("111111111"+vo.toString());
                         if (!vo.containsKey("url")) {
                             return;
                         }
-                        CfLog.i("111111112"+vo.toString());
                         liveDataPlayUrl.setValue(vo);
                     }
 

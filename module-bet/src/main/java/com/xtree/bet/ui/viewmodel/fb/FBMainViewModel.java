@@ -1,16 +1,6 @@
 package com.xtree.bet.ui.viewmodel.fb;
 
 import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
-import static com.xtree.bet.constant.FBConstants.SPORT_ICON_ADDITIONAL;
-import static com.xtree.bet.constant.FBConstants.SPORT_IDS;
-import static com.xtree.bet.constant.FBConstants.SPORT_IDS_ADDITIONAL;
-import static com.xtree.bet.constant.FBConstants.SPORT_IDS_ALL;
-import static com.xtree.bet.constant.FBConstants.SPORT_IDS_NOMAL;
-import static com.xtree.bet.constant.FBConstants.SPORT_NAMES;
-import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_ADDITIONAL;
-import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
-import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
-import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 
 import android.app.Application;
@@ -19,41 +9,42 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.xtree.base.net.FBHttpCallBack;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
+import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
+import com.xtree.bet.bean.response.fb.MatchInfo;
+import com.xtree.bet.bean.response.fb.MatchListRsp;
 import com.xtree.bet.bean.response.fb.MatchTypeInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeStatisInfo;
 import com.xtree.bet.bean.response.fb.StatisticalInfo;
-import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
-import com.xtree.bet.bean.response.fb.MatchInfo;
-import com.xtree.bet.bean.response.fb.MatchListRsp;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayType;
-import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.FBConstants;
+import com.xtree.bet.constant.SportTypeItem;
 import com.xtree.bet.data.BetRepository;
+import com.xtree.bet.ui.viewmodel.MainViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
+import com.xtree.bet.ui.viewmodel.callback.LeagueListCallBack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.reactivex.disposables.Disposable;
-
-import com.xtree.base.net.FBHttpCallBack;
-import com.xtree.bet.ui.viewmodel.MainViewModel;
-import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
-import com.xtree.bet.ui.viewmodel.callback.LeagueListCallBack;
-
 import me.xtree.mvvmhabit.http.ResponseThrowable;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -71,9 +62,10 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<MatchInfo> mChampionMatchInfoList = new ArrayList<>();
     private Map<String, Match> mChampionMatchMap = new HashMap<>();
     private StatisticalInfo mStatisticalInfo;
-    private Map<String, List<Integer>> sportCountMap = new HashMap<>();
+    private ConcurrentHashMap<String, List<SportTypeItem>> sportCountMap = new ConcurrentHashMap<>();
     private int goingOnPageSize = 300;
     private int pageSize = 50;
+    private HashMap<Integer, SportTypeItem> mMatchGames = new HashMap<>();
 
     public void saveLeague(LeagueListCallBack leagueListCallBack) {
         mLeagueList = leagueListCallBack.getLeagueList();
@@ -101,80 +93,81 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     public FBMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
-        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
-        SPORT_IDS = SPORT_IDS_ALL;
-        sportItemData.postValue(SPORT_NAMES);
+        //SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+        //SPORT_IDS = SPORT_IDS_ALL;
+        sportItemData.postValue(new String[]{});
     }
 
-    @Override
-    public void setSportIds(int playMethodPos) {
-        if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
-            SPORT_IDS = SPORT_IDS_ALL;
-        } else {
-            SPORT_IDS = SPORT_IDS_NOMAL;
-        }
-    }
+    //@Override
+    //public void setSportIds(int playMethodPos) {
+    //    if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {//今日滚球串关
+    //        SPORT_IDS = SPORT_IDS_ALL;
+    //    } else {
+    //        SPORT_IDS = SPORT_IDS_NOMAL;
+    //    }
+    //}
 
     public void setSportItems(int playMethodPos, int playMethodType) {
-        if (playMethodPos == 0 || playMethodPos == 3) {
-            if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
-                SPORT_NAMES = SPORT_NAMES_TODAY_CG;
-            }
-        } else if (playMethodPos == 1) {
-            if (SPORT_NAMES != SPORT_NAMES_LIVE) {
-                SPORT_NAMES = SPORT_NAMES_LIVE;
-            }
-        } else {
-            if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
-                SPORT_NAMES = SPORT_NAMES_NOMAL;
-            }
-        }
-        setSportIds(playMethodPos);
-        if (playMethodPos == 4) {
-            MatchTypeInfo matchTypeInfo;
-            Map<String, MatchTypeStatisInfo> mapMatchTypeStatisInfo = new HashMap<>();
-            List<String> additionalIds = new ArrayList<>();
-            List<String> additionalNames = new ArrayList<>();
-            List<Integer> additionalIcons = new ArrayList<>();
-            for (int i = 0; i < SPORT_IDS.length; i++) {
-                additionalIds.add(SPORT_IDS[i]);
-                additionalNames.add(FBConstants.SPORT_NAMES[i]);
-                additionalIcons.add(Constants.SPORT_ICON[i]);
-            }
-            if (mStatisticalInfo != null) {
-                for (MatchTypeInfo typeInfo : mStatisticalInfo.sl) {
-                    if (typeInfo.ty == playMethodType) {
-                        matchTypeInfo = typeInfo;
-                        for (MatchTypeStatisInfo matchTypeStatisInfo :
-                                matchTypeInfo.ssl) {
-                            mapMatchTypeStatisInfo.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo);
-                        }
-                        break;
-                    }
-                }
-            }
+        sportItemData.postValue(new String[]{});
+        //if (playMethodPos == 0 || playMethodPos == 3) {//今日或串关
+        //    if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
+        //        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+        //    }
+        //} else if (playMethodPos == 1) {//滚球
+        //    if (SPORT_NAMES != SPORT_NAMES_LIVE) {
+        //        SPORT_NAMES = SPORT_NAMES_LIVE;
+        //    }
+        //} else {//早盘和冠军
+        //    if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
+        //        SPORT_NAMES = SPORT_NAMES_NOMAL;
+        //    }
+        //}
+        //setSportIds(playMethodPos);
+        //if (playMethodPos == 4) {
+        //    MatchTypeInfo matchTypeInfo;
+        //    Map<String, MatchTypeStatisInfo> mapMatchTypeStatisInfo = new HashMap<>();
+        //    List<String> additionalIds = new ArrayList<>();
+        //    List<String> additionalNames = new ArrayList<>();
+        //    List<Integer> additionalIcons = new ArrayList<>();
+        //    for (int i = 0; i < SPORT_IDS.length; i++) {
+        //        additionalIds.add(SPORT_IDS[i]);
+        //        additionalNames.add(FBConstants.SPORT_NAMES[i]);
+        //        additionalIcons.add(Constants.SPORT_ICON[i]);
+        //    }
+        //    if (mStatisticalInfo != null) {
+        //        for (MatchTypeInfo typeInfo : mStatisticalInfo.sl) {
+        //            if (typeInfo.ty == playMethodType) {
+        //                matchTypeInfo = typeInfo;
+        //                for (MatchTypeStatisInfo matchTypeStatisInfo :
+        //                        matchTypeInfo.ssl) {
+        //                    mapMatchTypeStatisInfo.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo);
+        //                }
+        //                break;
+        //            }
+        //        }
+        //    }
+        //
+        //    for (int i = 0; i < SPORT_IDS_ADDITIONAL.length; i++) {
+        //        MatchTypeStatisInfo matchTypeStatisInfo = mapMatchTypeStatisInfo.get(SPORT_IDS_ADDITIONAL[i]);
+        //        if (matchTypeStatisInfo != null && matchTypeStatisInfo.c > 0) {
+        //            additionalIds.add(SPORT_IDS_ADDITIONAL[i]);
+        //            additionalNames.add(SPORT_NAMES_ADDITIONAL[i]);
+        //            additionalIcons.add(SPORT_ICON_ADDITIONAL[i]);
+        //        }
+        //    }
+        //    String[] ids = new String[additionalIds.size()];
+        //    String[] names = new String[additionalNames.size()];
+        //    int[] icons = new int[additionalIcons.size()];
+        //    additionalIds.toArray(ids);
+        //    additionalNames.toArray(names);
+        //    for (int i = 0; i < additionalIcons.size(); i++) {
+        //        icons[i] = additionalIcons.get(i);
+        //    }
+        //    SPORT_IDS = ids;
+        //    SPORT_NAMES = names;
+        //    Constants.SPORT_ICON = icons;
+        //}
 
-            for (int i = 0; i < SPORT_IDS_ADDITIONAL.length; i++) {
-                MatchTypeStatisInfo matchTypeStatisInfo = mapMatchTypeStatisInfo.get(SPORT_IDS_ADDITIONAL[i]);
-                if (matchTypeStatisInfo != null && matchTypeStatisInfo.c > 0) {
-                    additionalIds.add(SPORT_IDS_ADDITIONAL[i]);
-                    additionalNames.add(SPORT_NAMES_ADDITIONAL[i]);
-                    additionalIcons.add(SPORT_ICON_ADDITIONAL[i]);
-                }
-            }
-            String[] ids = new String[additionalIds.size()];
-            String[] names = new String[additionalNames.size()];
-            int[] icons = new int[additionalIcons.size()];
-            additionalIds.toArray(ids);
-            additionalNames.toArray(names);
-            for (int i = 0; i < additionalIcons.size(); i++) {
-                icons[i] = additionalIcons.get(i);
-            }
-            SPORT_IDS = ids;
-            SPORT_NAMES = names;
-            Constants.SPORT_ICON = icons;
-        }
-        sportItemData.postValue(SPORT_NAMES);
     }
 
     /**
@@ -264,7 +257,10 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         fBListReq.setCurrent(mCurrentPage);
         fBListReq.setOddType(oddType);
 
-        if (sportPos == -1 || TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+        //HashMap<Integer, SportTypeItem> matchGames = getMatchGames();
+        //CfLog.i(sportId+"   "+new Gson().toJson(matchGames));
+        //SportTypeItem item = matchGames.get(sportId);
+        if (sportPos == -1 || TextUtils.equals(sportId, "0") || TextUtils.equals(sportId, "1111")) {
             fBListReq.setSportId(null);
         }
 
@@ -301,9 +297,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     public void searchMatch(String searchWord, boolean isChampion) {
         mSearchWord = searchWord;
         mIsChampion = isChampion;
-        if(!isChampion) {
+        if (!isChampion) {
             mLeagueListCallBack.searchMatch(searchWord);
-        }else {
+        } else {
             mChampionMatchList.clear();
             if (!TextUtils.isEmpty(searchWord)) {
                 List<MatchInfo> matchInfoList = new ArrayList<>();
@@ -354,15 +350,15 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         FBListReq.setCurrent(mCurrentPage);
         FBListReq.setSize(300);
         FBListReq.setOddType(oddType);
-
-        if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
-            String sportIds = "";
-            for (int i = 1; i < SPORT_IDS.length; i++) {
-                sportIds += SPORT_IDS[i] + ",";
-            }
-            FBListReq.setSportId(sportIds);
-        }
-
+        //HashMap<Integer, SportTypeItem> matchGames = getMatchGames();
+        //SportTypeItem item = matchGames.get(sportId);
+        //if (TextUtils.equals(item.name, "热门") || TextUtils.equals(item.name, "全部")) {
+        //    String sportIds = "";
+        //    for (int i = 1; i < SPORT_IDS.length; i++) {
+        //        sportIds += SPORT_IDS[i] + ",";
+        //    }
+        //    FBListReq.setSportId(sportIds);
+        //}
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -405,7 +401,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (TextUtils.isEmpty(mSearchWord)) {
                             championLeagueList(matchListRsp.records);
                             championMatchListData.postValue(mChampionMatchList);
-                        }else {
+                        } else {
                             searchMatch(mSearchWord, true);
                         }
                         if (mCurrentPage == 1) {
@@ -442,19 +438,45 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new FBHttpCallBack<StatisticalInfo>() {
                     @Override
-                    public void onResult(StatisticalInfo statisticalInfo) {
+                    public synchronized void onResult(StatisticalInfo statisticalInfo) {
+
                         mStatisticalInfo = statisticalInfo;
-                        for (MatchTypeInfo matchTypeInfo : statisticalInfo.sl) {
-                            Map<String, Integer> sslMap = new HashMap<>();
-                            for (MatchTypeStatisInfo matchTypeStatisInfo : matchTypeInfo.ssl) {
-                                sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
-                            }
-                            List<Integer> sportCountList = new ArrayList<>();
-                            for (String sportId : SPORT_IDS) {
-                                sportCountList.add(sslMap.get(sportId));
-                            }
-                            sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportCountList);
+                        if (mMatchGames.isEmpty()) {
+                            mMatchGames = FBConstants.getMatchGames();
                         }
+                        for (MatchTypeInfo matchTypeInfo : statisticalInfo.sl) {
+                            //"6", "1", "4", "2", "7"; 只有"今日", "滚球", "早盘", "串关", "冠军"数据才添加，提升效率
+                            if (matchTypeInfo.ty == 6 || matchTypeInfo.ty == 1 || matchTypeInfo.ty == 4 || matchTypeInfo.ty == 2 || matchTypeInfo.ty == 7) {
+                                //Map<String, Integer> sslMap = new HashMap<>();
+                                ArrayList<SportTypeItem> sportTypeItemList = new ArrayList<>();
+                                if (matchTypeInfo.ty == 6 || matchTypeInfo.ty == 2) {//今日 串关 加热门
+                                    SportTypeItem item1 = new SportTypeItem();
+                                    item1.id = 1111;
+                                    item1.num = 0;
+                                    sportTypeItemList.add(item1);
+                                } else if (matchTypeInfo.ty == 1) {//滚球 加全部
+                                    SportTypeItem item2 = new SportTypeItem();
+                                    item2.id = 0;
+                                    item2.num = matchTypeInfo.tc;
+                                    sportTypeItemList.add(item2);
+                                }
+                                for (MatchTypeStatisInfo matchTypeStatisInfo : matchTypeInfo.ssl) {
+                                    SportTypeItem item = new SportTypeItem();
+                                    item.id = matchTypeStatisInfo.sid;
+                                    item.num = matchTypeStatisInfo.c;
+                                    if (item.num <= 0 || mMatchGames.get(item.id) == null) {
+                                        continue;
+                                    }
+                                    sportTypeItemList.add(item);
+                                    //sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
+                                }
+
+                                sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportTypeItemList);
+                                //CfLog.i("num223   " + String.valueOf(6) + "  " + new Gson().toJson(sportCountMap.get(String.valueOf(6))));
+                            }
+                        }
+                        //CfLog.i("num22   " + 6 + "  " + new Gson().toJson(sportCountMap.get(String.valueOf(6))));
+                        //CfLog.i("num22   " + new Gson().toJson(sportCountMap));
                         statisticalData.postValue(sportCountMap);
                     }
 
@@ -503,13 +525,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     @Override
-    public String[] getSportId(int playMethodType) {
-        return SPORT_IDS;
-    }
-
-    @Override
-    public String[] getSportName(int playMethodType) {
-        return SPORT_NAMES;
+    public HashMap<Integer, SportTypeItem> getMatchGames() {
+        return FBConstants.getMatchGames();
     }
 
     /**

@@ -7,44 +7,84 @@ import com.xtree.bet.R;
 import com.xtree.bet.bean.response.fb.HotLeague;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PMConstants {
+    private static final HashMap<Integer, SportTypeItem> MATCH_GAMES = new HashMap<>();
+
+    public static HashMap<Integer, SportTypeItem> getMatchGames() {
+        if (MATCH_GAMES.isEmpty()) {
+            MATCH_GAMES.put(0, new SportTypeItem(0, "allleague", "全部", R.drawable.bt_match_item_live_all_selector));
+            MATCH_GAMES.put(1111, new SportTypeItem(1111, "hot", "热门", R.drawable.bt_match_item_hot_selector));
+
+            MATCH_GAMES.put(5, new SportTypeItem(5, "soccer", "足球", 1, R.drawable.bt_match_item_zq_selector, 40203));
+            MATCH_GAMES.put(7, new SportTypeItem(7, "basketball", "篮球", 2, R.drawable.bt_match_item_lq_selector, 40204));
+            MATCH_GAMES.put(13, new SportTypeItem(13, "tennis", "网球", 3, R.drawable.bt_match_item_wq_selector, 40206));
+            MATCH_GAMES.put(14, new SportTypeItem(14, "snooker", "斯诺克", 4, R.drawable.bt_match_item_snk_selector, 40207));
+            MATCH_GAMES.put(19, new SportTypeItem(19, "baseball", "棒球", 5, R.drawable.bt_match_item_bq_selector, 40212));
+            MATCH_GAMES.put(17, new SportTypeItem(17, "volleyball", "排球", 6, R.drawable.bt_match_item_pq_selector, 40210));
+            MATCH_GAMES.put(15, new SportTypeItem(15, "badminton", "羽毛球", 7, R.drawable.bt_match_item_ymq_selector, 40208));
+            MATCH_GAMES.put(20, new SportTypeItem(20, "americanfootball", "美式足球", 8, R.drawable.bt_match_item_mszq_selector, 40213));
+            MATCH_GAMES.put(16, new SportTypeItem(16, "tabletennis", "乒乓球", 9, R.drawable.bt_match_item_bbq_selector, 40209));
+            MATCH_GAMES.put(18, new SportTypeItem(18, "icehockey", "冰球", 10, R.drawable.bt_match_item_iceq_selector, 40211));
+            MATCH_GAMES.put(22, new SportTypeItem(22, "rugby", "联合式橄榄球", 20, R.drawable.bt_match_item_glq_selector, 40262));
+            MATCH_GAMES.put(43, new SportTypeItem(43, "handball", "手球", 11, R.drawable.bt_match_item_sq_selector, 40215));
+            MATCH_GAMES.put(52, new SportTypeItem(52, "golf", "高尔夫", 12, R.drawable.bt_match_item_golf_selector, 40254));
+            MATCH_GAMES.put(20037, new SportTypeItem(20037, "cricket", "板球", 13, R.drawable.bt_match_item_wbq_selector, 40260));
+            MATCH_GAMES.put(44, new SportTypeItem(44, "boxing", "拳击/格斗", 14, R.drawable.bt_match_item_qj_selector, 40216));
+            MATCH_GAMES.put(20038, new SportTypeItem(20038, "darts", "飞镖", 15, R.drawable.bt_match_item_darts_selector, 40258));
+            MATCH_GAMES.put(24, new SportTypeItem(24, "waterpolo", "水球", 41, R.drawable.bt_match_item_water_ball_selector));
+            MATCH_GAMES.put(51, new SportTypeItem(51, "cycling", "自行车", 16, R.drawable.bt_match_item_cycling_selector, 40265));
+            MATCH_GAMES.put(45, new SportTypeItem(45, "beachvolleyball", "沙滩排球", 18, R.drawable.bt_match_item_stpq_selector, 40211));
+            MATCH_GAMES.put(20033, new SportTypeItem(20033, "stockcarracing", "赛车", 17, R.drawable.bt_match_item_sc_selector, 40263));
+
+            MATCH_GAMES.put(20041, new SportTypeItem(20041, "rugby", "橄榄球", 42, R.drawable.bt_match_item_glq_selector));
+
+            MATCH_GAMES.put(3001, new SportTypeItem(3001, "dota2", "DOTA2", 42, R.drawable.bt_match_item_data_selector));
+            MATCH_GAMES.put(3002, new SportTypeItem(3002, "lol", "英雄联盟", 43, R.drawable.bt_match_item_lol_selector));
+            MATCH_GAMES.put(3003, new SportTypeItem(3003, "kog", "王者荣耀", 44, R.drawable.bt_match_item_yl_selector));
+            MATCH_GAMES.put(90, new SportTypeItem(90, "e-football", "电子足球", 29, R.drawable.bt_match_item_dzzq_selector));
+            MATCH_GAMES.put(91, new SportTypeItem(91, "e-basketball", "电子篮球", 30, R.drawable.bt_match_item_dzlq_selector));
+        }
+        return MATCH_GAMES;
+    }
+
     private static Map<String, Integer> mapBgMatchDetailTop = new ArrayMap<>();
 
-    /**
-     * 默认体育分类ID，与sportNames一一对应
-     */
-    public static String[] SPORT_IDS;
+    ///**
+    // * 默认体育分类ID，与sportNames一一对应
+    // */
+    //public static String[] SPORT_IDS;
+    //
+    ///**
+    // * 默认体育分类ID，与sportNames一一对应
+    // */
+    //public static String[] SPORT_IDS_DEFAULT = new String[]{"0", "40203", "40204", "40206", "40207", "40212", "40210", "40208", "40213", "40209", "40211", "40216", "40211", "40215"};
+    ///**
+    // * 默认冠军体育分类ID，与sportNames一一对应
+    // */
+    //public static String[] SPORT_IDS_CHAMPION_SPECAIL = new String[]{"40603", "40604", "40606", "40607", "40612", "40610", "40608", "40613", "40609", "40611", "40216", "40211", "40215"};
+    //public static Integer[] SPORT_TYPES_ADDITIONAL = new Integer[]{22, 52, 20037, 20038, 24, 51, 20033, 20018};
+
+    //public static String[] SPORT_NAMES;
+    //public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击/格斗", "沙滩排球", "手球"};
+    //public static String[] SPORT_NAMES_LIVE = new String[]{"全部", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击/格斗", "沙滩排球", "手球"};
+    //public static String[] SPORT_NAMES_TODAY_CG = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击/格斗", "沙滩排球", "手球"};
+    //
+    //public static int[] SPORT_ICON_ADDITIONAL = new int[]{
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_golf_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_darts_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_water_ball_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_cycling_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_f1_selector,
+    //        project.tqyb.com.library_res.R.drawable.bt_match_item_yl_selector};
 
     /**
-     * 默认体育分类ID，与sportNames一一对应
-     */
-    public static String[] SPORT_IDS_DEFAULT = new String[]{"0", "40203", "40204", "40206", "40207", "40212", "40210", "40208", "40213", "40209", "40211", "40216", "40211", "40215"};
-    /**
-     * 默认冠军体育分类ID，与sportNames一一对应
-     */
-    public static String[] SPORT_IDS_CHAMPION_SPECAIL = new String[]{"40603", "40604", "40606", "40607", "40612", "40610", "40608", "40613", "40609", "40611", "40216", "40211", "40215"};
-    public static Integer[] SPORT_TYPES_ADDITIONAL = new Integer[]{22, 52, 20037, 20038, 24, 51, 20033, 20018};
-
-    public static String[] SPORT_NAMES;
-    public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击/格斗", "沙滩排球", "手球"};
-    public static String[] SPORT_NAMES_LIVE = new String[]{"全部", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击/格斗", "沙滩排球", "手球"};
-    public static String[] SPORT_NAMES_TODAY_CG = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击/格斗", "沙滩排球", "手球"};
-
-    public static int[] SPORT_ICON_ADDITIONAL = new int[]{
-            project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_golf_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_darts_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_water_ball_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_cycling_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_f1_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_yl_selector};
-
-    /**
-     * 玩法ID，与PLAY_METHOD_NAMES一一对应
+     * 玩法ID，与PLAY_METHOD_NAMES一一对应 "今日", "滚球", "早盘", "串关", "冠军"
      */
     public static String[] PLAY_METHOD_TYPES = new String[]{"3", "1", "4", "11", "100"};
 
@@ -101,7 +141,6 @@ public class PMConstants {
      */
     public static String SPORT_ID_SQ = "11";
 
-
     /**
      * 比分类型-得分
      */
@@ -123,8 +162,8 @@ public class PMConstants {
      */
     public static String SCORE_TYPE_RED_CARD = "S11";
 
-    public static int getBgMatchDetailTop(String sportId){
-        if(mapBgMatchDetailTop.isEmpty()){
+    public static int getBgMatchDetailTop(String sportId) {
+        if (mapBgMatchDetailTop.isEmpty()) {
             mapBgMatchDetailTop.put(SPORT_ID_FB, R.mipmap.bt_detail_bg_zq_top);
             mapBgMatchDetailTop.put(SPORT_ID_BSB, R.mipmap.bt_detail_bg_lq_top);
             mapBgMatchDetailTop.put(SPORT_ID_WQ, R.mipmap.bt_detail_bg_wq_top);
@@ -146,8 +185,8 @@ public class PMConstants {
     private static List<HotLeague> hotBasketBallLeagueTopList = new ArrayList<>();
     private static Map<String, Integer> mapHotLeagueIconTop = new ArrayMap<>();
 
-    public static int getHotLeagueIcon(String code){
-        if(mapHotLeagueIconTop.isEmpty()){
+    public static int getHotLeagueIcon(String code) {
+        if (mapHotLeagueIconTop.isEmpty()) {
             mapHotLeagueIconTop.put("allleague", R.drawable.bt_hot_league_item_epl_selector);
             mapHotLeagueIconTop.put("EURO", R.drawable.bt_hot_league_item_euro_selector);
             mapHotLeagueIconTop.put("CONMEBOL", R.drawable.bt_hot_league_item_conmebol_selector);
@@ -168,8 +207,8 @@ public class PMConstants {
         return mapHotLeagueIconTop.get(code);
     }
 
-    public static List<HotLeague> getHotFootBallLeagueTopList(){
-        if(hotFootBallLeagueTopList.isEmpty()){
+    public static List<HotLeague> getHotFootBallLeagueTopList() {
+        if (hotFootBallLeagueTopList.isEmpty()) {
             Gson gson = new Gson();
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [], code: \"allleague\", name: \"全部\"}", HotLeague.class));
             //hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [33163,1196925222286433163], code: \"EURO\", name: \"欧洲杯\"}", HotLeague.class));
@@ -185,8 +224,8 @@ public class PMConstants {
         return hotFootBallLeagueTopList;
     }
 
-    public static List<HotLeague> getHotBasketFootBallLeagueTopList(){
-        if(hotBasketBallLeagueTopList.isEmpty()){
+    public static List<HotLeague> getHotBasketFootBallLeagueTopList() {
+        if (hotBasketBallLeagueTopList.isEmpty()) {
             Gson gson = new Gson();
             hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [], code: \"allleague\", name: \"全部\"}", HotLeague.class));
             hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [132], code: \"NBA\", name: \"NBA\"}", HotLeague.class));

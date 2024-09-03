@@ -29,6 +29,7 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.SportTypeItem;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.util.MatchDeserializer;
@@ -84,7 +85,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     /**
      * 赛事统计数据
      */
-    public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
+    public SingleLiveData<Map<String, List<SportTypeItem>>> statisticalData = new SingleLiveData<>();
     public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
 
     /**
@@ -153,8 +154,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public TemplateMainViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
         //SPORT_NAMES = SPORT_NAMES_TODAY_CG;
-        Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
-        //sportItemData.postValue(SPORT_NAMES);
+        //Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
     }
 
     public void setPlayMethodTabData() {
@@ -168,7 +168,6 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         playSearchData.setValue(dateList);
     }
 
-    public abstract void setSportIds(int playMethodPos);
 
     public void setSportItems(int playMethodPos, int playMethodType) {
 
@@ -185,13 +184,13 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     }
 
     public void setSportIcons(int playMethodPos) {
-        if (playMethodPos == 0 || playMethodPos == 3) {
-            Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
-        } else if (playMethodPos == 1) {
-            Constants.SPORT_ICON = Constants.SPORT_ICON_LIVE;
-        } else {
-            Constants.SPORT_ICON = Constants.SPORT_ICON_NOMAL;
-        }
+        //if (playMethodPos == 0 || playMethodPos == 3) {
+        //    Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
+        //} else if (playMethodPos == 1) {
+        //    Constants.SPORT_ICON = Constants.SPORT_ICON_LIVE;
+        //} else {
+        //    Constants.SPORT_ICON = Constants.SPORT_ICON_NOMAL;
+        //}
     }
 
     public String getScore(List<League> leagueList, long matchId) {
