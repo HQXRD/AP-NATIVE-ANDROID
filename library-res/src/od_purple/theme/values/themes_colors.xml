@@ -61,6 +61,7 @@
     <color name="textQuaternaryColor">#C7C4D0</color>
     <color name="textQuinaryColor">#F8F8F8</color>
     <color name="textSenaryColor">#FBFBFB</color>
+    <color name="textForgotColor">#518FD8</color>
     <!--    文字-->
 
     <!--    渐变-->
@@ -93,6 +94,7 @@
     <color name="dividerColor2">#38D9D9D9</color>
     <color name="buttonText">#FFFFFF</color>
     <color name="buttonShadowColor">#1A8869E6</color>
+    <color name="dialogBackgroundShadowColor">#0D724E7F</color>
     <color name="strokeColor">#9179E7</color>
     <color name="parlayLabelColor">#95845A</color>
     <color name="parlayBackgroundColor">#33C8A54E</color>

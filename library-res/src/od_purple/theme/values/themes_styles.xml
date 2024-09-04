@@ -45,7 +45,9 @@
     <style name="textSenaryAttrStyle">
         <item name="android:textColor">@color/textSenaryColor</item>
     </style>
-
+    <style name="textForgotAttrStyle">
+        <item name="android:textColor">@color/textForgotColor</item>
+    </style>
     <style name="clr_item_text_style">
         <item name="android:textColor">@color/clr_item_text_selector</item>
     </style>
@@ -84,5 +86,15 @@
         <item name="android:layout_marginTop">@dimen/layout_margin</item>
         <item name="android:textColor">@color/clr_txt_black_01</item>
         <item name="android:textSize">17sp</item>
+    </style>
+    <style name="recharge_btn_next_style">
+        <item name="android:background">@drawable/bg_btn_long_selector</item>
+        <item name="android:textColor">@drawable/recharge_btn_next_text_selector</item>
+    </style>
+    <style name="dialog_order_bank_top_style">
+        <item name="android:src">@drawable/bg_dialog_order_bank_top</item>
+    </style>
+    <style name="dialog_order_bank_info_style">
+        <item name="android:backdropColor">@drawable/bg_dialog_order_bank_info</item>
     </style>
 </resources>
