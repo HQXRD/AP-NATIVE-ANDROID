@@ -149,6 +149,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getProfile();//获取更人信息
             //viewModel.getRedPocket(); // VIP有没有红包 (小红点)
             viewModel.getRewardRed(); // 主页 我的按钮小红点
+            viewModel.getMessagePersonList();//获取站内信未读数量
         }
     }
 
@@ -353,6 +354,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member_has_red, 0, 0);
             } else {
                 binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member, 0, 0);
+            }
+        });
+        viewModel.liveDataMsgUnread.observe(getViewLifecycleOwner(), vo -> {
+            if (vo == 0) {
+                binding.tvNoticeNum.setVisibility(View.GONE);
+            } else {
+
+                binding.tvNoticeNum.setVisibility(View.VISIBLE);
+                binding.tvNoticeNum.setText("+" + vo);
             }
         });
     }
@@ -578,6 +588,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 smoothToPosition(pid);
             });
         }
+        binding.ivNotice.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt("isMsgPerson", 1);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG, bundle);
+        });
 
     }
 
