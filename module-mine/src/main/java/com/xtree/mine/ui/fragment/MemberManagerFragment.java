@@ -3,6 +3,7 @@ package com.xtree.mine.ui.fragment;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -152,7 +153,11 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
             binding.refreshLayout.finishRefresh();
             binding.refreshLayout.finishLoadMore();
 
-            binding.refreshLayout.setEnableLoadMore(!vo.mobile_page.p.equals(vo.mobile_page.total_page));
+            if (vo.mobile_page == null || TextUtils.isEmpty(vo.mobile_page.p)) {
+                binding.refreshLayout.setEnableLoadMore(false);
+            } else {
+                binding.refreshLayout.setEnableLoadMore(!vo.mobile_page.p.equals(vo.mobile_page.total_page));
+            }
 
             if (vo.users != null && !vo.users.isEmpty()) {
                 binding.tvwNoData.setVisibility(View.GONE);
