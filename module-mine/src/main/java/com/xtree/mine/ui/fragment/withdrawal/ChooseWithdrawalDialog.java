@@ -500,8 +500,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 .asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, infoVo, checkCode, new OtherWebWithdrawalDialog.IOtherWebWithdrawalDialogCallback() {
                     @Override
                     public void closeOtherDialog() {
-                        otherWXPopupView.dismiss();
-                        otherWXPopupView = null;
+                        if (otherWXPopupView != null) {
+                            otherWXPopupView.dismiss();
+                            otherWXPopupView = null;
+                        }
                     }
                 }));
         // }
