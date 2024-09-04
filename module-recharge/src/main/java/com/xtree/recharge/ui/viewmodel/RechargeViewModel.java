@@ -42,6 +42,7 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 充值页 ViewModel
@@ -256,15 +257,20 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<RechargeVo>() {
                     @Override
                     public void onResult(RechargeVo vo) {
-                        CfLog.d(vo.toString());
-                        if (vo.user_bank_info != null && vo.user_bank_info instanceof Map) {
-                            Map<String, String> map = (Map<String, String>) vo.user_bank_info;
-                            for (Map.Entry<String, String> entry : map.entrySet()) {
-                                BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
-                                vo.userBankList.add(vo3);
+                        if (vo==null){
+                            CfLog.d(vo.toString());
+                            if (vo.user_bank_info != null && vo.user_bank_info instanceof Map) {
+                                Map<String, String> map = (Map<String, String>) vo.user_bank_info;
+                                for (Map.Entry<String, String> entry : map.entrySet()) {
+                                    BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
+                                    vo.userBankList.add(vo3);
+                                }
                             }
+                            liveData.setValue(vo);
+                        }else{
+                            ToastUtils.showShort("获取充值订单失败，请重试");
                         }
-                        liveData.setValue(vo);
+
 
                     }
 
