@@ -214,6 +214,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 .subscribeWith(new HttpCallBack<PMService>() {
                     @Override
                     public void onResult(PMService pmService) {
+                        if (pmService == null) {
+                            return;
+                        }
                         SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
