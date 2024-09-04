@@ -39,7 +39,9 @@ import java.util.HashMap;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 选择支付银行卡ViewModel
@@ -688,11 +690,19 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         //super.onError(t);  ex.message = "连接超时";
+                        String errorMessage = null;
+                        if (t instanceof ResponseThrowable) {
+                            ResponseThrowable rError = (ResponseThrowable) t;
+                            errorMessage = rError.message;
 
-                        BusinessException exception = (BusinessException) t;
-                        String errorMessage = t.getMessage();
-                        CfLog.e("onError --->exception.getMessage()=" + exception.getMessage() + "|t.getMessage()=" + t.getMessage());
-                        withdrawalListErrorData.setValue(errorMessage);
+                        } else if (t instanceof BusinessException) {
+                            BusinessException rError = (BusinessException) t;
+                            errorMessage = rError.message;
+                        }
+                        CfLog.e("onError --->exception.getMessage()=" + errorMessage);
+                        if (!TextUtils.isEmpty(errorMessage)) {
+                            withdrawalListErrorData.setValue(errorMessage);
+                        }
                     }
 
                     @Override
