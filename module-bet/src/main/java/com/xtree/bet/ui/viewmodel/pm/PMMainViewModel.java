@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Handler;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
@@ -201,12 +203,14 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         pmListReq.setCpn(mCurrentPage);
         pmListReq.setCps(mGoingOnPageSize);
         String sportIds = "";
+        //CfLog.i("pmListReqHot    "+mMenuInfoList.isEmpty() + "");
         if (mMenuInfoList.isEmpty()) {
             //for (String sportId : SPORT_IDS_DEFAULT) {
             //    if (!TextUtils.equals("0", sportId)) {
             //        sportIds += sportId + ",";
             //    }
             //}
+            hotEmptyMatchCountData.postValue(0);
             return;
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
@@ -227,7 +231,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         pmListReq.setType(3);
-
+        //CfLog.i("pmListReqHot   "+new Gson().toJson(pmListReq));
         Flowable flowable = model.getPMApiService().matchesPagePB(pmListReq);
         PMHttpCallBack pmHttpCallBack = new PMHttpCallBack<MatchListRsp>() {
 
@@ -618,7 +622,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                                     item1.id = 1111;
                                     item1.num = 0;
                                     sportTypeItemList.add(item1);
-                                }else if (menuInfo.menuType == 1) {//滚球 加全部
+                                } else if (menuInfo.menuType == 1) {//滚球 加全部
                                     SportTypeItem item2 = new SportTypeItem();
                                     item2.id = 0;
                                     item2.num = menuInfo.count;

@@ -78,6 +78,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public SingleLiveData<List<Match>> championMatchListData = new SingleLiveData<>();
     public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
     public SingleLiveData<Integer> hotMatchCountData = new SingleLiveData<>();
+    public SingleLiveData<Integer> hotEmptyMatchCountData = new SingleLiveData<>();
     /**
      * 请求量过多
      */

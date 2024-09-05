@@ -55,8 +55,6 @@ import com.xtree.bet.bean.response.fb.HotLeague;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.FBConstants;
-import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.constant.SportTypeItem;
 import com.xtree.bet.contract.BetContract;
@@ -92,7 +90,6 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.Messenger;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -392,7 +389,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) tab.getCustomView()).setTextSize(16);
-                CfLog.i("playMethodPos   "+playMethodPos+"  "+tab.getPosition());
+                CfLog.i("playMethodPos   " + playMethodPos + "  " + tab.getPosition());
                 if (playMethodPos != tab.getPosition()) {
                     hideSearchView();
                     mIsChange = true;
@@ -1406,7 +1403,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
             }
         });
-
+        //PM场馆初始化时，无法获取热门数量时，重新获取
+        viewModel.hotEmptyMatchCountData.observe(this, h -> {
+            if (playMethodPos == 0 || playMethodPos == 3) {
+                binding.tabSportType.postDelayed(() -> {
+                    if (mHotMatchCount > 0) {
+                        return;
+                    }
+                    viewModel.getHotMatchCount(playMethodType, viewModel.hotLeagueList);
+                }, 1500);
+            }
+        });
         viewModel.tokenInvalidEvent.observe(this, unused -> {
             String sportId = String.valueOf(getSportId());
             viewModel.getHotLeague(mPlatform);
@@ -1591,7 +1598,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             return;
         }
         List<SportTypeItem> list = mStatisticalData.get(String.valueOf(playMethodType));
-        CfLog.i("playMethodType1     "+playMethodType +"   "+ new Gson().toJson(mStatisticalData));
+        //CfLog.i("playMethodType1     " + playMethodType + "   " + new Gson().toJson(mStatisticalData));
         //CfLog.i("playMethodType1     " + mSportName);
 
         //List<SportTypeItem> newList = new ArrayList<>();
