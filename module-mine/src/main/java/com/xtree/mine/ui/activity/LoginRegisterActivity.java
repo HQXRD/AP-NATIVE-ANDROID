@@ -77,8 +77,6 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
 
     private int viewType;//页面跳转状态
-
-    private boolean loginRegType = false;//登录状态获取验证码 状态 默认不需要获取验证码状态
     private static final int HANDLER_INIT_VER = 0;//初始化获取注册验证码
     private static final int HANDLER_REFRESH_VER = 1;//手动点击获取注册验证码
     private static final int HANDLER_ERR_VER = 2;//获取验证码异常
@@ -91,10 +89,10 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private static final int HANDLER_REFRESH_IMAGE_VER_LOGIN = 7;//刷新图片UI
     private static final int HANDLER_REFRESH_VER_LOGIN_VIEW = 8;//刷新显示登录二维码UI
 
-    private RegisterVerificationHandler mRegisterHandler;
+   /* private RegisterVerificationHandler mRegisterHandler;*/
     protected Handler mainThreadHandler;
 
-    private class RegisterVerificationHandler extends Handler {
+   /* private class RegisterVerificationHandler extends Handler {
 
         RegisterVerificationHandler(Looper looper) {
             super(looper);
@@ -155,9 +153,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             }
         }
 
-    }
+    }*/
 
-    private void refreshLoginVerView() {
+    /*private void refreshLoginVerView() {
         binding.toRegisterArea.setVisibility(View.VISIBLE);
         binding.loginArea.setVisibility(View.VISIBLE);
         binding.llLoginVerification.setVisibility(View.VISIBLE);//显示登录二维码
@@ -207,7 +205,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         }
 
-    }
+    }*/
 
     public static final String ENTER_TYPE = "enter_type";
     public static final int LOGIN_TYPE = 0x1001;
@@ -263,45 +261,44 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     @Override
     public void initView() {
 
-        if (BuildConfig.DEBUG) {
+      /*  if (BuildConfig.DEBUG) {
             binding.tvConfig.setVisibility(View.VISIBLE);
             binding.tvConfig.setOnClickListener(v -> new ConfigSwitchDialog().show(getSupportFragmentManager(), ConfigSwitchDialog.class.getName()));
         }
 
 
         mRegisterHandler = new RegisterVerificationHandler((Looper.getMainLooper()));
-        mainThreadHandler = new Handler();
+        mainThreadHandler = new Handler();*/
 
         mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
         mTopSpeedDomainFloatingWindows.show();
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
-        binding.loginSubHeader.setOnClickListener(v -> {
+        /*binding.loginSubHeader.setOnClickListener(v -> {
             if (clickCount++ > 5) {
                 clickCount = 0;
                 startContainerFragment(RouterFragmentPath.Home.PG_DEBUG);
             }
-        });
+        });*/
 
         Intent intent = getIntent();
         viewType = intent.getIntExtra(ENTER_TYPE, LOGIN_TYPE);
         //登录页面
         if (viewType == LOGIN_TYPE) {
-            binding.toRegisterArea.setVisibility(View.VISIBLE);
+            binding.tvLoginRegister.setText(getText(R.string.tv_login));
+            //显示登录页面
+            binding.llLoginArea.setVisibility(View.VISIBLE);
             binding.loginArea.setVisibility(View.VISIBLE);
-            binding.toLoginArea.setVisibility(View.GONE);
-            binding.meRegisterArea.setVisibility(View.GONE);
-            binding.tvwRegisterWarning.setVisibility(View.GONE);
-            binding.ivwRegisterWarning.setVisibility(View.GONE);
+            //隐藏注册页面
+            binding.llRegisterArea.setVisibility(View.GONE);
+
         }
         //注册页面
         if (viewType == REGISTER_TYPE) {
-            binding.toLoginArea.setVisibility(View.VISIBLE);
-            binding.meRegisterArea.setVisibility(View.VISIBLE);
-            hideRegister();
-            binding.toRegisterArea.setVisibility(View.GONE);
-            binding.loginArea.setVisibility(View.GONE);
-            binding.tvwRegisterWarning.setVisibility(View.VISIBLE);
-            binding.ivwRegisterWarning.setVisibility(View.VISIBLE);
+            binding.tvLoginRegister.setText(getText(R.string.tv_register));
+            //隐藏登录页面
+            binding.llLoginArea.setVisibility(View.GONE);
+            //显示注册页面
+            binding.llRegisterArea.setVisibility(View.VISIBLE);
         }
 
         boolean isRememberPwd = SPUtil.get(getApplication()).get(Spkey.REMEMBER_PWD, false);
@@ -328,7 +325,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         //binding.tvwAgreement.setOnClickListener(v -> goMain());
         binding.tvwSkipLogin.setOnClickListener(v -> goMain(false));
         binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(this));
-
+        //登录状态
         binding.btnLogin.setOnClickListener(v -> {
 
             if (!ifAgree()) {
@@ -348,7 +345,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
                 return;
             }
-            if (!loginRegType) {
+            viewModel.login(acc, pwd);
+           /* if (!loginRegType) {
                 viewModel.login(acc, pwd);
             } else {
                 String loginVerText = binding.edtLoginVerification.getText().toString();
@@ -368,7 +366,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 }
                 viewModel.loginAndVer(acc, pwd, loginRegCodeVo.key, loginVerText);
             }
-
+*/
         });
 
         binding.tvwAgreement.setOnClickListener(v -> {
@@ -377,11 +375,17 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         binding.tvwAgreementRegister.setOnClickListener(v -> {
             showAgreementDialog(binding.registerAgreementCheckbox);
         });
-
-        binding.toRegisterArea.setOnClickListener(v -> {
+        //显示注册页面
+        binding.tvwCs.setOnClickListener(v -> {
             //显示注册页面，隐藏登录界面
-            binding.toLoginArea.setVisibility(View.VISIBLE);
-            binding.meRegisterArea.setVisibility(View.VISIBLE);
+            binding.tvLoginRegister.setVisibility(View.VISIBLE);
+            binding.tvLoginRegister.setText(getText(R.string.tv_register));
+            //隐藏登录页面
+            binding.llLoginArea.setVisibility(View.GONE);
+            //显示注册页面
+            binding.llRegisterArea.setVisibility(View.VISIBLE);
+
+          /*  binding.meRegisterArea.setVisibility(View.VISIBLE);
             binding.toRegisterArea.setVisibility(View.GONE);
             binding.loginArea.setVisibility(View.GONE);
             binding.tvwRegisterWarning.setVisibility(View.VISIBLE);
@@ -393,17 +397,19 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 Message msg = new Message();
                 msg.what = HANDLER_INIT_VER;
                 sendMessage(msg);
-            }
+            }*/
 
         });
-        binding.toLoginArea.setOnClickListener(v -> {
-            binding.toRegisterArea.setVisibility(View.VISIBLE);
-            binding.loginArea.setVisibility(View.VISIBLE);
-            binding.toLoginArea.setVisibility(View.GONE);
-            binding.meRegisterArea.setVisibility(View.GONE);
-            hideRegister();
-            binding.tvwRegisterWarning.setVisibility(View.GONE);
-            binding.ivwRegisterWarning.setVisibility(View.GONE);
+        //点击去登录
+        binding.tvwLogin.setOnClickListener(v -> {
+            //显示注册页面，隐藏登录界面
+            binding.tvLoginRegister.setVisibility(View.VISIBLE);
+            binding.tvLoginRegister.setText(getText(R.string.tv_login));
+            //隐藏注册页面
+            binding.llRegisterArea.setVisibility(View.GONE);
+            //显示登录页面
+            binding.llLoginArea.setVisibility(View.VISIBLE);
+
         });
 
         binding.edtAccReg.addTextChangedListener(new TextWatcher() {
@@ -543,7 +549,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             String account = binding.edtAccReg.getText().toString().trim();
             String pwd1 = binding.edtPwd1.getText().toString();
             String pwd2 = binding.edtPwd2.getText().toString();
-            String verificationTxt = binding.edtVerification.getText().toString();
             if (!binding.registerAgreementCheckbox.isChecked()) {
                 ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
                 showAgreementDialog(binding.registerAgreementCheckbox);
@@ -568,7 +573,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 mIsPwd2 = false;
             }
             //注册页面需要判断Seting 状态 1需要判断
-            if (settingsVo != null &&
+/*            if (settingsVo != null &&
                     settingsVo.register_captcha_switch != null
                     && TextUtils.equals("1", settingsVo.register_captcha_switch)) {
                 //验证码不能为空
@@ -588,7 +593,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     return;
                 }
 
-            }
+            }*/
 
             if (!mIsAcc || !mIsPwd1 || !mIsPwd2) {
                 return;
@@ -603,7 +608,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 netCode="kygprka";
             }
             if (registerVerificationCodeVo !=null&&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
-                viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt);
+                viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, "");
             }else{
                 viewModel.register(account, pwd1, netCode, "", "");
             }
@@ -631,12 +636,12 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 //            }
         });
         //点击 注册 验证码图片 手动刷新验证码图片
-        binding.ivVerification.setOnClickListener(v -> {
+       /* binding.ivVerification.setOnClickListener(v -> {
             LoadingDialog.show(this);
             Message msg = new Message();
             msg.what = HANDLER_REFRESH_VER;
             sendMessage(msg);
-        });
+        });*/
 
         //点击 登录页面 刷新验证码
         binding.ivLoginVerification.setOnClickListener(v -> {
@@ -765,7 +770,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         });
         // 获取登录验证码
         viewModel.verLoginCodeMutableLiveData.observe(this, vo -> {
-            loginRegType = true;// 登录状态获取验证码
+            //loginRegType = true;// 登录状态获取验证码
             loginRegCodeVo = vo;
             if (!TextUtils.isEmpty(loginRegCodeVo.image_url)) {
                 Message msg = new Message();
@@ -782,7 +787,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     }
 
     protected void sendMessage(Message message) {
-        mRegisterHandler.sendMessage(message);
+        //mRegisterHandler.sendMessage(message);
     }
 
     @Override

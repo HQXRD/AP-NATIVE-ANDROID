@@ -327,4 +327,11 @@
     <!--测速浮窗-->
     <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
 
+    <!-- 注册-->
+    <string name="txt_login_no_id_tip">还没有账号? </string>
+    <string name="txt_login_no_id_register">前去注册</string>
+    <string name="txt_register_id_tip">已有账号? </string>
+    <string name="txt_register_id_log">马上登录</string>
+    <string name="tv_login">登录</string>
+    <string name="tv_register">注册</string>
 </resources>
