@@ -8,6 +8,7 @@ buildscript {
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.scijava.org/content/repositories/public/' }
         gradlePluginPortal()
         mavenCentral()
 
@@ -28,6 +29,7 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.scijava.org/content/repositories/public/' }
         gradlePluginPortal()
         mavenCentral()
     }
