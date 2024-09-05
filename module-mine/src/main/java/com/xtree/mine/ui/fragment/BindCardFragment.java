@@ -87,6 +87,13 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
                 BankCardVo vo = get(position);
 
                 binding2.tvBindCardTime.setText(vo.atime);
+                if (vo.bank_name.length()>8 && vo.bank_name.length()<12){
+                    binding2.tvBankName.setTextSize(14);
+                } else if (vo.bank_name.length()>12) {
+                    binding2.tvBankName.setTextSize(12);
+                } else {
+                    binding2.tvBankName.setTextSize(16);
+                }
                 binding2.tvBankName.setText(vo.bank_name);
 
                 binding2.tvBankNumber.setText(vo.account);
@@ -147,6 +154,7 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
             if (vo.banklist != null && !vo.banklist.isEmpty()) {
                 CfLog.i("****** 这是列表");
                 mAdapter.clear();
+
                 mAdapter.addAll(vo.banklist);
                 for (int i = 0; i < vo.banklist.size(); i++) {
                     if (vo.banklist.get(i).status.equals("3")) {

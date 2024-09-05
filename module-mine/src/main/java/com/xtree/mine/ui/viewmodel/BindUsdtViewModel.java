@@ -178,9 +178,10 @@ public class BindUsdtViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(UserUsdtConfirmVo vo) {
                         CfLog.d("******");
                         if (vo.msg_type == 1 || vo.msg_type == 2) {
-                            ToastUtils.showLong(vo.message); // 异常 (钱包地址验证错误)
+                            //ToastUtils.showLong(vo.message); // 异常 (钱包地址验证错误)
+                            liveData.setValue(vo);
                         } else if (vo.msg_type == 3) {
-                            ToastUtils.showLong(vo.message); // 提交成功
+                            //ToastUtils.showLong(vo.message); // 提交成功
                             liveData.setValue(vo);
                         } else {
                             liveData.setValue(vo);

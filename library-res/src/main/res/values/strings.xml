@@ -318,4 +318,6 @@
     <!--测速浮窗-->
     <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
 
+    <string name="txt_bind_card_tip">温馨提示：10秒后提款生效</string>
+    <string name="txt_bind_usdt_succ_tip">操作成功!</string>
 </resources>

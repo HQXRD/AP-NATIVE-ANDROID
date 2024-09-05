@@ -58,10 +58,10 @@ public class BindCardLockFragment extends BaseFragment<FragmentBindCardLockBindi
         if (getArguments() != null) {
             id = getArguments().getString(ARG_ID);
             String accountName = requireArguments().getString("accountName");
-            if (accountName != null && !accountName.isEmpty()) {
+           /* if (accountName != null && !accountName.isEmpty()) {
                 binding.edtName.setText(accountName);
                 binding.edtName.setEnabled(false);
-            }
+            }*/
 
         }
     }

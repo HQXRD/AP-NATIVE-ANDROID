@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,7 +149,41 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         viewModel.liveDataBindCardResult.observe(this, vo -> {
             CfLog.i("******");
             //getActivity().finish();
-            viewModel.getProfile();
+            if (vo.msg_type == 3){
+                //绑定成功 "绑定成功！温馨提示：新绑定卡需0小时后才能提现"
+                binding.llConfirm.setVisibility(View.GONE);
+                binding.layoutRecharge.setVisibility(View.VISIBLE);
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_success);
+                binding.tvBindMsg.setVisibility(View.GONE);
+                binding.tvType.setText(getContext().getString(R.string.txt_confirm));
+                binding.tvMsg.setText(getContext().getString(R.string.txt_bind_succ));
+                binding.tvType.setOnClickListener(v -> {
+                    viewModel.getProfile();
+                    requireActivity().finish();
+                });
+
+            } else if (vo.msg_type == 1 ) {
+                //"您提交的银行卡号格式不正确，请核对后重新提交！"
+                binding.llConfirm.setVisibility(View.GONE);
+                binding.layoutRecharge.setVisibility(View.VISIBLE);
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_fail);
+                binding.tvBindMsg.setVisibility(View.VISIBLE);
+                binding.tvMsg.setVisibility(View.VISIBLE);
+                binding.tvMsg.setText(getContext().getString(R.string.txt_bind_fail));
+                if (vo.message !=null && !TextUtils.isEmpty(vo.message)){
+                    binding.tvBindMsg.setText(vo.message);
+                }else{
+                    binding.tvBindMsg.setVisibility(View.INVISIBLE);
+                }
+
+                binding.tvType.setText(getContext().getString(R.string.txt_mine_rebind_usdt));
+
+                binding.tvType.setOnClickListener(v -> {
+
+                    requireActivity().finish();
+                });
+
+            }
         });
         viewModel.liveDataProfile.observe(this, vo -> {
             CfLog.i("******");

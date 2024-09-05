@@ -167,7 +167,62 @@ public class BindUsdtRebindFragment extends BaseFragment<FragmentBindUsdtRebindB
         viewModel.liveDataRebindCard04.observe(this, vo -> {
             CfLog.i("****** 4 ");
             //getActivity().finish();
-            viewModel.getProfile();
+            if (vo.msg_type == 3){
+                //绑定成功
+                binding.llConfirm.setVisibility(View.GONE);
+                binding.layoutRecharge.setVisibility(View.VISIBLE);
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_success);
+                binding.tvBindMsg.setVisibility(View.GONE);
+                binding.tvType.setText(getContext().getString(R.string.txt_confirm));
+                binding.tvMsg.setText(getContext().getString(R.string.txt_bind_usdt_succ_tip));
+                binding.tvType.setOnClickListener(v -> {
+                    viewModel.getProfile();
+                    requireActivity().finish();
+                });
+
+            } else if (vo.msg_type == 1 || vo.msg_type == 2) {
+                //异常 (钱包地址验证错误)
+                binding.llConfirm.setVisibility(View.GONE);
+                binding.layoutRecharge.setVisibility(View.VISIBLE);
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_usdt_wrong);
+                binding.tvBindMsg.setVisibility(View.VISIBLE);
+                binding.tvMsg.setVisibility(View.GONE);
+                if (vo.message !=null && !TextUtils.isEmpty(vo.message)){
+                    binding.tvBindMsg.setText(vo.message);
+                }else{
+                    binding.tvBindMsg.setVisibility(View.INVISIBLE);
+                }
+
+                binding.tvType.setText(getContext().getString(R.string.txt_confirm));
+
+                binding.tvType.setOnClickListener(v -> {
+
+                    requireActivity().finish();
+                });
+
+            }else{
+                //其他作为异常处理
+                //异常 (钱包地址验证错误)
+                binding.llConfirm.setVisibility(View.GONE);
+                binding.layoutRecharge.setVisibility(View.VISIBLE);
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_usdt_wrong);
+                binding.tvBindMsg.setVisibility(View.VISIBLE);
+                binding.tvMsg.setVisibility(View.GONE);
+                if (vo.message !=null && !TextUtils.isEmpty(vo.message)){
+                    binding.tvBindMsg.setText(vo.message);
+                }else{
+                    binding.tvBindMsg.setVisibility(View.INVISIBLE);
+                }
+
+                binding.tvType.setText(getContext().getString(R.string.txt_confirm));
+
+                binding.tvType.setOnClickListener(v -> {
+
+                    requireActivity().finish();
+                });
+            }
+
+
         });
         viewModel.liveDataProfile.observe(this, vo -> {
             CfLog.i("******");

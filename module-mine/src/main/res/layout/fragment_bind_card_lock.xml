@@ -32,7 +32,7 @@
             <TextView
                 android:id="@+id/tvw_title"
                 style="@style/style_cm_title"
-                android:text="@string/txt_bind_card2"
+                android:text="@string/txt_bind_card"
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

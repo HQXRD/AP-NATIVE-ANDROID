@@ -132,6 +132,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     qrcodeType = 2
                     binding.ivAwIcon.setImageResource(R.mipmap.bind_success)
                     binding.tvMsg.text = getString(R.string.txt_bind_succ)
+                    binding.tvBindMsg.text= getString(R.string.txt_bind_card_tip)
                     binding.etPhone.hint = "请输入11位手机号码或电子邮箱"
                     binding.etPhone.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                 }
@@ -150,6 +151,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     qrcodeType = 1
                     binding.ivAwIcon.setImageResource(R.mipmap.bind_success)
                     binding.tvMsg.text =  getString(R.string.txt_bind_succ)
+                    binding.tvBindMsg.text= getString(R.string.txt_bind_card_tip)
                     binding.etPhone.hint = "请输入微信支付绑定的11位手机号码"
                     binding.etPhone.inputType = InputType.TYPE_CLASS_PHONE
                 }
@@ -180,30 +182,53 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             setConfirmView()
         }
         viewModel.liveDataBindAWResult.observe(this) { vo: UserBankConfirmVo ->
-            CfLog.i("******")
-            binding.layoutRecharge.visibility = View.VISIBLE
-            binding.ivAwIcon.setImageResource(R.mipmap.bind_success)
-            binding.llConfirm.visibility = View.GONE
-            val type = SPUtils.getInstance().getString(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge))
-            binding.tvType.text = type
-            binding.tvType.setOnClickListener {
-                viewModel.getProfile()
-                when (type) {
-                    getString(R.string.txt_go_recharge) -> {
-                        val bundle = Bundle()
-                        bundle.putBoolean("isShowBack", true)
-                        startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle)
-                        requireActivity().finish()
-                    }
 
-                    getString(R.string.txt_go_withdraw) -> {
-                        val bundle = Bundle()
-                        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
-                            .navigation()
-                        requireActivity().finish()
+            if (vo.msg_type == 3) {
+                //綁定成功
+                CfLog.i("******")
+                binding.layoutRecharge.visibility = View.VISIBLE
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_success)
+                binding.tvBindMsg.text = vo.message
+                binding.llConfirm.visibility = View.GONE
+                val type = SPUtils.getInstance().getString(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge))
+                binding.tvType.text = type
+                binding.tvType.setOnClickListener {
+                    viewModel.getProfile()
+                    when (type) {
+                        getString(R.string.txt_go_recharge) -> {
+                            val bundle = Bundle()
+                            bundle.putBoolean("isShowBack", true)
+                            startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle)
+                            requireActivity().finish()
+                        }
+
+                        getString(R.string.txt_go_withdraw) -> {
+                            val bundle = Bundle()
+                            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
+                                .navigation()
+                            requireActivity().finish()
+                        }
                     }
                 }
+            } else if (vo.msg_type == 1) {
+                //綁定失敗
+                binding.layoutRecharge.visibility = View.VISIBLE
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_fail)
+                binding.tvMsg.text = getString(R.string.txt_bind_fail)
+                if (vo.message.isNotEmpty() || vo.message !=null){
+                    binding.tvBindMsg.text = vo.message
+                }else{
+                    binding.tvBindMsg.visibility =View.INVISIBLE
+                }
+                
+                binding.llConfirm.visibility = View.GONE
+                binding.tvType.text = getString(R.string.txt_mine_rebind_usdt)
+                binding.tvType.setOnClickListener {
+                    //返回上一级页面
+                    requireActivity().finish()
+                }
             }
+
         }
     }
 
