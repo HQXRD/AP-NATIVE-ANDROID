@@ -80,6 +80,11 @@
 
         <TextView
             style="@style/style_choose_account_item"
+            android:tag="bindgobao"
+            android:text="@string/txt_bind_gobao" />
+
+        <TextView
+            style="@style/style_choose_account_item"
             android:tag="bindmpay"
             android:text="@string/txt_bind_mpay"
             android:visibility="gone" />
