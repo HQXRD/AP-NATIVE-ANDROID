@@ -320,7 +320,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         viewModel.bankCardCashMoYuVoMutableLiveData.observe(this.owner, vo -> {
             bankCardCashVo = vo;
             dismissLoading();
-            if (bankCardCashVo == null || bankCardCashVo.banks == null || bankCardCashVo.rest == null) {
+            if (bankCardCashVo == null || bankCardCashVo.rest == null) {
                 if (bankCardCashVo.msg_type == 2 && !TextUtils.isEmpty(bankCardCashVo.message)) {
                     showError(bankCardCashVo.message);
                     return;
@@ -329,6 +329,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                     dismiss();
                 }
 
+            } else if (bankCardCashVo.banks == null || bankCardCashVo.banks.isEmpty()) {//银行维护中，请联系客服
+                if (!TextUtils.isEmpty(bankCardCashVo.message)) {
+                    showError(bankCardCashVo.message);
+                } else {
+                    showError(getContext().getString(R.string.txt_withdrawal_banks_empty));
+                }
+                return;
             } else if (bankCardCashVo.msg_type == 1 || bankCardCashVo.msg_type == 2) {
                 ToastUtils.showError(bankCardCashVo.message);
                 dismiss();
@@ -350,14 +357,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 dismiss();
                 return;
             } else {
-                if (bankCardCashVo.channel_list !=null && !bankCardCashVo.channel_list.isEmpty()){
+                if (bankCardCashVo.channel_list != null && !bankCardCashVo.channel_list.isEmpty()) {
                     //1.初始化顶部选项卡
                     refreshTopUI(bankCardCashVo);
                     //2.为注意view设置相关值
                     refreshNoticeView(bankCardCashVo);
                     //3.刷新第一次获取的数据
                     refreshInitView(bankCardCashVo);
-                }else {
+                } else {
                     CfLog.e("************** 头部选项卡 数据为空************");
                 }
 
@@ -423,7 +430,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
         binding.nsH5View.setVisibility(View.GONE);//h5隐藏
         binding.nsOverView.setVisibility(View.GONE); //订单结果页面隐藏
-        binding.nsConfirmWithdrawalRequest.setVisibility(View.VISIBLE); //确认提款页面隐藏
+        binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
+        binding.maskH5View.setVisibility(View.GONE);//WebView界面隐藏
 
     }
 
