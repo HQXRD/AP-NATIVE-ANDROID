@@ -72,7 +72,7 @@ abstract class AutoRefreshAdapter<VH : RecyclerView.ViewHolder, E> : MutableList
     override fun clear() {
         size.also {
             super.clear().run {
-                notifyItemRangeRemoved(0, it)
+                notifyDataSetChanged()
             }
         }
     }

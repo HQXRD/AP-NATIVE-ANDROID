@@ -16,6 +16,7 @@
         <item name="textQuaternaryAttr">@style/textQuaternaryAttrStyle</item>
         <item name="textQuinaryAttr">@style/textQuinaryAttrStyle</item>
         <item name="textSenaryAttr">@style/textSenaryAttrStyle</item>
+        <item name="textForgotAttr">@style/textForgotAttrStyle</item>
 
         <item name="clr_item_text_attr">@style/clr_item_text_style</item>
         <item name="clr_rc_rate_attr">@style/clr_rc_rate_style</item>
@@ -25,6 +26,10 @@
         <item name="ivw_bg_attr">@style/ivw_bg_style</item>
         <item name="rc_channel_attr">@style/rc_channel_style</item>
         <item name="style_cm_title_attr">@style/rc_channel_style</item>
+        <item name="recharge_btn_next_attr">@style/recharge_btn_next_style</item>
+        <item name="common_btn_attr">@style/recharge_btn_next_style</item>
+        <item name="dialog_order_bank_top_attr">@style/dialog_order_bank_top_style</item>
+        <item name="dialog_order_bank_info_attr">@style/dialog_order_bank_info_style</item>
     </style>
 
 </resources>
