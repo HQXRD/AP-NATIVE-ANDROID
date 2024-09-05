@@ -38,5 +38,5 @@
   { "id":"504", "title": "XXXX", "picture": "hm_gm_qp_04", "typeId": 504, "pId": 5 ,    	"isH5": true, "cid":4, "imageName": "XCImage.chess_KGAME" } ,
   { "id":"505", "title": "XXXX", "picture": "hm_gm_qp_05", "typeId": 505, "pId": 5 ,    	"playURL": "augame/list", "isH5": true, "cid":7, "imageName": "XCImage.chess_AU" } ,
 
-  { "id":"601", "title": "XXXX", "picture": "hm_gm_cp_01", "typeId": 601, "pId": 6 ,    	"name": "杏彩彩票", "playURL": "webapp/#/alllottery", "isH5": true, "imageName": "XCImage.lottery_CAIPAO" }
+  { "id":"601", "title": "XXXX", "picture": "hm_gm_cp_01", "typeId": 601, "pId": 6 ,    	"name": "杏彩彩票", "playURL": "webapp/?isNative=1#/alllottery", "isH5": true, "imageName": "XCImage.lottery_CAIPAO" }
 ]
