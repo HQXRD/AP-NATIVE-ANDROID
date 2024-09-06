@@ -20,11 +20,21 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="5dp">
-
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">match_parent</item>-->
+<!--        <item name="android:gravity">center</item>-->
+<!--        <item name="android:padding">12dp</item>-->
+<!--        <item name="android:background">@drawable/btn_acc_item_selector</item>-->
+<!--        <item name="android:textColor">@color/clr_white</item>-->
         <TextView
             android:id="@+id/tv_choose_usdt"
-            style="@style/style_withdraw_money_account"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="12dp"
+            style="?attr/withdrawal_btn_attr"
             android:text=""
+            android:textColor="@color/white"
             tools:text="提款"
             />
     </LinearLayout>

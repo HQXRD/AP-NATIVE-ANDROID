@@ -81,15 +81,20 @@
                 android:listSelector="@android:color/transparent"
                 android:visibility="visible"
                 tools:visibility="visible" />
-
+<!--            <item name="android:layout_width">wrap_content</item>-->
+<!--            <item name="android:layout_height">wrap_content</item>-->
+<!--            <item name="android:textColor">@color/clr_tutorial</item>-->
+<!--            <item name="android:textSize">@dimen/bt_text_16sp</item>-->
+<!--            <item name="android:gravity">center</item>-->
             <TextView
+                style="?attr/tertiaryAttr"
                 android:id="@+id/tv_choose_tutorial"
-                style="@style/style_usdt_tutorial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableLeft="@mipmap/me_withdrawal_list_hint"
                 android:text="@string/txt_withdrawal_usdt_tip"
-                android:textColor="@color/clr_withdrawal_usdt_tip"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_choose_tip"

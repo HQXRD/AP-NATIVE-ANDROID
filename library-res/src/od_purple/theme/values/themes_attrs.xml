@@ -30,5 +30,9 @@
     <attr name="common_btn_attr" format="reference" />
     <attr name="dialog_order_bank_top_attr" format="reference" />
     <attr name="dialog_order_bank_info_attr" format="reference" />
+    <attr name="withdrawal_btn_attr" format="reference" />
+    <attr name="btn_get_code_attr" format="reference" />
+    <attr name="info2_grey_50_attr" format="reference" />
+    <attr name="info_grey_50_attr" format="reference" />
 
 </resources>

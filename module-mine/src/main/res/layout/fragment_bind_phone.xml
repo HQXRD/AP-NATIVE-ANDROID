@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/tvw_tip_hint"
-            style="@style/style_info_grey_50"
+            style="?attr/info_grey_50_attr"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
             android:text="@string/txt_phone_will_help_u" />
@@ -86,8 +86,8 @@
 
             <TextView
                 android:id="@+id/tvw_code"
-                style="@style/style_get_code"
-                android:enabled="false"
+                style="?attr/btn_get_code_attr"
+                android:enabled="true"
                 android:text="@string/txt_get_code"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -107,10 +107,17 @@
 
         <TextView
             android:id="@+id/tvw_ok"
-            style="@style/style_btn_long"
-            android:enabled="false"
+            style="?attr/common_btn_attr"
+            android:enabled="true"
             android:text="@string/txt_confirm"
-            android:textColor="@color/clr_white" />
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_height="46dp"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,7 +126,7 @@
             android:visibility="visible">
 
             <TextView
-                style="@style/style_info2_grey_50"
+                style="?attr/info2_grey_50_attr"
                 android:text="@string/txt_tip_cs_01" />
 
             <TextView
@@ -131,7 +138,7 @@
                 android:textColor="@color/clr_purple_12" />
 
             <TextView
-                style="@style/style_info2_grey_50"
+                style="?attr/info2_grey_50_attr"
                 android:text="@string/txt_tip_cs_03" />
         </LinearLayout>
 
