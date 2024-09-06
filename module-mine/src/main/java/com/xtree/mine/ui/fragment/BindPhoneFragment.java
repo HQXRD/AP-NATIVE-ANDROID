@@ -73,6 +73,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
                 } else {
                     CfLog.i("************ ");
                     binding.tvwCode.setEnabled(true);
+                    binding.tvwCode.setSelected(true);
                     binding.tvwCode.setText(R.string.txt_get_code);
                     if (!binding.edtNum.getText().toString().contains("*")) {
                         binding.edtNum.setEnabled(true);
@@ -396,6 +397,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             CfLog.i("***********");
             ToastUtils.showLong(R.string.txt_already_send_code);
             binding.tvwCode.setEnabled(false);
+            binding.tvwCode.setSelected(false);
             binding.tvwCode.setText(vo.timeoutsec + "s");
             mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
 
@@ -403,6 +405,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         viewModel.liveDataCodeFail.observe(this, vo -> {
             CfLog.i("***********");
             binding.tvwCode.setEnabled(true);
+            binding.tvwCode.setSelected(true);
             binding.edtCode.setTextColor(getResources().getColor(R.color.clr_sec_verify_warn));
             if (!binding.edtNum.getText().toString().contains("*")) {
                 binding.edtNum.setEnabled(true);
@@ -456,6 +459,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             binding.vDivLine.setVisibility(View.VISIBLE);
             binding.tvwCode.setText(R.string.txt_get_code);
             binding.tvwCode.setEnabled(true);
+            binding.tvwCode.setSelected(true);
 
             binding.tvwTitle.setText(R.string.txt_enter_new_phone);
             binding.edtNum.setEnabled(true);
@@ -536,6 +540,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
     private void alreadySendCode(VerifyVo vo) {
         ToastUtils.showLong(R.string.txt_already_send_code);
         binding.tvwCode.setEnabled(false);
+        binding.tvwCode.setSelected(false);
         binding.tvwCode.setText(vo.timeoutsec + "s");
         mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
     }
@@ -544,11 +549,13 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         String num = binding.edtNum.getText().toString().trim();
         if ((!num.isEmpty() && AppUtil.isPhone(num)) || !binding.edtNum.isEnabled()) {
             binding.tvwCode.setEnabled(true);
+            binding.tvwCode.setSelected(true);
             binding.tvwTipHint.setVisibility(View.VISIBLE);
             binding.tvwTipWarn.setVisibility(View.GONE);
             binding.edtNum.setTextColor(getResources().getColor(R.color.clr_sec_verify_normal));
         } else {
             binding.tvwCode.setEnabled(false);
+            binding.tvwCode.setSelected(false);
             if (num.isEmpty()) {
                 binding.tvwTipHint.setVisibility(View.VISIBLE);
                 binding.tvwTipWarn.setVisibility(View.GONE);

@@ -150,6 +150,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/clr_white"
         android:orientation="horizontal"
+        tools:visibility="visible"
         android:visibility="gone">
 
         <androidx.recyclerview.widget.RecyclerView
