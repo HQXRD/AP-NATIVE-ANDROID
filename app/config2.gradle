@@ -8,7 +8,7 @@ android {
             versionName "1.0.0"
             versionCode 100
             //resValue "string", "app_name", "${name}"
-            resValue "string", "app_name", "意昂1T${versionCode}"
+            resValue "string", "app_name", "意昂T${versionCode}"
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
             resValue "string", "domain_api", "https://preyiang.oxldkm.com"
             resValue "string", "domain_url", "https://preyiang.oxldkm.com"
@@ -29,7 +29,7 @@ android {
             applicationId "com.${name.toLowerCase()}.app"
             versionName "1.0.0"
             versionCode 100
-            resValue "string", "app_name", "意昂1R${versionCode}"
+            resValue "string", "app_name", "意昂R${versionCode}"
             resValue "string", "domain_api", "http://43.129.17.50:36804"
             resValue "string", "domain_url", "https://www.eon6.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
@@ -81,7 +81,7 @@ android {
             applicationId "com.eon1.app" // eon1
             versionName "1.0.0"
             versionCode 100
-            resValue "string", "app_name", "意昂体育1"
+            resValue "string", "app_name", "意昂体育"
             resValue "string", "domain_api", "http://43.129.17.50:36804"
             resValue "string", "domain_url", "https://www.eon6.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
