@@ -101,5 +101,7 @@
     <color name="channelTextSelectColor">#775493</color>
     <color name="channelTextColor">#C4B2FF</color>
     <!--    其他-->
-
+    <color name="textForgetPwdColor">#7272FF</color>
+    <color name="textAgreementColor">#6246CF</color>
+    <color name="textErrorMessageColor">#E66AA6</color>
 </resources>

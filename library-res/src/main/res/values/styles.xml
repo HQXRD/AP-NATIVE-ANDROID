@@ -506,7 +506,7 @@
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
         <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
-        <item name="android:textColor">@color/clr_orange_03</item>
+        <item name="android:textColor">@color/textErrorMessageColor</item>
     </style>
     <!-- 通用 提示小字 桔红色 2 -->
     <style name="style_cm_tip_small_orange2" parent="style_cm_tip_small_grey">
@@ -988,6 +988,7 @@
         <item name="android:paddingHorizontal" tools:targetApi="o">6dp</item>
         <item name="android:button">@drawable/checkbox_bg_selector</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/textDescriptionColor</item>
     </style>
 
     <!-- 复选框 颜色 -->

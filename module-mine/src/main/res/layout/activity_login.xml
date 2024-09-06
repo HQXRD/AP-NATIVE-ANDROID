@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible"
-                tools:visibility="gone">
+                tools:visibility="visible">
                 <RelativeLayout
                     android:id="@+id/login_area"
                     android:layout_width="match_parent"
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="@string/me_agreement_content"
-                        android:textColor="@color/me_text_agreement"
+                        android:textColor="@color/textAgreementColor"
                         android:textSize="@dimen/me_text_size_sp12sp"
                         android:textStyle="bold" />
 
@@ -220,7 +220,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
                 <RelativeLayout
                     android:id="@+id/register_area"
@@ -331,7 +331,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/me_pwd_forget"
-                                android:textColor="@color/me_text_forget_pwd"
+                                android:textColor="@color/textForgetPwdColor"
                                 android:textSize="@dimen/me_test_size" />
                         </LinearLayout>
                     </LinearLayout>
@@ -359,6 +359,7 @@
                     android:layout_marginLeft="2dp"
                     android:text="@string/me_agreement_hint"
                     android:textSize="@dimen/me_text_size_sp12sp"
+                    android:textColor="@color/textDescriptionColor"
                     android:textStyle="bold" />
 
                 <TextView
@@ -367,7 +368,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/me_agreement_content"
-                    android:textColor="@color/me_text_agreement"
+                    android:textColor="@color/textAgreementColor"
                     android:textSize="@dimen/me_text_size_sp12sp"
                     android:textStyle="bold" />
 
