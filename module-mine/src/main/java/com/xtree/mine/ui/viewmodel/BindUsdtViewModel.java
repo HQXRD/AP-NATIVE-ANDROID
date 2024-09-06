@@ -136,9 +136,10 @@ public class BindUsdtViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(UserUsdtConfirmVo vo) {
                         CfLog.d("******");
                         if (vo.msg_type == 1 || vo.msg_type == 2) {
-                            ToastUtils.showLong(vo.message); // 异常
+                           // ToastUtils.showLong(vo.message); // 异常
+                            liveDataBindCardResult.setValue(vo);
                         } else if (vo.msg_type == 3) {
-                            ToastUtils.showLong(vo.message); // "绑定成功！温馨提示：新绑定卡需0小时后才能提现"
+                            //ToastUtils.showLong(vo.message); // "绑定成功！温馨提示：新绑定卡需0小时后才能提现"
                             liveDataBindCardResult.setValue(vo);
                         }
                     }

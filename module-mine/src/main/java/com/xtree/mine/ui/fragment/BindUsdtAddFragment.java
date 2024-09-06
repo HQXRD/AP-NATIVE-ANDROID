@@ -147,7 +147,45 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         viewModel.liveDataBindCardResult.observe(this, vo -> {
             CfLog.i("******");
             //getActivity().finish();
-            viewModel.getProfile();
+
+            if (vo.msg_type == 1 || vo.msg_type == 2) {
+                //异常 (钱包地址验证错误)
+                binding.llConfirm.setVisibility(View.GONE);
+                binding.layoutRecharge.setVisibility(View.VISIBLE);
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_fail);
+                binding.tvBindMsg.setVisibility(View.VISIBLE);
+                binding.tvMsg.setVisibility(View.GONE);
+                if (vo.message !=null && !TextUtils.isEmpty(vo.message)){
+                    binding.tvBindMsg.setText(vo.message);
+                }else{
+                    binding.tvBindMsg.setVisibility(View.INVISIBLE);
+                }
+
+                binding.tvType.setText(getContext().getString(R.string.txt_mine_rebind_usdt));
+                binding.tvType.setOnClickListener(v -> {
+                    requireActivity().finish();
+                });
+            } else if (vo.msg_type == 3) {
+                //绑定成功
+                binding.llConfirm.setVisibility(View.GONE);
+                binding.layoutRecharge.setVisibility(View.VISIBLE);
+                binding.ivAwIcon.setImageResource(R.mipmap.bind_success);
+                binding.tvBindMsg.setVisibility(View.GONE);
+
+                binding.tvMsg.setText(getContext().getString(R.string.txt_bind_succ));
+                binding.tvType.setText(getContext().getString(R.string.txt_go_recharge));
+                binding.tvType.setOnClickListener(v -> {
+                    viewModel.getProfile();
+                    /*requireActivity().finish();*/
+
+                    //点击去充值
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isShowBack", true);
+                    //intent.putExtra(ContainerActivity.BUNDLE, bundle);
+                    //startActivity(intent);
+                    startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
+                });
+            }
         });
         viewModel.liveDataProfile.observe(this, vo -> {
             CfLog.i("******");
