@@ -42,6 +42,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
         //是否是代理
         boolean isActing();
+        void getToken(GameVo vo);
     }
 
     public GameAdapter(Context ctx, ICallBack mCallBack) {
@@ -171,10 +172,12 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
         }
 
-        if (TextUtils.isEmpty(cgToken)) {
-            ToastUtils.showShort("场馆初始化中，请稍候...");
-        } else if (TextUtils.isEmpty(baseUrl)) {
-            ToastUtils.showShort("服务地址错误，请联系客服");
+        if (TextUtils.isEmpty(cgToken)||TextUtils.isEmpty(baseUrl)) {
+        //    ToastUtils.showShort("场馆初始化中，请稍候...");
+        //} else if () {
+        //    ToastUtils.showShort("服务地址错误，请联系客服");
+            CfLog.e("无法获取到场馆地址");
+            mCallBack.getToken(vo);
         } else {
             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).navigation();
         }

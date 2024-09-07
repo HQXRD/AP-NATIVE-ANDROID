@@ -2,6 +2,9 @@ package com.xtree.home.ui.fragment;
 
 import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
 
+import static com.xtree.home.ui.adapter.GameAdapter.PLATFORM_FB;
+import static com.xtree.home.ui.adapter.GameAdapter.PLATFORM_FBXC;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -237,7 +240,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
         viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + vo.toString());
-            //恒行2去除 VIP选项
+            //恒行5去除 VIP选项
            /* if (vo.sp.equals("1")) {
                 binding.tvwVip.setText("VIP " + vo.display_level); // display_level
             } else {
@@ -438,6 +441,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     return true;
                 }
                 return false;
+            }
+
+            @Override
+            public void getToken(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
+                    viewModel.getFBXCGameTokenApi();
+                } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
+                    viewModel.getFBGameTokenApi();
+                } else {
+                    viewModel.getPMGameTokenApi();
+                }
             }
         };
 
