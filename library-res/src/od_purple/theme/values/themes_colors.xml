@@ -104,4 +104,5 @@
     <color name="textForgetPwdColor">#7272FF</color>
     <color name="textAgreementColor">#6246CF</color>
     <color name="textErrorMessageColor">#E66AA6</color>
+    <color name="textHomeTextColor">#393152</color>
 </resources>
