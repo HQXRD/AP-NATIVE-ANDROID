@@ -182,11 +182,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     protected void initImmersionBar() {
         //设置共同沉浸式样式
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(true)
-                .statusBarDarkFont(true)
-                .init();
+        //ImmersionBar.with(this)
+        //        .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
+        //        .fitsSystemWindows(true)
+        //        .statusBarDarkFont(true)
+        //        .init();
     }
 
     @Override
