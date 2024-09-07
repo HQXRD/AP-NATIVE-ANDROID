@@ -15,7 +15,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
+            resValue "string", "ms_secret_key", "b8597911-c169-4fcb-b548-51a575e698d1"
             resValue "string", "domain_api_list", "https://pre-dsport.oxldkm.com;"
             resValue "string", "domain_url_list", "https://pre-dsport.oxldkm.com;"
             multiDexEnabled true
