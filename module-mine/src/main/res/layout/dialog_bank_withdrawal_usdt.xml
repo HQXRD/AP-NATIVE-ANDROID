@@ -278,16 +278,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="" />
-
                         <TextView
-                            android:id="@+id/tv_withdrawal_type_show1"
+                            android:id="@+id/tv_withdrawal_single_show"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="1dp"
-
                             android:layout_toRightOf="@id/tv_mini_single_withdrawal"
                             android:text=""
                             android:textColor="@color/red"
+                            tools:text="910191"
                             android:textSize="12sp" />
                     </RelativeLayout>
                 </LinearLayout>
@@ -414,11 +413,10 @@
                                 android:background="@drawable/bg_withdraw_money_input">
 
                                 <TextView
-                                    android:id="@+id/tv_collection_usdt"
+                                    android:id="@+id/tv_bind_address"
                                     style="@style/style_usdt_edit"
                                     android:layout_marginLeft="10dp"
-                                    android:drawableRight="@mipmap/mine_withdrawal_expand"
-                                    android:paddingRight="10dp"
+                                    android:drawableRight="@mipmap/bt_icon_expand"
                                     android:hint="@string/txt_select_virtual_address" />
                             </RelativeLayout>
 

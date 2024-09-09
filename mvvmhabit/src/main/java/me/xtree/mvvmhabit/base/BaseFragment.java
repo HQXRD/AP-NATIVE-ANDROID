@@ -349,4 +349,10 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     public <T extends ViewModel> T createViewModel(Fragment fragment, Class<T> cls) {
         return new ViewModelProvider(fragment, null).get(cls);
     }
+
+    /**
+     * 获取activity结果回调
+     */
+    public void getActivityResult(int requestCode, int resultCode, Intent data) {
+    }
 }

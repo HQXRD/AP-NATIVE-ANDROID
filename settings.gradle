@@ -20,3 +20,4 @@ include ":gsyVideoPlayer",
         ":gsyVideoPlayer-exo_player2"*/
 
 //include ':module-sign', ':module-work', ':module-msg', ':module-user'
+include ':LocalRepo:VisitorLBS'

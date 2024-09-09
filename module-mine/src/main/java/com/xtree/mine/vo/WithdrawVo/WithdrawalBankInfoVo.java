@@ -8,7 +8,8 @@ import me.xtree.mvvmhabit.http.BaseResponse2;
 /**
  * 銀行卡提款 渠道信息
  */
-public class WithdrawalBankInfoVo extends BaseResponse2 {
+public class WithdrawalBankInfoVo{
+    public String check;//post多加一个check参数，新增返回参数：check ,需带入下一个接口 {{host}}/api/withdrawal/verify
     public String code;
     /*
        "is_digital": false,

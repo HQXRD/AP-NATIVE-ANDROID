@@ -239,6 +239,9 @@
     <string name="txt_next_step">下一步</string>
     <string name="txt_previous_step">上一步</string>
     <string name="txt_all_exclude_lottery">全部（不含彩票）</string>
+    <string name="txt_rc_step">充值步骤</string>
+    <string name="txt_rc_cnyt_tutorial">CNYT充值教程</string>
+    <string name="txt_rc_usdt_tutorial">USDT充值教程</string>
 
     <!--魔域 提款文本-->
     <string name="txt_withdraw_password">输入资金密码</string>
@@ -328,9 +331,37 @@
     <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>
 
     <string name="txt_precautions">注意事项</string>
-
+    <string name="txt_choose_quota_error_tip">暂无余额,请刷新重试</string>
+    <string name="txt_bind_error_sys_tip">您尚未绑定</string>
+    <string name="txt_withdrawal_usdt_title">USDT提款</string>
+    <string name="txt_withdraw_top_tip">注意:每天限制提款  %1$s  次，您已提款 %2$s 次， 您今日剩余提款额度为  %3$s 元</string>
+    <string name="txt_withdraw_input_error_tip">请输入提款金额</string>
+    <string name="txt_withdraw_input_mix_tip">提款金额不能小于最小提款金额</string>
+    <string name="txt_withdraw_input_max_tip">提款金额不能大于最大提款金额</string>
+    <string name="txt_withdraw_address_tip">请选择提款地址</string>
+    <string name="txt_single_withdrawal_range">单笔取款范围 %1$s-%2$s 元</string>
+    <string name="txt_withdraw_submit_tip">账户提款申请成功</string>
+    <string name="txt_bind_tip">您还未绑定%1$s,是否前往绑定?</string>
+    <string name="txt_bind_bank_tip">银行卡</string>
+    <string name="txt_bind_usdt_tip">USDT提款</string>
+    <string name="txt_bind_other_type_tip">您还未绑定%1$s地址,是否前往绑定?</string>
     <string name="txt_withdrawal">提款</string>
     <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
     <string name="txt_transfer_money_type">转账类型:</string>
     <string name="txt_withdrawal_banks_empty">银行维护中，请联系客服</string>
+    <string name="txt_withdrawal_bank_top">银行卡提款</string>
+    <string name="txt_rc_hi_wlt_content">目前登入账号尚未绑定嗨钱包账号，\n确认是否继续操作？</string>
+    <string name="txt_rc_hi_reg">注册嗨钱包</string>
+    <string name="txt_rc_hi_down">下载嗨钱包</string>
+    <string name="txt_rc_cnyt_content">
+    1. 请先下载或通过上方【一键进入】注册嗨钱包账号\n
+    2. 登录嗨钱包账号，并购买适量的CNYT\n
+    3. 在嗨钱包中通过【转账】进行扫码支付\n
+    4.平台填写金额应当与汇款金额完全一致，否则将无法及时到账</string>
+    <string name="txt_rc_usdt_content">
+    1. 请先下载注册USDT虚拟钱包账号\n
+    2. 登录USDT虚拟钱包账号，并购买适量的USDT\n
+    3. 在USDT虚拟钱包中通过【转账】进行进行扫码支付或输入收款地址进行支付\n
+    4. 平台填写金额应当与汇款金额完全一致，否则将无法及时到账\n
+    </string>
 </resources>

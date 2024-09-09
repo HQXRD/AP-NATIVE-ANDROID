@@ -721,25 +721,26 @@ public interface HttpApiService {
     Flowable<BaseResponse<WithdrawalQuotaVo>> getWithdrawalQuota();
 
     /**
+     *  @GET("/api/withdrawal/list")
      * 获取可提现渠道列表
      */
-    @GET("/api/withdrawal/list")
-    Flowable<BaseResponse<ArrayList<WithdrawalListVo>>> getWithdrawalList();
+    @GET("/api/withdrawal/list/{checkCode}")
+    Flowable<BaseResponse<WithdrawalListVo>> getWithdrawalList(@Path("checkCode") String checkCode);
 
     /**
      * 获取当前渠道详情
      * /api/withdrawal/info?wtype=ebpay
      */
-    @GET("/api/withdrawal/info?")
-    Flowable<BaseResponse<WithdrawalInfoVo>> getWithdrawalInfo(@QueryMap Map<String, Object> map);
+    @GET("/api/withdrawal/info/{wtype}/{check}")
+    Flowable<BaseResponse<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype, @Path("check") String check);
     //
 
     /**
      * 银行卡 获取当前渠道详情
      *
      */
-    @GET("/api/withdrawal/info?")
-    Flowable<BaseResponse<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@QueryMap Map<String, Object> map);
+    @GET("/api/withdrawal/info/{wtype}/{check}")
+    Flowable<BaseResponse<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype, @Path("check") String check);
 
 
     /**
