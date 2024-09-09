@@ -105,5 +105,7 @@ dependencies {
         implementation project(':module-mine')
         //投注模块
         implementation project(':module-bet')
+        //直播模块
+        implementation project(':module-live')
     }
 }
