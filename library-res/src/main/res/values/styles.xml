@@ -83,8 +83,8 @@
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">@dimen/layout_margin</item>
-        <item name="android:textColor">@color/clr_txt_black_01</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/textPrimaryColor</item>
+        <item name="android:textSize">@dimen/bt_text_18sp</item>
     </style>
 
     <!-- 首页-左边的游戏类型 -->

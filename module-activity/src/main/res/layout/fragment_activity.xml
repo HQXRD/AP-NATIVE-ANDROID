@@ -32,7 +32,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:textStyle="bold"/>
 
             <ImageView
                 android:id="@+id/ivw_back"
@@ -84,8 +85,8 @@
                 app:tabMode="scrollable"
                 app:tabPadding="2dp"
                 app:tabRippleColor="@android:color/transparent"
-                app:tabSelectedTextColor="@color/clr_purple_01"
-                app:tabTextColor="@color/black">
+                app:tabSelectedTextColor="@color/primaryColor"
+                app:tabTextColor="@color/textPrimaryColor">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
