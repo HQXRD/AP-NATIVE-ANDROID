@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="线路选择"
+            android:text="@string/txt_line_selection"
             android:textColor="@color/clr_withdrawal_usdt_tip"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

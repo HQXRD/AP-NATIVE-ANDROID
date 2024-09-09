@@ -105,4 +105,6 @@
     <color name="textAgreementColor">#6246CF</color>
     <color name="textErrorMessageColor">#E66AA6</color>
     <color name="textHomeTextColor">#393152</color>
+    <!--其他  测速远点颜色-->
+    <color name="textSpeedTestColor">#F5BF56</color>
 </resources>

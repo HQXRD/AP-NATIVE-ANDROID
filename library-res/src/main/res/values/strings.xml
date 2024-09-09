@@ -326,6 +326,15 @@
 
     <!--测速浮窗-->
     <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
+    <string name="txt_line_selection">线路选择</string>
+    <string name="txt_selector_line_selection">请选择需要切换的路线</string>
+    <string name="txt_current_route">当前线路</string>
+    <string name="txt_line_selection_1">线路一</string>
+    <string name="txt_line_selection_2">线路二</string>
+    <string name="txt_line_selection_3">线路三</string>
+    <string name="txt_speed_testing">测速中....</string>
+    <string name="txt_speed_recommend">推荐</string>
+
 
     <!-- 注册-->
     <string name="txt_login_no_id_tip">还没有账号? </string>
