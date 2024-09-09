@@ -64,12 +64,4 @@ public class RouterActivityPath {
         public static final String PAGER_FORBIDDEN = WIDGET + "/forbidden"; // 403页面
     }
 
-    /**
-     * 直播组件
-     */
-    public static class Live {
-        private static final String LIVE = "/live";
-        public static final String PAGER_LIVE_MAIN = LIVE + "/main";
-    }
-
 }

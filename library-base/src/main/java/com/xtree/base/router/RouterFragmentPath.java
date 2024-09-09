@@ -150,4 +150,12 @@ public class RouterFragmentPath {
         public static final String PAGER_BET_ANNOUNCEMENT = BET + "/announcement";
         public static final String PAGER_BET_AT = BET + "/at";
     }
+
+    /**
+     * 直播组件
+     */
+    public static class Live {
+        private static final String LIVE = "/live";
+        public static final String PAGER_LIVE_MAIN = LIVE + "/main";
+    }
 }

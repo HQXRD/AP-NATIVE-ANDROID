@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.live.BR;
 import com.xtree.live.R;
 import com.xtree.live.data.factory.AppViewModelFactory;
@@ -21,7 +21,7 @@ import me.xtree.mvvmhabit.base.BaseFragment;
  * Created by KAKA on 2024/9/9.
  * Describe: 直播门户页
  */
-@Route(path = RouterActivityPath.Live.PAGER_LIVE_MAIN)
+@Route(path = RouterFragmentPath.Live.PAGER_LIVE_MAIN)
 public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewModel> {
 
     @Override
@@ -43,5 +43,12 @@ public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewMode
     public LiveViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
         return new ViewModelProvider(this, factory).get(LiveViewModel.class);
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+
+        viewModel.initData();
     }
 }

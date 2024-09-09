@@ -408,4 +408,8 @@
     <color name="clr_ex_success_bg">#F5FFED</color>
     <color name="clr_ex_success_txt">#37AA4A</color>
 
+<!--    页面背景色-->
+    <color name="clr_page_start_bg">#F6F2FF</color>
+    <color name="clr_page_end_bg">#F0F9FF</color>
+
 </resources>

@@ -111,13 +111,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         //ARouter拿到多Fragment(这里需要通过ARouter获取，不能直接new,因为在组件独立运行时，宿主app是没有依赖其他组件，所以new不到其他组件的Fragment)
         Fragment homeFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Home.PAGER_HOME).withBoolean("isLogin", isLogin).navigation();
         Fragment activityFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Activity.PAGER_ACTIVITY).navigation();
-        Fragment adFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Home.AD).navigation();
+        Fragment liveFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Live.PAGER_LIVE_MAIN).navigation();
         Fragment rechargeFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Recharge.PAGER_RECHARGE).navigation();
         Fragment mineFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Mine.PAGER_MINE).navigation();
         mFragments = new ArrayList<>();
         mFragments.add(homeFragment);
         mFragments.add(activityFragment);
-        mFragments.add(adFragment);
+        mFragments.add(liveFragment);
         mFragments.add(rechargeFragment);
         mFragments.add(mineFragment);
         showFragment = mFragments.get(0);
