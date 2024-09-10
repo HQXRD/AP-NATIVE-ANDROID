@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/clr_transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivw_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:src="@mipmap/cm_recharge_dialog_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivw_empty"
+            android:layout_width="24dp"
+            android:layout_height="16dp"
+            android:background="@color/clr_transparent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg" />
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:gravity="center"
+            android:text="@string/txt_kind_tips"
+            android:textColor="@color/clr_txt_recharge_dialog_tip"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg"
+            app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+
+        <ImageView
+            android:id="@+id/ivw_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:src="@mipmap/ic_pop_close2"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintBottom_toTopOf="@id/tvw_title" />
+
+        <TextView
+            android:id="@+id/tvw_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="52dp"
+            android:gravity="center"
+            android:text="@string/txt_rc_hi_wlt_content"
+            android:textColor="@color/clr_grey_60"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg"
+            app:layout_constraintTop_toBottomOf="@id/tvw_title" />
+
+        <TextView
+            android:id="@+id/tvw_msg2"
+            style="@style/style_cm_tip_small_orange"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="24dp"
+            android:fadeScrollbars="false"
+            android:gravity="center"
+            android:scrollbars="vertical"
+            android:textColor="@color/clr_grey_60"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/layout_tvw"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg"
+            app:layout_constraintTop_toBottomOf="@id/tvw_title"
+            tools:text="这是内容 长的4行52字"
+            tools:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layout_tvw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="80dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg">
+
+            <TextView
+                android:id="@+id/tvw_ok"
+                style="@style/style_btn_recharge"
+                android:layout_weight="1"
+                android:text="@string/txt_confirm"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/layout_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_rc_split_line"
+            app:layout_constraintBottom_toBottomOf="@id/layout_tvw"
+            app:layout_constraintEnd_toEndOf="@id/layout_tvw"
+            app:layout_constraintStart_toStartOf="@id/layout_tvw" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+
+            app:layout_constraintEnd_toEndOf="@id/layout_tvw"
+            app:layout_constraintStart_toStartOf="@id/layout_image"
+            app:layout_constraintTop_toBottomOf="@+id/layout_image"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/tvw_reg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@mipmap/rc_reg_hi_wallet"
+                android:text="@string/txt_rc_hi_reg"
+                android:textColor="@color/clr_txt_black_01"
+                android:textSize="12sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvw_download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="80dp"
+                android:drawableStart="@mipmap/rc_down_hi_wallet"
+                android:text="@string/txt_rc_hi_down"
+                android:textColor="@color/clr_txt_black_01"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_tip_dialog"
+    android:src="@mipmap/cm_recharge_dialog_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivw_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@mipmap/ic_pop_close" />
+
+    <TextView
+        android:id="@+id/tvw_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="@string/txt_kind_tips"
+        android:textColor="@color/clr_black"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvw_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="start"
+        android:text="@string/txt_rc_hi_wlt_content"
+        android:textColor="@color/clr_grey_60"
+        android:textSize="15sp"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvw_ok"
+        style="@style/style_btn_short_recharge"
+        android:text="@string/txt_confirm" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_rc_split_line" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvw_reg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@mipmap/rc_reg_hi_wallet"
+            android:text="@string/txt_rc_hi_reg"
+            android:textColor="@color/clr_txt_black_01" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tvw_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@mipmap/rc_down_hi_wallet"
+            android:text="@string/txt_rc_hi_down"
+            android:textColor="@color/clr_txt_black_01" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="for show reg and download."
+        android:visibility="visible" />
+</LinearLayout>-->
