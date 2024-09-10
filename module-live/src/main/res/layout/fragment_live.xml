@@ -11,7 +11,14 @@
     </data>
 
 
-
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        onLoadMoreListener="@{model.onLoadMoreListener}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableAutoLoadMore="true"
+        app:srlEnableLoadMore="true"
+        app:srlEnableRefresh="false">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator"
@@ -70,31 +77,18 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-<!--            <androidx.viewpager.widget.ViewPager-->
-<!--                android:id="@+id/vp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:adapter="@{model.adapter}"-->
-<!--                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />-->
-
-            <com.scwang.smart.refresh.layout.SmartRefreshLayout
-                android:id="@+id/refreshLayout"
-                onLoadMoreListener="@{model.onLoadMoreListener}"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srlEnableAutoLoadMore="true"
-                app:srlEnableLoadMore="true"
-                app:srlEnableRefresh="false"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:itemData="@{model.datas}"
-                    itemViewType="@{model.itemType}" />
-
-            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+                app:itemData="@{model.datas}"
+                itemViewType="@{model.itemType}"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 
 </layout>

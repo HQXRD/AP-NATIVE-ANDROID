@@ -50,5 +50,8 @@ public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewMode
         super.initData();
 
         viewModel.initData(requireActivity());
+
+//        new TabLayoutMediator(binding.tabLayout, binding.vp, (tab, position) -> {
+//        }).attach();
     }
 }

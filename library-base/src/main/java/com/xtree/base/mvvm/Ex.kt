@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -209,6 +210,57 @@ fun ViewPager.init(
     }
     offscreenPageLimit = offLimit
 }
+
+@BindingAdapter(
+    value = ["itemData", "itemViewType", "onBindListener", "offLimit"],
+    requireAll = false
+)
+fun ViewPager2.init(
+    itemData: List<BindModel>?,
+    itemViewType: List<Int>?,
+    onBindListener: BaseDatabindingAdapter.onBindListener?,
+    offLimit: Int?
+) {
+
+    if (itemData == null || itemViewType == null) {
+        return
+    }
+
+    adapter?.run {
+
+        if (itemData == bindingAdapter.models) {
+            bindingAdapter.models = itemData
+        } else {
+            (bindingAdapter as BaseDatabindingAdapter).run {
+                clearHeader(false)
+                clearFooter(false)
+                initData(itemData, itemViewType)
+            }
+        }
+    } ?: run {
+        BaseDatabindingAdapter().run {
+            initData(itemData, itemViewType)
+            onBind {
+                onBindListener?.onBind(this, this.itemView.rootView, getItemViewType())
+
+                itemView.rootView.setOnClickListener {
+                    onBindListener?.onItemClick(modelPosition, layoutPosition, getItemViewType())
+                }
+            }
+            adapter = this
+        }
+    }
+
+    offLimit?.let { offscreenPageLimit = it }
+}
+
+/**
+ * 如果Adapter是[BindingAdapter]则返回对象, 否则抛出异常
+ * @exception NullPointerException
+ */
+val ViewPager2.bindingAdapter
+    get() = adapter as? com.drake.brv.BindingAdapter
+        ?: throw NullPointerException("RecyclerView without BindingAdapter")
 
 fun FragmentActivity.FragmentPagerAdapter(
     fragments: List<Fragment>,

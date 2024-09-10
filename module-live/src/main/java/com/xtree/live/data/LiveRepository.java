@@ -4,9 +4,12 @@ package com.xtree.live.data;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
+import com.xtree.base.net.RetrofitClient;
 import com.xtree.live.data.source.ApiService;
 import com.xtree.live.data.source.HttpDataSource;
 import com.xtree.live.data.source.LocalDataSource;
+import com.xtree.live.data.source.http.HttpDataSourceImpl;
+import com.xtree.live.data.source.local.LocalDataSourceImpl;
 
 import me.xtree.mvvmhabit.base.BaseModel;
 
@@ -30,6 +33,24 @@ public class LiveRepository extends BaseModel implements HttpDataSource, LocalDa
         if (INSTANCE == null) {
             synchronized (LiveRepository.class) {
                 if (INSTANCE == null) {
+                    INSTANCE = new LiveRepository(httpDataSource, localDataSource);
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    public static LiveRepository getInstance() {
+        if (INSTANCE == null) {
+            synchronized (LiveRepository.class) {
+                if (INSTANCE == null) {
+                    //网络API服务
+                    ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+                    //网络数据源
+                    HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService);
+                    //本地数据源
+                    LocalDataSource localDataSource = LocalDataSourceImpl.getInstance();
+
                     INSTANCE = new LiveRepository(httpDataSource, localDataSource);
                 }
             }
