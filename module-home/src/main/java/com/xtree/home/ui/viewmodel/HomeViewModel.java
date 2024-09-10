@@ -487,7 +487,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 });
         addSubscribe(disposable);
     }
-
+    /**
+     * 获取 个人信息
+     */
     public void getProfile() {
         Disposable disposable = (Disposable) model.getApiService().getProfile()
                 .compose(RxUtils.schedulersTransformer())
