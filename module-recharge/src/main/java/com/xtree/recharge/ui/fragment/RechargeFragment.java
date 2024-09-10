@@ -569,7 +569,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    CfLog.i("****** update: " + vo.toString());
         //}
         //工商银行显示处理
-        if (vo.opfix_disable_bankstatus && vo.userBankList != null && !vo.userBankList.isEmpty()) {
+        if (vo.op_disable_bank_status && vo.userBankList != null && vo.userBankList.isEmpty()) {
             ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
                     .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), vo.op_thiriframe_msg, new TipBindCardDialog.ICallBack() {
                         @Override
@@ -639,7 +639,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
         //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
-        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+        //极速充值在详情里面判断绑卡
+        if (vo.view_bank_card && vo.userBankList.isEmpty()&&!vo.paycode.contains(ONE_PAY_FIX)) {
             // 绑定YHK
             CfLog.i("****** 绑定YHK");
             toBindCard();
@@ -1533,12 +1534,36 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         viewModel.liveDataRecharge.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d(vo.toString());
+
+            //工商银行显示处理
+            if (vo.op_disable_bank_status && vo.userBankList != null && vo.userBankList.isEmpty()) {
+                ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
+                        .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), vo.op_thiriframe_msg, new TipBindCardDialog.ICallBack() {
+                            @Override
+                            public void onClickConfirm() {
+                                toBindPage(Constant.BIND_CARD);
+                            }
+                        }));
+                ppw3.show();
+                return;
+            }
+
+            //绑定银行卡
+            if (vo.view_bank_card && vo.userBankList.isEmpty()&&isOnePayFix(vo)) {
+                // 绑定YHK
+                CfLog.i("****** 绑定YHK");
+                toBindCard();
+                return;
+            }
+
             mapRechargeVo.put(vo.bid, vo);
             mHandler.removeMessages(MSG_ADD_PAYMENT);
             mHandler.sendEmptyMessageDelayed(MSG_ADD_PAYMENT, 3000L);
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
             curRechargeVo = vo;
             viewModel.curRechargeLiveData.setValue(curRechargeVo);
+
+
             // 极速充值
             if (isOnePayFix(vo)) {
                 // 银行列表,搜索页会用到
