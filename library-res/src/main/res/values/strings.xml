@@ -289,7 +289,6 @@
     <string name="txt_verification_is_empty">验证码不能为空</string>
     <!--充值引导  -->
     <string name="txt_recharge_bind_card">查看到您绑定工商银行卡，目前对应工行的渠道正在维护，请前往绑定其他银行卡或使用其他充值渠道</string>
-    <string name="txt_bind_card2">绑定银行卡</string>
     <string name="txt_recharge_bank">请选择付款银行卡</string>
     <string name="txt_recharge_name">充值姓名需要和您绑定提款银行卡 \n时的姓名一致</string>
     <string name="txt_recharge_money">请输入充值金额，建议使用下方快捷金额按钮</string>

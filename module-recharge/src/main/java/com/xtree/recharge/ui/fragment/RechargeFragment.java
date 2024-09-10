@@ -568,6 +568,18 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    curRechargeVo = vo;
         //    CfLog.i("****** update: " + vo.toString());
         //}
+        //工商银行显示处理
+        if (vo.opfix_disable_bankstatus && vo.userBankList != null && !vo.userBankList.isEmpty()) {
+            ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), vo.op_thiriframe_msg, new TipBindCardDialog.ICallBack() {
+                        @Override
+                        public void onClickConfirm() {
+                            toBindPage(Constant.BIND_CARD);
+                        }
+                    }));
+            ppw3.show();
+            return;
+        }
 
         boolean isRecommend = vo.tips_recommended == 1;
         if ("1".equals(vo.low_rate_hint) && !isRecommend && !mRecommendList.isEmpty() && isTipTodayLow()) {
@@ -713,7 +725,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
                     if (userBankList.isEmpty()) {
                         ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
-                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), new TipBindCardDialog.ICallBack() {
+                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(),"", new TipBindCardDialog.ICallBack() {
                                     @Override
                                     public void onClickConfirm() {
                                         toBindPage(Constant.BIND_CARD);
@@ -734,7 +746,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     }
                     if (userBankList.isEmpty()) {
                         ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
-                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), new TipBindCardDialog.ICallBack() {
+                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(),"", new TipBindCardDialog.ICallBack() {
                                     @Override
                                     public void onClickConfirm() {
                                         toBindPage(Constant.BIND_CARD);

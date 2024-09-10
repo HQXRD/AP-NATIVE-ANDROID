@@ -58,6 +58,7 @@ public class RechargeVo {
     public boolean op_thiriframe_status; // false,
     public String op_thiriframe_msg; // "",
     public String op_thiriframe_url; // "",
+    public boolean opfix_disable_bankstatus; // "",
     public boolean recharge_json_channel; // false,
     //public int recharge_json_count_once; // 5,
     //public int recharge_json_day_notsucc; // 3,
@@ -131,6 +132,7 @@ public class RechargeVo {
                 ", op_thiriframe_status=" + op_thiriframe_status +
                 ", op_thiriframe_msg='" + op_thiriframe_msg + '\'' +
                 ", op_thiriframe_url='" + op_thiriframe_url + '\'' +
+                ", opfix_disable_bankstatus='" + opfix_disable_bankstatus + '\'' +
                 ", recharge_json_channel=" + recharge_json_channel +
                 ", isrecharge_additional=" + isrecharge_additional +
                 ", low_rate_hint='" + low_rate_hint + '\'' +
