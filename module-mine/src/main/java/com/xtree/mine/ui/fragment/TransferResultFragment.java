@@ -35,7 +35,6 @@ public class TransferResultFragment extends BaseFragment<FragmentTransferResultB
         return R.layout.fragment_transfer_result;
     }
 
-    @Override
     public int initVariableId() {
         return BR.model;
     }

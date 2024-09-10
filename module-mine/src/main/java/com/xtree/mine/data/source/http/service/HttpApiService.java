@@ -61,13 +61,12 @@ import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
 import com.xtree.mine.vo.request.AdduserRequest;
-import com.xtree.mine.vo.withdrawals.WithdrawalBankInfoVo;
-import com.xtree.mine.vo.withdrawals.WithdrawalInfoVo;
-import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
-import com.xtree.mine.vo.withdrawals.WithdrawalQuotaVo;
-import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
-import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
-
+import com.xtree.mine.vo.WithdrawVo.WithdrawalBankInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalQuotaVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalSubmitVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalVerifyVo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +75,6 @@ import io.reactivex.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BaseResponse2;
-import me.xtree.mvvmhabit.http.BaseResponse3;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -721,45 +719,47 @@ public interface HttpApiService {
 
 
     //接入提款新接口
-
     /**
      * 提款获取可用额度
      */
     @GET("/api/withdrawal/quota")
-    Flowable<BaseResponse3<WithdrawalQuotaVo>> getWithdrawalQuota();
+    Flowable<BaseResponse<WithdrawalQuotaVo>> getWithdrawalQuota();
 
     /**
+     *  @GET("/api/withdrawal/list")
      * 获取可提现渠道列表
      */
     @GET("/api/withdrawal/list/{checkCode}")
-    Flowable<BaseResponse3<WithdrawalListVo>> getWithdrawalList(@Path("checkCode") String checkCode);
+    Flowable<BaseResponse<WithdrawalListVo>> getWithdrawalList(@Path("checkCode") String checkCode);
 
     /**
      * 获取当前渠道详情
      * /api/withdrawal/info?wtype=ebpay
      */
     @GET("/api/withdrawal/info/{wtype}/{check}")
-    Flowable<BaseResponse3<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype, @Path("check") String check);
+    Flowable<BaseResponse<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype, @Path("check") String check);
+    //
 
     /**
-     * 银行卡提现获取当前渠道详情
+     * 银行卡 获取当前渠道详情
+     *
      */
     @GET("/api/withdrawal/info/{wtype}/{check}")
-    Flowable<BaseResponse3<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype, @Path("check") String check);
+    Flowable<BaseResponse<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype, @Path("check") String check);
+
 
     /**
      * 验证当前渠道信息
      */
     @POST("/api/withdrawal/verify")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse3<WithdrawalVerifyVo>> postWithdrawalVerify(@Body Map<String, Object> map);
-
+    Flowable<BaseResponse<WithdrawalVerifyVo>> postWithdrawalVerify(@Body Map<String, Object> map);
     /**
      * 提款提交
      */
     @POST("/api/withdrawal/submit")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse3<WithdrawalSubmitVo>> postWithdrawalSubmit(@Body Map<String, Object> map);
+    Flowable<WithdrawalSubmitVo> postWithdrawalSubmit(@Body Map<String, Object> map);
 
     @GET("https://ap3sport.oxldkm.com/report/getsplitlists?")
     Flowable<BaseResponse<SpiltDetailVo>> getWithdrawDetails(@QueryMap Map<String, String> map);

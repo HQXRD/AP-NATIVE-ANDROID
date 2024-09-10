@@ -90,8 +90,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
                 isNetworkAwards = true;//增加网络回调标识
-                //withdraw_dispensing_money 礼物流水 locked_award_sum
-                //locked_award_sum 锁定金额 || !TextUtils.equals("0.00", awardsRecordVo.locked_award_sum)
+//                withdraw_dispensing_money 礼物流水 locked_award_sum
+//                locked_award_sum 锁定金额 || !TextUtils.equals("0.00", awardsRecordVo.locked_award_sum)
                 if (awardsRecordVo != null && ((!TextUtils.equals("0.00", awardsRecordVo.withdraw_dispensing_money)) || (!TextUtils.equals("0.00", awardsRecordVo.locked_award_sum)))) {
                     showAwardsRecord();
                 } else if (awardsRecordVo.networkStatus == 1) {
@@ -103,6 +103,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     showFundPSWVerifyDialog();
                 }
             });
+
         }
     }
 

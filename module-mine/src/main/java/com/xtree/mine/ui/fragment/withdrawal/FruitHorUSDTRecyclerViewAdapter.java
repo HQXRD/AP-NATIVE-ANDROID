@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
 import com.xtree.mine.vo.USDTCashVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
     private ArrayList<USDTCashVo.Channel> arrayList;
     private IUSDTFruitHorCallback callback;
 
-    public FruitHorUSDTRecyclerViewAdapter(ArrayList<USDTCashVo.Channel> arrayList, IUSDTFruitHorCallback callback) {
+    public FruitHorUSDTRecyclerViewAdapter(ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo, IUSDTFruitHorCallback callback) {
         super();
         this.arrayList = arrayList;
         this.callback = callback;

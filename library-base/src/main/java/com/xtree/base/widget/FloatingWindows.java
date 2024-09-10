@@ -56,7 +56,8 @@ public abstract class FloatingWindows extends RelativeLayout {
     public void removeView() {
         if (mWindowManager != null && floatView != null && isShow) {
             CfLog.i("Close floatView");
-            mWindowManager.removeView(floatView);
+            //mWindowManager.removeView(floatView); // 会泄露
+            mWindowManager.removeViewImmediate(floatView); // 不会泄露
             isShow = false;
         }
     }
@@ -131,7 +132,7 @@ public abstract class FloatingWindows extends RelativeLayout {
         mainLayout = bind.clRoot;
         llLine = floatView.findViewById(R.id.ll_line);
 
-        mainLayout.setOnTouchListener(new View.OnTouchListener() {
+        mainLayout.setOnTouchListener(new OnTouchListener() {
             final WindowManager.LayoutParams floatWindowLayoutUpdateParam = floatLp;
             double x;
             double y;
