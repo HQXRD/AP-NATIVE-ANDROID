@@ -630,24 +630,24 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         boolean isZFB = "false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb");
         boolean isWX = "false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx");
-        // 支付宝和微信 需要绑定银行卡 (产品要求的) 2024-05-30
-        if ((isZFB || isWX)) {
-            if (mProfileVo == null) {
-                CfLog.i("mProfileVo is null, read it again... ");
-                viewModel.readProfile();
-                return;
-            }
-            if (!mProfileVo.is_binding_card) {
-
-                binding.llBindInfo.setVisibility(View.VISIBLE);
-                binding.tvwBindYhk.setVisibility(View.VISIBLE);
-
-                // 绑定YHK
-                CfLog.i("****** 绑定YHK");
-                toBindCard();
-                return;
-            }
-        }
+        // 支付宝和微信 需要绑定银行卡 (产品要求的) 2024-05-30，2024-05-30 去掉
+//        if ((isZFB || isWX)) {
+//            if (mProfileVo == null) {
+//                CfLog.i("mProfileVo is null, read it again... ");
+//                viewModel.readProfile();
+//                return;
+//            }
+//            if (!mProfileVo.is_binding_card) {
+//
+//                binding.llBindInfo.setVisibility(View.VISIBLE);
+//                binding.tvwBindYhk.setVisibility(View.VISIBLE);
+//
+//                // 绑定YHK
+//                CfLog.i("****** 绑定YHK");
+//                toBindCard();
+//                return;
+//            }
+//        }
         if (isZFB) {
             // 请先绑定您的支付宝账号
             CfLog.i("****** 绑定ZFB");
