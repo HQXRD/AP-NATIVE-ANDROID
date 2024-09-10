@@ -46,6 +46,11 @@ public class SPKeyGlobal {
     public static final String FBXC_TOKEN = "fbxc_token";
     public static final String FB_TOKEN = "fb_token";
     public static final String PM_TOKEN = "pm_token";
+
+    public static final String FBXC_DISABLED = "FBXC_DISABLED";
+    public static final String FB_DISABLED = "FB_DISABLED";
+    public static final String PM_DISABLED = "PM_DISABLED";
+    public static final String PMXC_DISABLED = "PMXC_DISABLED";
     public static final String FB_API_SERVICE_URL = "fb_api_service_url";
     public static final String FBXC_API_SERVICE_URL = "fbxc_api_service_url";
     public static final String PM_API_SERVICE_URL = "pm_api_service_url";
@@ -66,8 +71,8 @@ public class SPKeyGlobal {
     public static final String TYPE_RECHARGE_WITHDRAW = "type_recharge_withdraw";//去充值or去提款
     public static final String IS_FIRST_OPEN_BROWSER = "isFirstOpenBrowser"; // 是否第一次打开webView组件
 
-    public static final String PROMOTION_CODE ="PromotionCode";//注册推广码
+    public static final String PROMOTION_CODE = "PromotionCode";//注册推广码
 
     //DEBUG
-    public static final String DEBUG_APPLY_DOMAIN ="debug_apply_domain";//debug 设置指定域名
+    public static final String DEBUG_APPLY_DOMAIN = "debug_apply_domain";//debug 设置指定域名
 }

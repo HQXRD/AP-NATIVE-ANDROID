@@ -84,6 +84,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private ProfileVo mProfileVo; //最新的用戶信息
     private BasePopupView ppw = null; // 底部弹窗
     private BasePopupView ppw2 = null; // 底部弹窗
+    private BasePopupView closePpw = null; // 禁止该用户玩当前游戏的弹窗
     private BasePopupView updateView = null;
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     private boolean needScroll;
@@ -342,6 +343,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member, 0, 0);
             }
         });
+        viewModel.liveDataFail41011.observe(getViewLifecycleOwner(), vo -> {
+            showClosePpw();
+        });
     }
 
     public void initView() {
@@ -474,7 +478,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     startContainerFragment(RouterFragmentPath.Home.AUG);
                     return;
                 }
-                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1|| vo.cid == 43) {
+                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1 || vo.cid == 43) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("vo", vo);
                     startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
@@ -566,6 +570,29 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             });
         }
 
+    }
+
+    /**
+     * 禁止该用户玩当前游戏的弹窗
+     */
+    private void showClosePpw() {
+        if (closePpw == null) {
+            MsgDialog dialog = new MsgDialog(requireContext(), "温馨提示", "该场馆已被关闭，请切换至其它场馆进行游玩。感谢您的支持。", true, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                }
+
+                @Override
+                public void onClickRight() {
+                    closePpw.dismiss();
+                }
+            });
+            closePpw = new XPopup.Builder(requireContext())
+                    .dismissOnTouchOutside(true)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+        }
+        closePpw.show();
     }
 
     @Override

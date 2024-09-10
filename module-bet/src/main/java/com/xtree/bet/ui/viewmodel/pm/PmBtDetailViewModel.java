@@ -340,12 +340,14 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
 
                         if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
                             SPUtils.getInstance().put(SPKeyGlobal.PMXC_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_DISABLED, pmService.isDisabled);
                             SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
                             SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
                             SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
                             BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
                         } else {
                             SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_DISABLED, pmService.isDisabled);
                             SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
                             SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                             SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
