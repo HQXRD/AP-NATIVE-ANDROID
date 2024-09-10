@@ -49,6 +49,6 @@ public class LiveFragment extends BaseFragment<FragmentLiveBinding, LiveViewMode
     public void initData() {
         super.initData();
 
-        viewModel.initData();
+        viewModel.initData(requireActivity());
     }
 }

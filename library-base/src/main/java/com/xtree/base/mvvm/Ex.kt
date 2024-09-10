@@ -8,7 +8,14 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -186,3 +193,87 @@ fun setImageUrl(
     }
     glide.into(view)
 }
+
+@BindingAdapter(
+    value = ["adapter", "fm", "fragments", "offLimit"],
+    requireAll = false
+)
+fun ViewPager.init(
+    ada: PagerAdapter?,
+    fm: FragmentManager?,
+    fragments: List<Fragment>?,
+    offLimit: Int
+) {
+    ada?.let { this.adapter = it } ?: run {
+        fm?.run { fragments?.run { adapter = BaseFragmentPagerAdapter(fm, fragments) } }
+    }
+    offscreenPageLimit = offLimit
+}
+
+fun FragmentActivity.FragmentPagerAdapter(
+    fragments: List<Fragment>,
+    titles: List<String>? = null
+): BaseFragmentPagerAdapter {
+    return BaseFragmentPagerAdapter(supportFragmentManager, fragments, titles)
+}
+
+fun Fragment.FragmentPagerAdapter(
+    fragments: List<Fragment>,
+    titles: List<String>? = null
+): BaseFragmentPagerAdapter {
+    return BaseFragmentPagerAdapter(childFragmentManager, fragments, titles)
+}
+
+
+class BaseFragmentPagerAdapter(
+    fragmentManager: FragmentManager,
+    var fragments: List<Fragment>,
+    var titles: List<String>? = null
+) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+
+    override fun getItem(position: Int): Fragment {
+        return fragments[position]
+    }
+
+    override fun getCount(): Int {
+        return fragments.size
+    }
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return titles?.get(position)
+    }
+
+    override fun getItemPosition(`object`: Any): Int {
+        return POSITION_NONE
+    }
+
+}
+
+fun FragmentActivity.FragmentAdapter(
+    fragments: List<Fragment>
+): FragmentStateAdapter = object : FragmentStateAdapter(this) {
+
+    override fun getItemCount(): Int {
+        return fragments.size
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return fragments[position]
+    }
+}
+
+fun Fragment.FragmentAdapter(
+    fragments: List<Fragment>
+): FragmentStateAdapter = object : FragmentStateAdapter(this) {
+
+    override fun getItemCount(): Int {
+        return fragments.size
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return fragments[position]
+    }
+}
+
+
+
