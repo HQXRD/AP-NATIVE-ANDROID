@@ -1,6 +1,7 @@
 package com.xtree.recharge.ui.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -13,19 +14,16 @@ public class TipBindCardDialog extends CenterPopupView {
 
     private ICallBack mCallBack;
     private DialogBindCardTipsBinding binding;
+    private String mContent;
 
     public TipBindCardDialog(@NonNull Context context) {
         super(context);
     }
 
-    public TipBindCardDialog(@NonNull Context context, ICallBack mCallBack) {
+    public TipBindCardDialog(@NonNull Context context, String content, ICallBack mCallBack) {
         super(context);
         this.mCallBack = mCallBack;
-    }
-
-    // 定义回调接口
-    public interface ICallBack {
-        void onClickConfirm(); // 当用户点击确认按钮时触发的回调方法
+        this.mContent = content;
     }
 
     @Override
@@ -42,6 +40,9 @@ public class TipBindCardDialog extends CenterPopupView {
     private void initView() {
         binding = DialogBindCardTipsBinding.bind(findViewById(R.id.ll_root));
 
+        if (!TextUtils.isEmpty(mContent)) {
+            binding.tvwCode.setText(mContent);
+        }
         // 设置确认按钮的点击事件
         binding.tvwOk.setOnClickListener(new OnClickListener() {
             @Override
@@ -52,5 +53,10 @@ public class TipBindCardDialog extends CenterPopupView {
                 dismiss(); // 关闭对话框
             }
         });
+    }
+
+    // 定义回调接口
+    public interface ICallBack {
+        void onClickConfirm(); // 当用户点击确认按钮时触发的回调方法
     }
 }
