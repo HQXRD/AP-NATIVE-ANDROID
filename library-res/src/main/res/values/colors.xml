@@ -331,6 +331,7 @@
     <color name="clr_txt_grey_05">#808080</color>
     <color name="clr_txt_grey_07">#767677</color>
     <color name="clr_txt_grey_09">#5B5B6A</color>
+    <color name="clr_txt_grey_10">#4B4B4B</color>
 
     <color name="clr_grey_03">#E9E9E9</color>
     <color name="clr_grey_05">#D1D1D1</color>
@@ -365,6 +366,11 @@
     <color name="clr_grey_60">#99000000</color>
     <color name="clr_grey_80">#CC000000</color>
     <color name="clr_grey_1">#6C757D</color>
+
+    <!-- 按钮背景 左中右/上中下 -->
+    <color name="clr_purple_bg01">#E5BFFC</color>
+    <color name="clr_purple_bg03">#AF8BE6</color>
+    <color name="clr_purple_bg05">#8869E6</color>
 
     <color name="clr_white_14">#24FFFFFF</color>
 
@@ -545,5 +551,12 @@
     <color name="clr_txt_recharge_copy">#13A1DE</color>
     <!-- 充值弹窗 注意字体颜色   -->
     <color name="clr_txt_recharge_tip">#121B47</color>
+
+
+
+    <!-- 测速浮窗-->
+    <color name="clr_txt_fastest_high">#EE1A34</color>
+    <color name="clr_txt_fastest_medium">#FFE145</color>
+    <color name="clr_txt_fastest_low">#51FF6D</color>
 
 </resources>

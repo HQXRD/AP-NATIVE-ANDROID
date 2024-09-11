@@ -9,12 +9,14 @@ import android.text.TextUtils
 import androidx.lifecycle.ViewModelProvider
 import com.drake.net.Get
 import com.drake.net.NetConfig
-import com.drake.net.tag.RESPONSE
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
 import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.net.RetrofitClient
+import com.xtree.base.net.fastest.ChangeH5LineUtil
+import com.xtree.base.net.fastest.FASTEST_BLOCK
+import com.xtree.base.net.fastest.getFastestAPI
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.TagUtils
@@ -24,10 +26,13 @@ import com.xtree.main.R
 import com.xtree.main.databinding.ActivitySplashBinding
 import com.xtree.main.ui.viewmodel.SplashViewModel
 import com.xtree.main.ui.viewmodel.factory.AppViewModelFactory
+import io.reactivex.Observable
+import io.reactivex.functions.Consumer
 import me.xtree.mvvmhabit.base.BaseActivity
 import me.xtree.mvvmhabit.bus.Messenger
 import me.xtree.mvvmhabit.utils.SPUtils
 import me.xtree.mvvmhabit.utils.ToastUtils
+import java.util.concurrent.TimeUnit
 
 /**
  * 冷启动
@@ -64,8 +69,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     override fun initView() {
         init()
         initTag()
-        setFasterApi()
-        setFasterDomain()
+        Observable.timer(10, TimeUnit.SECONDS)
+            .subscribe {
+                setFasterApi()
+                setFasterDomain()
+            }
+
     }
 
     companion object {
@@ -99,31 +108,17 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     }
 
     private fun getFastestDomain() {
-        scopeNet {
-            // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
-            val domainTasks = mCurDomainList.map { host ->
-                Get<String>(
-                    "$host/point.bmp",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line"
-                ).transform { data ->
-                    CfLog.i("$host")
-                    NetConfig.host = host
-                    DomainUtil.setDomainUrl(host)
-                    //RetrofitClient.init() // 重置URL
-                    viewModel?.reNewViewModel?.postValue(null)
-                    data
+        ChangeH5LineUtil.instance.start(object :Consumer<String>{
+            override fun accept(url: String?) {
+                url?.let {
+                    CfLog.i("$url")
+                    NetConfig.host = url
+                    DomainUtil.setDomainUrl(url)
+                }?:run {
+                    viewModel?.noWebData?.postValue(null)
                 }
             }
-            try {
-                fastest(domainTasks, uid = "the_fastest_line")
-            } catch (e: Exception) {
-                CfLog.e(e.toString())
-                e.printStackTrace()
-                viewModel?.noWebData?.postValue(null)
-            }
-        }
+        })
     }
 
     private fun getFastestApi() {
@@ -131,21 +126,19 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiList.map { host ->
                 Get<String>(
-                    "$host/point.bmp",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_api"
-                ).transform { data ->
-                    CfLog.i("$host")
-                    NetConfig.host = host
-                    DomainUtil.setApiUrl(host)
-                    RetrofitClient.init() // 重置URL
-                    viewModel?.reNewViewModel?.postValue(null)
-                    data
-                }
+                    getFastestAPI(host),
+                    "the_fastest_api", block = FASTEST_BLOCK)
+                    .transform { data ->
+                        CfLog.i("$host")
+                        NetConfig.host = host
+                        DomainUtil.setApiUrl(host)
+                        RetrofitClient.init() // 重置URL
+                        viewModel?.reNewViewModel?.postValue(null)
+                        data
+                    }
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_api")
+                fastest(domainTasks, "the_fastest_api")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 e.printStackTrace()
