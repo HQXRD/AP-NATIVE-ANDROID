@@ -146,7 +146,7 @@
     <string name="txt_record_withdraw">提款记录</string>
     <string name="txt_record_feedback">未到账反馈记录</string>
 
-    <string name="txt_no_data">没有数据</string>
+    <string name="txt_no_data">暂无数据</string>
     <string name="txt_remark">备注</string>
     <string name="txt_rst_tie">平</string>
     <string name="txt_rst_win">赢</string>
@@ -237,15 +237,14 @@
     <string name="txt_prom_links">推广链接</string>
 
     <string name="txt_upgrade">检查更新</string>
-    <string name="txt_usdt_tutorial">USDT教程</string>
+    <string name="txt_usdt_tutorial">USDT介绍及提款教程</string>
+    <string name="txt_usdt_tutorial_mine">USDT教程</string>
     <string name="txt_help">帮助中心</string>
     <string name="txt_qa">常见问题</string>
     <string name="txt_next_step">下一步</string>
     <string name="txt_previous_step">上一步</string>
     <string name="txt_all_exclude_lottery">全部（不含彩票）</string>
     <string name="txt_rc_step">充值步骤</string>
-    <string name="txt_rc_cnyt_tutorial">CNYT充值教程</string>
-    <string name="txt_rc_usdt_tutorial">USDT充值教程</string>
 
     <!--魔域 提款文本-->
     <string name="txt_withdraw_password">输入资金密码</string>
@@ -354,9 +353,29 @@
     <string name="txt_transfer_money_type">转账类型:</string>
     <string name="txt_withdrawal_banks_empty">银行维护中，请联系客服</string>
     <string name="txt_withdrawal_bank_top">银行卡提款</string>
+    <string name="txt_withdraw_flow_close_single">适用： %1$s </string>
+    <string name="txt_withdraw_flow_close_tip">适用： %1$s 等 %2$s</string>
+    <string name="txt_withdraw_flow_open_tip">适用： %1$s %2$s</string>
     <string name="txt_rc_hi_wlt_content">目前登入账号尚未绑定嗨钱包账号，\n确认是否继续操作？</string>
     <string name="txt_rc_hi_reg">注册嗨钱包</string>
     <string name="txt_rc_hi_down">下载嗨钱包</string>
+
+    <string name="txt_bank_rc_amount">充值金额:</string>、
+    <string name="txt_next">下一步</string>
+    <string name="txt_rc_cnyt_tutorial">CNYT充值教程</string>
+    <string name="txt_rc_usdt_tutorial">USDT充值教程</string>
+
+    <string name="txt_is_to_open_hiwallet_title">即将进入嗨钱包页面</string>
+    <string name="txt_is_to_open_hiwallet_content">尚未注册，请注册后进行登录\n已经有嗨钱包账号，点击返回按钮后，进行登录\n登录后，即可体验嗨钱包的功能</string>
+    <string name="txt_deposit_fee_most">最高加送%1$s%%</string>
+    <string name="format_change_range">预计支付：%1$s%2$s</string>
+    <string name="txt_rate_usdt">"参考汇率 1USDT ≈ %1$s元"</string>
+    <string name="txt_rate_cnyt_cny">参考汇率 1CNYT = 1.00元</string>
+    <string name="txt_rate_tog_cny">参考汇率 1TOG = 1.00元</string>
+    <string name="txt_rate_eb_cny">参考汇率 1EB = 1.00元</string>
+    <string name="txt_rate_gobao_cny">参考汇率 1GB = 1.00元</string>
+    <string name="txt_rate_okpay_cny">参考汇率 1OKG = 1.00元</string>
+    <string name="txt_rate_gopay_cny">参考汇率 1GOP = 1.00元</string>
     <string name="txt_rc_cnyt_content">
     1. 请先下载或通过上方【一键进入】注册嗨钱包账号\n
     2. 登录嗨钱包账号，并购买适量的CNYT\n
@@ -368,4 +387,11 @@
     3. 在USDT虚拟钱包中通过【转账】进行进行扫码支付或输入收款地址进行支付\n
     4. 平台填写金额应当与汇款金额完全一致，否则将无法及时到账\n
     </string>
+
+    <string name="txt_update_bottom_err_tip">如更新失败，打开浏览器下载安装</string>
+
+
+    <!--测速浮窗-->
+    <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
+    <string name="txt_update_bottom_error_tip">如更新失败请打开浏览器下载安装</string>
 </resources>

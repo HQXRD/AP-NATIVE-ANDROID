@@ -1,7 +1,12 @@
 package com.xtree.mine.vo.response;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.TypeReference;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
 
@@ -28,9 +33,10 @@ public class GameSubordinateAgrteResponse extends BaseResponse2 {
     private String pageinfo;
     private List<?> markct;
     private ArrayList<DataDTO> data;
-    private List<ChildrenDTO> children;
+    private Object children;
+    private List<ChildrenDTO> childrenList;
     private GetDTO get;
-    private String type;
+    private String type = "";
 
     public String getWebtitle() {
         return webtitle;
@@ -185,11 +191,42 @@ public class GameSubordinateAgrteResponse extends BaseResponse2 {
     }
 
     public List<ChildrenDTO> getChildren() {
-        return children;
+
+        if (childrenList == null) {
+            childrenList = new ArrayList<>();
+            TypeReference<List<ChildrenDTO>> listType = new TypeReference<List<ChildrenDTO>>() {
+            };
+            String json = JSON.toJSONString(children);
+
+            List<ChildrenDTO> childrenDTOS = null;
+            try {
+                childrenDTOS = JSON.parseObject(json, listType);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (childrenDTOS == null) {
+                TypeReference<Map<String, ChildrenDTO>> mapType = new TypeReference<Map<String, ChildrenDTO>>() {
+                };
+
+                try {
+                    Map<String, ChildrenDTO> map = JSON.parseObject(json, mapType);
+                    if (map != null) {
+                        for (Map.Entry<String, ChildrenDTO> stringObjectEntry : map.entrySet()) {
+                            childrenList.add(stringObjectEntry.getValue());
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                childrenList.addAll(childrenDTOS);
+            }
+        }
+        return childrenList;
     }
 
     public void setChildren(List<ChildrenDTO> children) {
-        this.children = children;
+        this.childrenList = children;
     }
 
     public String getToday() {

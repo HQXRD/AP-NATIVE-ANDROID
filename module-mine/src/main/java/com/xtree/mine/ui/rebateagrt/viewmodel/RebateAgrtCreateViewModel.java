@@ -180,7 +180,9 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
             viewMode.set(CREATE_MODO);
             //设置默认一条空规则
             RebateAgrtCreateModel model = new RebateAgrtCreateModel();
-            model.setType(rebateAgrtDetailModel.getSubData().getType());
+            if (rebateAgrtDetailModel != null && rebateAgrtDetailModel.getSubData() != null) {
+                model.setType(rebateAgrtDetailModel.getSubData().getType());
+            }
             bindModels.add(model);
 
             //是否携带用户名
