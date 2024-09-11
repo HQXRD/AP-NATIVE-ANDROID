@@ -80,7 +80,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private GridViewViewAdapter adapter;
     private LifecycleOwner owner;
     private final int selectType = 0;//默认设置顶部选项卡
-    private BankCardCashVo.ChanneBankVo channeBankVo; //选中的银行
+    //private BankCardCashVo.ChanneBankVo channeBankVo; //选中的银行
+    private WithdrawalBankInfoVo.UserBankInfo channeBankVo;
     private BankCardCashVo bankCardCashVo;//银行卡提现model
     private BankCardCashVo.ChannelVo selectChanneVo;
     private PlatWithdrawVo platWithdrawVo;//提交订单后返回model
@@ -205,31 +206,28 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         });
         //选择银行卡
         binding.bankWithdrawalView.llActualWithdrawalBank.setOnClickListener(v -> {
-            popShowBank(bankCardCashVo);
+            popShowBank(infoVo.user_bank_info);
         });
         binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setOnClickListener(v -> {
-            popShowBank(bankCardCashVo);
+            popShowBank(infoVo.user_bank_info);
         });
 
         //提交订单 下一步
         binding.bankWithdrawalView.tvActualWithdrawalNext.setOnClickListener(v -> {
-            if (channeBankVo ==null
-                    ||  channeBankVo.max_money ==null
-                    || channeBankVo.min_money ==null
-                    || bankCardCashVo.banks == null
+         /*   if (channeBankVo ==null
                     ||bankCardCashVo.banks.isEmpty()) {
                 //ToastUtils.showError(getContext().getString(R.string.txt_withdrawal_bank_error_tip));
                 showErrorBySystem(getContext().getString(R.string.txt_withdrawal_bank_error_tip));
                 return;
-            }
+            }*/
             String inputString = binding.bankWithdrawalView.tvActualWithdrawalAmountShow.getText().toString().trim();
 
             //String typeNumber = selectChanneVo.typenum;
             if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            } else if (Double.valueOf(inputString) > Double.valueOf(channeBankVo.max_money)) {
+            } else if (Double.valueOf(inputString) > Double.valueOf(infoVo.max_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            } else if (Double.valueOf(inputString) < Double.valueOf(channeBankVo.min_money)) {
+            } else if (Double.valueOf(inputString) < Double.valueOf(infoVo.min_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else {
                 hideKeyBoard();
@@ -296,10 +294,10 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
         //选择银行卡
         binding.llActualWithdrawalAmountBankShowMore.setOnClickListener(v -> {
-            popShowBankMore(bankCardCashVo);
+            popShowBankMore(infoVo.user_bank_info);
         });
         binding.tvActualWithdrawalAmountBankShowMore.setOnClickListener(v -> {
-            popShowBankMore(bankCardCashVo);
+            popShowBankMore(infoVo.user_bank_info);
         });
         //下一步
         binding.tvActualWithdrawalNextMore.setOnClickListener(v -> {
@@ -465,7 +463,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         // 验证当前渠道信息
         viewModel.verifyVoMutableLiveData.observe(owner, vo -> {
             verifyVo = vo;
-            CfLog.e("verifyVoMutableLiveData=" + vo.toString());
+
             if (verifyVo != null) {
                 refreshVerifyUI(verifyVo);
             } else {
@@ -1220,8 +1218,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 显示银行卡信息
      */
-    private void popShowBank(BankCardCashVo bankCardCashVo) {
-        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<BankCardCashVo.ChanneBankVo>() {
+    private void popShowBank(ArrayList<WithdrawalBankInfoVo.UserBankInfo> list) {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<WithdrawalBankInfoVo.UserBankInfo>() {
 
             @NonNull
             @Override
@@ -1233,7 +1231,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                BankCardCashVo.ChanneBankVo vo = get(position);
+                WithdrawalBankInfoVo.UserBankInfo vo = get(position);
                 channeBankVo = vo;
                 String showMessage = vo.bank_name + " " + vo.account;
                 binding2.tvwTitle.setText(showMessage);
@@ -1245,14 +1243,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             }
         };
 
-        adapter.addAll(bankCardCashVo.banks);
+        adapter.addAll(list);
 
         ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), getContext().getString(R.string.txt_select_bank), adapter, 20));
         ppw.show();
     }
 
-    private void popShowBankMore(BankCardCashVo bankCardCashVo) {
-        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<BankCardCashVo.ChanneBankVo>() {
+    private void popShowBankMore(ArrayList<WithdrawalBankInfoVo.UserBankInfo> list) {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<WithdrawalBankInfoVo.UserBankInfo>() {
 
             @NonNull
             @Override
@@ -1264,7 +1262,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                BankCardCashVo.ChanneBankVo vo = get(position);
+                WithdrawalBankInfoVo.UserBankInfo vo = get(position);
                 channeBankVo = vo;
                 String showMessage = vo.bank_name + " " + vo.account;
                 binding2.tvwTitle.setText(showMessage);
@@ -1275,7 +1273,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             }
         };
 
-        adapter.addAll(bankCardCashVo.banks);
+        adapter.addAll(list);
 
         ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), getContext().getString(R.string.txt_select_bank), adapter, 40));
         ppw.show();
