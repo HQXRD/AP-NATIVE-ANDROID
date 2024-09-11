@@ -1,5 +1,5 @@
 [
-  { "id":"101", "title": "XXAA", "picture": "hm_gm_ty_01", "typeId": 101, "pId": 1 ,    	"name" : "杏彩体育官方", "alias" : "obgzy", "cid":42 } ,
+  { "id":"101", "title": "XXAA", "picture": "hm_gm_ty_01", "typeId": 101, "pId": 1 ,    	"name" : "杏彩体育", "alias" : "obgzy", "cid":42 } ,
   { "id":"102", "title": "XXXX", "picture": "hm_gm_ty_02", "typeId": 102, "pId": 1 ,    	"isH5": false, "name" : "熊猫体育", "cid":5, "alias":"obg", "imageName": "XCImage.sport_OBG","twoImage": true} ,
   { "id":"103", "title": "XXAA", "picture": "hm_gm_ty_03", "typeId": 103, "pId": 1 ,    	"isH5": true, "cid":30,"imageName": "XCImage.sport_IMONE", "gameId": 2757 } ,
   { "id":"104", "title": "XXXX", "picture": "hm_gm_ty_04", "typeId": 104, "pId": 1 ,    	"cid":41, "name" : "杏彩体育旗舰", "alias":"fbxc", "imageName": "XCImage.sport_FBXC"} ,

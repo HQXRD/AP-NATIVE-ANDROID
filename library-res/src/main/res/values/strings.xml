@@ -255,7 +255,7 @@
     <string name="txt_no_withdrawal_address_for_this_withdrawal_type">暂时没有该提款类型的提款地址</string>
     <string name="txt_no_withdrawal_address_for_trc20_type">暂时没有该提款类型的提款地址</string>
 
-    <string name="txt_sport_official">杏彩体育官方版</string>
+    <string name="txt_sport_official">杏彩体育</string>
     <string name="txt_sport_inter">杏彩体育旗舰版</string>
 
     <string name="txt_bind_tip">您还未绑定%1$s,是否前往绑定?</string>
