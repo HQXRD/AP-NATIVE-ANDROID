@@ -1,4 +1,4 @@
-package com.xtree.mine.ui.fragment;
+package com.xtree.mine.ui.fragment.withdrawal;
 
 import android.app.Application;
 import android.content.Context;
@@ -213,7 +213,15 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
         //提交订单 下一步
         binding.bankWithdrawalView.tvActualWithdrawalNext.setOnClickListener(v -> {
-
+            if (channeBankVo ==null
+                    ||  channeBankVo.max_money ==null
+                    || channeBankVo.min_money ==null
+                    || bankCardCashVo.banks == null
+                    ||bankCardCashVo.banks.isEmpty()) {
+                //ToastUtils.showError(getContext().getString(R.string.txt_withdrawal_bank_error_tip));
+                showErrorBySystem(getContext().getString(R.string.txt_withdrawal_bank_error_tip));
+                return;
+            }
             String inputString = binding.bankWithdrawalView.tvActualWithdrawalAmountShow.getText().toString().trim();
 
             String typeNumber = selectChanneVo.typenum;
