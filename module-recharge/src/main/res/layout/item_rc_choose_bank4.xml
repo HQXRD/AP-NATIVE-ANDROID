@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="m"
+            type="com.xtree.recharge.ui.model.BankPickModel" />
+    </data>
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/tvw_title"
+        style="@style/style_rdo_recommend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:maxWidth="156dp"
+        android:elevation="3dp"
+        android:background="@mipmap/icon_ex_bankpick_bg4"
+        android:text="@{m.bankName}"
+        android:textColor="@color/clr_white"
+        tools:text="某某银行" />
+</layout>

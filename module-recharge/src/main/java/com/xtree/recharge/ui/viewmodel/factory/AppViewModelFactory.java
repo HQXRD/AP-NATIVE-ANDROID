@@ -59,4 +59,8 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return null;
         }
     }
+
+    public BaseModel getmRepository() {
+        return mRepository;
+    }
 }

@@ -1,26 +1,40 @@
 package com.xtree.recharge.ui.viewmodel;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-
+import androidx.lifecycle.MutableLiveData;
+import com.xtree.recharge.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.FixHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.recharge.data.RechargeRepository;
+import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
+import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 import com.xtree.recharge.vo.BankCardVo;
+import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
+import com.xtree.recharge.vo.HiWalletVo;
+import com.xtree.recharge.vo.PayOrderDataVo;
+import com.xtree.recharge.vo.PaymentDataVo;
+import com.xtree.recharge.vo.PaymentTypeVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.RechargeOrderDetailVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +45,6 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 充值页 ViewModel
@@ -39,21 +52,36 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
     public SingleLiveData<PaymentVo> liveDataPayment = new SingleLiveData<>(); // (从接口加载用)
-    public SingleLiveData<String> liveData1kEntry = new SingleLiveData<>();
-    public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表(从缓存加载用)
+    public SingleLiveData<PaymentDataVo> liveDataPaymentData = new SingleLiveData<>(); // (从接口加载用)
+    public SingleLiveData<HiWalletVo> liveData1kEntry = new SingleLiveData<>();
+    //public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表(从缓存加载用)
+    public SingleLiveData<List<PaymentTypeVo>> liveDataPayTypeList = new SingleLiveData<>(); // 充值列表(大类型 从缓存加载用)
+    public SingleLiveData<List<String>> liveDataPayCodeArr = new SingleLiveData<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
     public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程(从缓存加载用)
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
+    public SingleLiveData<RechargeVo> curRechargeLiveData = new SingleLiveData<>(); // 当前充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
+    public SingleLiveData<PayOrderDataVo> liveDataExpOrderData = new SingleLiveData<>(); // 充值点下一步 (极速充值)
     public SingleLiveData<Map<String, String>> liveDataSignal = new SingleLiveData<>(); // 人工客服暗号
-    public SingleLiveData<RechargeOrderDetailVo> liveDataOrderDetail = new SingleLiveData<>(); // 人工客服暗号
+    public SingleLiveData<RechargeOrderDetailVo> liveDataOrderDetail = new SingleLiveData<>(); // 订单详情
+    public SingleLiveData<List<BannersVo>> liveDataRcBanners = new SingleLiveData<>(); // 轮播图
     public SingleLiveData<FeedbackVo> feedbackVoSingleLiveData = new SingleLiveData<>();//进入反馈页面回去的数据
     public SingleLiveData<FeedbackImageUploadVo> imageUploadVoSingleLiveData = new SingleLiveData<>();//feedback图片上传
     public SingleLiveData<Object> feedbackAddSingleLiveData = new SingleLiveData<>();//feedback 下一步接口
     public SingleLiveData<FeedbackCheckVo> feedbackCheckVoSingleLiveData = new SingleLiveData<>();//feedbackCheck 反馈查看页面
     public SingleLiveData<ProfileVo> liveDataProfile = new SingleLiveData<>();
+    public SingleLiveData<ExRechargeOrderCheckResponse> liveDataCurOrder = new SingleLiveData<>(); // 极速充值 未完成的订单(跳到订单页)
+    public SingleLiveData<Boolean> liveDataExpNoOrder = new SingleLiveData<>(); // 极速充值 没有未完成的订单 (显示银行/姓名/金额/下一步)
+    public SingleLiveData<String> liveDataExpTitle = new SingleLiveData<>(); // 极速充值流程渠道标题
+    public SingleLiveData<RechargeVo> liveDataRechargeCache = new SingleLiveData<>(); // 充值详情,缓存用的
+    public MutableLiveData<String> paymentInfoVoErrorData = new MutableLiveData<>();// / 银行卡获取第一步充值详细信息为空
 
-    public RechargeViewModel(@NonNull Application application, RechargeRepository repository) {
-        super(application, repository);
+    public RechargeViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public RechargeViewModel(@NonNull Application application, RechargeRepository model) {
+        super(application, model);
     }
 
     /**
@@ -65,11 +93,11 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         Disposable disposable = (Disposable) model.getApiService().get1kEntry(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                .subscribeWith(new HttpCallBack<HiWalletVo>() {
                     @Override
-                    public void onResult(Map<String, String> vo) {
+                    public void onResult(HiWalletVo vo) {
                         CfLog.d(vo.toString());
-                        liveData1kEntry.setValue(vo.get("login_url"));
+                        liveData1kEntry.setValue(vo);
                     }
 
                     @Override
@@ -89,33 +117,91 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     /**
      * 获取 充值列表
      */
+    public void getPaymentsTypeList() {
+        Disposable disposable = (Disposable) model.getApiService().getPaymentsTypeList()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PaymentDataVo>() {
+                    @Override
+                    public void onResult(PaymentDataVo vo) {
+                        CfLog.i(new Gson().toJson(vo));
+                        //CfLog.d("chongzhiListCount: " + vo.chongzhiListCount);
+                        if (vo == null || vo.chongzhiList == null || vo.chongzhiList.isEmpty()) {
+                            return;
+                        }
+
+                        for (int i = 0; i < vo.chongzhiList.size(); i++) {
+                            PaymentTypeVo t = vo.chongzhiList.get(i);
+                            if (t.payChannelList == null || t.payChannelList.isEmpty()) {
+                                continue;
+                            }
+
+                            for (int j = 0; j < t.payChannelList.size(); j++) {
+                                RechargeVo vo2 = t.payChannelList.get(j);
+                                if (vo2.user_bank_info != null) {
+                                    if (vo2.user_bank_info instanceof Map) {
+                                        Map<String, String> map = (Map<String, String>) vo2.user_bank_info;
+                                        for (Map.Entry<String, String> entry : map.entrySet()) {
+                                            BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
+                                            vo2.userBankList.add(vo3);
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                        SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_TYPE_OBJ, new Gson().toJson(vo));
+                        liveDataPaymentData.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                        //super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取 充值列表
+     */
     public void getPayments() {
         Disposable disposable = (Disposable) model.getApiService().getPayments()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<PaymentVo>() {
+                .subscribeWith(new HttpCallBack<PaymentDataVo>() {
                     @Override
-                    public void onResult(PaymentVo vo) {
-                        CfLog.d("chongzhiListCount: " + vo.chongzhiListCount);
-                        // 转换银行卡数据 把map格式的转换成list
+                    public void onResult(PaymentDataVo vo) {
+                        CfLog.i(new Gson().toJson(vo));
+                        //CfLog.d("chongzhiListCount: " + vo.chongzhiListCount);
+                        if (vo == null || vo.chongzhiList == null || vo.chongzhiList.isEmpty()) {
+                            return;
+                        }
+
                         for (int i = 0; i < vo.chongzhiList.size(); i++) {
-                            RechargeVo vo2 = vo.chongzhiList.get(i);
-                            if (vo2.user_bank_info != null) {
-                                if (vo2.user_bank_info instanceof Map) {
-                                    Map<String, String> map = (Map<String, String>) vo2.user_bank_info;
-                                    for (Map.Entry<String, String> entry : map.entrySet()) {
-                                        BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
-                                        vo2.userBankList.add(vo3);
-                                    }
-                                }
+                            PaymentTypeVo t = vo.chongzhiList.get(i);
+                            if (t.payChannelList == null || t.payChannelList.isEmpty()) {
+                                continue;
                             }
 
-                        }
-                        SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_OBJ, new Gson().toJson(vo));
+                            for (int j = 0; j < t.payChannelList.size(); j++) {
+                                RechargeVo vo2 = t.payChannelList.get(j);
+                                if (vo2.user_bank_info != null) {
+                                    if (vo2.user_bank_info instanceof Map) {
+                                        Map<String, String> map = (Map<String, String>) vo2.user_bank_info;
+                                        for (Map.Entry<String, String> entry : map.entrySet()) {
+                                            BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
+                                            vo2.userBankList.add(vo3);
+                                        }
+                                    }
+                                }
 
-                        liveDataPayment.setValue(vo);
-                        //liveDataRechargeList.setValue(vo.chongzhiList);
-                        //liveDataTutorial.setValue(vo.bankdirect_url);
+                            }
+                        }
+                        SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_TYPE_OBJ, new Gson().toJson(vo));
+                        liveDataPaymentData.setValue(vo);
                     }
 
                     @Override
@@ -163,27 +249,112 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
+    public void getPaymentCache(String bid) {
+        getPaymentDetail(bid, liveDataRechargeCache);
+    }
+
+    public void getPayment(String bid) {
+        getPaymentDetail(bid, liveDataRecharge);
+    }
+
     /**
      * 获取 充值详情
-     *
-     * @param bid bid
      */
-    public void getPayment(String bid) {
+    private void getPaymentDetail(String bid, SingleLiveData<RechargeVo> liveData) {
 
         Disposable disposable = (Disposable) model.getApiService().getPayment(bid)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<RechargeVo>() {
+                .subscribeWith(new FixHttpCallBack<RechargeVo>() {
                     @Override
-                    public void onResult(RechargeVo vo) {
-                        CfLog.d(vo.toString());
-                        liveDataRecharge.setValue(vo);
+                    public void onResult(RechargeVo vo,BusinessException ex) {
+//                        CfLog.d(vo.toString());
+                        if (vo == null) {
+                            paymentInfoVoErrorData.setValue(getApplication().getString(R.string.txt_rc_submit_succ_pay_in_minutes_pls));
+                            return;
+                        }
+                        if (vo.user_bank_info != null && vo.user_bank_info instanceof Map) {
+                            Map<String, String> map = (Map<String, String>) vo.user_bank_info;
+                            for (Map.Entry<String, String> entry : map.entrySet()) {
+                                BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
+                                vo.userBankList.add(vo3);
+                            }
+                        }
+                        liveData.setValue(vo);
+
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        t.printStackTrace();
-                        super.onError(t);
+                        CfLog.e(t.toString());
+                        //super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 查看当前是否有订单
+     *
+     * @param bid
+     */
+    public void checkOrder(String bid) {
+        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(bid);
+        Disposable disposable = (Disposable) model.rechargeOrderCheck(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+                    @Override
+                    public void onResult(ExRechargeOrderCheckResponse vo) {
+                        CfLog.d(vo.toString());
+
+                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
+                        if (data != null) {
+                            vo.getData().setBid(bid); // 跳转要用
+                            String status = data.getStatus();
+                            switch (status) {
+                                case "00": //成功
+                                case "03": //失败
+                                    liveDataExpNoOrder.setValue(true);
+                                    break;
+                                default:
+                                    long differenceInSeconds = 0;
+                                    try {
+                                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        Date now = Calendar.getInstance().getTime();
+                                        Date end = null;
+                                        end = format.parse(vo.getData().getExpireTime());
+                                        differenceInSeconds = (now.getTime() - end.getTime());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    CfLog.i("sec: " + differenceInSeconds);
+                                    if (differenceInSeconds < 0) {
+                                        liveDataCurOrder.setValue(vo);
+                                    } else {
+                                        liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
+                                    }
+                                    break;
+                            }
+                        } else {
+                            CfLog.w("no order...");
+                            liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                        //super.onError(t);
+                        liveDataExpNoOrder.setValue(true);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e(t.toString());
+                        //super.onFail(t);
+                        liveDataExpNoOrder.setValue(true);
                     }
                 });
 
@@ -249,8 +420,22 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("提交充值请求失败");
                     }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void createOrder(Map<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().createOrder(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PayOrderDataVo>() {
+                    @Override
+                    public void onResult(PayOrderDataVo vo) {
+                        CfLog.d("********");
+                        liveDataExpOrderData.setValue(vo);
+                    }
+
                 });
         addSubscribe(disposable);
     }
@@ -294,28 +479,62 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
-    public void readCache() {
-        CfLog.i("******");
-        Gson gson = new Gson();
-        String json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_OBJ);
+    public void getRechargeBanners() {
+        Disposable disposable = (Disposable) model.getApiService().getRechargeBanners()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<BannersVo>>() {
+                    @Override
+                    public void onResult(List<BannersVo> list) {
+                        CfLog.d("********");
+                        if (list != null && !list.isEmpty()) {
+                            liveDataRcBanners.setValue(list);
+                        }
+                    }
 
-        PaymentVo vo = gson.fromJson(json, new TypeToken<PaymentVo>() {
-        }.getType());
-        if (vo != null) {
-            //liveDataPayment.setValue(vo);
-            liveDataRechargeList.setValue(vo.chongzhiList);
-            liveDataTutorial.setValue(vo.bankdirect_url);
-        }
-
-        readProfileVo();
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
-    public void readProfileVo() {
+    public void readProfile() {
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
         if (mProfileVo != null) {
             liveDataProfile.setValue(mProfileVo);
         }
+    }
+
+    public void readCache() {
+        CfLog.i("******");
+        Gson gson = new Gson();
+        String json;
+
+        //json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_OBJ);
+        //PaymentVo vo = gson.fromJson(json, new TypeToken<PaymentVo>() {
+        //}.getType());
+        //if (vo != null) {
+        //    //liveDataPayment.setValue(vo);
+        //    liveDataRechargeList.setValue(vo.chongzhiList);
+        //    liveDataTutorial.setValue(vo.bankdirect_url);
+        //}
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_TYPE_OBJ);
+        PaymentDataVo vo2 = gson.fromJson(json, new TypeToken<PaymentDataVo>() {
+        }.getType());
+        if (vo2 != null) {
+            //liveDataPayment.setValue(vo);
+            //liveDataPaymentData.setValue(vo2);
+            liveDataPayCodeArr.setValue(vo2.payCodeArr);
+            liveDataPayTypeList.setValue(vo2.chongzhiList);
+            liveDataTutorial.setValue(vo2.bankdirect_url);
+        }
+
+        readProfile();
 
     }
 
@@ -383,5 +602,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    public void readProfileVo() {
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+        if (mProfileVo != null) {
+            liveDataProfile.setValue(mProfileVo);
+        }
+
     }
 }
