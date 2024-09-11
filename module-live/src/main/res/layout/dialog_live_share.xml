@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_bind_card_add"
+            android:padding="20dp">
+            <TextView
+                android:id="@+id/tv_share_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="分享链接"
+                android:textStyle="bold"
+                android:textColor="@color/clr_txt_share"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/tv_share_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="https://fd4mf5.axshare.com/"
+                android:layout_below="@id/tv_share_tip"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/clr_txt_share_url"
+                />
+            <TextView
+                android:id="@+id/tv_share_bt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/tv_share_url"
+                style="@style/style_btn_long_live_share"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
