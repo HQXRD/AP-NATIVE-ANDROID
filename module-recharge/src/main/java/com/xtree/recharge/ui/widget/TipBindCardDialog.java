@@ -53,6 +53,14 @@ public class TipBindCardDialog extends CenterPopupView {
                 dismiss(); // 关闭对话框
             }
         });
+
+        binding.ivwClose.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss(); // 关闭对话框
+            }
+        });
+
     }
 
     // 定义回调接口
