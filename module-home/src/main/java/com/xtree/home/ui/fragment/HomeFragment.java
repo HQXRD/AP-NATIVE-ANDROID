@@ -1,8 +1,5 @@
 package com.xtree.home.ui.fragment;
 
-import static com.xtree.home.ui.adapter.GameAdapter.PLATFORM_FB;
-import static com.xtree.home.ui.adapter.GameAdapter.PLATFORM_FBXC;
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -169,6 +166,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getFBXCGameTokenApi();
             viewModel.getPMGameTokenApi();
         }
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("platform", "android");
+        map.put("platform_set", getResources().getString(R.string.platform_set));
+        viewModel.getUpdate(map);
     }
 
     @Override
@@ -244,33 +246,28 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataUpdate.observe(getViewLifecycleOwner(), vo -> {
             updateVo = vo;
             if (updateVo != null) {
-                if (updateVo.download_url.contains(".apk")) {
-                    //存储服务器设置时间间隔
-                    SPUtils.getInstance().put(SPKeyGlobal.APP_INTERVAL_TIME, updateVo.interval_duration);
-                    //请求更新服务时间
-                    SPUtils.getInstance().put(SPKeyGlobal.APP_LAST_CHECK_TIME, System.currentTimeMillis());
-                    long versionCode = Long.valueOf(StringUtils.getVersionCode(getContext()));
-                    CfLog.i("versionCode = " + versionCode);
-                    if (versionCode < updateVo.version_code) {
-                        //线上版本大于本机版本
-                        if (updateVo.type == 0) {
-                            //弱更
-                            if (versionCode >= vo.version_code_min) {
-                                showUpdate(true, updateVo); // 弱更
-                            } else {
-                                showUpdate(false, updateVo); // 强更
-                            }
-
-                        } else if (updateVo.type == 1) {
-                            //强更
-                            showUpdate(false, updateVo);
-                        } else if (updateVo.type == 2) {
-                            //热更
+                //存储服务器设置时间间隔
+                SPUtils.getInstance().put(SPKeyGlobal.APP_INTERVAL_TIME, updateVo.interval_duration);
+                //请求更新服务时间
+                SPUtils.getInstance().put(SPKeyGlobal.APP_LAST_CHECK_TIME, System.currentTimeMillis());
+                long versionCode = Long.valueOf(StringUtils.getVersionCode(getContext()));
+                CfLog.i("versionCode = " + versionCode);
+                if (versionCode < updateVo.version_code) {
+                    //线上版本大于本机版本
+                    if (updateVo.type == 0) {
+                        //弱更
+                        if (versionCode >= vo.version_code_min) {
+                            showUpdate(true, updateVo); // 弱更
+                        } else {
+                            showUpdate(false, updateVo); // 强更
                         }
+
+                    } else if (updateVo.type == 1) {
+                        //强更
+                        showUpdate(false, updateVo);
+                    } else if (updateVo.type == 2) {
+                        //热更
                     }
-                } else {
-                    CfLog.e("****************** App更新地址非法****************");
-                    //ToastUtils.showError("App更新地址有误，请稍后再试");
                 }
 
             }
@@ -412,40 +409,22 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
-        GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
-            @Override
-            public void onClick(GameVo vo) {
-                if (ClickUtil.isFastClick()) {
-                    return;
-                }
-                CfLog.i(vo.toString());
-                if (vo.cid == 7) {
-                    startContainerFragment(RouterFragmentPath.Home.AUG);
-                    return;
-                }
-                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("vo", vo);
-                    startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
-                    return;
-                }
-                viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
+        GameAdapter.ICallBack mCallBack = vo -> {
+            if (ClickUtil.isFastClick()) {
+                return;
             }
-
-            @Override
-            public void getToken(GameVo vo) {
-                if (ClickUtil.isFastClick()) {
-                    return;
-                }
-                if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
-                    viewModel.getFBXCGameTokenApi();
-                } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
-                    viewModel.getFBGameTokenApi();
-                } else {
-                    viewModel.getPMGameTokenApi();
-                }
+            CfLog.i(vo.toString());
+            if (vo.cid == 7) {
+                startContainerFragment(RouterFragmentPath.Home.AUG);
+                return;
             }
-
+            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("vo", vo);
+                startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
+                return;
+            }
+            viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
         };
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);

@@ -3,6 +3,9 @@ package com.xtree.recharge.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.text.HtmlCompat;
 import androidx.core.widget.TextViewCompat;
@@ -21,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -380,35 +385,35 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         return vo.paycode.contains(ONE_PAY_FIX) && isNotEmpty;
     }
 
-//    Handler mHandler = new Handler(Looper.getMainLooper()) {
-//        @Override
-//        public void handleMessage(@NonNull Message msg) {
-//            //super.handleMessage(msg);
-//            switch (msg.what) {
-//                case MSG_CLICK_CHANNEL:
-//                    if (binding.rcvPayChannel.getAdapter().getItemCount() > 0) {
-//                        RechargeVo vo = (RechargeVo) msg.obj;
-//                        View child = binding.rcvPayChannel.findViewWithTag(vo.bid);
-//                        if (child != null) {
-//                            child.performClick();
-//                        }
-//                        for (int i = 0; i < curPaymentTypeVo.payChannelList.size(); i++) {
-//                            if (curPaymentTypeVo.payChannelList.get(i).bid.equals(vo.bid)) {
-//                                binding.rcvPayChannel.scrollToPosition(i); // 自动滑动到选中的充值渠道
-//                                return;
-//                            }
-//                        }
-//                    }
-//                    break;
-//                case MSG_ADD_PAYMENT:
-//                    SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
-//                    break;
-//                default:
-//                    CfLog.i("****** default");
-//                    break;
-//            }
-//        }
-//    };
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_CLICK_CHANNEL:
+                    if (binding.rcvPayChannel.getAdapter().getItemCount() > 0) {
+                        RechargeVo vo = (RechargeVo) msg.obj;
+                        View child = binding.rcvPayChannel.findViewWithTag(vo.bid);
+                        if (child != null) {
+                            child.performClick();
+                        }
+                        for (int i = 0; i < curPaymentTypeVo.payChannelList.size(); i++) {
+                            if (curPaymentTypeVo.payChannelList.get(i).bid.equals(vo.bid)) {
+                                binding.rcvPayChannel.scrollToPosition(i); // 自动滑动到选中的充值渠道
+                                return;
+                            }
+                        }
+                    }
+                    break;
+                case MSG_ADD_PAYMENT:
+                    SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+                    break;
+                default:
+                    CfLog.i("****** default");
+                    break;
+            }
+        }
+    };
 
     private void onClickPaymentType(PaymentTypeVo vo) {
         CfLog.i(vo.toInfo());
@@ -434,14 +439,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         } else {
             binding.rcvPayChannel.setVisibility(View.VISIBLE);
 
-//            // 非跳转三方的,默认选中第一个
-//            RechargeVo vo2 = vo.payChannelList.get(0);
-//            if (!(vo2.op_thiriframe_use && !vo2.phone_needbind)) {
-//                Message msg2 = new Message();
-//                msg2.what = MSG_CLICK_CHANNEL;
-//                msg2.obj = vo2;
-//                mHandler.sendMessageDelayed(msg2, 350L);
-//            }
+            // 非跳转三方的,默认选中第一个
+            RechargeVo vo2 = vo.payChannelList.get(0);
+            if (!(vo2.op_thiriframe_use && !vo2.phone_needbind)) {
+                Message msg2 = new Message();
+                msg2.what = MSG_CLICK_CHANNEL;
+                msg2.obj = vo2;
+                mHandler.sendMessageDelayed(msg2, 350L);
+            }
         }
 
     }
@@ -613,8 +618,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        //支付宝和微信不判断银行卡绑定信息
-        if (!vo.paycode.contains("zfb") && !vo.paycode.contains("wx")) {
+        //支付宝和微信判断银行卡绑定信息
+        if (vo.paycode.contains("zfb")|| vo.paycode.contains("wx")) {
             //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
             if (vo.view_bank_card && vo.userBankList.isEmpty()) {
 
