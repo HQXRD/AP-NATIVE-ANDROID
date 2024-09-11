@@ -220,6 +220,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
             MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips),
                     content,
                     true,
+                    300,
                     new TipDialog.ICallBack() {
                         @Override
                         public void onClickLeft() {
@@ -353,9 +354,9 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 break;
             case USER:
                 titleData.setValue(USER.getName());
-                tabList.add("我的时薪");
+                tabList.add("我的彩票工资");
                 tabList.add("下级契约");
-                tabList.add("下级时薪");
+                tabList.add("下级彩票工资");
                 tabs.setValue(tabList);
                 //隐藏温馨提示
                 //gameRebateAgrtHeadModel.tipVisible.set(false);
@@ -701,6 +702,11 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                     public void onFail(BusinessException t) {
                         super.onFail(t);
                         finishLoadMore(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

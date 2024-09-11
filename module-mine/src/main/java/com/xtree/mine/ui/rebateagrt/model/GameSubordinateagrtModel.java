@@ -43,6 +43,14 @@ public class GameSubordinateagrtModel extends BindModel {
             StringBuilder sb = new StringBuilder();
             switch (typeEnum) {
                 case USER:
+                    for (int i = 0; i < rules.size(); i++) {
+                        GameSubordinateAgrteResponse.DataDTO.RuleDTO ruleDTO = rules.get(i);
+                        if (i > 0) {
+                            sb.append(System.lineSeparator());
+                        }
+                        sb.append(ruleDTO.getRatio()).append("%");
+                    }
+                    break;
                 case DAYREBATE:
                     for (int i = 0; i < rules.size(); i++) {
                         GameSubordinateAgrteResponse.DataDTO.RuleDTO ruleDTO = rules.get(i);
@@ -116,7 +124,7 @@ public class GameSubordinateagrtModel extends BindModel {
         GameSubordinateAgrteResponse.DataDTO.RuleDTO ruleDTO = rules.get(0);
         switch (typeEnum) {
             case USER:
-                ruleRatio = ruleDTO.getRatio() + "元/万";
+                ruleRatio = ruleDTO.getRatio() + "%";
                 break;
             case DAYREBATE:
                 ruleRatio = ruleDTO.getRatio() + "元/千";

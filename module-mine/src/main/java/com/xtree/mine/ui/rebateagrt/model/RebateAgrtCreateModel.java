@@ -35,9 +35,9 @@ public class RebateAgrtCreateModel extends BindModel {
         switch (type) {
 
             case "1": //USER
-                subTitle1 = "每小时投注额";
+                subTitle1 = "每日投注额";
                 subTitle2 = "活跃人数 ≥";
-                subTitle3 = "时薪(元/万)";
+                subTitle3 = "彩票工资(%)";
                 break;
             case "2": //LIVE
             case "3": //SPORT

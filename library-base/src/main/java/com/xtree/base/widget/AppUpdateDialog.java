@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.databinding.DialogUpdateBinding;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.AppUpdateVo;
@@ -112,6 +114,15 @@ public class AppUpdateDialog extends CenterPopupView {
 
         CfLog.i("apkFile: " + apkFile.getAbsolutePath());
         binding = DialogUpdateBinding.bind(findViewById(R.id.ll_root_update));
+        //设置 打开浏览器下载安装
+        binding.tvInstallTip.setText(getContext().getString(R.string.txt_update_bottom_error_tip));
+        binding.tvInstallTip.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(vo.download_url)){
+                AppUtil.goBrowser(getContext(), vo.download_url);
+            }else{
+                CfLog.e("********** install  downLoadUrl is error **********");
+            }
+        });
         if (!isWeakUpdate) {
             //强更新
             binding.dialogUpdateCancel.setVisibility(View.GONE);
@@ -126,6 +137,16 @@ public class AppUpdateDialog extends CenterPopupView {
         //立即更新
         binding.dialogUpdateConfirm.setOnClickListener(v -> {
             downLoadUrl = vo.download_url;
+
+            //设置 如更新失败，打开浏览器下载安装
+            binding.tvInstallTip.setText(getContext().getString(R.string.txt_update_bottom_err_tip));
+            binding.tvInstallTip.setOnClickListener(v1 -> {
+                if (!TextUtils.isEmpty(vo.download_url)){
+                    AppUtil.goBrowser(getContext(), vo.download_url);
+                }else{
+                    CfLog.e("********** install  downLoadUrl is error **********");
+                }
+            });
             CfLog.e("initView downLoadUrl = " + downLoadUrl);
             binding.tvwTitle.setText(getContext().getString(R.string.txt_update_tip));
             binding.tvwUpdateVersion.setVisibility(View.INVISIBLE);
@@ -248,14 +269,11 @@ public class AppUpdateDialog extends CenterPopupView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             uri = FileProvider.getUriForFile(this.context, getContext().getPackageName(), apkFile);
-            CfLog.i(" Build.VERSION_CODES.M= "+uri.toString()); //
+            CfLog.i(uri.toString()); //
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {
-            /*Android M之前老版本写法*/
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
         }
         context.startActivity(intent);
         android.os.Process.killProcess(android.os.Process.myPid());
