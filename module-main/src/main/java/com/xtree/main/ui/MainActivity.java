@@ -1,5 +1,7 @@
 package com.xtree.main.ui;
 
+import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
+
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -9,10 +11,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.gyf.immersionbar.ImmersionBar;
+import com.xtree.base.net.fastest.ChangeH5LineUtil;
+import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.widget.MenuItemView;
-import com.xtree.base.widget.SpecialMenuItemView;
+import com.xtree.base.widget.TopSpeedDomainFloatingWindows;
 import com.xtree.main.BR;
 import com.xtree.main.R;
 import com.xtree.main.databinding.ActivityMainBinding;
@@ -38,7 +44,7 @@ import me.xtree.mvvmhabit.utils.ConvertUtils;
 public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewModel> {
     private List<Fragment> mFragments;
     private Fragment showFragment;
-
+    private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
     private NavigationController navigationController;
 
     @Override
@@ -62,7 +68,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
 
     @Override
     public void initView() {
-
+//        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(MainActivity.this);
+//        mTopSpeedDomainFloatingWindows.show();
     }
 
     @Override
@@ -71,6 +78,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         initFragment();
         //初始化底部Button
         initBottomTab();
+
+        FastestTopDomainUtil.getInstance().start();
+        ChangeH5LineUtil.getInstance().start();
     }
 
     @Override
@@ -83,6 +93,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mTopSpeedDomainFloatingWindows != null) {
+            mTopSpeedDomainFloatingWindows.removeView();
+        }
     }
 
     private void initFragment() {
@@ -165,11 +178,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(String event) {
-        navigationController.setSelect(1);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.hide(showFragment).show(mFragments.get(1));
-        showFragment = mFragments.get(1);
-        transaction.commitAllowingStateLoss();
+    public void onMessageEvent(EventVo event) {
+        switch (event.getEvent()) {
+            case EVENT_CHANGE_TO_ACT:
+                CfLog.i("Change to activity");
+                navigationController.setSelect(1);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.hide(showFragment).show(mFragments.get(1));
+                showFragment = mFragments.get(1);
+                transaction.commitAllowingStateLoss();
+                break;
+//            case EVENT_TOP_SPEED_FINISH:
+//                CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
+//                mTopSpeedDomainFloatingWindows.refresh();
+//                break;
+//            case EVENT_TOP_SPEED_FAILED:
+//                mTopSpeedDomainFloatingWindows.onError();
+//                break;
+        }
     }
 }
