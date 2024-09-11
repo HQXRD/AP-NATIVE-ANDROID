@@ -1,4 +1,4 @@
-package com.xtree.mine.ui.fragment;
+package com.xtree.mine.ui.fragment.withdrawal;
 
 import android.app.Application;
 import android.content.Context;
@@ -67,9 +67,9 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     private LifecycleOwner owner;
     ChooseWithdrawViewModel viewModel;
     private ChooseInfoVo.ChannelInfo channelInfo;
-    ArrayList<USDTCashVo.UsdtInfo> UsdtInfoTRC = new ArrayList<>(); //TRC20地址 仅用于钱包
-    private USDTCashVo.UsdtInfo selectUsdtInfo;//选中的支付
-    private USDTCashVo.Channel selectorTopChannel;//选中的支付通道
+    ArrayList<WithdrawalListVo.WithdrawalItemVo> UsdtInfoTRC = new ArrayList<>(); //TRC20地址 仅用于钱包
+    private WithdrawalListVo.WithdrawalItemVo selectUsdtInfo;//选中的支付
+    private WithdrawalListVo.WithdrawalItemVo  selectorTopChannel;//选中的支付通道
 
     private USDTCashVo cashMoYuVo;
 
@@ -129,8 +129,6 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 dialog.trc20BankInfoList.add(bankInfo);
             }
         }
-
-
         return dialog;
     }
 
@@ -423,12 +421,14 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         binding.llVirtualConfirmView.tvConfirmWithdrawalTypeShow.setText(verifyVo.quota);
         //提款金额方式
         binding.llVirtualConfirmView.tvConfirmAmountShow.setText(verifyVo.user_bank_info.usdt_type);
-        //提款类型
-        binding.llVirtualConfirmView.tvWithdrawalAmountTypeShow.setText(verifyVo.user_bank_info.usdt_type);
+        //提款金额
+        binding.llVirtualConfirmView.tvWithdrawalAmountTypeShow.setText(verifyVo.money);
         //虚拟币类型
         binding.llVirtualConfirmView.tvWithdrawalVirtualTypeShow.setText(verifyVo.user_bank_info.usdt_type);
         //实际提款金额
         binding.llVirtualConfirmView.tvWithdrawalActualArrivalShow.setText(verifyVo.money_real);
+        //手续费
+        binding.llVirtualConfirmView.tvWithdrawalHandlingFeeShow.setText(verifyVo.fee);
         //汇率
         binding.llVirtualConfirmView.tvWithdrawalExchangeRateShow.setText(infoVo.rate);
         //提币地址
@@ -570,6 +570,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         totalAmount = "<font color=#F35A4E>" + infoVo.day_rest_amount + "</font>";
         String textTipSource = String.format(formatStr, count, userCount, totalAmount);
         CfLog.e("*****************  " + infoVo.toString());
+        binding.llSetRequestView.setVisibility(VISIBLE);
         binding.tvNotice.setText(HtmlCompat.fromHtml(textTipSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
 
@@ -966,10 +967,10 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     }
 
     @Override
-    public void callbackWithFruitHor(USDTCashVo.Channel selectVo) {
+    public void callbackWithFruitHor(WithdrawalListVo.WithdrawalItemVo  selectVo) {
 
         //点击了不同头部 数显View
-        if (selectVo.id.equals(selectUsdtInfo.id)) {
+        if (selectVo.name.equals(selectUsdtInfo.name)) {
             selectorTopChannel = selectVo;
 
         }
