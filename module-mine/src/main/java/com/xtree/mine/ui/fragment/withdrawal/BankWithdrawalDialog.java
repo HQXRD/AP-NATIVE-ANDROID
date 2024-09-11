@@ -224,7 +224,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             }
             String inputString = binding.bankWithdrawalView.tvActualWithdrawalAmountShow.getText().toString().trim();
 
-            String typeNumber = selectChanneVo.typenum;
+            //String typeNumber = selectChanneVo.typenum;
             if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else if (Double.valueOf(inputString) > Double.valueOf(channeBankVo.max_money)) {
@@ -233,7 +233,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else {
                 hideKeyBoard();
-                requestNext(bankCardCashVo.check, inputString, channeBankVo.id);
+                requestVerify(inputString, selectUsdtInfo);
             }
         });
 
@@ -304,11 +304,11 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //下一步
         binding.tvActualWithdrawalNextMore.setOnClickListener(v -> {
             String inputString = binding.tvActualWithdrawalAmountShowMore.getText().toString();
-            String typeNumber = selectChanneVo.typenum;
+            //String typeNumber = selectChanneVo.typenum;
             if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else {
-                requestNext(bankCardCashVo.check, inputString, channeBankVo.id);
+                requestVerify(inputString, selectUsdtInfo);
             }
         });
 
@@ -1284,22 +1284,19 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 提交订单
      */
-    private void requestNext(@NonNull String checkCode, @NonNull String money, @NonNull String bankinfo) {
+    private void requestVerify(final String money, final WithdrawalBankInfoVo.UserBankInfo selectUsdtInfo)  {
         LoadingDialog.show(getContext());
-        HashMap<String, String> map = new HashMap<>();
-        map.put("action", "platwithdraw");
-        map.put("bankinfo", bankinfo);
-        map.put("check", checkCode);
-        map.put("controller", "security"); //列表也选择的取款类型
-        map.put("flag", "withdraw");
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("bank_id", selectUsdtInfo.id);
         map.put("money", money);
+        map.put("wtype", wtype);
         map.put("nonce", UuidUtil.getID24());
-        map.put("realCount", "");
-        map.put("usdtType", "1");
+        map.put("check", check	);
+        CfLog.e("requestVerify -->" + map);
+        viewModel.postWithdrawalVerify(map);
 
-        CfLog.i("requestNext --> " + map);
-
-        viewModel.getPlatWithdrawMoYu(map);
+        viewModel.postWithdrawalVerify(map);
     }
 
     /**
