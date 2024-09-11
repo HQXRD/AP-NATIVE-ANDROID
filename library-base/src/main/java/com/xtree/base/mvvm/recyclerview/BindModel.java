@@ -19,6 +19,7 @@ public class BindModel extends BaseObservable implements ItemPosition, ItemBind,
      * 用于标识对应使用的itemType索引
      */
     private int itemType = 0;
+    private Object tag;
 
     public int getItemType() {
         return itemType;
@@ -36,6 +37,14 @@ public class BindModel extends BaseObservable implements ItemPosition, ItemBind,
     @Override
     public void setItemPosition(int i) {
 
+    }
+
+    public Object getTag() {
+        return tag;
+    }
+
+    public void setTag(Object tag) {
+        this.tag = tag;
     }
 
     @Override

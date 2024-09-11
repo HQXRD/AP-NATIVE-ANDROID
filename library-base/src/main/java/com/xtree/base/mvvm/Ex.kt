@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.TextWatcher
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -29,6 +30,7 @@ import com.drake.brv.utils.models
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.GONE
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayoutMediator
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
@@ -212,14 +214,15 @@ fun ViewPager.init(
 }
 
 @BindingAdapter(
-    value = ["itemData", "itemViewType", "onBindListener", "offLimit"],
+    value = ["itemData", "itemViewType", "onBindListener", "offLimit", "attach"],
     requireAll = false
 )
 fun ViewPager2.init(
     itemData: List<BindModel>?,
     itemViewType: List<Int>?,
     onBindListener: BaseDatabindingAdapter.onBindListener?,
-    offLimit: Int?
+    offLimit: Int?,
+    attachView: View?
 ) {
 
     if (itemData == null || itemViewType == null) {
@@ -252,6 +255,14 @@ fun ViewPager2.init(
     }
 
     offLimit?.let { offscreenPageLimit = it }
+
+    attachView?.let {
+        if (it is TabLayout) {
+            TabLayoutMediator(
+                it, this
+            ) { tab: TabLayout.Tab?, position: Int -> tab?.text = itemData[position].tag.toString()}.attach()
+        }
+    }
 }
 
 /**
