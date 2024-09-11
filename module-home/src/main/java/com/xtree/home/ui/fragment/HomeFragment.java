@@ -1,5 +1,8 @@
 package com.xtree.home.ui.fragment;
 
+import static com.xtree.home.ui.adapter.GameAdapter.PLATFORM_FB;
+import static com.xtree.home.ui.adapter.GameAdapter.PLATFORM_FBXC;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -241,8 +244,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataUpdate.observe(getViewLifecycleOwner(), vo -> {
             updateVo = vo;
             if (updateVo != null) {
-                if (updateVo.download_url.contains(".apk"))
-                {
+                if (updateVo.download_url.contains(".apk")) {
                     //存储服务器设置时间间隔
                     SPUtils.getInstance().put(SPKeyGlobal.APP_INTERVAL_TIME, updateVo.interval_duration);
                     //请求更新服务时间
@@ -266,7 +268,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                             //热更
                         }
                     }
-                }else {
+                } else {
                     CfLog.e("****************** App更新地址非法****************");
                     //ToastUtils.showError("App更新地址有误，请稍后再试");
                 }
@@ -410,22 +412,40 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
-        GameAdapter.ICallBack mCallBack = vo -> {
-            if (ClickUtil.isFastClick()) {
-                return;
+        GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
+            @Override
+            public void onClick(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                CfLog.i(vo.toString());
+                if (vo.cid == 7) {
+                    startContainerFragment(RouterFragmentPath.Home.AUG);
+                    return;
+                }
+                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("vo", vo);
+                    startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
+                    return;
+                }
+                viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
             }
-            CfLog.i(vo.toString());
-            if (vo.cid == 7) {
-                startContainerFragment(RouterFragmentPath.Home.AUG);
-                return;
+
+            @Override
+            public void getToken(GameVo vo) {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
+                    viewModel.getFBXCGameTokenApi();
+                } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
+                    viewModel.getFBGameTokenApi();
+                } else {
+                    viewModel.getPMGameTokenApi();
+                }
             }
-            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("vo", vo);
-                startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
-                return;
-            }
-            viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
+
         };
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
