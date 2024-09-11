@@ -1543,4 +1543,20 @@
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <!-- 分享弹窗 复制按钮样式 -->
+    <style name="style_btn_long_live_share">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@mipmap/bg_btn_live_share</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_copy</item>
+        <item name="android:textColor">@color/clr_text_btn_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

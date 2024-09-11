@@ -316,5 +316,4 @@
 
     <!--测速浮窗-->
     <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
-
 </resources>
