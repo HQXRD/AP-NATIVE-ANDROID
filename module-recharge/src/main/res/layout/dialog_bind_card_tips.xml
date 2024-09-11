@@ -40,7 +40,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivw_empty" />
-
+    <ImageView
+        android:id="@+id/ivw_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tvw_title"
+        android:src="@mipmap/ic_pop_close" />
     <TextView
         android:id="@+id/tvw_title"
         android:layout_width="wrap_content"

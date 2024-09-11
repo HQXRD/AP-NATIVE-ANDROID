@@ -779,9 +779,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             if (!TextUtils.isEmpty(vo.accountname)) {
                 binding.edtName.setEnabled(false);
                 binding.ivwClear.setVisibility(View.INVISIBLE);
+                binding.tvwTipName.setVisibility(View.GONE);
+            }else{
+                binding.edtName.setText("");
+                binding.edtName.setEnabled(true);
+                binding.tvwTipName.setVisibility(View.VISIBLE);
             }
             binding.llName.setVisibility(View.VISIBLE);
-            binding.tvwTipName.setVisibility(View.GONE);
         } else {
             binding.edtName.setText("");
             binding.edtName.setEnabled(true);
