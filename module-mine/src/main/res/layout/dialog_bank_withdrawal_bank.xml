@@ -163,7 +163,7 @@
                     android:drawableLeft="@mipmap/mine_withdrawal_notice"
                     android:textColor="@color/clr_grey_13"
                     android:visibility="visible"
-                    tools:text="De1231231231233333333333333333333333333333333333333333333333333333333333333333333mo" />
+                    tools:text="De1mo" />
 
             </LinearLayout>
         </RelativeLayout>
