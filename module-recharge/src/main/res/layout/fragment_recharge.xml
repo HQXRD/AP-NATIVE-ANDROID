@@ -181,6 +181,8 @@
                     android:layout_marginStart="@dimen/layout_margin"
                     android:layout_marginEnd="@dimen/layout_margin"
                     android:layout_marginTop="12dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     android:background="@drawable/bg_white_12"
                     android:orientation="vertical"
                     android:padding="8dp">

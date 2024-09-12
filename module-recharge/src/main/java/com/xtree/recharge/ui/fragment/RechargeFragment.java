@@ -419,6 +419,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i(vo.toInfo());
         CfLog.d("size: " + vo.payChannelList.size());
         curPaymentTypeVo = vo;
+        binding.llCurPmtParent.setVisibility(View.VISIBLE);
         binding.llCurPmt.setVisibility(View.VISIBLE);
         binding.tvwCurPmt.setText(vo.dispay_title);
         String url = DomainUtil.getDomain2() + vo.un_selected_image; // 未选中 彩色图片
