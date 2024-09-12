@@ -1293,8 +1293,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         map.put("check", check	);
         CfLog.e("requestVerify -->" + map);
         viewModel.postWithdrawalVerify(map);
-
-        viewModel.postWithdrawalVerify(map);
     }
 
     /**
