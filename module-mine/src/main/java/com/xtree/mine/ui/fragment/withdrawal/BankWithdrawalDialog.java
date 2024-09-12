@@ -480,7 +480,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
             }
         });
-
         //提款完成申请
         viewModel.submitVoMutableLiveData.observe(owner, vo -> {
             submitVo = vo;

@@ -101,7 +101,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     }
     private String wtype;
     private ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo;
-    private WithdrawalInfoVo infoVo;
+    private WithdrawalInfoVo infoVo; //页面展示需要的model
     private WithdrawalInfoVo.UserBankInfo selectorBankInfo;//选中的支付地址
     private ArrayList<WithdrawalInfoVo.UserBankInfo> trc20BankInfoList;//只支持trc20提款地址
     private WithdrawalVerifyVo verifyVo;
@@ -597,6 +597,9 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         binding.tvCollectionUsdt.setText(cashMoYuVo.usdtinfo.get(0).usdt_type + " " + cashMoYuVo.usdtinfo.get(0).usdt_card);
 
         usdtid = cashMoYuVo.usdtinfo.get(0).id;*/
+        //设置收款USDT地址
+        selectorBankInfo = infoVo.user_bank_info.get(0);
+        binding.tvBindAddress.setText(selectorBankInfo.usdt_type+"--"+selectorBankInfo.account);
 
         binding.tvBindAddress.setOnClickListener(v -> {
             showCollectionDialog(infoVo.user_bank_info);
@@ -623,6 +626,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         binding.rvShowChooseCard.addItemDecoration(new FruitHorUSDTRecyclerViewAdapter.SpacesItemDecoration(10));
         binding.rvShowChooseCard.setAdapter(recyclerViewAdapter);
         binding.rvShowChooseCard.setItemAnimator(new DefaultItemAnimator());
+        ///
+
     }
 
     /**
@@ -968,12 +973,10 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
 
     @Override
     public void callbackWithFruitHor(WithdrawalListVo.WithdrawalItemVo  selectVo) {
-
         //点击了不同头部 数显View
-        if (selectVo.name.equals(selectUsdtInfo.name)) {
+       /* if (selectVo.name.equals(selectUsdtInfo.name)) {
             selectorTopChannel = selectVo;
-
-        }
+        }*/
     }
 
     /* 由于权限原因弹窗*/

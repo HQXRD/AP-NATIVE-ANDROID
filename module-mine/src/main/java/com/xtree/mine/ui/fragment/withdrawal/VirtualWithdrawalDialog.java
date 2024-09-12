@@ -122,7 +122,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     private void initView() {
         binding = DialogBankWithdrawalVirtualBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwTitle.setText(listVo.name);
+        binding.tvwTitle.setText(listVo.title);
         refreshUI(infoVo);
 
     }
