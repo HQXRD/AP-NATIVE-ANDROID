@@ -794,10 +794,14 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().postWithdrawalVerify(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<WithdrawalVerifyVo>() {
+                .subscribeWith(new FixHttpCallBack<WithdrawalVerifyVo>() {
                     @Override
-                    public void onResult(WithdrawalVerifyVo vo) {
+                    public void onResult(WithdrawalVerifyVo vo,BusinessException ex) {
                         CfLog.e("withdrawalInfoVoMutableLiveData  vo .getStatus = " + vo);
+                        if (vo == null) {
+                            verifyVoErrorData.setValue(ex.message);
+                            return;
+                        }
                         verifyVoMutableLiveData.setValue(vo);
                     }
 
