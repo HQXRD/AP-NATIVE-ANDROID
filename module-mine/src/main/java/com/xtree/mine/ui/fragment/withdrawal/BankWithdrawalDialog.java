@@ -474,7 +474,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         // 验证当前渠道信息 错误信息
         viewModel.verifyVoErrorData.observe(owner, vo -> {
             final String message = vo;
-            if (message != null && !TextUtils.isEmpty(message)) {
+            if (!TextUtils.isEmpty(message)) {
                 showErrorDialog(message);
             } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
