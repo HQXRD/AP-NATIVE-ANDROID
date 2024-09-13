@@ -13,6 +13,8 @@ import retrofit2.http.QueryMap;
 
 public interface ApiService {
 
+    //XT-LIVE 秘钥 ： RGx1YjzfdOW7pTM
+
     /**
      * GET
      *
