@@ -416,4 +416,7 @@
     <color name="clr_txt_followers">#9A96A4</color>
     <color name="clr_txt_online">#3C98D8</color>
     <color name="clr_view_line">#EFEAFF</color>
+
+<!--    直播主播头像边框-->
+    <color name="clr_live_anchor_avatar">#FB6156</color>
 </resources>

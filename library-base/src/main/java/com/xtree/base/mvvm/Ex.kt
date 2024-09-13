@@ -2,6 +2,7 @@ package com.xtree.base.mvvm
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.TextWatcher
@@ -22,8 +23,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.drake.brv.annotaion.DividerOrientation
 import com.drake.brv.utils.bindingAdapter
 import com.drake.brv.utils.divider
+import com.drake.brv.utils.dividerSpace
 import com.drake.brv.utils.grid
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
@@ -36,6 +39,10 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter
 import com.xtree.base.mvvm.recyclerview.BindModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 /**
  *Created by KAKA on 2024/3/8.
@@ -43,7 +50,7 @@ import com.xtree.base.mvvm.recyclerview.BindModel
  */
 
 @BindingAdapter(
-    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool","spanCount"],
+    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool","spanCount","gridSpace"],
     requireAll = false
 )
 fun RecyclerView.init(
@@ -54,6 +61,7 @@ fun RecyclerView.init(
     dividerDrawableId: Int?,
     viewPool: RecyclerView.RecycledViewPool?,
     spanCount: Int?,
+    gridSpace: Float?
 ) {
 
     if (itemData == null || itemViewType == null) {
@@ -85,6 +93,14 @@ fun RecyclerView.init(
                 startVisible = false
                 endVisible = true
             }
+        }
+        gridSpace?.let {
+            dividerSpace (it.toInt(), DividerOrientation.VERTICAL)
+            dividerSpace (it.toInt(), DividerOrientation.HORIZONTAL)
+//            divider {
+//                startVisible = true
+//                endVisible = true
+//            }
         }
 
         val mAdapter = BaseDatabindingAdapter().run {
@@ -262,6 +278,19 @@ fun ViewPager2.init(
                 it, this
             ) { tab: TabLayout.Tab?, position: Int -> tab?.text = itemData[position].tag.toString()}.attach()
         }
+    }
+}
+
+@BindingAdapter("isAnimationRunning")
+fun ImageView.handleAnimation(isAnimationRunning: Boolean) {
+    val animationDrawable = drawable as? AnimationDrawable
+    if (isAnimationRunning) {
+        GlobalScope.launch {
+            delay(Random.Default.nextLong(1000))
+            animationDrawable?.start()
+        }
+    } else {
+        animationDrawable?.stop()
     }
 }
 

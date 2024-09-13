@@ -16,9 +16,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/grid_space"
+            android:paddingBottom="100dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clipToPadding="false"
             app:itemData="@{m.datas}"
             itemViewType="@{m.itemTypeList}"
             app:spanCount="2"
+            app:gridSpace="@{@dimen/grid_space}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

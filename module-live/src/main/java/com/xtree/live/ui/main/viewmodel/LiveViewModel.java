@@ -25,16 +25,27 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
  */
 public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabLayout.OnTabSelectedListener {
 
-    public LiveViewModel(@NonNull Application application) {
-        super(application);
-    }
+    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
+        LiveAnchorModel liveAnchorModel = new LiveAnchorModel();
+        liveAnchorModel.setItemType(0);
 
-    public LiveViewModel(@NonNull Application application, LiveRepository model) {
-        super(application, model);
-    }
+        LiveHotModel liveHotModel = new LiveHotModel("热门");
+        liveHotModel.setItemType(1);
 
-    private WeakReference<FragmentActivity> mActivity = null;
+        LiveHotModel liveFootBallModel = new LiveHotModel("足球");
+        liveHotModel.setItemType(1);
 
+        LiveHotModel liveBasketBallModel = new LiveHotModel("篮球");
+        liveHotModel.setItemType(1);
+
+        LiveHotModel liveOtherModel = new LiveHotModel("其他");
+        liveHotModel.setItemType(1);
+
+        add(liveAnchorModel);
+        add(liveFootBallModel);
+        add(liveBasketBallModel);
+        add(liveOtherModel);
+    }};
     public ObservableField<ArrayList<String>> tabs = new ObservableField<>(new ArrayList<>());
     public MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<>(new ArrayList<>());
     public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
@@ -44,18 +55,14 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
                     add(R.layout.layout_live_hot);
                 }
             });
+    private WeakReference<FragmentActivity> mActivity = null;
+    public LiveViewModel(@NonNull Application application) {
+        super(application);
+    }
 
-    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
-        LiveAnchorModel liveAnchorModel = new LiveAnchorModel();
-        liveAnchorModel.setItemType(0);
-
-        LiveHotModel liveHotModel = new LiveHotModel();
-        liveHotModel.setItemType(1);
-
-        add(liveAnchorModel);
-
-        add(liveHotModel);
-    }};
+    public LiveViewModel(@NonNull Application application, LiveRepository model) {
+        super(application, model);
+    }
 
     public void initData(FragmentActivity mActivity) {
 

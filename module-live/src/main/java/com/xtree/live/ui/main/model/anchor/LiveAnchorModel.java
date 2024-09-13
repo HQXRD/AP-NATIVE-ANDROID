@@ -28,10 +28,16 @@ public class LiveAnchorModel extends BindModel {
                 }
             });
 
+
     private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
         LiveAnchorItemModel itemModel = new LiveAnchorItemModel();
         itemModel.setText("直播TXT");
 
+        add(itemModel);
+        add(itemModel);
+        add(itemModel);
+        add(itemModel);
+        add(itemModel);
         add(itemModel);
         add(itemModel);
         add(itemModel);

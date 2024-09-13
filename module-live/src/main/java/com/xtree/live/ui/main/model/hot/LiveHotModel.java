@@ -16,10 +16,10 @@ import java.util.ArrayList;
  */
 public class LiveHotModel extends BindModel {
 
-    public LiveHotModel() {
+    public LiveHotModel(String tag) {
         //to do
         //设置标签，用于显示TAB标题
-        setTag("热门");
+        setTag(tag);
 
         datas.set(bindModels);
     }
