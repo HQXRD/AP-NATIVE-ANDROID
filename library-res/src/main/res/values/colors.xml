@@ -186,6 +186,8 @@
     <color name="clr_transparent_70">#B2000000</color>"
 
     <color name="clr_black">#000000</color>
+    <color name="clr_txt_01">#302E36</color>
+    <color name="clr_txt_02">#9A96A4</color>
     <color name="clr_txt_black">#000000</color>
     <color name="clr_txt_black_01">#2F2747</color>
     <color name="clr_txt_black02">#161621</color>
