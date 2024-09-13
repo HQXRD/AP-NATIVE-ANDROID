@@ -1,4 +1,4 @@
-package com.xtree.live.ui.main.fragment;
+package com.xtree.live.broadcaster.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

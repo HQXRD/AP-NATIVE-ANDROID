@@ -24,16 +24,24 @@
              <RelativeLayout
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content">
-                 <ImageView
+              <!--   <ImageView
                      android:id="@+id/iv_live_broadcaster_header"
                      android:layout_width="48dp"
                      android:layout_height="48dp"
                      android:layout_marginTop="10dp"
                      android:layout_marginLeft="10dp"
-                     android:background="@mipmap/lv_broadcaster_header_default"/>
+                     android:background="@mipmap/lv_broadcaster_header_default"/>-->
+                 <include
+                     android:id="@+id/iv_live_broadcaster_header"
+                     android:layout_width="48dp"
+                     android:layout_height="48dp"
+                     android:layout_marginTop="10dp"
+                     android:layout_marginLeft="10dp"
+                     layout="@layout/item_live_broadcaster_header"
+                     />
                  <TextView
                      android:id="@+id/tv_live_broadcaster_name"
-                     android:text="123123123"
+                     android:text=""
                      android:textColor="@color/clr_txt_share"
                      android:textSize="14sp"
                      android:layout_width="wrap_content"
@@ -41,10 +49,11 @@
                      android:layout_alignTop="@id/iv_live_broadcaster_header"
                      android:layout_toRightOf="@id/iv_live_broadcaster_header"
                      android:layout_marginLeft="20dp"
+                     tools:text="123123123"
                      />
                  <TextView
                      android:id="@+id/tv_live_broadcaster_followers"
-                     android:text="0000"
+                     android:text=" "
                      android:textColor="@color/clr_txt_followers"
                      android:textSize="12sp"
                      android:layout_width="wrap_content"
@@ -52,6 +61,7 @@
                      android:layout_alignBottom="@id/iv_live_broadcaster_header"
                      android:layout_toRightOf="@id/iv_live_broadcaster_header"
                      android:layout_marginLeft="20dp"
+                     tools:text=" 0000"
                      />
                  <ImageView
                      android:id="@+id/iv_live_attention_status"
@@ -75,10 +85,11 @@
              >
              <TextView
                  android:id="@+id/tv_anchor_signature"
-                 android:text="足够专业才能创造“梦”想，“稳”健才是成功基石！专注收米！"
+                 android:text=""
                  android:textColor="@color/clr_rc_txt_hi"
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
+                 tools:text="足够专业才能创造“梦”想，“稳”健才是成功基石！专注收米！"
                  />
              <View
                  android:layout_width="match_parent"

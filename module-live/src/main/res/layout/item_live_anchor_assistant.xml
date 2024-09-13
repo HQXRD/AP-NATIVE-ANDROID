@@ -25,12 +25,11 @@
                      android:id="@+id/iv_live_anchor_header"
                      android:layout_width="48dp"
                      android:layout_height="48dp"
-
                      android:layout_marginLeft="10dp"
                      android:background="@mipmap/lv_anchor_header_default"/>
                  <TextView
                      android:id="@+id/tv_live_anchor_name"
-                     android:text="助理-小帅"
+                     android:text=" "
                      android:textColor="@color/clr_txt_share"
                      android:textSize="14sp"
                      android:textStyle="bold"
@@ -39,6 +38,7 @@
                      android:layout_alignTop="@id/iv_live_anchor_header"
                      android:layout_toRightOf="@id/iv_live_anchor_header"
                      android:layout_marginLeft="20dp"
+                     tools:text="助理-小帅"
                      />
                  <ImageView
                      android:id="@+id/iv_anchor_sex"
@@ -48,7 +48,7 @@
                      android:layout_alignBottom="@id/tv_live_anchor_name"
                      android:layout_toRightOf="@id/tv_live_anchor_name"
                      android:layout_marginLeft="4dp"
-                     android:scaleType="fitXY"
+                     android:scaleType="matrix"
                      android:background="@mipmap/lv_anchor_sex_f"
                      />
                  <TextView
@@ -58,25 +58,30 @@
                      android:layout_alignTop="@id/tv_live_anchor_name"
                      android:layout_alignParentRight="true"
                      android:layout_marginRight="10dp"
-                     android:text="2024-09-11 11:26:09"
+                     android:text=" "
+                     tools:text="2024-09-11 11:26:09"
                      />
                  <TextView
                      android:id="@+id/tv_live_anchor_sign"
                      android:layout_below="@id/tv_live_anchor_name"
                      android:layout_alignLeft ="@id/tv_live_anchor_name"
-                     android:text="点击链接注册账户，注册好了告诉我…"
+                     android:text=" "
                      android:layout_marginTop="10dp"
                      android:layout_width="wrap_content"
-                     android:layout_height="wrap_content" />
+                     android:layout_height="wrap_content"
+                     android:maxEms="14"
+                     android:singleLine="true"
+                     tools:text="点击链接注册账户，注册好了告诉我我带你"/>
                  <TextView
                      android:id="@+id/tv_live_anchor_online"
-                     android:text="在线"
+                     android:text=" "
                      android:textColor="@color/clr_txt_online"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_alignTop="@id/tv_live_anchor_sign"
                      android:layout_alignRight="@id/tv_live_anchor_time"
-                     android:drawableLeft="@mipmap/lv_anchor_online"/>
+                     android:drawableLeft="@mipmap/lv_anchor_online"
+                     tools:text="在线"/>
                  <View
                      android:id="@+id/view_placeholder"
                      android:layout_below="@id/tv_live_anchor_online"
