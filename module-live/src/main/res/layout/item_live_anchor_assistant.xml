@@ -48,7 +48,7 @@
                      android:layout_alignBottom="@id/tv_live_anchor_name"
                      android:layout_toRightOf="@id/tv_live_anchor_name"
                      android:layout_marginLeft="4dp"
-                     android:scaleType="fitXY"
+                     android:scaleType="matrix"
                      android:background="@mipmap/lv_anchor_sex_f"
                      />
                  <TextView
@@ -69,7 +69,9 @@
                      android:layout_marginTop="10dp"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     tools:text="点击链接注册账户，注册好了告诉我…"/>
+                     android:maxEms="14"
+                     android:singleLine="true"
+                     tools:text="点击链接注册账户，注册好了告诉我我带你"/>
                  <TextView
                      android:id="@+id/tv_live_anchor_online"
                      android:text=" "

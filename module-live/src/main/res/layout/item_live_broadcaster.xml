@@ -24,13 +24,21 @@
              <RelativeLayout
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content">
-                 <ImageView
+              <!--   <ImageView
                      android:id="@+id/iv_live_broadcaster_header"
                      android:layout_width="48dp"
                      android:layout_height="48dp"
                      android:layout_marginTop="10dp"
                      android:layout_marginLeft="10dp"
-                     android:background="@mipmap/lv_broadcaster_header_default"/>
+                     android:background="@mipmap/lv_broadcaster_header_default"/>-->
+                 <include
+                     android:id="@+id/iv_live_broadcaster_header"
+                     android:layout_width="48dp"
+                     android:layout_height="48dp"
+                     android:layout_marginTop="10dp"
+                     android:layout_marginLeft="10dp"
+                     layout="@layout/item_live_broadcaster_header"
+                     />
                  <TextView
                      android:id="@+id/tv_live_broadcaster_name"
                      android:text=""

@@ -7,19 +7,55 @@
     android:background="@color/clr_transparent"
   >
      <LinearLayout
-         android:id="@+id/iv_header_no_line"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:background="@drawable/bg_live_broadcaster"
+         android:id="@+id/iv_header_on_line"
+         android:layout_width="48dp"
+         android:layout_height="48dp"
+         android:background="@mipmap/lv_broadcaster_header_off"
+         android:layout_gravity="center"
          android:orientation="vertical"
-         android:visibility="visible"
+         android:visibility="gone"
          tools:ignore="MissingConstraints">
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+             <ImageView
+                 android:id="@+id/iv_live_on_header"
+                 android:layout_width="42dp"
+                 android:layout_height="42dp"
+                 android:layout_gravity="center"
+                 android:layout_marginTop="3dp"
+                 android:layout_marginLeft="3dp"
+                 android:background="@mipmap/lv_broadcaster_header_default_off"/>
 
-         <ImageView
-             android:id="@+id/iv_live_broadcaster_header"
-             android:layout_width="48dp"
-             android:layout_height="48dp"
-             android:background="@mipmap/lv_broadcaster_header_default"/>
-
+         </RelativeLayout>
      </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/iv_header_off_line"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@mipmap/lv_broadcaster_header_on"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:ignore="MissingConstraints">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_live_broadcaster_header"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:background="@mipmap/lv_broadcaster_header_default_on"/>
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/lv_broadcaster_header_default"/>
+        </RelativeLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
