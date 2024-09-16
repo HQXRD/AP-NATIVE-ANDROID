@@ -23,6 +23,7 @@
             android:clipToPadding="false"
             app:itemData="@{m.datas}"
             itemViewType="@{m.itemTypeList}"
+            onBindListener="@{m.onBindListener}"
             app:spanCount="2"
             app:gridSpace="@{@dimen/grid_space}"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>

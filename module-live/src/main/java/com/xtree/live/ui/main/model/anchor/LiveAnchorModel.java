@@ -1,11 +1,18 @@
 package com.xtree.live.ui.main.model.anchor;
 
+import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 
+import com.drake.brv.BindingAdapter;
+import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.live.R;
 
 import java.util.ArrayList;
+
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by KAKA on 2024/9/9.
@@ -42,5 +49,19 @@ public class LiveAnchorModel extends BindModel {
         add(itemModel);
         add(itemModel);
     }};
+
+    public BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
+
+        @Override
+        public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
+
+            ToastUtils.show(""+modelPosition, ToastUtils.ShowType.Default);
+        }
+
+        @Override
+        public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
+
+        }
+    };
 
 }

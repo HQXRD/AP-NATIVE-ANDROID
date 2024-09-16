@@ -1,13 +1,17 @@
 package com.xtree.live.ui.main.viewmodel;
 
 import android.app.Application;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import com.drake.brv.BindingAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.live.R;
 import com.xtree.live.data.LiveRepository;
@@ -64,6 +68,7 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
     public LiveViewModel(@NonNull Application application, LiveRepository model) {
         super(application, model);
     }
+
 
     public void initData(FragmentActivity mActivity) {
 

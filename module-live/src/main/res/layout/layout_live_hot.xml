@@ -25,6 +25,7 @@
             app:itemData="@{m.datas}"
             android:paddingBottom="100dp"
             android:clipToPadding="false"
+            onBindListener="@{m.onBindListener}"
             itemViewType="@{m.itemTypeList}"/>
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
