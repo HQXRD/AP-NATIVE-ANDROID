@@ -47,6 +47,7 @@ public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBin
         mMsgPersonListAdapter = new MsgPersonListAdapter(getContext(), new MsgPersonListAdapter.ICallBack() {
             @Override
             public void onClick(MsgPersonVo vo) {
+                LoadingDialog.show(getContext());
                 viewModel.getMessagePerson(changeIdType(vo.id));
                 for (MsgPersonVo msgPersonVo : msgPersonVoList) {
                     if (msgPersonVo.id == vo.id) {

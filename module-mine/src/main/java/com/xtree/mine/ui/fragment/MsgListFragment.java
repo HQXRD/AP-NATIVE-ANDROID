@@ -15,6 +15,7 @@ import com.lxj.xpopup.XPopup;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMsgListBinding;
@@ -40,6 +41,7 @@ public class MsgListFragment extends BaseFragment<FragmentMsgListBinding, MsgVie
     @Override
     public void initView() {
         mMsgListAdapter = new MsgListAdapter(getContext(), vo -> {
+            LoadingDialog.show(getContext());
             viewModel.getMessage(changeIdType(vo.id));
             for (MsgVo msgVo : msgVoList) {
                 if (msgVo.id == vo.id) {
@@ -51,11 +53,11 @@ public class MsgListFragment extends BaseFragment<FragmentMsgListBinding, MsgVie
                 }
             }
             // 取前 10 个元素
-            if(msgVoList.size() > 10) {
+            if (msgVoList.size() > 10) {
                 List<MsgVo> firstTenElements = msgVoList.subList(0, 10);
                 String json = gson.toJson(firstTenElements);
                 SPUtils.getInstance().put(SPKeyGlobal.MSG_INFO, json);
-            }else{
+            } else {
                 String json = gson.toJson(msgVoList);
                 SPUtils.getInstance().put(SPKeyGlobal.MSG_INFO, json);
             }
