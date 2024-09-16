@@ -350,7 +350,11 @@
     <string name="txt_bind_other_type_tip">您还未绑定%1$s地址,是否前往绑定?</string>
     <string name="txt_withdrawal">提款</string>
     <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
-    <string name="txt_withdrawal_usdt_top_tip">USDT提款</string>
+
+
+    <!--测速浮窗-->
+    <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
+
     <string name="txt_transfer_money_type">转账类型:</string>
     <string name="txt_withdrawal_banks_empty">银行维护中，请联系客服</string>
     <string name="txt_withdrawal_bank_top">银行卡提款</string>
