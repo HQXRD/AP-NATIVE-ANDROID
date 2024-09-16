@@ -20,6 +20,7 @@ public class AmountAdapter extends CachedAutoRefreshAdapter<String> {
     ItemAmountBinding binding;
 
     View curView;
+    String mAmount = ""; // 当前选中的金额,或者输入框输入的金额 (设置某个金额为选中状态时使用)
 
     public interface ICallBack {
         void onClick(String str);
@@ -36,18 +37,30 @@ public class AmountAdapter extends CachedAutoRefreshAdapter<String> {
         CacheViewHolder holder = new CacheViewHolder(LayoutInflater.from(ctx).inflate(R.layout.item_amount, parent, false));
         return holder;
     }
+    public void setAmount(String amount) {
+        mAmount = amount;
+    }
 
+    public String getAmount() {
+        return mAmount;
+    }
     @Override
     public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
         String str = get(position);
         binding = ItemAmountBinding.bind(holder.itemView);
-        binding.tvwTitle.setText(str);
-        binding.tvwTitle.setSelected(false);
+        binding.tvwTitle.setText(str + ctx.getString(R.string.txt_yuan));
+        binding.tvwTitle.setSelected(false); // 默认不选中
+        if (str.equals(mAmount)) {
+            binding.tvwTitle.setSelected(true);
+            curView = binding.tvwTitle;
+        }
+
         binding.tvwTitle.setOnClickListener(v -> {
             CfLog.i(str);
             if (curView != null) {
                 curView.setSelected(false);
             }
+            mAmount = str;
             v.setSelected(true);
             curView = v;
             mCallBack.onClick(str);

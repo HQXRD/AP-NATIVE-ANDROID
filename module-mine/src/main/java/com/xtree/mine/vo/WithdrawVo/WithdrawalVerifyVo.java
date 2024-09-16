@@ -1,11 +1,9 @@
 package com.xtree.mine.vo.WithdrawVo;
 
-import me.xtree.mvvmhabit.http.BaseResponse2;
-
 /**
  * 验证当前渠道
  */
-public class WithdrawalVerifyVo extends BaseResponse2 {
+public class WithdrawalVerifyVo{
 
     public boolean is_digital;
     public String money;

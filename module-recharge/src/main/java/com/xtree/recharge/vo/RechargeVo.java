@@ -1,7 +1,10 @@
 package com.xtree.recharge.vo;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class RechargeVo {
 
@@ -43,6 +46,7 @@ public class RechargeVo {
     public boolean nalipayname; // false,
     public boolean fixedamount_channelshow; // false, true
     public String[] fixedamount_info; // [], ["100","200","300","500","1000","2000","3000","5000","10000","20000","30000","50000"]
+    public String[] recommendMoney; // [], ["100","300","500","1000"] 快选金额
     public boolean phone_needbind; // true,
     //public boolean showfee; // false,
     //public int fee; // 0,
@@ -60,6 +64,12 @@ public class RechargeVo {
     public int tips_recommended; // 0,
     public String bankcardstatus_onepaywx; // false 时需要弹窗提示绑定WX, 默认为null
     public String bankcardstatus_onepayzfb; // false 时需要弹窗提示绑定ZFB, 默认为null
+
+    /**
+     * opBankList
+     */
+    @SerializedName("op_bank_list")
+    private OpBankListDTO opBankList;
 
     public String toInfo() {
         return "RechargeVo { " +
@@ -79,6 +89,10 @@ public class RechargeVo {
                 ", fixedamount_channelshow=" + fixedamount_channelshow +
                 ", fixedamount_info=" + Arrays.toString(fixedamount_info) +
                 '}';
+    }
+
+    public OpBankListDTO getOpBankList() {
+        return opBankList;
     }
 
     @Override
@@ -125,4 +139,103 @@ public class RechargeVo {
                 ", bankcardstatus_onepayzfb=" + bankcardstatus_onepayzfb +
                 '}';
     }
+
+    public static class OpBankListDTO {
+        /**
+         * top
+         */
+        @SerializedName("top")
+        private List<BankInfoDTO> top;
+        /**
+         * hot
+         */
+        @SerializedName("hot")
+        private List<BankInfoDTO> hot;
+        /**
+         * others
+         */
+        @SerializedName("others")
+        private List<BankInfoDTO> others;
+
+        /**
+         * others
+         */
+        @SerializedName("used")
+        private List<BankInfoDTO> used;
+
+        /**
+         * 用户绑定银行
+         */
+        private List<BankInfoDTO> mBind;
+
+        public List<BankInfoDTO> getUsed() {
+            return used;
+        }
+
+        public void setUsed(List<BankInfoDTO> used) {
+            this.used = used;
+        }
+
+        public List<BankInfoDTO> getmBind() {
+            return mBind;
+        }
+
+        public void setmBind(List<BankInfoDTO> mBind) {
+            this.mBind = mBind;
+        }
+
+        public List<BankInfoDTO> getTop() {
+            return top;
+        }
+
+        public void setTop(List<BankInfoDTO> top) {
+            this.top = top;
+        }
+
+        public List<BankInfoDTO> getHot() {
+            return hot;
+        }
+
+        public void setHot(List<BankInfoDTO> hot) {
+            this.hot = hot;
+        }
+
+        public List<BankInfoDTO> getOthers() {
+            return others;
+        }
+
+        public void setOthers(List<BankInfoDTO> others) {
+            this.others = others;
+        }
+
+        public static class BankInfoDTO {
+            /**
+             * bankCode
+             */
+            @SerializedName("bank_code")
+            private String bankCode;
+            /**
+             * bankName
+             */
+            @SerializedName("bank_name")
+            private String bankName;
+
+            public String getBankCode() {
+                return bankCode;
+            }
+
+            public void setBankCode(String bankCode) {
+                this.bankCode = bankCode;
+            }
+
+            public String getBankName() {
+                return bankName;
+            }
+
+            public void setBankName(String bankName) {
+                this.bankName = bankName;
+            }
+        }
+    }
+
 }

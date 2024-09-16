@@ -2,49 +2,74 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp">
+    android:layout_marginStart="1dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="1dp"
+    android:paddingStart="1dp"
+    android:paddingEnd="1dp"
+    tools:layout_width="wrap_content">
 
-    <TextView
-        android:id="@+id/tvw_title"
+    <ImageView
+        android:id="@+id/ivw_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="3dp"
-        android:background="@drawable/rc_bg_pmt_selector"
-        android:gravity="center"
-        android:minEms="8"
-        android:paddingTop="10dp"
-        android:paddingBottom="8dp"
-        android:text="USDT TRC20快充"
-        android:textColor="@color/clr_item_text_selector"
-        android:textSize="10sp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:padding="1dp"
+        android:src="@drawable/bg_item_rc_type_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvw_dep_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/bg_rc_txt_main"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:textColor="@color/clr_white"
-        android:textSize="9sp"
-        app:layout_constraintBottom_toBottomOf="@id/tvw_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="DEMO" />
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toTopOf="@id/ivw_bg">
+
+        <ImageView
+            android:id="@+id/ivw_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/rc_ic_type_cs" />
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:textColor="@color/bt_color_hine_color"
+            android:textSize="12sp"
+            tools:text="USDT" />
+
+        <TextView
+            android:id="@+id/tvw_dep_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textColor="@color/clr_txt_warn"
+            android:textSize="10sp"
+            tools:text="DEMO" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/ivw_hot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="12dp"
         android:src="@mipmap/rc_ic_hot"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,11 +80,10 @@
         android:id="@+id/ivw_rcmd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="3dp"
+        android:layout_marginTop="0dp"
         android:src="@mipmap/rc_ic_recommend"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 

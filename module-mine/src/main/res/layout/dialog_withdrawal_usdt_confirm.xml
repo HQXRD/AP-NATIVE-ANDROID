@@ -20,7 +20,7 @@
             android:text="@string/txt_withdrawal_user_name" />
 
         <TextView
-            android:id="@+id/tv_confirm_user_name_show"
+            android:id="@+id/tv_confirm_user_name"
             style="@style/style_withdraw_confirm_value"
             tools:text="" />
     </LinearLayout>
