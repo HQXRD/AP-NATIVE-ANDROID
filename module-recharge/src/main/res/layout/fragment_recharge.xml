@@ -127,7 +127,6 @@
                             android:drawableStart="@mipmap/rc_ic_channel"
                             android:drawablePadding="4dp"
                             android:text="@string/txt_choose_recharge_channel"
-                            android:textColor="@color/clr_main_18"
                             android:textSize="15sp" />
 
                         <ImageView
@@ -154,7 +153,7 @@
                             android:textColor="@color/clr_txt_black_01"
                             android:textSize="12sp"
                             android:visibility="visible"
-                            tools:visibility="invisible" />
+                            tools:visibility="visible" />
 
                         <TextView
                             android:id="@+id/tvw_tutorial"
@@ -201,7 +200,6 @@
                             android:drawableStart="@mipmap/cm_ic_title_head"
                             android:drawablePadding="2dp"
                             android:text="@string/txt_cur_recharge_channel"
-                            android:textColor="@color/clr_main_18"
                             android:textSize="15sp" />
 
                         <ImageView
@@ -217,7 +215,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:text=""
-                            android:textColor="@color/clr_main_01"
+                            android:textColor="@color/clr_re_channels_txt"
                             android:textSize="14sp"
                             tools:text="银行卡充值" />
                     </LinearLayout>
@@ -252,7 +250,6 @@
                                 android:layout_marginStart="4dp"
                                 android:layout_marginTop="0dp"
                                 android:text="@string/txt_bind_personal_info"
-                                android:textColor="@color/clr_main_18"
                                 android:textSize="15sp" />
 
                             <TextView
@@ -262,7 +259,7 @@
                                 android:layout_marginStart="12dp"
                                 android:gravity="center_vertical"
                                 android:text="@string/txt_bind_phone"
-                                android:textColor="@color/clr_grey_80"
+                                android:textColor="@color/clr_txt_02"
                                 android:textSize="11sp" />
 
                             <TextView
@@ -272,7 +269,7 @@
                                 android:layout_marginStart="12dp"
                                 android:gravity="center_vertical"
                                 android:text="@string/txt_bind_bank_card"
-                                android:textColor="@color/clr_grey_80"
+                                android:textColor="@color/clr_txt_02"
                                 android:textSize="11sp" />
 
                         </LinearLayout>
@@ -293,7 +290,6 @@
                                 android:drawableStart="@mipmap/cm_ic_title_head"
                                 android:drawablePadding="2dp"
                                 android:text="选择付款银行卡"
-                                android:textColor="@color/clr_main_18"
                                 android:textSize="15sp"
                                 />
 
@@ -321,7 +317,6 @@
                                 android:drawableStart="@mipmap/cm_ic_title_head"
                                 android:drawablePadding="2dp"
                                 android:text="@string/txt_deposit_name"
-                                android:textColor="@color/clr_main_18"
                                 android:textSize="15sp" />
 
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -376,7 +371,6 @@
                                 android:drawableStart="@mipmap/cm_ic_title_head"
                                 android:drawablePadding="2dp"
                                 android:text="存款金额"
-                                android:textColor="@color/clr_main_18"
                                 android:textSize="15sp" />
 
                             <com.xtree.base.widget.MaxRecyclerView
@@ -409,7 +403,7 @@
                                     android:id="@+id/edt_amount"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@mipmap/cm_bg_input_wht"
+                                    android:background="@drawable/bg_edit_recharge"
                                     android:hint="@string/txt_enter_recharge_amount"
                                     android:imeOptions="actionDone"
                                     android:inputType="number"
