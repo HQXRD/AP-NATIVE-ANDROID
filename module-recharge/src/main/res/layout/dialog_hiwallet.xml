@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:src="@mipmap/cm_recharge_dialog_bg"
+            android:src="@mipmap/cm_dialog_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,11 +35,11 @@
             android:id="@+id/tvw_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="@string/txt_kind_tips"
-            android:textColor="@color/clr_txt_recharge_dialog_tip"
-            android:textSize="20sp"
+            android:textColor="@color/clr_black"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
@@ -50,9 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
-            android:src="@mipmap/ic_pop_close2"
+            android:src="@mipmap/ic_pop_close"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-            app:layout_constraintBottom_toTopOf="@id/tvw_title" />
+            app:layout_constraintTop_toTopOf="@id/tvw_title" />
 
         <TextView
             android:id="@+id/tvw_msg"
@@ -94,8 +94,8 @@
             android:id="@+id/layout_tvw"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginEnd="36dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
             android:layout_marginBottom="80dp"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
@@ -104,8 +104,9 @@
 
             <TextView
                 android:id="@+id/tvw_ok"
-                style="@style/style_btn_recharge"
+                style="@style/style_btn"
                 android:layout_weight="1"
+                android:padding="8dp"
                 android:text="@string/txt_confirm"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -119,43 +120,60 @@
             app:layout_constraintEnd_toEndOf="@id/layout_tvw"
             app:layout_constraintStart_toStartOf="@id/layout_tvw" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:gravity="center"
 
-            app:layout_constraintEnd_toEndOf="@id/layout_tvw"
+        <LinearLayout
+            android:id="@+id/llReg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/layout_image"
-            app:layout_constraintTop_toBottomOf="@+id/layout_image"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@+id/layout_image">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/rc_reg_hi_wallet"
+                app:tint="@color/clr_main_start" />
 
             <TextView
                 android:id="@+id/tvw_reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"
-                android:layout_marginTop="10dp"
-                android:drawableStart="@mipmap/rc_reg_hi_wallet"
                 android:text="@string/txt_rc_hi_reg"
                 android:textColor="@color/clr_txt_black_01"
                 android:textSize="12sp" />
+        </LinearLayout>
 
-            <View
+
+        <LinearLayout
+            android:id="@+id/llDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/layout_image"
+            app:layout_constraintTop_toBottomOf="@+id/layout_image">
+
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:src="@mipmap/rc_down_hi_wallet"
+                app:tint="@color/clr_main_start" />
 
             <TextView
                 android:id="@+id/tvw_download"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="80dp"
-                android:drawableStart="@mipmap/rc_down_hi_wallet"
                 android:text="@string/txt_rc_hi_down"
                 android:textColor="@color/clr_txt_black_01"
                 android:textSize="12sp" />
         </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout><!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
