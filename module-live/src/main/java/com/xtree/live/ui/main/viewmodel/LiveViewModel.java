@@ -33,15 +33,16 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
         liveHotModel.setItemType(1);
 
         LiveHotModel liveFootBallModel = new LiveHotModel("足球");
-        liveHotModel.setItemType(1);
+        liveFootBallModel.setItemType(1);
 
         LiveHotModel liveBasketBallModel = new LiveHotModel("篮球");
-        liveHotModel.setItemType(1);
+        liveBasketBallModel.setItemType(1);
 
         LiveHotModel liveOtherModel = new LiveHotModel("其他");
-        liveHotModel.setItemType(1);
+        liveOtherModel.setItemType(1);
 
         add(liveAnchorModel);
+        add(liveHotModel);
         add(liveFootBallModel);
         add(liveBasketBallModel);
         add(liveOtherModel);
@@ -97,6 +98,12 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
             mActivity.clear();
             mActivity = null;
         }
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+
     }
 }
 

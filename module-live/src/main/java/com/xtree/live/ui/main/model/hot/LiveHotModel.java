@@ -39,6 +39,9 @@ public class LiveHotModel extends BindModel {
         add(itemModel);
         add(itemModel);
         add(itemModel);
+        add(itemModel);
+        add(itemModel);
+        add(itemModel);
     }};
 
     public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {

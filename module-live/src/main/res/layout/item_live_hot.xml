@@ -10,19 +10,163 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
-        android:background="@color/white">
+        android:layout_marginEnd="12dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_live_hot_stroke"
+            android:clipToOutline="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_live_hot_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:text="@{m.text}"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="14dp"
+            android:ellipsize="end"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
+            android:singleLine="true"
+            android:text="世界杯"
+            android:textColor="@color/clr_txt_01"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_started_n"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivTeamA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/bt_match_item_zq_selector"
+            app:layout_constraintStart_toStartOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+        <TextView
+            android:id="@+id/tvTeamA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="曼城"
+            android:textColor="@color/clr_rc_txt_hi"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTeamA"
+            app:layout_constraintEnd_toEndOf="@+id/tvScoreA"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/ivTeamA"
+            app:layout_constraintTop_toTopOf="@+id/ivTeamA" />
+
+        <TextView
+            android:id="@+id/tvScoreA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="20dp"
+            android:text="0"
+            android:textColor="@color/clr_txt_01"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTeamA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTeamA" />
+
+        <ImageView
+            android:id="@+id/ivTeamB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:src="@drawable/bt_match_item_zq_selector"
+            app:layout_constraintStart_toStartOf="@+id/ivTeamA"
+            app:layout_constraintTop_toBottomOf="@+id/ivTeamA" />
+
+        <TextView
+            android:id="@+id/tvTeamB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="切尔西"
+            android:textColor="@color/clr_rc_txt_hi"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTeamB"
+            app:layout_constraintEnd_toEndOf="@+id/tvScoreB"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/ivTeamB"
+            app:layout_constraintTop_toTopOf="@+id/ivTeamB" />
+
+        <TextView
+            android:id="@+id/tvScoreB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="20dp"
+            android:text="0"
+            android:textColor="@color/clr_txt_01"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTeamB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTeamB" />
+
+        <TextView
+            android:id="@+id/tvAnchorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_live_hot_camera"
+            android:drawableLeft="@mipmap/ic_camera"
+            android:drawablePadding="3dp"
+            android:ellipsize="end"
+            android:paddingStart="10dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="4dp"
+            android:singleLine="true"
+            android:text="捷克老师"
+            android:textColor="@color/clr_txt_01"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/ivTeamB" />
+
+        <TextView
+            android:id="@+id/tvSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="第二节"
+            android:textColor="@color/clr_txt_02"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvAnchorName"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

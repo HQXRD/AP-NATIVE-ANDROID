@@ -1,6 +1,8 @@
 package com.xtree.live.ui.main.model.anchor;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.Observable;
+import androidx.databinding.ObservableBoolean;
 
 import com.drake.brv.BindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
@@ -18,7 +20,7 @@ public class LiveAnchorItemModel extends BindModel {
     private String userNickname;//	用户昵称
     private String heat;//		主播热度（后台-设置-网站信息-默认热度值 +（主播的v_user_count*v_user_multiple））
     private Integer isLive;//		直播状态：-1创建 0未直播 1正常 2取消，只返回返回状态为1的数据
-    private Boolean playing = true;// 动画播放中
+    private ObservableBoolean playing = new ObservableBoolean(true);// 动画播放中
 
     public String getText() {
         return text;
@@ -90,12 +92,12 @@ public class LiveAnchorItemModel extends BindModel {
         setPlaying(true);
     }
 
-    public Boolean getPlaying() {
+    public ObservableBoolean getPlaying() {
         return playing;
     }
 
     public void setPlaying(Boolean playing) {
-        this.playing = playing;
+        this.playing.set(playing);
     }
 
     @Override
