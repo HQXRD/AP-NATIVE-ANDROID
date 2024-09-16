@@ -66,25 +66,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         binding = HmItemGameBinding.bind(holder.itemView);
 
         binding.ivwImg.setOnClickListener(view -> jump(vo));
-        if (vo.cid == 41) {//杏彩官方
-            binding.ivwSplit.setVisibility(View.INVISIBLE);
-            binding.ivwCoverLeft.setVisibility(View.VISIBLE);
-            binding.ivwCoverRight.setVisibility(View.VISIBLE);
-            //解决因为缓存导致的问题
-            binding.tvwMaintenance.setVisibility(View.GONE);
-            binding.ivwGreyCover.setVisibility(View.GONE);
-            binding.rlSpace.setVisibility(View.GONE);
-            setTwo(vo);
-
-            return;
-        } else {
-            binding.tvMaintenance1.setVisibility(View.GONE);
-            binding.tvMaintenance2.setVisibility(View.GONE);
-            binding.ivwImg.setImageLevel(vo.typeId);
-            binding.ivwSplit.setVisibility(View.GONE);
-            binding.ivwCoverLeft.setVisibility(View.GONE);
-            binding.ivwCoverRight.setVisibility(View.GONE);
-        }
+        binding.ivwImg.setImageLevel(vo.typeId);
 
         if (vo.status == 0) {
             String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
@@ -118,43 +100,43 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     /**
      * 设置杏彩官方与杏彩旗舰
      */
-    private void setTwo(GameVo vo) {
-        binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
-        binding.ivwCoverRight.setOnClickListener(view -> jump(vo.twoVo, false));
-        if (vo.twoVo == null) {
-            return;
-        }
-        if (vo.status == 1 && vo.twoVo.status == 1) {//状态都正常时
-            binding.ivwImg.setImageLevel(101);
-        } else if (vo.status != 1 && vo.twoVo.status != 1) {
-            binding.ivwImg.setImageLevel(91);
-        } else if (vo.status != 1) {
-            binding.ivwImg.setImageLevel(92);
-        } else if (vo.twoVo.status != 1) {
-            binding.ivwImg.setImageLevel(93);
-        }
-
-        if (vo.status == 0) {
-            String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
-            binding.tvMaintenance1.setText(txt);
-            binding.tvMaintenance1.setVisibility(View.VISIBLE);
-        } else if (vo.status == 2) {
-            binding.tvMaintenance1.setText("已下架");
-            binding.tvMaintenance1.setVisibility(View.VISIBLE);
-        } else {
-            binding.tvMaintenance1.setVisibility(View.GONE);
-        }
-        if (vo.twoVo.status == 0) {
-            String txt = ctx.getString(R.string.hm_txt_maintaining, vo.twoVo.maintenance_start, vo.twoVo.maintenance_end);
-            binding.tvMaintenance2.setText(txt);
-            binding.tvMaintenance2.setVisibility(View.VISIBLE);
-        } else if (vo.twoVo.status == 2) {
-            binding.tvMaintenance2.setText("已下架");
-            binding.tvMaintenance2.setVisibility(View.VISIBLE);
-        } else {
-            binding.tvMaintenance2.setVisibility(View.GONE);
-        }
-    }
+    //private void setTwo(GameVo vo) {
+    //    binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
+    //    binding.ivwCoverRight.setOnClickListener(view -> jump(vo.twoVo, false));
+    //    if (vo.twoVo == null) {
+    //        return;
+    //    }
+    //    if (vo.status == 1 && vo.twoVo.status == 1) {//状态都正常时
+    //        binding.ivwImg.setImageLevel(101);
+    //    } else if (vo.status != 1 && vo.twoVo.status != 1) {
+    //        binding.ivwImg.setImageLevel(91);
+    //    } else if (vo.status != 1) {
+    //        binding.ivwImg.setImageLevel(92);
+    //    } else if (vo.twoVo.status != 1) {
+    //        binding.ivwImg.setImageLevel(93);
+    //    }
+    //
+    //    if (vo.status == 0) {
+    //        String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
+    //        binding.tvMaintenance1.setText(txt);
+    //        binding.tvMaintenance1.setVisibility(View.VISIBLE);
+    //    } else if (vo.status == 2) {
+    //        binding.tvMaintenance1.setText("已下架");
+    //        binding.tvMaintenance1.setVisibility(View.VISIBLE);
+    //    } else {
+    //        binding.tvMaintenance1.setVisibility(View.GONE);
+    //    }
+    //    if (vo.twoVo.status == 0) {
+    //        String txt = ctx.getString(R.string.hm_txt_maintaining, vo.twoVo.maintenance_start, vo.twoVo.maintenance_end);
+    //        binding.tvMaintenance2.setText(txt);
+    //        binding.tvMaintenance2.setVisibility(View.VISIBLE);
+    //    } else if (vo.twoVo.status == 2) {
+    //        binding.tvMaintenance2.setText("已下架");
+    //        binding.tvMaintenance2.setVisibility(View.VISIBLE);
+    //    } else {
+    //        binding.tvMaintenance2.setVisibility(View.GONE);
+    //    }
+    //}
 
     /**
      * 极速版普通版切换
@@ -220,30 +202,11 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             return;
         }
         if (vo.twoImage) {
-            //熊猫场馆弹窗判断
-            if (TextUtils.equals(PLATFORM_PM, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
-                showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY, isLeft);
-                return;
-            }
-
             if (isLeft) {
                 goApp(vo);
             } else {
                 goWeb(vo);
             }
-            return;
-        }
-
-        if (vo.cid == 41 || vo.cid == 42) {//杏彩官方与旗舰
-            if (!isLeft) {
-                //杏彩体育旗舰场馆弹窗判断
-                //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
-                if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
-                    showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY, true);
-                    return;
-                }
-            }
-            goApp(vo);
             return;
         }
 
@@ -264,38 +227,38 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    private void showPMDialog(GameVo vo, String key, boolean isApp) {
-        if (basePopupView != null && basePopupView.isShow()) {
-            return;
-        }
-        //点击熊猫体育，弹出弹窗
-        basePopupView = new XPopup.Builder(ctx)
-                .dismissOnTouchOutside(false)
-                .asCustom(new TipPMDialog(ctx, key, new TipPMDialog.ICallBack() {
-                    @Override
-                    public void onClickPM() {
-                        //熊猫体育
-                        if (isApp) {
-                            goApp(vo);
-                        } else {
-                            LoadingDialog.show(ctx);
-                            goWeb(vo);
-                        }
-                        basePopupView.dismiss();
-
-                    }
-
-                    @Override
-                    public void onClickFB() {
-                        //杏彩体育
-                        GameVo vo1 = new GameVo();
-                        vo1.alias = PLATFORM_FBXC;
-                        goApp(vo1);
-                        basePopupView.dismiss();
-                    }
-                }));
-        basePopupView.show();
-    }
+    //private void showPMDialog(GameVo vo, String key, boolean isApp) {
+    //    if (basePopupView != null && basePopupView.isShow()) {
+    //        return;
+    //    }
+    //    //点击熊猫体育，弹出弹窗
+    //    basePopupView = new XPopup.Builder(ctx)
+    //            .dismissOnTouchOutside(false)
+    //            .asCustom(new TipPMDialog(ctx, key, new TipPMDialog.ICallBack() {
+    //                @Override
+    //                public void onClickPM() {
+    //                    //熊猫体育
+    //                    if (isApp) {
+    //                        goApp(vo);
+    //                    } else {
+    //                        LoadingDialog.show(ctx);
+    //                        goWeb(vo);
+    //                    }
+    //                    basePopupView.dismiss();
+    //
+    //                }
+    //
+    //                @Override
+    //                public void onClickFB() {
+    //                    //杏彩体育
+    //                    GameVo vo1 = new GameVo();
+    //                    vo1.alias = PLATFORM_FBXC;
+    //                    goApp(vo1);
+    //                    basePopupView.dismiss();
+    //                }
+    //            }));
+    //    basePopupView.show();
+    //}
 
     /**
      * 当是AG真人或DB真人时弹出弹窗

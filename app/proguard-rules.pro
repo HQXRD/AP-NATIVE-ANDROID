@@ -50,6 +50,7 @@
 
 -keep class me.xtree.mvvmhabit.http.BaseResponse { *; }
 -keep class me.xtree.mvvmhabit.http.BaseResponse2 { *; }
+-keep class me.xtree.mvvmhabit.http.BaseResponse3 { *; }
 -keep class me.xtree.mvvmhabit.http.PMBaseResponse { *; }
 
 -keep class com.xtree.base.vo.**{*;}
