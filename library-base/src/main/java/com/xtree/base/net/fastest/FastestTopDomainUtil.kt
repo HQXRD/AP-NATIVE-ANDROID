@@ -91,6 +91,9 @@ class FastestTopDomainUtil private constructor() {
             setThirdFasterDomain()
             setFasterApiDomain()
 
+            getThirdFastestDomain(false)
+
+
             TagUtils.tagEvent(
                 Utils.getContext(),
                 TagUtils.EVENT_FASTEST,
@@ -247,6 +250,11 @@ class FastestTopDomainUtil private constructor() {
                         "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y="
                     )
                     val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
+
+                    if (!domain.api.isNullOrEmpty()) {
+                        mCurApiDomainList.clear()
+                    }
+
                     domain.api.forEachIndexed { _, domain ->
                         run {
                             if (!mCurApiDomainList.contains(domain)) {
@@ -293,7 +301,6 @@ class FastestTopDomainUtil private constructor() {
         val apiList = listOf(*apis.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addApiDomainList(apiList)
-        getThirdFastestDomain(false)
 //        if (mCurApiDomainList.size >= 4) {
 //            getFastestApiDomain(false)
 //        } else {
