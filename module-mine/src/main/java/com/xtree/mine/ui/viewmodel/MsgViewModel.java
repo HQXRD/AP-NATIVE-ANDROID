@@ -14,7 +14,7 @@ import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
-import com.xtree.mine.vo.MsgPersonListVo;
+import com.xtree.base.vo.MsgPersonListVo;
 import com.xtree.mine.vo.MsgPersonVo;
 import com.xtree.mine.vo.MsgVo;
 

@@ -2,6 +2,7 @@ package com.xtree.home.data.source;
 
 import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.FBService;
+import com.xtree.base.vo.MsgPersonListVo;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.home.vo.AugVo;
@@ -102,6 +103,12 @@ public interface HomeApiService {
      */
     @GET("/api/account/profile")
     Flowable<BaseResponse<ProfileVo>> getProfile();
+
+    /**
+     * 获取 个人消息未读数
+     */
+    @GET("/api/message/list?page=1&per_page=100&is_unread=1")
+    Flowable<BaseResponse<MsgPersonListVo>> getMessagePersonList();
 
     /**
      * 获取 VIP信息

@@ -95,6 +95,7 @@
 
                     <TextView
                         android:id="@+id/tvw_name"
+                        android:layout_marginTop="5dp"
                         style="@style/style_hm_txt_normal_12"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -109,6 +110,33 @@
                         app:layout_constraintBottom_toBottomOf="@id/tvw_name"
                         app:layout_constraintStart_toEndOf="@id/tvw_name"
                         app:layout_constraintTop_toTopOf="@id/tvw_name" />
+
+                    <ImageView
+                        android:id="@+id/iv_notice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:src="@mipmap/hm_ic_notice"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toEndOf="@+id/ivw_vip"
+                        app:layout_constraintBottom_toBottomOf="@id/tvw_name"
+                        app:layout_constraintTop_toTopOf="@id/tvw_name" />
+
+                    <TextView
+                        android:id="@+id/tv_notice_num"
+                        android:layout_width="22.1dp"
+                        android:layout_height="12.325dp"
+                        android:background="@mipmap/hm_bg_nm"
+                        android:gravity="center"
+                        android:includeFontPadding="false"
+                        tools:text="+99"
+                        android:layout_marginStart="-5dp"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        app:layout_constraintStart_toEndOf="@+id/iv_notice"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tvw_balance"
@@ -131,6 +159,7 @@
                 <TextView
                     android:id="@+id/tvw_deposit"
                     style="@style/style_hm_recharge"
+                    android:layout_marginStart="0dp"
                     android:drawableTop="@mipmap/hm_ic_deposit"
                     android:text="@string/hm_txt_deposit" />
 
