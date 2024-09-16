@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.xtree.live.BR;
 import com.xtree.live.R;
+
 import com.xtree.live.databinding.FragmentLiveBroadcasterBinding;
 import com.xtree.live.ui.main.viewmodel.LiveViewModel;
 
@@ -16,7 +17,7 @@ import me.xtree.mvvmhabit.base.BaseFragment;
 /**
  * 主播列表
  */
-public class BroadcasterFragment extends BaseFragment <FragmentLiveBroadcasterBinding, LiveViewModel>{
+public class AnchorListFragment extends BaseFragment<FragmentLiveBroadcasterBinding, LiveViewModel> {
     private FragmentLiveBroadcasterBinding binding ;
     @Override
     public void initView() {

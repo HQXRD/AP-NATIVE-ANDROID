@@ -8,4 +8,7 @@ public class APIManager {
 
     //存款
     private static final String DEPOSIT_API = "/api/deposit/";
+    //聊天房列表
+    private static final String CHATROOMLIST_API = "/api/chat/getChatRoomList";
+
 }

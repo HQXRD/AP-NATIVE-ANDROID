@@ -1,4 +1,4 @@
-package com.xtree.live.ui.main.model.broadcaster;
+package com.xtree.live.ui.main.model.anchorList;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * 主播列表Model
  * /api/anchor/sort 来自于该接口
  */
-public class LiveBroadcasterModel extends BindModel {
+public class AnchorListModel extends BindModel {
     public ArrayList<User> user ;//主播信息列表
     public String total;// 	总数居量
     public String per_page;//每页数量
