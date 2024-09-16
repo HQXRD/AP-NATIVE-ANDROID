@@ -8,6 +8,9 @@ import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +87,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private ProfileVo mProfileVo; //最新的用戶信息
     private BasePopupView ppw = null; // 底部弹窗
     private BasePopupView ppw2 = null; // 底部弹窗
+    private BasePopupView closePpw = null; // 禁止该用户玩当前游戏的弹窗
     private BasePopupView updateView = null;
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     private boolean needScroll;
@@ -96,6 +100,24 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private AppUpdateVo updateVo;//更新
     private boolean isSelectedGame = false;
     private int gameGroup = -1;
+
+    private static  final  int MSG_REFRESH_NOTICE = 1001;//刷新公告
+    //刷新公共Handler
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_REFRESH_NOTICE:
+                    viewModel.getNotices(); // 获取公告
+                    break;
+                default:
+                    CfLog.i("****** default");
+                    break;
+            }
+        }
+    };
+
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -125,7 +147,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         checkUpdate(); // 检查更新
         if (!TextUtils.isEmpty(token)) {
             CfLog.i("******");
-            viewModel.getProfile();
+            viewModel.getProfile();//获取更人信息
             //viewModel.getRedPocket(); // VIP有没有红包 (小红点)
             viewModel.getRewardRed(); // 主页 我的按钮小红点
         }
@@ -237,11 +259,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     .asCustom(new ECAnimDialog(requireContext(), getString(url)));
             ppw.show();
         });
-
+        //获取首页公告
         viewModel.liveDataNotice.observe(getViewLifecycleOwner(), list -> {
             if (list.isEmpty()) {
                 binding.llNotice.setVisibility(View.GONE);
                 binding.ivwNotice.setVisibility(View.GONE);
+                //发送重试Message
+                Message msg2 = new Message();
+                msg2.what = MSG_REFRESH_NOTICE;
+                mHandler.sendMessage(msg2);
             } else {
                 StringBuffer sb = new StringBuffer();
                 for (NoticeVo vo : list) {
@@ -341,6 +367,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             } else {
                 binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member, 0, 0);
             }
+        });
+        viewModel.liveDataFail41011.observe(getViewLifecycleOwner(), vo -> {
+            showClosePpw();
         });
     }
 
@@ -474,7 +503,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     startContainerFragment(RouterFragmentPath.Home.AUG);
                     return;
                 }
-                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1|| vo.cid == 43) {
+                if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1 || vo.cid == 43) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("vo", vo);
                     startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
@@ -566,6 +595,29 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             });
         }
 
+    }
+
+    /**
+     * 禁止该用户玩当前游戏的弹窗
+     */
+    private void showClosePpw() {
+        if (closePpw == null) {
+            MsgDialog dialog = new MsgDialog(requireContext(), "温馨提示", "该场馆已被关闭，请切换至其它场馆进行游玩。感谢您的支持。", true, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                }
+
+                @Override
+                public void onClickRight() {
+                    closePpw.dismiss();
+                }
+            });
+            closePpw = new XPopup.Builder(requireContext())
+                    .dismissOnTouchOutside(true)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+        }
+        closePpw.show();
     }
 
     @Override

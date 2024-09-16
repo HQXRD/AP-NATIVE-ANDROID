@@ -94,12 +94,14 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                     public void onResult(FBService fbService) {
                         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                             SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.FBXC_DISABLED, fbService.isDisabled);
                             SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                             BtDomainUtil.setDefaultFbxcDomainUrl(fbService.getForward().getApiServerAddress());
                             BtDomainUtil.addFbxcDomainUrl(fbService.getForward().getApiServerAddress());
                             BtDomainUtil.setFbxcDomainUrl(fbService.getDomains());
                         } else {
                             SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.FB_DISABLED, fbService.isDisabled);
                             SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                             BtDomainUtil.setDefaultFbDomainUrl(fbService.getForward().getApiServerAddress());
                             BtDomainUtil.addFbDomainUrl(fbService.getForward().getApiServerAddress());
@@ -134,12 +136,14 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
 
                         if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
                             SPUtils.getInstance().put(SPKeyGlobal.PMXC_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_DISABLED, pmService.isDisabled);
                             SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
                             SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
                             SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
                             BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
                         } else {
                             SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_DISABLED, pmService.isDisabled);
                             SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
                             SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                             SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());

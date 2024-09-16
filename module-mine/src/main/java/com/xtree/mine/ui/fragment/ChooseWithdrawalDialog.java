@@ -202,7 +202,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 referListUI(sortTypeList(withdrawalListVoArrayList));
 
             } else {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                //这里去掉提示，如果没有配置可提现渠道
+                //ToastUtils.showError(getContext().getString(R.string.txt_network_error));
             }
         });
         //获取当前渠道详情
