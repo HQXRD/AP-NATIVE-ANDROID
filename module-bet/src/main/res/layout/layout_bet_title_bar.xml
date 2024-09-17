@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="44dp">
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:src="@mipmap/ic_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/textPrimaryColor" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="?attr/textPrimaryAttr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_arrow_down"
+        android:drawablePadding="5dp"
+        android:layout_marginEnd="40dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="标题" />
+
+    <ImageView
+        android:id="@+id/ivWeb"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="3dp"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/bt_web"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvBalance"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvBalance"
+        style="?attr/textPrimaryAttr"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/bt_bg_shape_cornor_alpha"
+        android:drawableStart="@mipmap/cm_icon_balance"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingEnd="9dp"
+        android:paddingBottom="5dp"
+        android:singleLine="true"
+        android:text="0.00"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivSearch"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@mipmap/bt_icon_search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/textPrimaryColor" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="m"
+            type="com.xtree.bet.ui.model.PlayMethodModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="133dp"
+                android:background="@drawable/bg_play_method_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    itemViewType="@{m.itemTypeList}"
+                    onBindListener="@{m.onBindListener}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="5dp"
+                    app:gridSpace="@{@dimen/play_method_grid_space}"
+                    app:itemData="@{m.datas}"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="4" />
+
+            </FrameLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>

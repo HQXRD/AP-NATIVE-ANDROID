@@ -35,4 +35,6 @@
     <attr name="info2_grey_50_attr" format="reference" />
     <attr name="info_grey_50_attr" format="reference" />
 
+    <attr name="play_method_attr" format="reference" />
+
 </resources>

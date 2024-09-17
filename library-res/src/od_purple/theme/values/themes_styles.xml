@@ -45,9 +45,11 @@
     <style name="textSenaryAttrStyle">
         <item name="android:textColor">@color/textSenaryColor</item>
     </style>
+
     <style name="textForgotAttrStyle">
         <item name="android:textColor">@color/textForgotColor</item>
     </style>
+
     <style name="clr_item_text_style">
         <item name="android:textColor">@color/clr_item_text_selector</item>
     </style>
@@ -87,16 +89,20 @@
         <item name="android:textColor">@color/clr_txt_black_01</item>
         <item name="android:textSize">17sp</item>
     </style>
+
     <style name="recharge_btn_next_style">
         <item name="android:background">@drawable/bg_btn_long_selector</item>
         <item name="android:textColor">@drawable/recharge_btn_next_text_selector</item>
     </style>
+
     <style name="dialog_order_bank_top_style">
         <item name="android:src">@drawable/bg_dialog_order_bank_top</item>
     </style>
+
     <style name="dialog_order_bank_info_style">
         <item name="android:background">@drawable/bg_dialog_order_bank_info</item>
     </style>
+
     <style name="withdrawal_btn_style">
         <item name="android:background">@drawable/bg_btn_withdrawal</item>
     </style>
@@ -123,6 +129,7 @@
         <item name="android:textColor">@color/textTertiaryColor</item>
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="info_grey_50_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -131,5 +138,10 @@
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:textColor">@color/textQuaternaryColor</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="play_method_style">
+        <item name="android:background">@drawable/bg_play_method_selector</item>
+        <item name="android:textColor">@drawable/play_method_text_selector</item>
     </style>
 </resources>

@@ -34,6 +34,7 @@
         <item name="btn_get_code_attr">@style/btn_get_code_style</item>
         <item name="info2_grey_50_attr">@style/info2_grey_50_style</item>
         <item name="info_grey_50_attr">@style/info_grey_50_style</item>
+        <item name="play_method_attr">@style/play_method_style</item>
     </style>
 
 </resources>
