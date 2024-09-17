@@ -50,7 +50,7 @@
             android:layout_marginTop="40dp"
             android:gravity="center"
             android:text="@string/txt_update"
-            android:textColor="@color/clr_black"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
