@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/bt_car_pop_top">
+        android:background="@drawable/bt_car_pop_top">
 
         <ImageView
             android:layout_width="match_parent"

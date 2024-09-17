@@ -11,7 +11,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="@mipmap/bt_car_pop_top"
+            android:background="@drawable/bt_car_pop_top"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
@@ -240,7 +240,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:visibility="gone"
-                        android:background="@mipmap/bt_ic_bt_delete" />
+                        android:background="@drawable/bt_ic_bt_delete" />
 
                     <RelativeLayout
                         android:id="@+id/rl_confirm"

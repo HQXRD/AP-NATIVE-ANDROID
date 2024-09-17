@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_expand"
@@ -25,55 +24,56 @@
             android:id="@+id/iv_name"
             android:layout_width="3dp"
             android:layout_height="14dp"
-            android:background="@drawable/bt_bg_bt_car_match_name"
             android:layout_marginTop="4dp"
+            android:background="@drawable/bt_bg_bt_car_match_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tv_name"
+            style="?attr/textPrimaryAttr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/bt_text_color_primary_1"
+            android:layout_marginStart="5dp"
             android:textSize="@dimen/bt_text_13sp"
             app:layout_constraintStart_toEndOf="@+id/iv_name"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="5dp"
             tools:text="布鲁斯特" />
 
         <TextView
             android:id="@+id/iv_play_type"
+            style="?attr/textPrimaryAttr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/bt_text_color_primary_1"
+            android:layout_marginStart="7dp"
             android:layout_marginTop="2dp"
             android:textSize="@dimen/bt_text_11sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_name"
-            android:layout_marginStart="7dp"
             tools:text="全场让球" />
 
         <TextView
             android:id="@+id/iv_match_team"
+            style="?attr/textTertiaryAttr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/bt_color_hine_color"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="3dp"
             android:textSize="@dimen/bt_text_11sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_play_type"
-            android:layout_marginTop="3dp"
-            android:layout_marginStart="7dp"
             tools:text="布鲁斯特VS若基诺" />
 
         <TextView
             android:id="@+id/tv_league_name"
+            style="?attr/textTertiaryAttr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/bt_color_hine_color"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="3dp"
             android:textSize="@dimen/bt_text_11sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_match_team"
-            android:layout_marginTop="3dp"
-            android:layout_marginStart="7dp"
             tools:text="布鲁斯特VS若基诺" />
 
         <LinearLayout
@@ -104,10 +104,10 @@
 
         <com.xtree.bet.weight.DiscolourTextView
             android:id="@+id/iv_odd"
+            style="?attr/textPrimaryAttr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:textColor="@color/bt_color_car_dialog_hight_line2"
             android:textSize="@dimen/bt_text_13sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -130,14 +130,13 @@
             tools:text="比分已更改" />
 
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/iv_option_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/bt_icon_option_delete"
+        android:background="@drawable/bt_icon_option_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
