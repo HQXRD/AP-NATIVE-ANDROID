@@ -5,6 +5,8 @@ package com.xtree.base.global;
  * Created by goldze on 2018/6/21 0021.
  */
 public class SPKeyGlobal {
+    public static final String KEY_H5_URL = "key_h5_url";
+
     public static final String USER_INFO = "user_info";
     public static final String USER_ID = "user_id";
     public static final String USER_NAME = "user_name";
@@ -47,5 +49,6 @@ public class SPKeyGlobal {
     public static final String APP_INTERVAL_TIME = "app_interval_time";//App请求更新时间初始时间
     public static final String APP_LAST_CHECK_TIME = "app_last_check_time";//App请求更新时间
     public static final String TYPE_RECHARGE_WITHDRAW = "type_recharge_withdraw";//去充值or去提款
+    public static final String RC_PAYMENT_TYPE_OBJ = "rc_payment_type_obj";
 
 }

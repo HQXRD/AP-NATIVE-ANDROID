@@ -2,12 +2,10 @@ package com.xtree.mine.vo.WithdrawVo;
 
 import java.util.ArrayList;
 
-import me.xtree.mvvmhabit.http.BaseResponse2;
-
 /**
  * 提款渠道详情
  */
-public class WithdrawalInfoVo extends BaseResponse2 {
+public class WithdrawalInfoVo{
     public String code;
     public String fast_iframe_url;//第三方支付 不为空时候加载web页面
 

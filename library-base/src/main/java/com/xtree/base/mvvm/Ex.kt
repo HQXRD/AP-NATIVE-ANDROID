@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.drake.brv.utils.bindingAdapter
 import com.drake.brv.utils.divider
+import com.drake.brv.utils.grid
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.google.android.material.tabs.TabLayout
@@ -33,7 +34,7 @@ import com.xtree.base.widget.impl.FilterViewOnClickListerner
  */
 
 @BindingAdapter(
-    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId"],
+    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool","spanCount"],
     requireAll = false
 )
 fun RecyclerView.init(
@@ -42,11 +43,15 @@ fun RecyclerView.init(
     itemViewType: List<Int>?,
     onBindListener: BaseDatabindingAdapter.onBindListener?,
     dividerDrawableId: Int?,
+    viewPool: RecyclerView.RecycledViewPool?,
+    spanCount: Int?,
 ) {
 
     if (itemData == null || itemViewType == null) {
         return
     }
+
+    viewPool?.let { setRecycledViewPool(it) }
 
     adapter?.run {
 
@@ -61,20 +66,22 @@ fun RecyclerView.init(
         }
     } ?: run {
         when (layoutManager) {
-            null -> linear()
+            null -> if (this.layoutManager == null) spanCount?.run { grid(spanCount) } ?: run { linear() }
             else -> this.layoutManager = layoutManager
         }
 
-        dividerDrawableId?.let { divider {
-            setDrawable(it)
-            startVisible = false
-            endVisible = true
-        } }
+        dividerDrawableId?.let {
+            divider {
+                setDrawable(it)
+                startVisible = false
+                endVisible = true
+            }
+        }
 
         val mAdapter = BaseDatabindingAdapter().run {
             initData(itemData, itemViewType)
             onBind {
-                onBindListener?.onBind(this,this.itemView.rootView, getItemViewType())
+                onBindListener?.onBind(this, this.itemView.rootView, getItemViewType())
 
                 itemView.rootView.setOnClickListener {
                     onBindListener?.onItemClick(modelPosition, layoutPosition, getItemViewType())
@@ -99,6 +106,7 @@ fun RecyclerView.init(
         }
     }
 }
+
 
 @BindingAdapter(
     value = ["typeData", "statuData", "queryListener"],

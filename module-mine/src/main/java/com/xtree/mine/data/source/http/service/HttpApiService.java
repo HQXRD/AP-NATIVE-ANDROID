@@ -43,6 +43,7 @@ import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
 import com.xtree.mine.vo.SendMoneyVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.mine.vo.SpiltDetailVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
 import com.xtree.mine.vo.USDTCashVo;
@@ -59,15 +60,13 @@ import com.xtree.mine.vo.VipUpgradeInfoVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
+import com.xtree.mine.vo.request.AdduserRequest;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalBankInfoVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalInfoVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalQuotaVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalSubmitVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalVerifyVo;
-import com.xtree.mine.vo.request.AdduserRequest;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -702,6 +701,12 @@ public interface HttpApiService {
     @GET("/api/app/version?")
     Flowable<BaseResponse<AppUpdateVo>> getUpdate(@QueryMap Map<String, String> map);
 
+    /**
+     * 彩票撤单
+     */
+    @GET("/?controller=gameinfo&action=cancelgame&client=m")
+    Flowable<BaseResponse2> cancelGame(@QueryMap Map<String, String> map);
+
     @POST("/api/user/verifylastbind?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<Map<String, String>> verifyAcc(@QueryMap Map<String, Object> qMap, @Body Map<String, Object> map);
@@ -721,25 +726,26 @@ public interface HttpApiService {
     Flowable<BaseResponse<WithdrawalQuotaVo>> getWithdrawalQuota();
 
     /**
+     *  @GET("/api/withdrawal/list")
      * 获取可提现渠道列表
      */
-    @GET("/api/withdrawal/list")
-    Flowable<BaseResponse<ArrayList<WithdrawalListVo>>> getWithdrawalList();
+    @GET("/api/withdrawal/list/{checkCode}")
+    Flowable<BaseResponse<WithdrawalListVo>> getWithdrawalList(@Path("checkCode") String checkCode);
 
     /**
      * 获取当前渠道详情
      * /api/withdrawal/info?wtype=ebpay
      */
-    @GET("/api/withdrawal/info?")
-    Flowable<BaseResponse<WithdrawalInfoVo>> getWithdrawalInfo(@QueryMap Map<String, Object> map);
+    @GET("/api/withdrawal/info/{wtype}/{check}")
+    Flowable<BaseResponse<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype, @Path("check") String check);
     //
 
     /**
      * 银行卡 获取当前渠道详情
      *
      */
-    @GET("/api/withdrawal/info?")
-    Flowable<BaseResponse<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@QueryMap Map<String, Object> map);
+    @GET("/api/withdrawal/info/{wtype}/{check}")
+    Flowable<BaseResponse<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype, @Path("check") String check);
 
 
     /**
@@ -754,4 +760,7 @@ public interface HttpApiService {
     @POST("/api/withdrawal/submit")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<WithdrawalSubmitVo> postWithdrawalSubmit(@Body Map<String, Object> map);
+
+    @GET("https://ap3sport.oxldkm.com/report/getsplitlists?")
+    Flowable<BaseResponse<SpiltDetailVo>> getWithdrawDetails(@QueryMap Map<String, String> map);
 }

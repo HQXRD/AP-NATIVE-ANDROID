@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.LoadingDialog;
@@ -22,10 +21,10 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
-import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
-import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.fragment.FundPSWVerifyFragment;
 import com.xtree.mine.ui.fragment.FundPassWordFragment;
+import com.xtree.mine.ui.fragment.withdrawal.BankWithdrawalDialog;
+import com.xtree.mine.ui.fragment.withdrawal.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
@@ -91,8 +90,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
                 isNetworkAwards = true;//增加网络回调标识
-                //withdraw_dispensing_money 礼物流水 locked_award_sum
-                //locked_award_sum 锁定金额 || !TextUtils.equals("0.00", awardsRecordVo.locked_award_sum)
+//                withdraw_dispensing_money 礼物流水 locked_award_sum
+//                locked_award_sum 锁定金额 || !TextUtils.equals("0.00", awardsRecordVo.locked_award_sum)
                 if (awardsRecordVo != null && ((!TextUtils.equals("0.00", awardsRecordVo.withdraw_dispensing_money)) || (!TextUtils.equals("0.00", awardsRecordVo.locked_award_sum)))) {
                     showAwardsRecord();
                 } else if (awardsRecordVo.networkStatus == 1) {
@@ -104,6 +103,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     showFundPSWVerifyDialog();
                 }
             });
+
         }
     }
 

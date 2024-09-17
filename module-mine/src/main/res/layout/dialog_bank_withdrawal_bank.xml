@@ -342,7 +342,7 @@
                             android:layout_height="match_parent"
                             android:background="@drawable/bg_withdraw_money_input">
 
-                            <com.xtree.mine.ui.fragment.WithdrawAmountSelectionGridView
+                            <com.xtree.mine.ui.fragment.withdrawal.WithdrawAmountSelectionGridView
                                 android:id="@+id/gv_select_amount_more"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"

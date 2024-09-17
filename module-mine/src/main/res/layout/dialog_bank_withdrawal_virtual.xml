@@ -347,7 +347,7 @@
                                 android:text="" />
 
                             <TextView
-                                android:id="@+id/tv_withdrawal_type_show1"
+                                android:id="@+id/tv_withdrawal_single_show"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="1dp"
@@ -499,7 +499,7 @@
                                 android:background="@drawable/bg_withdraw_money_input">
 
                                 <TextView
-                                    android:id="@+id/tv_collection_usdt"
+                                    android:id="@+id/tv_bind_address"
                                     style="@style/style_usdt_edit"
                                     android:layout_marginLeft="10dp"
                                     android:paddingRight="@dimen/bt_text_10sp"
@@ -579,7 +579,7 @@
                             android:text="@string/txt_withdrawal_user_name" />
 
                         <TextView
-                            android:id="@+id/tv_confirm_withdrawal_amount"
+                            android:id="@+id/tv_name"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="123123" />
                     </LinearLayout>
@@ -593,7 +593,7 @@
                             android:text="@string/txt_confirm_withdrawal_amount" />
 
                         <TextView
-                            android:id="@+id/tv_confirm_withdrawal_type_show"
+                            android:id="@+id/tv_withdrawal_amount"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="123123" />
                     </LinearLayout>
@@ -607,7 +607,7 @@
                             android:text="@string/txt_withdrawal_method_money_tip" />
 
                         <TextView
-                            android:id="@+id/tv_confirm_amount_show"
+                            android:id="@+id/tv_withdrawal_actual_amount"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="123123" />
                     </LinearLayout>
@@ -636,7 +636,7 @@
                             android:text="@string/txt_virtual_type" />
 
                         <TextView
-                            android:id="@+id/tv_withdrawal_virtual_type_show"
+                            android:id="@+id/tv_virtual_money_type"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="123123" />
                     </LinearLayout>
@@ -650,7 +650,7 @@
                             android:text="@string/txt_actual_arrival" />
 
                         <TextView
-                            android:id="@+id/tv_withdrawal_actual_arrival_show"
+                            android:id="@+id/tv_withdrawal_request_amount"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="123123" />
                     </LinearLayout>

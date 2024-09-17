@@ -169,6 +169,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getFBXCGameTokenApi();
             viewModel.getPMGameTokenApi();
         }
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("platform", "android");
+        map.put("platform_set", getResources().getString(R.string.platform_set));
+        viewModel.getUpdate(map);
     }
 
     @Override
