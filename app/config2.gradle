@@ -10,8 +10,8 @@ android {
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "意昂3T${versionCode}"
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
-            resValue "string", "domain_api", "https://www.dbfkg.vip/"
-            resValue "string", "domain_url", "https://www.dbfkg.vip/"
+            resValue "string", "domain_api", "https://preyiang3.oxldkm.com/"
+            resValue "string", "domain_url", "https://preyiang3.oxldkm.com/"
             resValue "string", "channel_name", "eon3"  // 渠道名称
             resValue "string", "platform_set", "38"  // 平台代号,升级用 35-意昂, 38-意昂2
             resValue "string", "build_time", "${buildTime()}"
@@ -20,8 +20,8 @@ android {
             resValue "string", "sentry_dsn", "https://0cefc03e1c8e991010eb93fb0722e362@o4507447554539520.ingest.us.sentry.io/4507604245217280"
             resValue "bool", "is_tag", "false" // 是否开启统计
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
-            resValue "string", "domain_api_list", "https://www.dbfkg.vip/;"
-            resValue "string", "domain_url_list", "https://www.dbfkg.vip/;"
+            resValue "string", "domain_api_list", "https://preyiang3.oxldkm.com/;"
+            resValue "string", "domain_url_list", "https://preyiang3.oxldkm.com/;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -83,24 +83,7 @@ android {
             resValue "string", "ms_secret_key", "b4636d50-41d2-49f4-b843-07572a8d282f"
             resValue "string", "sentry_dsn", "https://0cefc03e1c8e991010eb93fb0722e362@o4507447554539520.ingest.us.sentry.io/4507604245217280"
             resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "domain_api_list", "https://app1.r4n2h7.xyz;" +
-                    "https://app2.q1i9z8.xyz;" +
-                    "https://app3.h1g8d8.xyz;" +
-                    "https://app4.k1b3i6.xyz;" +
-                    "https://app5.v3k2o5.xyz;" +
-                    "https://app1.d7p7i2.xyz;" +
-                    "https://app2.o1m3m9.xyz;" +
-                    "https://app3.l9y7e5.xyz;" +
-                    "https://app1.q6g4c6.xyz;" +
-                    "https://app2.s2f6z5.xyz;" +
-                    "https://app3.e5b4f7.xyz;" +
-                    "https://app1.s9o5w5.xyz;" +
-                    "https://app2.t6y2m4.xyz;" +
-                    "https://app3.t1l4c3.xyz;" +
-                    "https://app.7jcvs.com:46803;" +
-                    "http://43.137.39.194:46803;" +
-                    "http://43.128.11.58:46803;" +
-                    "https://app.7jcvs.com:46803;"
+            resValue "string", "domain_api_list", "https://www.dbfkg.vip;"
 
             resValue "string", "domain_url_list", "https://www.u2s4s7.xyz;" +
                     "https://www.d4v2o1.xyz;" +
