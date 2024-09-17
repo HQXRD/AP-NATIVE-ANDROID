@@ -1298,7 +1298,7 @@
         <item name="android:layout_height">34dp</item>
         <item name="android:background">@drawable/bg_item_rc_channel_selector</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/clr_main_18</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14sp</item>
     </style>
 
