@@ -868,8 +868,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private BaseTabItem newItem(int drawable, String text) {
         MenuItemView normalItemView = new MenuItemView(this);
         normalItemView.initialize(drawable, drawable, text);
-        normalItemView.setTextDefaultColor(getResources().getColor(R.color.bt_text_color_primary));
-        normalItemView.setTextCheckedColor(getResources().getColor(R.color.bt_text_color_primary));
+        normalItemView.setTextDefaultColor(getResources().getColor(R.color.textTertiaryColor));
+        normalItemView.setTextCheckedColor(getResources().getColor(R.color.textTertiaryColor));
         return normalItemView;
     }
 
