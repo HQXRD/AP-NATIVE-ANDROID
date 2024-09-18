@@ -30,11 +30,11 @@
 
             <TextView
                 android:id="@+id/tv_league_name"
+                style="?attr/textSecondaryAttr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/iv_icon"
                 android:padding="5dp"
-                android:textColor="@color/bt_text_color_primary_2"
                 android:textSize="@dimen/bt_text_12sp"
                 android:textStyle="bold"
                 tools:text="墨西哥甲级联赛" />
@@ -49,23 +49,23 @@
 
             <TextView
                 android:id="@+id/tv_sale_count"
+                style="?attr/textSecondaryAttr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:layout_toLeftOf="@+id/cb_choise"
-                android:textColor="@color/bt_text_color_primary_2"
                 tools:text="(3)" />
 
             <CheckBox
                 android:id="@+id/cb_choise"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/bt_checkbox_selector"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="34dp"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:button="@drawable/bt_checkbox_selector"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

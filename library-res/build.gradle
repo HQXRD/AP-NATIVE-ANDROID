@@ -11,6 +11,7 @@ android {
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
         flavorDimensions "channelName"
+        vectorDrawables.useSupportLibrary = true
     }
 
     productFlavors {

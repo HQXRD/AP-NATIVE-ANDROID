@@ -7,29 +7,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bt_page_bg">
+        android:background="@drawable/bt_bg_league_dialog_page">
 
         <ImageView
             android:id="@+id/group_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/tv_league_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_toRightOf="@+id/group_indicator"
             android:gravity="center_vertical"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:layout_marginStart="3dp"
-            android:layout_toRightOf="@+id/group_indicator"
-            style="?attr/textPrimaryAttr"
+            android:textColor="@color/white"
             android:textSize="@dimen/bt_text_14sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="热门联赛" />
@@ -38,12 +40,12 @@
             android:id="@+id/cb_choise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/bt_checkbox_selector"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:focusable="false"
             android:layout_marginEnd="34dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:button="@drawable/bt_checkbox_selector"
+            android:focusable="false"
+            app:layout_constraintEnd_toEndOf="parent" />
     </RelativeLayout>
 
 </LinearLayout>
