@@ -73,7 +73,7 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
     public void initView() {
         binding.tvClose.setOnClickListener(this);
         binding.tvMore.setOnClickListener(this);
-        binding.svSort.setSwitchText(new String[]{"热门盘口", "时间"});
+        binding.svSort.setSwitchText(new String[]{"热门", "时间"});
         binding.svMarket.setSwitchText(new String[]{"欧洲盘", "香港盘"});
         binding.svSort.setCheckedListener(index -> {
             int orderBy = viewModel.getOrderBy(index);
