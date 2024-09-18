@@ -8,7 +8,7 @@ android {
 dependencies {
     api project(":gsyVideoPlayer-java")
     api project(":gsyVideoPlayer-armv7a")
-    api project(":gsyVideoPlayer-x86_64")
+//    api project(":gsyVideoPlayer-x86_64")
     //api project(":gsyVideoPlayer-x86")
     api project(":gsyVideoPlayer-armv64")
     /*api project(":gsyVideoPlayer-exo_player2")
