@@ -15,6 +15,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
@@ -359,6 +360,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.titleBar.tvBalance.setOnClickListener(this);
         binding.titleBar.ivSearch.setOnClickListener(this);
         binding.tvwCancel.setOnClickListener(this);
+        //不让点击事件透传给后面的view
+        binding.playMethod.getRoot().setOnClickListener(view -> {
+
+        });
 
         //初始化网页版
         initGoWeb();
@@ -1845,4 +1850,26 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                 playMethodType, searchDatePos, false, false);
     }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        //点击外部阴影隐藏view
+        if (binding.playMethod.getRoot().getVisibility() == View.VISIBLE) {
+            if (isShouldHidePlayMethod(ev)) {
+                binding.playMethod.getRoot().setVisibility(View.GONE);
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private boolean isShouldHidePlayMethod(MotionEvent ev) {
+        int[] loc = new int[2];
+        binding.playMethod.flContent.getLocationInWindow(loc);
+        Integer left = loc[0];
+        Integer top = loc[1];
+        Integer bottom = top + binding.playMethod.flContent.getHeight();
+        return ev.getRawY() > bottom;
+    }
+
 }
