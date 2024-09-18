@@ -16,7 +16,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="24dp"
             android:text="确认提前结算"
-            android:textColor="@color/bt_text_color_primary_1"
+            style="?attr/textPrimaryAttr"
             android:textSize="@dimen/bt_text_18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

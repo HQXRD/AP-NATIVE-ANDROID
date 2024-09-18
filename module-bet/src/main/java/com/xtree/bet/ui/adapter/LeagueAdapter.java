@@ -488,7 +488,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                             oddTextView.setVisibility(View.GONE);
                             nameTextView.setVisibility(View.GONE);
                             uavailableTextView.setText("");
-                            uavailableTextView.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.mipmap.bt_icon_option_locked), null, null, null);
+                            uavailableTextView.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.bt_icon_option_locked), null, null, null);
                             optionView.setOnClickListener(view1 -> {
                             });
                         } else {

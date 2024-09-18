@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@drawable/bt_bg_option_item_selector"
     android:layout_margin="4dp"
+    android:background="@drawable/bt_bg_option_item_selector"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="-"
-        android:textColor="@color/bt_color_car_dialog_hight_line"
+        style="?attr/textPrimaryAttr"
         android:textSize="@dimen/bt_text_10sp"
         android:visibility="gone" />
 
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="@color/bt_option_item_name_selector"
+        android:textColor="@drawable/bt_option_item_name_selector"
         android:textSize="@dimen/bt_text_10sp"
         tools:text="主胜" />
 

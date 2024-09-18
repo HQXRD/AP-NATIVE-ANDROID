@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="联赛筛选"
-                android:textColor="@color/bt_text_color_primary_1"
+                style="?attr/textPrimaryAttr"
                 android:textSize="@dimen/bt_text_14sp" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="排序规律"
-                android:textColor="@color/bt_text_color_primary_1"
+                style="?attr/textPrimaryAttr"
                 android:textSize="@dimen/bt_text_14sp" />
 
             <com.xtree.bet.weight.SwitchView
@@ -114,7 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="盘口设置"
-                android:textColor="@color/bt_text_color_primary_1"
+                style="?attr/textPrimaryAttr"
                 android:textSize="@dimen/bt_text_14sp" />
 
             <com.xtree.bet.weight.SwitchView
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="网页投注"
-                android:textColor="@color/bt_text_color_primary_1"
+                style="?attr/textPrimaryAttr"
                 android:textSize="@dimen/bt_text_14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="体育规则"
-                android:textColor="@color/bt_text_color_primary_1"
+                style="?attr/textPrimaryAttr"
                 android:textSize="@dimen/bt_text_14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

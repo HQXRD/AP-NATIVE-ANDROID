@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:textColor="@color/bt_text_color_primary_1"
+            style="?attr/textPrimaryAttr"
             android:textSize="@dimen/bt_text_15sp"
             android:textStyle="bold"
             tools:text="墨西哥甲级联赛" />

@@ -50,7 +50,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:text="已提交"
-                    android:textColor="@color/bt_text_color_primary_1"
+                    style="?attr/textPrimaryAttr"
                     android:textSize="@dimen/bt_text_20sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
