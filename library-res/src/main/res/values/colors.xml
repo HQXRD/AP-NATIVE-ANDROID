@@ -421,4 +421,6 @@
 
 <!--    直播主播头像边框-->
     <color name="clr_live_anchor_avatar">#FB6156</color>
+    <color name="clr_send_msg_start">#F3A3CA</color>
+    <color name="clr_send_msg_end">#8877ED</color>
 </resources>

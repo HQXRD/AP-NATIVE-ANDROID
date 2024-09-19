@@ -316,4 +316,10 @@
 
     <!--测速浮窗-->
     <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
+    <!--直播相关字体-->
+    <string name="txt_assistant_send_msg">发送</string>
+    <string name="txt_assistant_send_msg_hint">请输入信息</string>
+    <string name="txt_assistant_online_status">在线</string>
+    <string name="txt_share_link">分享链接</string>
+
 </resources>

@@ -9,6 +9,7 @@
      <LinearLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
+         android:background="@drawable/bg_live_broadcaster"
          android:orientation="vertical"
          tools:ignore="MissingConstraints">
          <LinearLayout
@@ -22,14 +23,15 @@
                  android:layout_height="wrap_content">
                  <ImageView
                      android:id="@+id/iv_live_anchor_header"
+                     android:layout_alignParentRight="true"
                      android:layout_width="48dp"
                      android:layout_height="48dp"
                      android:layout_marginLeft="10dp"
-                     android:background="@mipmap/lv_anchor_header_default"/>
+                     android:background="@mipmap/live_assistant_private_header_right"/>
                  <TextView
                      android:id="@+id/tv_live_anchor_name"
                      android:text=" "
-                     android:textColor="@color/clr_rc_txt_hi"
+                     android:textColor="@color/white"
                      android:textSize="14sp"
                      android:textStyle="bold"
                      android:paddingLeft="20dp"
@@ -37,12 +39,12 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_alignTop="@id/iv_live_anchor_header"
+                     android:layout_toLeftOf="@id/iv_live_anchor_header"
                      android:layout_alignBottom="@id/iv_live_anchor_header"
-                     android:layout_toRightOf="@id/iv_live_anchor_header"
-                     android:gravity="center"
                      android:layout_marginLeft="20dp"
-                     tools:text="助理-小帅"
-                     android:background="@mipmap/live_assistant_private_bg_left"
+                     tools:text="助理-小帅12312312312312312312312321231231231231231231223123"
+                     android:gravity="center"
+                     android:background="@mipmap/live_assistant_private_bg_right"
                      />
 
              </RelativeLayout>
