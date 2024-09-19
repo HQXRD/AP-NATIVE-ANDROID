@@ -511,7 +511,7 @@
         <item name="android:textColorHint">@color/cl_over_tip</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <!--益阳资金密码输入框-->
+    <!--资金密码输入框-->
     <style name="style_withdraw_password_eno_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -520,8 +520,8 @@
         <item name="android:text"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
-        <item name="android:inputType">numberPassword</item>
-        <item name="android:maxLength">6</item>
+        <item name="android:inputType"></item>
+        <item name="android:maxLength">16</item>
         <item name="android:padding">8dp</item>
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textColorHint">@color/cl_over_tip</item>
@@ -752,7 +752,6 @@
         <item name="android:textColor">@color/bt_text_color_primary</item>
         <item name="android:textColorHint">@color/clr_txt_04</item>
         <item name="android:textSize">@dimen/bt_text_14sp</item>
-
         <item name="android:inputType">numberPassword</item>
         <item name="android:paddingStart">10dp</item>
         <item name="android:drawablePadding">10dp</item>
@@ -1616,5 +1615,20 @@
         <item name="android:text">@string/txt_submit</item>
         <item name="android:textColor">@color/clr_re_btn_txt</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <!-- 修改自己密码 密码输入框 -->
+    <style name="style_edt_change_pwd">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/bg_et_pwd</item>
+        <item name="android:drawableStart">@mipmap/ic_pwd_start</item>
+        <item name="android:textColor">@color/bt_text_color_primary</item>
+        <item name="android:textColorHint">@color/clr_txt_04</item>
+        <item name="android:textSize">@dimen/bt_text_14sp</item>
+        <item name="android:inputType"></item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:drawablePadding">10dp</item>
     </style>
 </resources>

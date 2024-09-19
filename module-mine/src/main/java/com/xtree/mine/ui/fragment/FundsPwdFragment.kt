@@ -14,6 +14,7 @@ import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.router.RouterFragmentPath
 import com.xtree.base.utils.AppUtil
 import com.xtree.base.utils.ClickUtil
+import com.xtree.base.utils.StringUtils
 import com.xtree.base.utils.UuidUtil
 import com.xtree.base.vo.ProfileVo
 import com.xtree.base.widget.LoadingDialog
@@ -67,10 +68,27 @@ class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>(
                 ToastUtils.showLong(R.string.txt_pwd_cannot_empty)
                 return@setOnClickListener
             }
+            if (pwd2.isEmpty()){
+                ToastUtils.showLong(R.string.txt_pwd_cannot_empty)
+                return@setOnClickListener
+            }
             if (pwd1 != pwd2) {
                 ToastUtils.showLong(R.string.txt_pwd_not_same)
                 return@setOnClickListener
             }
+            if (pwd1.length < 6 || pwd1.length >16 ){
+                ToastUtils.showLong(R.string.txt_pwd_error_tip)
+                return@setOnClickListener
+            }
+            if (pwd2.length < 6 || pwd2.length >16  ){
+                ToastUtils.showLong(R.string.txt_pwd_error_tip)
+                return@setOnClickListener
+            }
+            if (!StringUtils.isLetterDigit(pwd1)||!StringUtils.isLetterDigit(pwd2) ){
+                ToastUtils.showLong("txt_pwd_error_tip")
+                return@setOnClickListener
+            }
+
 
             val map = HashMap<String, String>()
             map["nonce"] = UuidUtil.getID16()

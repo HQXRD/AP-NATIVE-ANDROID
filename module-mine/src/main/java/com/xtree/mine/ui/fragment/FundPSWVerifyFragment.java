@@ -10,16 +10,13 @@ import androidx.lifecycle.LifecycleOwner;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
-import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.FragmentFundPasswordVerifyBinding;
-import com.xtree.mine.databinding.FragmentWithdrawalFundPasswordBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.FundPassWordVerifyVo;
-import com.xtree.mine.vo.FundPassWordVo;
 
 import java.util.HashMap;
 
@@ -28,7 +25,8 @@ import me.xtree.mvvmhabit.utils.Utils;
 
 /**魔域输入资金密码/谷歌验证码*/
 public class FundPSWVerifyFragment extends BottomPopupView {
-    private static final int PS_LENGTH = 6; //资金密码长度为6
+    private static final int PS_LENGTH_MIN = 6; //资金密码长度为6
+    private static final int  PS_LENGTH_MAX = 16;
     //默认串码 请求失败后，二次请求时候要用第一次默认串码请求
     private static final String defaultID = UuidUtil.getID24();
 
@@ -92,11 +90,13 @@ public class FundPSWVerifyFragment extends BottomPopupView {
             String inputVerifyString = binding.etVerify.getText().toString().toString();
             if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showError(getContext().getString(R.string.txt_withdraw_input_err));
-            } else if (inputString.length() != PS_LENGTH) {
+            } else if (inputString.length() < PS_LENGTH_MIN) {
                 ToastUtils.showError(getContext().getString(R.string.txt_withdraw_input_length_err));
-            } else if (!StringUtils.isNumber(inputString)) {
+            } else if (inputString.length() > PS_LENGTH_MAX) {
+                ToastUtils.showError(getContext().getString(R.string.txt_withdraw_input_length_err));
+            } /*else if (!StringUtils.isNumber(inputString)) {
                 ToastUtils.showError(getContext().getString(R.string.txt_withdraw_input_char_err));
-            } else if (TextUtils.isEmpty(inputVerifyString)) {
+            }*/ else if (TextUtils.isEmpty(inputVerifyString)) {
                 ToastUtils.showError(getContext().getString(R.string.txt_withdraw_input_verify_err));
             } else {
                 LoadingDialog.show(getContext());
