@@ -255,7 +255,8 @@
     <string name="txt_withdraw_bank_bottom_tip">1、为了保证您正常提款，请您在使用银行卡充值时务必使用绑定银行卡或者与绑定银行卡姓名相同的卡进行充值，否则将无法正常提款。/n2、为了您的资金安全，降低被银行冻卡风险，当提款金额为整数(比如10、200、300)时，实际提款金额会在该整数的基础上随机扣减，使其有尾数金额 </string>
     <string name="txt_withdraw_input_err">资金密码不能为空</string>
     <string name="txt_withdraw_input_verify_err">请先输入谷歌动态口令</string>
-    <string name="txt_withdraw_input_length_err">资金密码长度为6个字符</string>
+    <string name="txt_withdraw_input_length_err">资金密码长度为6-16个字符</string>
+    <string name="txt_withdraw_input_length_max_err">资金密码长度为6个字符</string>
     <string name="txt_withdraw_input_char_err">资金密码由6位纯数字组成</string>
     <string name="txt_withdraw_next">确认提交</string>
     <string name="txt_withdraw_previous">返回上一步</string>

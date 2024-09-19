@@ -139,4 +139,14 @@ public class StringUtils {
         }
 
     }
+
+    /**
+     * 判断字符只包含有数字和字母
+     * @param str
+     * @return
+     */
+    public static boolean isLetterDigit(final  String str){
+        String regex = "^[a-z0-9A-Z]+$";
+        return str.matches(regex);
+    }
 }

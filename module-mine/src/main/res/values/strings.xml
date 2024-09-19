@@ -119,6 +119,7 @@
     <string name="txt_change_email">"更新邮箱地址 "</string>
     <string name="txt_pwd_cannot_empty">新密码不能为空</string>
     <string name="txt_pwd_not_same">两次密码不一致</string>
+    <string name="txt_pwd_error_tip">密码长度为6-16字符，包含数字和字母</string>
     <string name="txt_change_succ">修改成功</string>
     <string name="txt_set_funds_pwd_succ">设置资金密码成功</string>
     <string name="txt_get_code">获取验证码</string>
