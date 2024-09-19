@@ -13,6 +13,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.LoadingDialog;
@@ -124,6 +125,22 @@ public class CheckPasswordDialog extends BaseFragment<DialogTransferMemberBindin
     private void checkPassword() {
         String pwd = binding.etTransferPassword.getText().toString();
         String googlePwd = binding.etTransferGoogleAuth.getText().toString();
+
+        if (pwd.isEmpty()) {
+            ToastUtils.showLong(R.string.txt_pwd_cannot_empty);
+            return;
+        }
+
+        if (pwd.length() < 6 || pwd.length()>16 ){
+            ToastUtils.showLong(R.string.txt_pwd_error_tip);
+            return;
+        }
+
+        if (!StringUtils.isLetterDigit(pwd)){
+            ToastUtils.showLong(R.string.txt_pwd_error_tip);
+            return;
+        }
+
 
         if (pwd != null && !pwd.isEmpty()) {
             if (mProfileVo.twofa == 1) {

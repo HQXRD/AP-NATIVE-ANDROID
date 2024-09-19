@@ -85,7 +85,7 @@ class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>(
                 return@setOnClickListener
             }
             if (!StringUtils.isLetterDigit(pwd1)||!StringUtils.isLetterDigit(pwd2) ){
-                ToastUtils.showLong("txt_pwd_error_tip")
+                ToastUtils.showLong(R.string.txt_pwd_error_tip)
                 return@setOnClickListener
             }
 
