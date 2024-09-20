@@ -135,14 +135,14 @@ public class CheckPasswordDialog extends BaseFragment<DialogTransferMemberBindin
             ToastUtils.showLong(R.string.txt_pwd_error_tip);
             return;
         }
-        if (StringUtils.isSpecialChar(pwd)){
+       /* if (StringUtils.isSpecialChar(pwd)){
             ToastUtils.showLong(R.string.txt_pwd_error_tip);
             return;
         }
         if (!StringUtils.isLetterDigit(pwd)){
             ToastUtils.showLong(R.string.txt_pwd_error_tip);
             return;
-        }
+        }*/
 
 
         if (pwd != null && !pwd.isEmpty()) {
