@@ -15,13 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.fragment.FeedbackFragment">
+        tools:context=".ui.fragment.FeedbackFragment"
+        android:background="@drawable/bg_dialog_amount_btn_selector">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
-            android:paddingBottom="12dp">
+            android:paddingBottom="12dp"
+            android:background="@color/white">
 
             <TextView
                 style="@style/style_cm_title"
@@ -59,7 +61,7 @@
                     android:textColor="@color/clr_txt_online"
                     android:textSize="12dp"
                     android:layout_marginRight="20dp"
-                    tools:text="在线"
+                    android:text="@string/txt_assistant_online_status"
                     />
             </LinearLayout>
 
@@ -70,7 +72,8 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginRight="20dp"
-           android:layout_marginLeft="20dp"/>
+           android:layout_marginLeft="20dp"
+           android:divider="@null"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,14 +87,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
+                    android:background="@mipmap/live_assistant_send_msg_bg"
                     >
-                    <TextView
-                        android:id="@+id/tv_input_msg"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center_vertical"
-                        android:text="1231213"/>
+                        android:layout_height="match_parent">
+                        <EditText
+                            android:id="@+id/tv_input_msg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentLeft="true"
+                            android:background="@null"
+                            android:text=""
+                            android:hint="@string/txt_assistant_send_msg_hint"
+                            android:textColorHint="@color/clr_send_msg_hint"
+                            android:textSize="12dp"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@mipmap/live_assistant_send_other_bg"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"/>
+                    </RelativeLayout>
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,7 +128,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/txt_assistant_send_msg"/>
+                        android:text="@string/txt_assistant_send_msg"
+                        android:textSize="@dimen/bt_text_12sp"/>
                 </LinearLayout>
 
 
