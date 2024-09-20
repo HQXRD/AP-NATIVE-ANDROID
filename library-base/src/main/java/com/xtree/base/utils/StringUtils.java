@@ -141,12 +141,47 @@ public class StringUtils {
     }
 
     /**
+     * 特殊字符
+     * @param str
+     * @return
+     */
+    public static boolean isSpecialChar(String str) {
+        String regEx = "[ _`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]|\n|\r|\t";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.find();
+    }
+
+    /**
      * 判断字符只包含有数字和字母
      * @param str
      * @return
      */
     public static boolean isLetterDigit(final  String str){
-        String regex = "^[a-z0-9A-Z]+$";
-        return str.matches(regex);
+/*        String regex = "^[a-zA-Z0-9]*$";
+        return str.matches(regex);*/
+
+        boolean hasDigit = false;
+        boolean hasLetter = false;
+
+        // 使用for-each循环遍历字符串中的每个字符
+        for (char c : str.toCharArray()) {
+            // 检查字符是否为数字
+            if (Character.isDigit(c)) {
+                hasDigit = true;
+            }
+            // 检查字符是否为字母
+            else if (Character.isLetter(c)) {
+                hasLetter = true;
+            }
+
+            // 如果同时找到了数字和字母，可以提前返回true
+            if (hasDigit && hasLetter) {
+                return true;
+            }
+        }
+
+        // 如果遍历完所有字符都没有同时找到数字和字母，则返回false
+        return hasDigit && hasLetter;
     }
 }

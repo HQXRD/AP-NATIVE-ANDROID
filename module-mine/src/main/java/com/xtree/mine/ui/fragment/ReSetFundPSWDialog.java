@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.StringUtils;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogResetFundPswBinding;
 
@@ -59,9 +60,22 @@ public class ReSetFundPSWDialog extends CenterPopupView {
                 ToastUtils.showError(getContext().getString(R.string.txt_reset_fund_psw_tip));
             } else if (!firstStr.equals(secondStr)) {
                 ToastUtils.showError(getContext().getString(R.string.txt_fund_psw_error_tip));
+            } else if(firstStr.length() < 6 || firstStr.length()>16 ){
+                ToastUtils.showLong(R.string.txt_pwd_error_tip);
+                return;
+            }
+            else if (StringUtils.isSpecialChar(firstStr) || StringUtils.isSpecialChar(secondStr)){
+                ToastUtils.showLong(R.string.txt_pwd_error_tip);
+                return;
+            }
+            else if (!StringUtils.isLetterDigit(firstStr)|| !StringUtils.isLetterDigit(secondStr)){
+                ToastUtils.showLong(R.string.txt_pwd_error_tip);
+                return;
             } else{
                 this.mCallBack.onClickSure(firstStr , secondStr);
             }
+
+
         });
     }
 }
