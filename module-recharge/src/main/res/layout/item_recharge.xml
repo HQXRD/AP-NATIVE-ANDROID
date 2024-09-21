@@ -10,12 +10,12 @@
     android:layout_marginEnd="1dp"
     android:paddingStart="1dp"
     android:paddingEnd="1dp"
-    tools:layout_width="wrap_content">
+    tools:layout_width="107dp">
 
     <ImageView
         android:id="@+id/ivw_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="66dp"
         android:adjustViewBounds="true"
         android:padding="1dp"
         android:src="@drawable/bg_item_rc_type_selector"
@@ -36,8 +36,8 @@
 
         <ImageView
             android:id="@+id/ivw_icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/rc_ic_type_cs" />
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:gravity="center"
-            android:textColor="@color/bt_color_hine_color"
+            android:textColor="@color/clr_text_rc_type_selector"
             android:textSize="12sp"
             tools:text="USDT" />
 
@@ -59,7 +59,7 @@
             android:layout_marginTop="2dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textColor="@color/clr_txt_warn"
+            android:textColor="@color/clr_orange_08"
             android:textSize="10sp"
             tools:text="DEMO" />
     </LinearLayout>
@@ -68,7 +68,7 @@
         android:id="@+id/ivw_hot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
         android:src="@mipmap/rc_ic_hot"
         android:visibility="invisible"
