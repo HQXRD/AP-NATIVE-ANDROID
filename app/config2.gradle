@@ -10,8 +10,8 @@ android {
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "意昂3T${versionCode}"
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
-            resValue "string", "domain_api", "https://preyiang3.oxldkm.com/"
-            resValue "string", "domain_url", "https://preyiang3.oxldkm.com/"
+            resValue "string", "domain_api", "https://preyiang3.oxldkm.com"
+            resValue "string", "domain_url", "https://preyiang3.oxldkm.com"
             resValue "string", "channel_name", "eon3"  // 渠道名称
             resValue "string", "platform_set", "40"  // 平台代号,升级用 35-意昂, 38-意昂2 ，40-意昂3
             resValue "string", "build_time", "${buildTime()}"
@@ -20,8 +20,8 @@ android {
             resValue "string", "sentry_dsn", "https://0cefc03e1c8e991010eb93fb0722e362@o4507447554539520.ingest.us.sentry.io/4507604245217280"
             resValue "bool", "is_tag", "false" // 是否开启统计
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
-            resValue "string", "domain_api_list", "https://preyiang3.oxldkm.com/;"
-            resValue "string", "domain_url_list", "https://preyiang3.oxldkm.com/;"
+            resValue "string", "domain_api_list", "https://preyiang3.oxldkm.com;"
+            resValue "string", "domain_url_list", "https://preyiang3.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -74,8 +74,8 @@ android {
             versionName "1.0.0"
             versionCode 100
             resValue "string", "app_name", "意昂体育3"
-            resValue "string", "domain_api", "https://www.eon2.org"
-            resValue "string", "domain_url", "https://www.u2s4s7.xyz"
+            resValue "string", "domain_api", "https://app1.b5f6oz.xyz"
+            resValue "string", "domain_url", "https://h51.k8z8dv.xyz"
             resValue "string", "channel_name", "eon3"  // 渠道名称
             resValue "string", "platform_set", "40"  // 平台代号,升级用 35-意昂, 38-意昂2 40-意昂3
             resValue "string", "build_time", "${buildTime()}"
