@@ -619,8 +619,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        //支付宝和微信判断银行卡绑定信息
-        if (vo.paycode.contains("zfb")|| vo.paycode.contains("wx")) {
+        //支付宝和微信判断银行卡绑定信息(极速充值也需要)
+        if (vo.paycode.contains("zfb")|| vo.paycode.contains("wx")||vo.paycode.contains(ONE_PAY_FIX)) {
             //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
             if (vo.view_bank_card && vo.userBankList.isEmpty()) {
 
