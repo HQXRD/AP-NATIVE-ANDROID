@@ -1647,7 +1647,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (vo.domainList.size() > 0) {
                     url = vo.domainList.get(0) + url;
                 } else {
-                    url = DomainUtil.getDomain2() + url;
+                    url = DomainUtil.getApiUrl() + url;
                 }
             }
             CfLog.i(vo.payname + ", jump: " + url);

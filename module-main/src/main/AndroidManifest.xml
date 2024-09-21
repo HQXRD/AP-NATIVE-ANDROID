@@ -5,6 +5,7 @@
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Start">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

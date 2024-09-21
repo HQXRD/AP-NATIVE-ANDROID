@@ -444,7 +444,7 @@
                             android:id="@+id/tvw_tutorial_client"
                             style="@style/style_menu_black"
                             android:drawableTop="@mipmap/me_gr_usdt"
-                            android:text="@string/txt_usdt_tutorial" />
+                            android:text="@string/txt_usdt_tutorial_mine" />
 
                         <TextView style="@style/style_wallet_space" />
 
