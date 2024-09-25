@@ -84,6 +84,7 @@ public class RouterFragmentPath {
         public static final String PAGER_MY_WALLET = MINE + "/wallet";
         public static final String PAGER_MEMBER_MANAGER = MINE + "/MemberManager"; // 团队管理
         public static final String PAGER_MEMBER_TRANSFER = MINE + "/MemberMemberTransfer"; // 下级转账
+        public static final String PAGER_BONUS_REPORT = MINE + "/BonusReport"; // 代理服务費
     }
 
     public static class Wallet {

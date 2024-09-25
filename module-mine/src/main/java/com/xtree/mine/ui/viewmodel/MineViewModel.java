@@ -22,6 +22,7 @@ import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AdduserVo;
 import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.BounsReportVo;
 import com.xtree.mine.vo.MarketingVo;
 import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.QuestionVo;
@@ -61,6 +62,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<MarketingVo> liveDataPostMark = new SingleLiveData<>();
     public SingleLiveData<AdduserVo> liveDataAdduser = new SingleLiveData<>();
     public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
+    public SingleLiveData<BounsReportVo> liveDataBonusReport = new SingleLiveData<>(); // 代理服务费
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -337,6 +339,26 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                         if (vo.msg_type == 1 || vo.msg_type == 2) {
                             return;
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getBonusReport(HashMap map) {
+        Disposable disposable = (Disposable) model.getApiService().getBonusReport(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BounsReportVo>() {
+                    @Override
+                    public void onResult(BounsReportVo vo) {
+                        CfLog.d(vo.toString());
+                        liveDataBonusReport.setValue(vo);
                     }
 
                     @Override

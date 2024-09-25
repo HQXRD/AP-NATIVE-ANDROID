@@ -333,6 +333,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
             }
         });
+
+        binding.tvwBonus.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_BONUS_REPORT));
     }
 
     private void goWebView(String title, String path) {
@@ -613,7 +615,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         if (updateView != null && updateView.isShow()) {
             return;
         }
-        if (vo.download_url.contains(".apk")){
+        if (vo.download_url.contains(".apk")) {
             AppUpdateDialog dialog = new AppUpdateDialog(getContext(), isWeakUpdate, vo, new AppUpdateDialog.IAppUpdateCallBack() {
                 @Override
                 public void onUpdateCancel() {

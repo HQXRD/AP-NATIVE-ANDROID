@@ -333,7 +333,7 @@
                             android:id="@+id/tvw_tutorial"
                             style="@style/style_menu_black"
                             android:drawableTop="@mipmap/me_gr_usdt"
-                            android:text="@string/txt_usdt_tutorial" />
+                            android:text="@string/txt_usdt_tutorial_mine" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -369,7 +369,11 @@
 
                         <TextView style="@style/style_wallet_space" />
 
-                        <TextView style="@style/style_menu_black" />
+                        <TextView
+                            android:id="@+id/tvw_bonus"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_bonus"
+                            android:text="@string/txt_bonus" />
                     </LinearLayout>
                 </LinearLayout>
 

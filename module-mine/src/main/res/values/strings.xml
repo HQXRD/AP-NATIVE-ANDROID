@@ -14,6 +14,7 @@
     <string name="me_transfer">转账</string>
     <string name="me_betting_record">投注记录</string>
     <string name="me_account_record">账变记录</string>
+    <string name="me_bonus_report">代理服务费</string>
     <string name="me_account_safety">账户安全</string>
     <string name="me_more_service">更多服务</string>
     <string name="me_invite_friend">好友邀请</string>
@@ -374,6 +375,10 @@
     <string name="txt_choose_withdrawal_tip">可用提款余额:%1$s其中%2$s可以使用虚拟币提款取出</string>
     <string name="txt_choose_withdrawal_nobind_tip">可用提款余额:%1$s(USDT收款地址尚未绑定,EBPAY收款地址尚未绑定)</string>
     <string name="txt_cny_balance">￥</string>
+    <string name="txt_bonus_all">总合计</string>
+    <string name="txt_bonus_server_total">服务费总额：</string>
+    <string name="txt_bonus_own">本人应发总额：</string>
+    <string name="txt_bonus_under">下级应发总额：</string>
 
     <string name="txt_userpoint_desc">按返点-从高到底</string>
     <string name="txt_userpoint_asc">按返点-从低到高</string>

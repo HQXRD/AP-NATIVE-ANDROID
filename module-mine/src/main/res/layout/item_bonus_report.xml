@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/layout_margin"
+    android:layout_marginTop="@dimen/layout_margin"
+    android:layout_marginEnd="@dimen/layout_margin"
+    android:background="@drawable/bg_white_6"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin">
+
+    <TextView
+        android:id="@+id/tvw_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@mipmap/me_wallet_left_icon"
+        android:drawablePadding="4dp"
+        android:text="Demo"
+        android:textColor="@color/clr_txt_black_cm"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/v_center"
+        android:layout_width="1dp"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvw_item_date" />
+
+    <TextView
+        android:id="@+id/tvw_user_title"
+        style="@style/style_item_report_profit_t"
+        android:text="用户名："
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvw_item_date" />
+
+    <TextView
+        android:id="@+id/tvw_item_user"
+        style="@style/style_item_report_profit_v"
+        android:text="AAAAA"
+        app:layout_constraintStart_toEndOf="@+id/tvw_user_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_user_title" />
+
+    <TextView
+        android:id="@+id/tvw_server_fee_title"
+        style="@style/style_item_report_profit_t"
+        android:text="服务费比例："
+        app:layout_constraintStart_toStartOf="@+id/tvw_user_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_user_title" />
+
+    <TextView
+        android:id="@+id/tvw_item_server_fee"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_server_fee_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_server_fee_title"
+        tools:text="0.5%" />
+
+    <TextView
+        android:id="@+id/tvw_own_title"
+        style="@style/style_item_report_profit_t"
+        android:text="本人应发："
+        app:layout_constraintStart_toStartOf="@+id/tvw_server_fee_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_server_fee_title" />
+
+    <TextView
+        android:id="@+id/tvw_item_own"
+        style="@style/style_item_report_profit_v"
+        android:textColor="@color/clr_green_01"
+        app:layout_constraintStart_toEndOf="@+id/tvw_own_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_own_title"
+        tools:text="12.3353" />
+
+    <TextView
+        android:id="@+id/tvw_status_title"
+        style="@style/style_item_report_profit_t"
+        android:text="状态："
+        app:layout_constraintStart_toStartOf="@+id/tvw_own_title"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_own_title" />
+
+    <TextView
+        android:id="@+id/tvw_status"
+        style="@style/style_item_report_profit_v"
+        android:textColor="@color/clr_green_01"
+        app:layout_constraintStart_toEndOf="@+id/tvw_status_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_status_title"
+        tools:text="已发放" />
+
+    <TextView
+        android:id="@+id/tvw_active_title"
+        style="@style/style_item_report_profit_t"
+        android:text="活跃人数："
+        app:layout_constraintStart_toStartOf="@+id/v_center"
+        app:layout_constraintTop_toBottomOf="@id/tvw_item_date" />
+
+    <TextView
+        android:id="@+id/tvw_item_active"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_active_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_active_title"
+        tools:text="Demo" />
+
+    <TextView
+        android:id="@+id/tvw_server_title"
+        style="@style/style_item_report_profit_t"
+        android:text="服务费总额："
+        app:layout_constraintStart_toStartOf="@+id/v_center"
+        app:layout_constraintTop_toBottomOf="@id/tvw_active_title" />
+
+    <TextView
+        android:id="@+id/tvw_item_server"
+        style="@style/style_item_report_profit_v"
+        android:textColor="@color/clr_green_01"
+        app:layout_constraintStart_toEndOf="@+id/tvw_server_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_server_title"
+        tools:text="Demo" />
+
+    <TextView
+        android:id="@+id/tvw_under_title"
+        style="@style/style_item_report_profit_t"
+        android:text="下级应发："
+        app:layout_constraintStart_toStartOf="@+id/v_center"
+        app:layout_constraintTop_toBottomOf="@id/tvw_server_title" />
+
+    <TextView
+        android:id="@+id/tvw_item_under"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_under_title"
+        app:layout_constraintTop_toTopOf="@+id/tvw_under_title"
+        tools:text="0.0000" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
