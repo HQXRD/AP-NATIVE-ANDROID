@@ -83,7 +83,12 @@ android {
             resValue "string", "ms_secret_key", "b4636d50-41d2-49f4-b843-07572a8d282f"
             resValue "string", "sentry_dsn", "https://0cefc03e1c8e991010eb93fb0722e362@o4507447554539520.ingest.us.sentry.io/4507604245217280"
             resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "domain_api_list", "https://app1.b5f6oz.xyz;" +
+            resValue "string", "domain_api_list", "http://175.27.143.79:46820;" +
+                    "http://111.231.12.228:46820;" +
+                    "http://139.186.156.33:46820;" +
+                    "http://43.129.92.72:46820;" +
+                    "http://119.28.19.124:46820;" +
+                    "https://app1.b5f6oz.xyz;" +
                     "https://app1.b7x2bp.xyz;" +
                     "https://app1.g2y8by.xyz;" +
                     "https://app1.d1h9kq.xyz;" +
