@@ -62,6 +62,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIESREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.COMMISSIONSREPORTS));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.COMMISSIONSDIVIDEND));
         }
     };
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -94,6 +95,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                         break;
                     case LOTTERIES:
                     case GAMEREBATE:
+                    case COMMISSIONSDIVIDEND:
                         startContainerActivity(GameDividendAgrtFragment.class.getCanonicalName());
                         break;
                     case LOTTERIESREPORTS:
@@ -137,6 +139,8 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
 
                         ArrayList<RebateAreegmentModel> newDatas = new ArrayList<>();
 
+                        int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+
                         for (int i = 0; i < bindModels.size(); i++) {
                             RebateAreegmentModel raMenu = bindModels.get(i);
                             for (FunctionMenuResponse datum : data) {
@@ -145,8 +149,12 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                     if (raMenu.type.getIds().contains(id)) {
                                         //用户等级=2才可以显示佣金报表
                                         if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
-                                            int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
                                             if (level == 3) {
+                                                newDatas.add(raMenu);
+                                            }
+
+                                        } else if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSDIVIDEND) {
+                                            if (level == 2) {
                                                 newDatas.add(raMenu);
                                             }
                                         } else {

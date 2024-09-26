@@ -16,6 +16,7 @@ public class DividendAgrtCheckModel extends BindModel {
     public ObservableField<String> numText = new ObservableField<>();
     //编辑模式
     public ObservableField<Boolean> editMode = new ObservableField<>(false);
+    public ObservableField<Boolean> isShowItem2 = new ObservableField<>(true);
     private Consumer<DividendAgrtCheckModel> selectRatioCallBack = null;
     //分红比例
     public ObservableField<String> ratioData = new ObservableField<>("");

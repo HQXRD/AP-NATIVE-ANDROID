@@ -193,8 +193,6 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         }
     }
 
-
-
     /**
      * 添加一条规则
      */
@@ -258,6 +256,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                                 dividendAgrtCheckModel.setNetProfit(ruleDTO.getNet_profit());
                                 dividendAgrtCheckModel.setProfit(ruleDTO.getProfit());
                                 dividendAgrtCheckModel.setPeople(ruleDTO.getPeople());
+                                if (dividendAgrtCheckRequest.getType().isEmpty()) {
+                                    dividendAgrtCheckModel.isShowItem2.set(false);
+                                }
                                 bindModels.add(dividendAgrtCheckModel);
                             }
 

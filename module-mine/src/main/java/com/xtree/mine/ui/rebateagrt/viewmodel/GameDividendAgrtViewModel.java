@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.COMMISSIONSDIVIDEND;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.GAMEREBATE;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LOTTERIES;
 
@@ -172,6 +173,11 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                 headModel.type = "20";
                 titleData.setValue(GAMEREBATE.getName());
                 break;
+            case COMMISSIONSDIVIDEND: //招商月度佣金
+                headModel.type = "";
+                subModel.isShowSend.set(false);
+                titleData.setValue(COMMISSIONSDIVIDEND.getName());
+                break;
         }
         datas.setValue(bindModels);
         getDividendData();
@@ -247,11 +253,14 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                 ArrayList<FilterView.IBaseVo> cs = new ArrayList<>();
 
                                 if (cycles != null) {
+
                                     for (Map.Entry<String, GameDividendAgrtResponse.CyclesDTO> stringCyclesDTOEntry : cycles.entrySet()) {
                                         StatusVo statusVo = new StatusVo(stringCyclesDTOEntry.getKey(), stringCyclesDTOEntry.getValue().getTitle());
                                         cs.add(statusVo);
                                         //设置当前筛选的周期
-                                        if (vo.getGet().getCycle_id().equals(stringCyclesDTOEntry.getKey())) {
+                                        if (vo.getGet().getCycle_id() == null || vo.getGet().getCycle_id().isEmpty()) {
+                                            headModel.cyclyData.set(statusVo);
+                                        } else if (vo.getGet().getCycle_id().equals(stringCyclesDTOEntry.getKey())) {
                                             headModel.cyclyData.set(statusVo);
                                         }
                                     }

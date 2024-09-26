@@ -48,8 +48,16 @@ public class APIManager {
     public static final String GAMEDIVIDENDAGRT_SEND_STEP1_URL = "/pink/ajaxhub/countpink";
     //分红契约-手动分发-第二步
     public static final String GAMEDIVIDENDAGRT_SEND_STEP2_URL = "/pink/checkout";
-    //佣金报表
-    public static final String COMMISSIONS_REPORTS_URL = "/gameinfo/commissionreport";
     //彩票契约-创建契约
     public static final String DIVIDENDAGRT_CREATE_URL = "/pink/create";
+
+    //招商月度佣金
+    public static final String COMMISSIONSDIVIDEND_URL = "/gameinfo/commissionIndex";
+    //招商月度佣金-创建契约
+    public static final String COMMISSIONSDIVIDEND_CREATE_URL = "/gameinfo/commissionCreate";
+    //招商月度佣金-规则详情
+    public static final String COMMISSIONSDIVIDEND_DETAIL_URL = "/gameinfo/commissionContract";
+
+    //佣金报表
+    public static final String COMMISSIONS_REPORTS_URL = "/gameinfo/commissionreport";
 }

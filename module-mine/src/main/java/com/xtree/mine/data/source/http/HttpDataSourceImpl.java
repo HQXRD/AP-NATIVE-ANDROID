@@ -22,6 +22,7 @@ import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
+import com.xtree.mine.vo.response.CommissionsDividendResponse;
 import com.xtree.mine.vo.response.CommissionsReportsResponse;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAgrtCreateResponse;
@@ -35,6 +36,7 @@ import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
 import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,8 +139,15 @@ public class HttpDataSourceImpl implements HttpDataSource {
     @Override
     public Flowable<GameDividendAgrtResponse> getGameDividendAgrtData(GameDividendAgrtRequest request) {
         String json = JSON.toJSONString(request);
+        String requestType = request.type;
+
+        String url = APIManager.GAMEDIVIDENDAGRT_URL;
+        if (requestType.isEmpty()) {
+            url = APIManager.COMMISSIONSDIVIDEND_URL;
+            request.pay_status = "";
+        }
         Map<String, Object> map = JSON.parseObject(json, type);
-        return apiService.get(APIManager.GAMEDIVIDENDAGRT_URL, map).map(new Function<ResponseBody, GameDividendAgrtResponse>() {
+        return apiService.get(url, map).map(new Function<ResponseBody, GameDividendAgrtResponse>() {
             @Override
             public GameDividendAgrtResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), GameDividendAgrtResponse.class);
@@ -208,10 +217,40 @@ public class HttpDataSourceImpl implements HttpDataSource {
     @Override
     public Flowable<DividendAgrtCheckResponse> getDividendAgrtData(DividendAgrtCheckRequest request) {
         String json = JSON.toJSONString(request);
+        String requestType = request.getType();
+
+        String url = APIManager.GAMEDIVIDENDAGRT_DETAIL_URL;
+        if (requestType.isEmpty()) {
+            url = APIManager.COMMISSIONSDIVIDEND_DETAIL_URL;
+        }
+
         Map<String, Object> map = JSON.parseObject(json, type);
-        return apiService.get(APIManager.GAMEDIVIDENDAGRT_DETAIL_URL, map).map(new Function<ResponseBody, DividendAgrtCheckResponse>() {
+        return apiService.get(url, map)
+                .map(new Function<ResponseBody, DividendAgrtCheckResponse>() {
             @Override
             public DividendAgrtCheckResponse apply(ResponseBody responseBody) throws Exception {
+
+                //招商月度佣金的数据结构不同，要做转换
+                if (requestType.isEmpty()) {
+                    CommissionsDividendResponse commissionsDividendResponse = gson.fromJson(responseBody.string(), CommissionsDividendResponse.class);
+                    DividendAgrtCheckResponse dividendAgrtCheckResponse = new DividendAgrtCheckResponse();
+                    DividendAgrtCheckResponse.DataDTO dataDTO = new DividendAgrtCheckResponse.DataDTO();
+                    dataDTO.setUsername(commissionsDividendResponse.getUser().getNickname());
+                    List<CommissionsDividendResponse.RuleDTO> rule = commissionsDividendResponse.getRule();
+                    ArrayList<DividendAgrtCheckResponse.DataDTO.RuleDTO> ruleDTOS = new ArrayList<>();
+                    if (rule != null) {
+                        for (CommissionsDividendResponse.RuleDTO rr : rule) {
+                            DividendAgrtCheckResponse.DataDTO.RuleDTO r = new DividendAgrtCheckResponse.DataDTO.RuleDTO();
+                            r.setPeople(rr.getActivityPeople());
+                            r.setNet_profit(rr.getIncome());
+                            r.setRatio(rr.getRatio());
+                            ruleDTOS.add(r);
+                        }
+                    }
+                    dataDTO.setRule(ruleDTOS);
+                    dividendAgrtCheckResponse.setData(dataDTO);
+                    return dividendAgrtCheckResponse;
+                }
                 return gson.fromJson(responseBody.string(), DividendAgrtCheckResponse.class);
             }
         });
@@ -276,11 +315,17 @@ public class HttpDataSourceImpl implements HttpDataSource {
     @Override
     public Flowable<DividendAgrtCreateResponse> getDividendAgrtCreateData(DividendAgrtCreateRequest request) {
         String json = JSON.toJSONString(request);
+        String requestType = request.getType();
+
+        String url = APIManager.DIVIDENDAGRT_CREATE_URL;
+        if (requestType.isEmpty()) {
+            url = APIManager.COMMISSIONSDIVIDEND_CREATE_URL;
+        }
         Map<String, Object> map = JSON.parseObject(json, type);
         Map<String, Object> queryMap = new HashMap<>();
         queryMap.put("1", 1);
         queryMap.put("client", "m");
-        return apiService.post(APIManager.DIVIDENDAGRT_CREATE_URL, queryMap, map).map(new Function<ResponseBody, DividendAgrtCreateResponse>() {
+        return apiService.post(url, queryMap, map).map(new Function<ResponseBody, DividendAgrtCreateResponse>() {
             @Override
             public DividendAgrtCreateResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), DividendAgrtCreateResponse.class);
