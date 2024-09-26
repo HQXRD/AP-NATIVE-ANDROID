@@ -123,6 +123,7 @@
                     app:layout_constraintVertical_bias="0" />
 
                 <EditText
+                    android:id="@+id/filter2_edit"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:background="@null"
@@ -208,6 +209,12 @@
                     app:layout_constraintStart_toStartOf="@id/guide1"
                     app:layout_constraintTop_toBottomOf="@id/filter3"
                     app:layout_constraintVertical_bias="0" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="filter2,filter2_edit"
+                    android:visibility="@{m.isShowItem2?View.VISIBLE:View.GONE}"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

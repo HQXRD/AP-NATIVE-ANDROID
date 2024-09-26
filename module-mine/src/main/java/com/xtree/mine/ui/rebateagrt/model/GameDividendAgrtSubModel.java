@@ -1,5 +1,7 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
+import androidx.databinding.ObservableField;
+
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
 /**
@@ -11,6 +13,7 @@ public class GameDividendAgrtSubModel extends BindModel {
     private String payoff;
     private String owe;
     private OnCallBack onCallBack;
+    public ObservableField<Boolean> isShowSend = new ObservableField<>(true);
 
     public GameDividendAgrtSubModel() {
     }

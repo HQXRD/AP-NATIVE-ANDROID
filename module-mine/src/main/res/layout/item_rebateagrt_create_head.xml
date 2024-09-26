@@ -52,7 +52,8 @@
             android:layout_marginStart="3dp"
             android:onClick="@{() -> m.click()}"
             android:clickable="@{m.editState}"
-            android:textColor="@color/clr_txt_03"
+            android:textColor="@color/clr_txt_02"
+            android:textColorHint="@color/clr_txt_02"
             />
     </LinearLayout>
 </layout>
