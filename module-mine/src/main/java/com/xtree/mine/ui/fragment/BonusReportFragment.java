@@ -16,6 +16,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
@@ -30,6 +31,7 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBonusReportBinding;
 import com.xtree.mine.ui.dialog.BonusInfoDialog;
+import com.xtree.mine.ui.dialog.BonusTipsDialog;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.BounsReportVo;
@@ -41,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
 /**
@@ -51,7 +54,7 @@ public class BonusReportFragment extends BaseFragment<FragmentBonusReportBinding
     private List<FilterView.IBaseVo> listType = new ArrayList<>();
     ICallBack mCallBackType;
     BasePopupView ppw = null;
-
+    private int level;
     private String starttime;
     private String endtime;
     private String status = "0";
@@ -74,6 +77,12 @@ public class BonusReportFragment extends BaseFragment<FragmentBonusReportBinding
 
     @Override
     public void initView() {
+        level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+        if (level > 2) {
+            binding.tvwUnder.setVisibility(View.GONE);
+            binding.tvwUnderTitle.setVisibility(View.GONE);
+        }
+
         Calendar calendar = Calendar.getInstance();
         String txtDayStart = TimeUtils.longFormatString(calendar.getTimeInMillis(), "yyyy-MM-dd");
         String txtDayEnd = TimeUtils.longFormatString(System.currentTimeMillis(), "yyyy-MM-dd");
@@ -85,23 +94,14 @@ public class BonusReportFragment extends BaseFragment<FragmentBonusReportBinding
         listType.add(new StatusVo(-1, "未发放"));
         listType.add(new StatusVo(2, "无抽水"));
 
+        binding.tvwStatus.setText(listType.get(0).getShowName());
+        binding.tvwStatus.setTag(listType.get(0));
+
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
         binding.ivwInfo.setOnClickListener(v -> {
-            final String title = getContext().getString(R.string.txt_kind_tips);
-            ppwInfo = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, getString(R.string.txt_bonus_tip), true, new TipDialog.ICallBack() {
-                @Override
-                public void onClickLeft() {
-                    ppwInfo.dismiss();
-                }
-
-                @Override
-                public void onClickRight() {
-                    ppwInfo.dismiss();
-                }
-            }));
-
-            ppwInfo.show();
+            BonusTipsDialog dialog = new BonusTipsDialog(getContext());
+            new XPopup.Builder(getContext()).asCustom(dialog).show();
         });
 
         binding.tvwServerFee.setOnClickListener(v -> {
@@ -236,7 +236,8 @@ public class BonusReportFragment extends BaseFragment<FragmentBonusReportBinding
     private void requestData(int page) {
         starttime = binding.tvwStarttime.getText().toString();
         endtime = binding.tvwEndtime.getText().toString();
-        status = binding.tvwStatus.getText().toString();
+        status = ((FilterView.IBaseVo) binding.tvwStatus.getTag()).getShowId();
+        ;
 
         HashMap<String, String> map = new HashMap<>();
         map.put("start_date", starttime);

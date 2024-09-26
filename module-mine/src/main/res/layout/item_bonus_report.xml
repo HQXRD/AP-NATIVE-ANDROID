@@ -129,6 +129,7 @@
     <TextView
         android:id="@+id/tvw_item_under"
         style="@style/style_item_report_profit_v"
+        android:textColor="@color/clr_green_01"
         app:layout_constraintStart_toEndOf="@+id/tvw_under_title"
         app:layout_constraintTop_toTopOf="@+id/tvw_under_title"
         tools:text="0.0000" />

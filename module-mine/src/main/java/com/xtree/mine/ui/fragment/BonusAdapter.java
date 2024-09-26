@@ -2,18 +2,23 @@ package com.xtree.mine.ui.fragment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ItemBonusReportBinding;
 import com.xtree.mine.vo.BounsReportItemVo;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
+
 public class BonusAdapter extends CachedAutoRefreshAdapter<BounsReportItemVo> {
     private Context ctx;
+    private int level;
 
     public BonusAdapter(Context context) {
         ctx = context;
@@ -31,6 +36,12 @@ public class BonusAdapter extends CachedAutoRefreshAdapter<BounsReportItemVo> {
         ItemBonusReportBinding binding = ItemBonusReportBinding.bind(holder.itemView);
         BounsReportItemVo vo = get(position);
 
+        level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+        if (level > 2) {
+            binding.tvwItemUnder.setVisibility(View.GONE);
+            binding.tvwUnderTitle.setVisibility(View.GONE);
+        }
+
         binding.tvwItemDate.setText(vo.date);
         binding.tvwItemUser.setText(vo.tousername);
         binding.tvwItemServerFee.setText(vo.radio);
@@ -41,10 +52,13 @@ public class BonusAdapter extends CachedAutoRefreshAdapter<BounsReportItemVo> {
 
         if (vo.status.equals("1")) {
             binding.tvwStatus.setText("已发放");
+            binding.tvwStatus.setTextColor(ctx.getColor(R.color.clr_green_01));
         } else if (vo.status.equals("2")) {
             binding.tvwStatus.setText("无抽水");
+            binding.tvwStatus.setTextColor(ctx.getColor(R.color.clr_green_01));
         } else if (vo.status.equals("-1")) {
             binding.tvwStatus.setText("未发放");
+            binding.tvwStatus.setTextColor(ctx.getColor(R.color.clr_red_01));
         }
 
 
