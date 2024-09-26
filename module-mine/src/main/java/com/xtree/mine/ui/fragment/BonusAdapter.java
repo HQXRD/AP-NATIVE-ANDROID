@@ -63,7 +63,7 @@ public class BonusAdapter extends CachedAutoRefreshAdapter<BounsReportItemVo> {
 
         if (vo.childprice.equals("0.0000") && vo.myselfprice.equals("0.0000")) {
             binding.tvwStatus.setText("无抽水");
-            binding.tvwStatus.setTextColor(ctx.getColor(R.color.clr_green_01));
+            binding.tvwStatus.setTextColor(ctx.getColor(R.color.clr_red_01));
         }
 
     }
