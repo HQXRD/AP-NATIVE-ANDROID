@@ -2,6 +2,7 @@ package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +22,7 @@ import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -193,8 +195,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             onClickPaymentType(vo);
         });
 
-        binding.rcvPmt.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        binding.rcvPmt.setLayoutManager(new GridLayoutManager(getContext(), 3));
         binding.rcvPmt.setAdapter(mTypeAdapter);
+        binding.rcvPmt.addItemDecoration(new SpacesItemDecoration(10));
         binding.rcvPmt.setNestedScrollingEnabled(false); // 禁止滑动
 
         mChannelAdapter = new RechargeChannelAdapter(getContext(), vo -> {
@@ -619,8 +622,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        //支付宝和微信判断银行卡绑定信息
-        if (vo.paycode.contains("zfb")|| vo.paycode.contains("wx")) {
+        //银行卡绑定判断
+        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+
+            binding.llBindInfo.setVisibility(View.VISIBLE);
+            binding.tvwBindYhk.setVisibility(View.VISIBLE);
+
+            // 绑定YHK
+            CfLog.i("****** 绑定YHK");
+            toBindCard();
+            return;
+        }
+
+        //支付宝和微信判断银行卡绑定信息(极速充值也需要)
+        if (vo.paycode.contains("zfb")|| vo.paycode.contains("wx")||vo.paycode.contains(ONE_PAY_FIX)) {
             //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
             if (vo.view_bank_card && vo.userBankList.isEmpty()) {
 
@@ -1858,6 +1873,27 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     }
                 }));
         customPopWindow.show();
+    }
+
+    /**
+     * 自定义调节 RecyclerView item 间距方法
+     */
+    public static final class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int spaces = 10;
+
+        public SpacesItemDecoration(int spaces) {
+            this.spaces = spaces;
+        }
+
+        @Override
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+
+            outRect.left = spaces;
+            if (parent.getChildPosition(view) == 0) {
+                // outRect.right = spaces ;
+                //outRect.left = -10 ;
+            }
+        }
     }
 
 }

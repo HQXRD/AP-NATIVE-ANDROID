@@ -4,7 +4,7 @@
     <!-- 阴影层 -->
     <item>
         <shape>
-            <solid android:color="@color/clr_short_btn_left_stroke" /> <!-- 颜色#8869E6 10%透明度，即1A8869E6 -->
+            <solid android:color="@color/clr_grey_20" /> <!-- 颜色#8869E6 10%透明度，即1A8869E6 -->
             <corners android:radius="8dp" />
         </shape>
         <padding
@@ -23,7 +23,7 @@
         <shape>
             <stroke
                 android:width="1dp"
-                android:color="@color/clr_short_btn_left_start" />
+                android:color="@color/clr_main_04" />
             <corners android:radius="8dp" /> <!-- 设置模糊的边界 -->
         </shape>
     </item>

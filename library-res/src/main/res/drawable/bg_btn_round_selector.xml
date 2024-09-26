@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true">
-        <shape android:shape="rectangle">
-            <gradient android:angle="0"
-                android:endColor="@color/clr_re_bottom_bt_end"
-                android:startColor="@color/clr_re_bottom_bt_start" />
+
+    <item android:state_enabled="true" android:state_selected="true">
+        <shape>
+            <gradient android:endColor="@color/clr_re_bottom_bt_end" android:startColor="@color/clr_re_bottom_bt_start" />
             <corners android:radius="26dp" />
-            <stroke android:width="1dp" android:color="@color/clr_txt_edittext_input_stroke" />
         </shape>
     </item>
 
-    <item android:state_enabled="false">
-        <shape android:shape="rectangle">
-            <gradient android:angle="0"
-                android:endColor="@color/clr_re_bottom_bt_end"
-                android:startColor="@color/clr_re_bottom_bt_start" />
+    <item android:state_enabled="false" android:state_selected="false">
+        <shape>
+            <gradient android:endColor="@color/colorPrimary" android:startColor="@color/clr_choose_20" />
             <corners android:radius="26dp" />
-            <stroke android:width="1dp" android:color="@color/clr_btn_stroke" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <gradient android:angle="0"
-                android:endColor="@color/clr_re_bottom_bt_end"
-                android:startColor="@color/clr_re_bottom_bt_start" />
+            <gradient android:endColor="@color/clr_re_bottom_bt_end" android:startColor="@color/clr_re_bottom_bt_start" />
             <corners android:radius="26dp" />
         </shape>
     </item>

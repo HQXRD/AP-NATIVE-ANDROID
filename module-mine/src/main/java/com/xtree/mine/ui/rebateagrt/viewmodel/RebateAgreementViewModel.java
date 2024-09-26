@@ -146,7 +146,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                         //用户等级=2才可以显示佣金报表
                                         if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
                                             int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
-                                            if (level == 2) {
+                                            if (level == 3) {
                                                 newDatas.add(raMenu);
                                             }
                                         } else {

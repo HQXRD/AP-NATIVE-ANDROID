@@ -10,6 +10,7 @@ import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.BankCardVo;
+import com.xtree.mine.vo.BounsReportVo;
 import com.xtree.mine.vo.BtDetailVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
@@ -60,13 +61,14 @@ import com.xtree.mine.vo.VipUpgradeInfoVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
-import com.xtree.mine.vo.request.AdduserRequest;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalBankInfoVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalInfoVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalQuotaVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalSubmitVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalVerifyVo;
+import com.xtree.mine.vo.request.AdduserRequest;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -719,6 +721,7 @@ public interface HttpApiService {
 
 
     //接入提款新接口
+
     /**
      * 提款获取可用额度
      */
@@ -726,8 +729,7 @@ public interface HttpApiService {
     Flowable<BaseResponse<WithdrawalQuotaVo>> getWithdrawalQuota();
 
     /**
-     *  @GET("/api/withdrawal/list")
-     * 获取可提现渠道列表
+     * @GET("/api/withdrawal/list") 获取可提现渠道列表
      */
     @GET("/api/withdrawal/list/{checkCode}")
     Flowable<BaseResponse<WithdrawalListVo>> getWithdrawalList(@Path("checkCode") String checkCode);
@@ -742,7 +744,6 @@ public interface HttpApiService {
 
     /**
      * 银行卡 获取当前渠道详情
-     *
      */
     @GET("/api/withdrawal/info/{wtype}/{check}")
     Flowable<BaseResponse<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype, @Path("check") String check);
@@ -754,6 +755,7 @@ public interface HttpApiService {
     @POST("/api/withdrawal/verify")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<WithdrawalVerifyVo>> postWithdrawalVerify(@Body Map<String, Object> map);
+
     /**
      * 提款提交
      */
@@ -763,4 +765,10 @@ public interface HttpApiService {
 
     @GET("https://ap3sport.oxldkm.com/report/getsplitlists?")
     Flowable<BaseResponse<SpiltDetailVo>> getWithdrawDetails(@QueryMap Map<String, String> map);
+
+    /**
+     * 代理服务费
+     */
+    @GET("/api/report/bounsreport?")
+    Flowable<BaseResponse<BounsReportVo>> getBonusReport(@QueryMap Map<String, String> map);
 }

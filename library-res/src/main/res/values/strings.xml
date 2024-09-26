@@ -235,6 +235,7 @@
     <string name="txt_sport_regular">体育规则</string>
     <string name="txt_reg_account">注册开户</string>
     <string name="txt_prom_links">推广链接</string>
+    <string name="txt_bonus">代理服务费</string>
 
     <string name="txt_upgrade">检查更新</string>
     <string name="txt_usdt_tutorial">USDT介绍及提款教程</string>
@@ -398,5 +399,11 @@
     <string name="txt_withdrawal_bank_error_tip">网络异常，请稍后再试</string>
 
     <string name="txt_withdrawal_usdt_top_tip">USDT提款</string>
+
+    <string name="txt_bonus_tip">1.代理服务费从契约生效日期起计算盈利，如满足契约要求则在次日可获得分红；\n
+2.为了便于统计，代理服务费金额取小数点后四位，例如：计算代理服务费为201.94681元，则实发金额为201.9468元；\n
+3,所有代理服务费目前只计算前一天的彩票盈利额，不计算真人、老虎机、体育等盈利额。\n
+4.所有代理服务费每天凌晨2点自动发放，无需手动领取；\n
+5,代理服务费活跃人数定义：有提卡成功纪录且当日投注 > 1000元（卡U皆可）</string>
 
 </resources>
