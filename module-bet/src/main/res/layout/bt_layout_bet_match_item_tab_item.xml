@@ -5,7 +5,10 @@
     android:layout_width="wrap_content"
     android:layout_height="48dp"
     android:orientation="vertical"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     tools:ignore="MissingDefaultResource">
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -14,26 +17,28 @@
             android:id="@+id/iv_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp" />
+
         <TextView
-            android:id="@+id/iv_match_count"
+            android:id="@+id/tv_match_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_icon"
-            android:layout_marginStart="-2dp"
-            android:textSize="@dimen/bt_text_10sp"
-            android:text="(130)"
-            android:textColor="@color/bt_color_bet_match_item_text"/>
+            tools:text="(130)"
+            android:textColor="@color/bt_color_bet_match_item_text"
+            android:textSize="@dimen/bt_text_10sp" />
 
     </RelativeLayout>
+
     <TextView
         android:id="@+id/tab_item_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_icon"
         android:layout_marginTop="2dp"
         android:paddingStart="2dp"
-        android:text="足球"
+        tools:text="足球"
+        android:lines="1"
         android:textColor="@color/bt_color_bet_match_item_text"
-        android:textSize="@dimen/bt_text_10sp"/>
+        android:textSize="@dimen/bt_text_10sp" />
 </LinearLayout>
