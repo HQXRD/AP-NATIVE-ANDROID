@@ -30,7 +30,7 @@ android {
             versionName "1.0.1"
             versionCode 101
             resValue "string", "app_name", "意昂R${versionCode}"
-            resValue "string", "domain_api", "http://43.129.17.50:36804"
+            resValue "string", "domain_api", "http://175.27.143.79:36803"
             resValue "string", "domain_url", "https://www.eon6.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
             resValue "string", "platform_set", "35"  // 平台代号,升级用 35-意昂, 38-意昂2
@@ -38,13 +38,14 @@ android {
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "http://43.129.17.50:36804;" +
-                    "http://43.137.39.194:36803;" +
+            resValue "string", "domain_api_list", "http://175.27.143.79:36803;" +
+                    "http://111.231.12.228:36803;" +
+                    "http://139.186.156.33:36803;" +
+                    "http://43.129.92.72:36803;" +
+                    "http://119.28.19.124:36803;" +
                     "http://118.195.251.125:36803;" +
-                    "http://101.43.19.60:36803;" +
                     "https://app.12x.top:36803;" +
                     "https://app.fei8meng.top:36803;" +
-                    "http://43.128.11.58:36801;" +
                     "https://app1.ghxzeem.xyz;" +
                     "https://app1.ndlyceg.xyz;" +
                     "https://app1.wwamilt.xyz;" +
@@ -82,7 +83,7 @@ android {
             versionName "1.0.1"
             versionCode 101
             resValue "string", "app_name", "意昂体育"
-            resValue "string", "domain_api", "http://43.129.17.50:36804"
+            resValue "string", "domain_api", "http://175.27.143.79:36803"
             resValue "string", "domain_url", "https://www.eon6.com"
             resValue "string", "channel_name", "eon1"  // 渠道名称
             resValue "string", "platform_set", "35"  // 平台代号,升级用 35-意昂, 38-意昂2
@@ -90,13 +91,14 @@ android {
             resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
-            resValue "string", "domain_api_list", "http://43.129.17.50:36804;" +
-                    "http://43.137.39.194:36803;" +
+            resValue "string", "domain_api_list","http://175.27.143.79:36803;" +
+                    "http://111.231.12.228:36803;" +
+                    "http://139.186.156.33:36803;" +
+                    "http://43.129.92.72:36803;" +
+                    "http://119.28.19.124:36803;" +
                     "http://118.195.251.125:36803;" +
-                    "http://101.43.19.60:36803;" +
                     "https://app.12x.top:36803;" +
                     "https://app.fei8meng.top:36803;" +
-                    "http://43.128.11.58:36801;" +
                     "https://app1.ghxzeem.xyz;" +
                     "https://app1.ndlyceg.xyz;" +
                     "https://app1.wwamilt.xyz;" +
