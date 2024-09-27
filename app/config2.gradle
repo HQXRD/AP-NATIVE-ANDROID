@@ -27,14 +27,19 @@ android {
             versionName "1.0.1"
             versionCode 101
             resValue "string", "app_name", "摩域体育"
-            resValue "string", "domain_api", "https://app1.vcchgk.com"
+            resValue "string", "domain_api", "http://175.27.143.79:26803"
             resValue "string", "domain_url", "https://www.alltm1s.com"
             resValue "string", "channel_name", "moYu"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "8c0e04f787df7fa37fdd8ed81c4c219a"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "b8597911-c169-4fcb-b548-51a575e698d1"
-            resValue "string", "domain_api_list", "https://app1.vcchgk.com;" +
+            resValue "string", "domain_api_list", "http://175.27.143.79:26803;" +
+                    "http://111.231.12.228:26803;" +
+                    "http://139.186.156.33:26803;" +
+                    "http://43.129.92.72:26803;" +
+                    "http://119.28.19.124:26803;" +
+                    "https://app1.vcchgk.com;" +
                     "https://app1.zauyuf.com;" +
                     "https://app1.vjoyjn.com;" +
                     "https://app.zgmdcu.com;" +
