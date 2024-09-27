@@ -25,8 +25,6 @@ import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
-import com.xtree.base.widget.MsgDialog;
-import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBonusReportBinding;
