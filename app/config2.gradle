@@ -5,8 +5,8 @@ android {
         // 测试环境
         moYu_pre {
             applicationId "com.${name.toLowerCase()}.app" //
-            versionName "1.0.0"
-            versionCode 100
+            versionName "1.0.1"
+            versionCode 101
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "摩域T${versionCode}"
             resValue "string", "domain_api", "https://pre-dsport.oxldkm.com"
@@ -24,8 +24,8 @@ android {
         // 生产环境
         moYu {
             applicationId "com.myr01.app" // mysport myr01
-            versionName "1.0.0"
-            versionCode 100
+            versionName "1.0.1"
+            versionCode 101
             resValue "string", "app_name", "摩域体育"
             resValue "string", "domain_api", "https://app1.vcchgk.com"
             resValue "string", "domain_url", "https://www.alltm1s.com"
