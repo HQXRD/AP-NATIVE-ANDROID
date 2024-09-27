@@ -27,17 +27,19 @@ android {
             versionName "1.0.5"
             versionCode 105
             resValue "string", "app_name", "恒行5R${versionCode}"
-            resValue "string", "domain_api", "https://app1.d6d7vh.click"
+            resValue "string", "domain_api", "http://175.27.143.79:16811"
             resValue "string", "domain_url", "https://www.hxing5vip3.com"
             resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
             resValue "string", "ms_secret_key", "139dbbd0-5ab4-4be6-b197-e3af17a95279"
-            resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
-                    "http://119.28.19.124:16811;"+
-                    "http://1.13.245.124:16811;" +
-                    "http://119.45.36.175:16811;"+
+            resValue "string", "domain_api_list", "http://175.27.143.79:16811;" +
+                    "http://111.231.12.228:16811;" +
+                    "http://139.186.156.33:16811;" +
+                    "http://43.129.92.72:16811;" +
+                    "http://119.28.19.124:16811;" +
+                    "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
                     "https://app1.p2e2vs.click;" +
@@ -72,14 +74,19 @@ android {
             versionName "1.0.5"
             versionCode 105
             resValue "string", "app_name", "恒行5"
-            resValue "string", "domain_api", "https://app1.d6d7vh.click"
+            resValue "string", "domain_api", "http://175.27.143.79:16811"
             resValue "string", "domain_url", "https://www.hxing5vip3.com"
             resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
             resValue "string", "ms_secret_key", "139dbbd0-5ab4-4be6-b197-e3af17a95279"
-            resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
+            resValue "string", "domain_api_list", "http://175.27.143.79:16811;" +
+                    "http://111.231.12.228:16811;" +
+                    "http://139.186.156.33:16811;" +
+                    "http://43.129.92.72:16811;" +
+                    "http://119.28.19.124:16811;" +
+                    "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
                     "https://app1.p2e2vs.click;" +
