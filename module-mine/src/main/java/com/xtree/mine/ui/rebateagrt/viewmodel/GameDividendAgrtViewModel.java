@@ -305,7 +305,10 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                     headModel.setSub_money(selfBill.getSub_money());
                                 }
                                 bindModels.add(headModel);
-                                bindModels.add(subModel);
+                                //招商月度佣金不显示下级分红
+                                if (!headModel.type.isEmpty()) {
+                                    bindModels.add(subModel);
+                                }
                                 bindModels.add(totalModel);
                             }
 

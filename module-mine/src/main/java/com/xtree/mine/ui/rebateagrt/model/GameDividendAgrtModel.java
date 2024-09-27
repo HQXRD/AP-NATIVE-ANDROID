@@ -80,6 +80,9 @@ public class GameDividendAgrtModel extends BindModel {
     }
 
     public void setPayStatu(String payStatu) {
+        if (payStatu == null) {
+            payStatu = "";
+        }
         this.payStatu = payStatu;
         switch (payStatu) {
             case "1": //未结清:

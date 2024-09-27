@@ -138,7 +138,6 @@ public class HttpDataSourceImpl implements HttpDataSource {
 
     @Override
     public Flowable<GameDividendAgrtResponse> getGameDividendAgrtData(GameDividendAgrtRequest request) {
-        String json = JSON.toJSONString(request);
         String requestType = request.type;
 
         String url = APIManager.GAMEDIVIDENDAGRT_URL;
@@ -146,6 +145,8 @@ public class HttpDataSourceImpl implements HttpDataSource {
             url = APIManager.COMMISSIONSDIVIDEND_URL;
             request.pay_status = "";
         }
+        String json = JSON.toJSONString(request);
+
         Map<String, Object> map = JSON.parseObject(json, type);
         return apiService.get(url, map).map(new Function<ResponseBody, GameDividendAgrtResponse>() {
             @Override
