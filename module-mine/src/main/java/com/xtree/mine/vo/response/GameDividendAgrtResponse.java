@@ -578,6 +578,51 @@ public class GameDividendAgrtResponse extends BaseResponse2 {
             private String netloss;
             private String contract_status;
             private String label;
+            private String activity_people;
+            private String income;
+            private String ratio;
+            private String actual;
+            private String due;
+
+            public String getDue() {
+                return due;
+            }
+
+            public void setDue(String due) {
+                this.due = due;
+            }
+
+            public String getActivity_people() {
+                return activity_people;
+            }
+
+            public void setActivity_people(String activity_people) {
+                this.activity_people = activity_people;
+            }
+
+            public String getIncome() {
+                return income;
+            }
+
+            public void setIncome(String income) {
+                this.income = income;
+            }
+
+            public String getRatio() {
+                return ratio;
+            }
+
+            public void setRatio(String ratio) {
+                this.ratio = ratio;
+            }
+
+            public String getActual() {
+                return actual;
+            }
+
+            public void setActual(String actual) {
+                this.actual = actual;
+            }
 
             public String getUserid() {
                 return userid;
@@ -931,6 +976,42 @@ public class GameDividendAgrtResponse extends BaseResponse2 {
         private String type;
         private String distribution_type;
         private String cycle_cli_time;
+        private String activity_people;
+        private String income;
+        private String actual;
+        private String due;
+
+        public String getDue() {
+            return due;
+        }
+
+        public void setDue(String due) {
+            this.due = due;
+        }
+
+        public String getActivity_people() {
+            return activity_people;
+        }
+
+        public void setActivity_people(String activity_people) {
+            this.activity_people = activity_people;
+        }
+
+        public String getIncome() {
+            return income;
+        }
+
+        public void setIncome(String income) {
+            this.income = income;
+        }
+
+        public String getActual() {
+            return actual;
+        }
+
+        public void setActual(String actual) {
+            this.actual = actual;
+        }
 
         public String getId() {
             return id;

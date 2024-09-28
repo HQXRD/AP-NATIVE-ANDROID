@@ -31,6 +31,11 @@ public class GameDividendAgrtModel extends BindModel {
     private int payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
     private String userid = "";
     private String checkName = "";
+    private String activity_people;
+    private String income;
+    private String ratio;
+    private String actual;
+    private String due;
 
     private Consumer<GameDividendAgrtModel> createDeedCallBack = null;
     private Consumer<GameDividendAgrtModel> checkDeedCallBack = null;
@@ -95,6 +100,14 @@ public class GameDividendAgrtModel extends BindModel {
         }
     }
 
+    public String getDue() {
+        return due;
+    }
+
+    public void setDue(String due) {
+        this.due = due;
+    }
+
     public String getContractStatus() {
         return contractStatus;
     }
@@ -135,6 +148,38 @@ public class GameDividendAgrtModel extends BindModel {
         if (bet != null) {
             this.bet = bet;
         }
+    }
+
+    public String getActivity_people() {
+        return activity_people;
+    }
+
+    public void setActivity_people(String activity_people) {
+        this.activity_people = activity_people;
+    }
+
+    public String getIncome() {
+        return income;
+    }
+
+    public void setIncome(String income) {
+        this.income = income;
+    }
+
+    public String getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(String ratio) {
+        this.ratio = ratio;
+    }
+
+    public String getActual() {
+        return actual;
+    }
+
+    public void setActual(String actual) {
+        this.actual = actual;
     }
 
     public String getNetloss() {
