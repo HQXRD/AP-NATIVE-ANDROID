@@ -26,7 +26,7 @@ public enum RebateAreegmentTypeEnum {
     //游戏分红
     GAMEREBATE("游戏分红", R.mipmap.icon_rebateagrt_gamerebate, new String[]{"406320"}),
     //佣金报表
-    COMMISSIONSREPORTS("月度佣金", R.mipmap.icon_rebateagrt_commissions, new String[]{"400870"}),
+    COMMISSIONSREPORTS("月度佣金", R.mipmap.icon_rebateagrt_commissions, new String[]{"408233"}),
     //招商月度佣金
     COMMISSIONSDIVIDEND("招商月度佣金", R.mipmap.icon_rebateagrt_commissions, new String[]{"400870"}),
     ;

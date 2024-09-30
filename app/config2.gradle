@@ -74,7 +74,7 @@ android {
             versionName "1.0.0"
             versionCode 100
             resValue "string", "app_name", "意昂体育3"
-            resValue "string", "domain_api", "https://app1.b5f6oz.xyz"
+            resValue "string", "domain_api", "http://175.27.143.79:46820"
             resValue "string", "domain_url", "https://h51.k8z8dv.xyz"
             resValue "string", "channel_name", "eon3"  // 渠道名称
             resValue "string", "platform_set", "40"  // 平台代号,升级用 35-意昂, 38-意昂2 40-意昂3
@@ -106,7 +106,6 @@ android {
                     "https://app4.k8t7rl.xyz;" +
                     "https://app4.q6l1rv.xyz;" +
                     "https://app4.o6l4da.xyz;"
-
             resValue "string", "domain_url_list", "https://h51.k8z8dv.xyz;" +
                     "https://h51.r2p8ss.xyz;" +
                     "https://h51.d1b9bu.xyz;" +

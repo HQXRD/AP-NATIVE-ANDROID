@@ -85,8 +85,6 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
             if (itemViewType == R.layout.item_dividendagrt_check) {
                 View deleteView = view.findViewById(R.id.item_delete);
-                //创建模式打开删除按钮
-                deleteView.setVisibility(event.getMode() == 1 ? View.VISIBLE : View.GONE);
                 deleteView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -150,7 +148,12 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             //创建模式
             showCreateBtnData.setValue(true);
             headModel.user.set(event.getUserName());
-            addModel.openAdd.set(true);
+            if (event.getType().isEmpty()) {
+                //招商月度佣金不显示添加规则
+                addModel.openAdd.set(false);
+            } else {
+                addModel.openAdd.set(true);
+            }
             addModel.setConsumer(v -> {
                 addModel();
             });
@@ -164,9 +167,18 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                 for (Map<String, List<String>> map : maps) {
                     for (Map.Entry<String, List<String>> entry : map.entrySet()) {
                         DividendAgrtCheckModel model = new DividendAgrtCheckModel();
-                        model.editMode.set(true);
-                        model.setSelectRatioCallBack(selectRatioConsumer);
                         model.setRatio(entry.getKey());
+                        if (event.getType().isEmpty()) {
+                            model.editMode.set(false);
+                            model.isShowItem2.set(false);
+                            model.isShowDelete.set(false);
+                            model.setSelectRatioCallBack(null);
+                        } else {
+                            model.editMode.set(true);
+                            model.isShowItem2.set(true);
+                            model.isShowDelete.set(true);
+                            model.setSelectRatioCallBack(selectRatioConsumer);
+                        }
                         //加入分红比例集
                         ratios.add(new StatusVo(entry.getKey(), entry.getKey()));
 
@@ -258,6 +270,8 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                                 dividendAgrtCheckModel.setPeople(ruleDTO.getPeople());
                                 if (dividendAgrtCheckRequest.getType().isEmpty()) {
                                     dividendAgrtCheckModel.isShowItem2.set(false);
+                                    dividendAgrtCheckModel.isShowDelete.set(false);
+                                    dividendAgrtCheckModel.editMode.set(false);
                                 }
                                 bindModels.add(dividendAgrtCheckModel);
                             }

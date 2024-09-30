@@ -57,12 +57,13 @@ public class CommissionsRulesViewModel extends BaseViewModel<MineRepository> {
 
     private final ArrayList<BindModel> comModels = new ArrayList<BindModel>() {
         {
-            add(new CommissionsRulesModel("5", "1-40,000", "30%"));
-            add(new CommissionsRulesModel("10", "40,001-150,000", "35%"));
-            add(new CommissionsRulesModel("15", "150,001-300,000", "40%"));
-            add(new CommissionsRulesModel("20", "300,001-500,000", "45%"));
-            add(new CommissionsRulesModel("25", "500,001-1,000,000", "50%"));
-            add(new CommissionsRulesModel("30", "≥1,000,001", "55%"));
+            add(new CommissionsRulesModel("2", "0-10,000", "10%"));
+            add(new CommissionsRulesModel("3", "10,001-30,000", "15%"));
+            add(new CommissionsRulesModel("5", "30,001-50,000", "17%"));
+            add(new CommissionsRulesModel("6", "50,001-100,000", "20%"));
+            add(new CommissionsRulesModel("8", "100,001-200,000", "23%"));
+            add(new CommissionsRulesModel("10", "200,001-300,000", "25%"));
+            add(new CommissionsRulesModel("15", "≥300,000", "30%"));
         }
     };
     private final ArrayList<BindModel> agentModels = new ArrayList<BindModel>() {
