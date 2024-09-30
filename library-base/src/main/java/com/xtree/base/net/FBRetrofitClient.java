@@ -5,6 +5,7 @@ import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 
@@ -18,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.http.cookie.CookieJarImpl;
 import me.xtree.mvvmhabit.http.cookie.store.PersistentCookieStore;
 import me.xtree.mvvmhabit.http.interceptor.CacheInterceptor;
+import me.xtree.mvvmhabit.http.interceptor.logging.LoggingInterceptor;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
@@ -92,14 +94,14 @@ public class FBRetrofitClient {
                 .addInterceptor(new BtUrlModifyingInterceptor())
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
-                /*.addInterceptor(new LoggingInterceptor
-                        .Builder()//构建者模式
-                        .loggable(BuildConfig.DEBUG) //是否开启日志打印
-                        .setLevel(Level.BODY) //打印的等级
-                        .log(Platform.INFO) // 打印类型
-                        .request("Request") // request的Tag
-                        .response("Response")// Response的Tag
-                        .build())*/
+                //.addInterceptor(new LoggingInterceptor
+                //        .Builder()//构建者模式
+                //        .loggable(BuildConfig.DEBUG) //是否开启日志打印
+                //        .setLevel(Level.BODY) //打印的等级
+                //        .log(Platform.INFO) // 打印类型
+                //        .request("Request") // request的Tag
+                //        .response("Response")// Response的Tag
+                //        .build())
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
