@@ -112,6 +112,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     BasePopupView ppw = null; // 底部弹窗
     BasePopupView ppw2 = null; // 底部弹窗 (二层弹窗)
     BasePopupView ppw3 = null; // 极速充值绑定银行卡弹窗
+    BasePopupView bindCardPPW = null;//绑定银行卡PopView
+    BasePopupView bindPhonePPW = null;
     String bankId = ""; // 用户绑定的银行卡ID
     String bankCode = ""; // 付款银行编号 (极速充值用) ABC
     String hiWalletUrl; // 一键进入 HiWallet钱包
@@ -869,52 +871,65 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         ppw.show();
     }
 
-    private void toBindPhoneNumber() {
+    private void  toBindPhoneNumber() {
+    if (bindPhonePPW == null){
+            String msg = getString(R.string.txt_rc_bind_phone_pls);
+            String left = getString(R.string.txt_cancel);
+            String right = getString(R.string.txt_rc_bind_phone);
+            MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
 
-        String msg = getString(R.string.txt_rc_bind_phone_pls);
-        String left = getString(R.string.txt_cancel);
-        String right = getString(R.string.txt_rc_bind_phone);
-        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
-            @Override
-            public void onClickLeft() {
+                    bindPhonePPW.dismiss();
+                    bindPhonePPW= null;
+                }
 
-                ppw2.dismiss();
-            }
+                @Override
+                public void onClickRight() {
+                    toBindPhonePage();
+                    bindPhonePPW.dismiss();
+                    bindPhonePPW= null;
+                }
+            });
+            bindPhonePPW = new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+                bindPhonePPW.show();
+        }
 
-            @Override
-            public void onClickRight() {
-                toBindPhonePage();
-                ppw2.dismiss();
-            }
-        });
-        ppw2 = new XPopup.Builder(getContext())
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
-                .asCustom(dialog);
-        ppw2.show();
     }
 
     private void toBindCard() {
 
+        CfLog.e("toBindCard ------ is toBindCardl");
         String msg = getString(R.string.txt_rc_bind_bank_card_pls);
-        MsgDialog dialog = new MsgDialog(getContext(), null, msg, new MsgDialog.ICallBack() {
-            @Override
-            public void onClickLeft() {
-                ppw2.dismiss();
-            }
+        if (bindCardPPW == null){
+            MsgDialog dialog = new MsgDialog(getContext(), null, msg, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    bindCardPPW.dismiss();
+                    bindCardPPW = null;
+                }
 
-            @Override
-            public void onClickRight() {
-                toBindPage(Constant.BIND_CARD);
-                ppw2.dismiss();
-            }
-        });
-        ppw2 = new XPopup.Builder(getContext())
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
-                .dismissOnBackPressed(true)
-                .asCustom(dialog);
-        ppw2.show();
+                @Override
+                public void onClickRight() {
+                    toBindPage(Constant.BIND_CARD);
+                    bindCardPPW.dismiss();
+
+                }
+            });
+            bindCardPPW = new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+            bindCardPPW.show();
+        }else {
+            CfLog.e("toBindCard ------ is not  null");
+        }
+
 
     }
 
@@ -930,6 +945,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         isNeedRefresh = true;
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
+
+        if (bindCardPPW != null){
+            bindCardPPW.dismiss();
+
+        }
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
 
