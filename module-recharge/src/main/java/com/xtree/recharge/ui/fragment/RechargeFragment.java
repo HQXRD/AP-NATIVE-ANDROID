@@ -912,6 +912,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         ppw2 = new XPopup.Builder(getContext())
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(false)
+                .dismissOnBackPressed(true)
                 .asCustom(dialog);
         ppw2.show();
 
