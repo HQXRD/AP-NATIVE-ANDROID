@@ -588,14 +588,17 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             final String netCode =
                     SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
+            //剪切板不为空
             if (code != null && !TextUtils.isEmpty(code)
                     &&registerVerificationCodeVo !=null
                     &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
-                viewModel.register(account, pwd1, code, registerVerificationCodeVo.key, verificationTxt);
+                //inviteCodeSource 4：剪切板
+                viewModel.register(account, pwd1, code, registerVerificationCodeVo.key, verificationTxt, 4);
             } else if ( (netCode != null && !TextUtils.isEmpty(netCode))
                     &&registerVerificationCodeVo !=null
                     &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
-                viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt);
+                //inviteCodeSource 3：IP获取（接口获取）
+                viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt , 3);
             } else {
                 //增加
                 if (registerVerificationCodeVo != null
@@ -603,9 +606,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                         && !TextUtils.isEmpty(registerVerificationCodeVo.key)
                         && verificationTxt != null) {
                     //为获取推广码 使用默认的推广码
-                    viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt);
+                    //inviteCodeSource 1:系统默认
+                    viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt , 1);
                 } else {
-                    viewModel.register(account, pwd1, "kygprka", "", "");
+                    //inviteCodeSource 1:系统默认；3：IP获取（接口获取）；4：剪切板
+                    viewModel.register(account, pwd1, "kygprka", "", "" ,1);
                 }
             }
         });
