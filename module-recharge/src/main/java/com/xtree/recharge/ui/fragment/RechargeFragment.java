@@ -617,6 +617,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
         // 加个 isNeedPhone, 解决偶现用户绑手机后,再次点击还会提示绑手机(充值列表接口响应慢,最新的列表还没有回来) 2024-07-11
         boolean isNeedPhone = mProfileVo != null && !mProfileVo.is_binding_phone; // && isNeedPhone
+
         if (vo.phone_needbind && isNeedPhone) {
             binding.llBindInfo.setVisibility(View.VISIBLE);
             binding.tvwBindPhone.setVisibility(View.VISIBLE);
@@ -640,7 +641,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
         //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
         //极速充值在详情里面判断绑卡
-        if (vo.view_bank_card && vo.userBankList.isEmpty()&&!vo.paycode.contains(ONE_PAY_FIX)) {
+        if (vo.view_bank_card && vo.userBankList.isEmpty() && !vo.paycode.contains(ONE_PAY_FIX)) {
             // 绑定YHK
             CfLog.i("****** 绑定YHK");
             toBindCard();
@@ -726,7 +727,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
                     if (userBankList.isEmpty()) {
                         ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
-                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(),"", new TipBindCardDialog.ICallBack() {
+                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), "", new TipBindCardDialog.ICallBack() {
                                     @Override
                                     public void onClickConfirm() {
                                         toBindPage(Constant.BIND_CARD);
@@ -747,7 +748,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     }
                     if (userBankList.isEmpty()) {
                         ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
-                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(),"", new TipBindCardDialog.ICallBack() {
+                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), "", new TipBindCardDialog.ICallBack() {
                                     @Override
                                     public void onClickConfirm() {
                                         toBindPage(Constant.BIND_CARD);
@@ -780,7 +781,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 binding.edtName.setEnabled(false);
                 binding.ivwClear.setVisibility(View.INVISIBLE);
                 binding.tvwTipName.setVisibility(View.GONE);
-            }else{
+            } else {
                 binding.edtName.setText("");
                 binding.edtName.setEnabled(true);
                 binding.tvwTipName.setVisibility(View.VISIBLE);
@@ -1554,7 +1555,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             //绑定银行卡
             //&&isOnePayFix(vo)  去除银行判定
-            if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+            /* if (vo.view_bank_card && vo.userBankList.isEmpty()) {*/
+
+            if (vo.view_bank_card == false && vo.userBankList.isEmpty()) {
                 // 绑定YHK
                 CfLog.i("****** 绑定YHK");
                 toBindCard();
@@ -1567,7 +1570,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
             curRechargeVo = vo;
             viewModel.curRechargeLiveData.setValue(curRechargeVo);
-
 
             // 极速充值
             if (isOnePayFix(vo)) {
@@ -2151,7 +2153,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 .setAutoDismiss(false);
         GuideBuilder builder1 = new GuideBuilder();
 
-
         builder.addComponent(new RechargeMoneyComponent(new RechargeMoneyComponent.IRechargeMoneyCallback() {
             @Override
             public void rechargeMoneyPrevious() {
@@ -2172,7 +2173,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 showGuideByNext(vo);
             }
 
-
         }));
         moneyGuide = builder.createGuide();
         moneyGuide.show(getActivity());
@@ -2184,7 +2184,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             moneyGuide = null;
         }
     }
-
 
     private Guide nextGuide;
 
@@ -2221,7 +2220,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 dismissNextGuide();
                 startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
             }
-
 
         }));
         nextGuide = builder.createGuide();
