@@ -243,6 +243,9 @@ public class BrowserActivity extends AppCompatActivity {
         cookieManager.setCookie(url, "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" + "_sessionHandler=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID));
         cookieManager.flush();
 
+        // debug模式
+        //AgentWebConfig.debug();
+
         agentWeb = AgentWeb.with(this)
                 .setAgentWebParent(findViewById(R.id.wv_main), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator() // 使用默认的加载进度条
@@ -327,6 +330,15 @@ public class BrowserActivity extends AppCompatActivity {
                             LoadingDialog.finish();
                         }
                     }
+
+                    // debug模式
+                    //@Override
+                    //public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                    //    Log.d("WebView", consoleMessage.message() + " -- From line "
+                    //            + consoleMessage.lineNumber() + " of "
+                    //            + consoleMessage.sourceId());
+                    //    return true;
+                    //}
 
 
                     /**
@@ -568,6 +580,7 @@ public class BrowserActivity extends AppCompatActivity {
 
         String js = "";
         js += "(function() {" + "\n";
+        js += "window.addEventListener('DOMContentLoaded', function() {" + "\n";
         js += "const d = new Date();" + "\n";
         js += "const style = document.createElement('style');" + "\n";
         js += "style.type = 'text/css';" + "\n";
@@ -594,6 +607,7 @@ public class BrowserActivity extends AppCompatActivity {
         js += "document.cookie = \"_sessionHandler=" + sessid + ";\" + expires + \";path=/\";" + "\n";
         js += "localStorage.setItem('USER-PROFILE', '" + userProfile + "');" + "\n";
         js += "localStorage.setItem('AUTH', '" + auth + "');" + "\n";
+        js += "});" + "\n";
         js += "})()" + "\n";
 
         CfLog.i(js.replace("\n", " \t"));
