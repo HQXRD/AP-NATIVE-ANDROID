@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.mine.R;
 
 import me.xtree.mvvmhabit.base.BaseApplication;
@@ -25,6 +26,13 @@ public class GameDividendAgrtTotalModel extends BindModel {
     private int payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
     private String userid = "";
     private String profitloss = "-";
+    private String activity_people = "-";
+    private String income = "-";
+    private String ratio = "-";
+    private String actual = "-";
+    private String due = "-";
+    private String self_money = "-";
+    private GameDividendAgrtHeadModel.OnCallBack onCallBack;
 
     public String getPayStatu() {
         return payStatu;
@@ -49,6 +57,27 @@ public class GameDividendAgrtTotalModel extends BindModel {
         return BaseApplication.getInstance().getResources().getColor(payStatuColor);
     }
 
+    public void setOnCallBack(GameDividendAgrtHeadModel.OnCallBack onCallBack) {
+        this.onCallBack = onCallBack;
+    }
+
+    public void myAgrt() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
+        if (onCallBack != null) {
+            onCallBack.myAgrt();
+        }
+    }
+
+    public String getDue() {
+        return due;
+    }
+
+    public void setDue(String due) {
+        this.due = due;
+    }
+
     public String getBet() {
         return bet;
     }
@@ -57,6 +86,38 @@ public class GameDividendAgrtTotalModel extends BindModel {
         if (bet != null) {
             this.bet = bet;
         }
+    }
+
+    public String getActivity_people() {
+        return activity_people;
+    }
+
+    public void setActivity_people(String activity_people) {
+        this.activity_people = activity_people;
+    }
+
+    public String getIncome() {
+        return income;
+    }
+
+    public void setIncome(String income) {
+        this.income = income;
+    }
+
+    public String getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(String ratio) {
+        this.ratio = ratio;
+    }
+
+    public String getActual() {
+        return actual;
+    }
+
+    public void setActual(String actual) {
+        this.actual = actual;
     }
 
     public String getNetloss() {

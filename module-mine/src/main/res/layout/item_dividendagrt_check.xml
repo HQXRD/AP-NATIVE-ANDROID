@@ -65,6 +65,7 @@
                     android:text="@string/txt_delete"
                     android:textColor="@color/clr_txt_warn"
                     android:textSize="12sp"
+                    android:visibility="@{m.isShowDelete?View.VISIBLE:View.GONE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1"
