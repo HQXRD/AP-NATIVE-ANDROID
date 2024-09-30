@@ -42,8 +42,8 @@ import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalQuotaVo;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
@@ -197,8 +197,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
             if (withdrawalListVoArrayList != null && !withdrawalListVoArrayList.isEmpty()) {
                 //业务正常 刷新列表UI
 
-                sortingWithdrawalListByType("1", withdrawalListVoArrayList, bankWithdrawalList);
-                sortingWithdrawalListByType("2", withdrawalListVoArrayList, usdtWithdrawalList);
+                for (WithdrawalListVo aa : withdrawalListVoArrayList) {
+                    CfLog.e(aa.title);
+                }
+                //sortingWithdrawalListByType("1", withdrawalListVoArrayList, bankWithdrawalList);
+                //sortingWithdrawalListByType("2", withdrawalListVoArrayList, usdtWithdrawalList);
                 referListUI(sortTypeList(withdrawalListVoArrayList));
 
             } else {
@@ -705,13 +708,14 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
             dismissMasksLoading();
         }
     }
-    private void  referQuotaUI(final WithdrawalQuotaVo quotaVo){
+
+    private void referQuotaUI(final WithdrawalQuotaVo quotaVo) {
         String quota = "";
         if (quotaVo != null && quotaVo.quota != null) {
             if (TextUtils.equals("0", quotaVo.quota)) {
                 quota = "0.00";
             } else {
-                quota =String.format("%.2f",Double.valueOf(quotaVo.quota)) ;
+                quota = String.format("%.2f", Double.valueOf(quotaVo.quota));
             }
             String tip =
                     String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
@@ -721,7 +725,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_grey_13));
             }
-        }else {
+        } else {
             String tip = getContext().getString(R.string.txt_choose_quota_error_tip);
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
@@ -733,6 +737,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
             });
         }
     }
+
     /**
      * 列表排序
      *
@@ -740,26 +745,15 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      * @return
      */
     private ArrayList<WithdrawalListVo> sortTypeList(ArrayList<WithdrawalListVo> infoList) {
-        //列表去重
-        TreeSet treeSet =  new TreeSet(infoList);
-        infoList.clear();
-        infoList.addAll(treeSet);
-
-        CfLog.e("sortTypeList  infoList1= " + infoList.size());
-        ArrayList<WithdrawalListVo> arrayList = new ArrayList<WithdrawalListVo>();
+        Map<String, WithdrawalListVo> map = new LinkedHashMap<>();
         for (int i = 0; i < infoList.size(); i++) {
             //只添加enable为 true状态的，即是开启该提款通道的体况方式
-            if (infoList.get(i).enable == true) {
-                arrayList.add(infoList.get(i));
+            if (infoList.get(i).enable) {
+                map.put(infoList.get(i).type, infoList.get(i));
             }
         }
-        HashSet set = new HashSet(arrayList);
-        arrayList.clear();
-        arrayList.addAll(set);
-        Collections.reverse(arrayList);
-        //列表排序
-        Collections.sort(arrayList);
-        Collections.reverse(arrayList);
+        ArrayList<WithdrawalListVo> arrayList = new ArrayList<>(map.values());
+
         return arrayList;
     }
 
@@ -793,7 +787,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                     }
             );
         }
-        TreeSet<WithdrawalListVo> treeSet = new TreeSet<WithdrawalListVo>(list);
+        TreeSet<WithdrawalListVo> treeSet = new TreeSet<>(list);
         ArrayList<WithdrawalListVo> newList = new ArrayList<>(treeSet);
         return newList;
     }
