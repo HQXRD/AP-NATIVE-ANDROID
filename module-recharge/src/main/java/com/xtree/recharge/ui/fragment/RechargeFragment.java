@@ -618,7 +618,16 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             toBindPhoneNumber();
             return;
         }
+        //增加银行卡充值判断绑卡绑卡逻辑
+        if (vo.view_bank_card && vo.userBankList.size() == 0) {
+            binding.llBindInfo.setVisibility(View.VISIBLE);
+            binding.tvwBindYhk.setVisibility(View.VISIBLE);
 
+            // 绑定YHK
+            CfLog.i("****** 绑定YHK");
+            toBindCard();
+            return;
+        }
         //支付宝和微信判断银行卡绑定信息
         if (vo.paycode.contains("zfb")|| vo.paycode.contains("wx")) {
             //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
