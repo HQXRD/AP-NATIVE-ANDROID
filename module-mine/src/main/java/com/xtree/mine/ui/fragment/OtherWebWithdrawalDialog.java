@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
-import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -223,7 +222,8 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         //成功状态
         String url = infoVo.fast_iframe_url;
         if (url != null && !StringUtils.isStartHttp(url)) {
-            url = DomainUtil.getApiUrl() + "/" + url;
+//            url = DomainUtil.getApiUrl() + "/" + url;
+            url = DomainUtil.getApiUrl() + url;
         }
         jumpUrl = url;
 
