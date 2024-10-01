@@ -894,7 +894,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 public void onClickRight() {
                     toBindPhonePage();
                     bindPhonePPW.dismiss();
-                    bindPhonePPW = null;
+                    //bindPhonePPW = null;
                 }
             });
             bindPhonePPW = new XPopup.Builder(getContext())
