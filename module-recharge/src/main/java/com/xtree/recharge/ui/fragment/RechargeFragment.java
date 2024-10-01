@@ -1642,9 +1642,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             //绑定银行卡
             //&&isOnePayFix(vo)  去除银行判定
-            /* if (vo.view_bank_card && vo.userBankList.isEmpty()) {*/
+            /* if (vo.view_bank_card && vo.userBankList.isEmpty())  == false{*/
 
-            if (vo.view_bank_card == false && vo.userBankList.isEmpty()) {
+            if (vo.view_bank_card  && vo.userBankList.isEmpty()) {
                 // 绑定YHK
                 CfLog.i("****** 绑定YHK");
                 toBindCard();
