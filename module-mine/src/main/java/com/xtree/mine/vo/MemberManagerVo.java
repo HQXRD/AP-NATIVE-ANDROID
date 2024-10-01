@@ -8,6 +8,7 @@ public class MemberManagerVo {
     public List<UserVo> bread; // 本级
     public MemberPageVo mobile_page;
     public ArrayList<MemberUserInfoVo> users;
+    public String msg_detail = "";
 
     public static class UserVo {
         public String userid; // 本级

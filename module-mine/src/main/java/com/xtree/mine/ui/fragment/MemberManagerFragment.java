@@ -21,7 +21,6 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
-import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
@@ -39,7 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_MEMBER_MANAGER)
@@ -151,6 +150,15 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
             adapter.setIsShow(vo.isshow);
             binding.refreshLayout.finishRefresh();
             binding.refreshLayout.finishLoadMore();
+
+            if (null == vo.users) {
+                ToastUtils.showLong(vo.msg_detail);
+                binding.tvwBread.setText("");
+                binding.refreshLayout.setEnableLoadMore(false);
+                binding.refreshLayout.setEnableRefresh(false);
+                binding.tvwNoData.setVisibility(View.VISIBLE);
+                return;
+            }
 
             binding.refreshLayout.setEnableLoadMore(!vo.mobile_page.p.equals(vo.mobile_page.total_page));
 
