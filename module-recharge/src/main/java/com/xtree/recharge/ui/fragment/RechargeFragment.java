@@ -113,7 +113,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     BasePopupView ppw2 = null; // 底部弹窗 (二层弹窗)
     BasePopupView ppw3 = null; // 极速充值绑定银行卡弹窗
     BasePopupView bindCardPPW = null;//绑定银行卡PopView
-    BasePopupView bindPhonePPW = null;
+    public static BasePopupView bindPhonePPW = null;
     String bankId = ""; // 用户绑定的银行卡ID
     String bankCode = ""; // 付款银行编号 (极速充值用) ABC
     String hiWalletUrl; // 一键进入 HiWallet钱包
@@ -877,7 +877,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         ppw.show();
     }
 
-    private void toBindPhoneNumber() {
+    public  void  toBindPhoneNumber() {
         if (bindPhonePPW == null) {
             String msg = getString(R.string.txt_rc_bind_phone_pls);
             String left = getString(R.string.txt_cancel);
@@ -885,15 +885,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
+                    if (bindPhonePPW !=null){
+                        bindPhonePPW.dismiss();
+                        bindPhonePPW = null;
+                    }
 
-                    bindPhonePPW.dismiss();
-                    bindPhonePPW = null;
+                   // bindPhonePPW = null;
                 }
 
                 @Override
                 public void onClickRight() {
                     toBindPhonePage();
-                    bindPhonePPW.dismiss();
+                    if (bindPhonePPW !=null){
+                        bindPhonePPW.dismiss();
+                        bindPhonePPW = null;
+                    }
                     //bindPhonePPW = null;
                 }
             });
@@ -904,6 +910,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     .asCustom(dialog);
             bindPhonePPW.show();
         } else {
+            bindPhonePPW.dismiss();
             bindPhonePPW = null;
             String msg = getString(R.string.txt_rc_bind_phone_pls);
             String left = getString(R.string.txt_cancel);
@@ -911,16 +918,23 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
-
-                    bindPhonePPW.dismiss();
-                    bindPhonePPW = null;
+                    if (bindPhonePPW !=null){
+                        bindPhonePPW.dismiss();
+                        bindPhonePPW = null;
+                    }
+                   /* bindPhonePPW.dismiss();
+                    bindPhonePPW = null;*/
                 }
 
                 @Override
                 public void onClickRight() {
                     toBindPhonePage();
-                    bindPhonePPW.dismiss();
-                    bindPhonePPW = null;
+                    if (bindPhonePPW !=null){
+                        bindPhonePPW.dismiss();
+                        bindPhonePPW = null;
+                    }
+                   /* bindPhonePPW.dismiss();
+                    bindPhonePPW = null;*/
                 }
             });
             bindPhonePPW = new XPopup.Builder(getContext())
@@ -985,7 +999,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
-    private void toBindPhonePage() {
+    private  void toBindPhonePage() {
         String type = Constant.BIND_PHONE; // VERIFY_BIND_PHONE
         if (mProfileVo != null && mProfileVo.is_binding_email) {
             type = Constant.VERIFY_BIND_PHONE;
