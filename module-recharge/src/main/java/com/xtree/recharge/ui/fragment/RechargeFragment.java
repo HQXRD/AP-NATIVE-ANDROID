@@ -60,6 +60,7 @@ import com.xtree.recharge.vo.ProcessingDataVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -689,7 +690,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
             } else if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
                 TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
-                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getDomain2() + vo.op_thiriframe_url;
+//                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getDomain2() + vo.op_thiriframe_url;
+                String url = vo.op_thiriframe_url;
+                if (!url.startsWith("http")) {
+                    String separator;
+                    if (DomainUtil.getApiUrl().endsWith("/") && url.startsWith("/")) {
+                        url = url.substring(1);
+                        separator = "";
+                    } else if (DomainUtil.getApiUrl().endsWith("/") || url.startsWith("/")) {
+                        separator = "";
+                    } else {
+                        separator = File.separator;
+                    }
+                    url = DomainUtil.getApiUrl() + separator + url;
+                }
                 showWebPayDialog(vo.title, url);
             } else if (vo.paycode.contains(ONE_PAY_FIX)) {
                 // 极速充值
@@ -1464,9 +1478,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 ToastUtils.showError(vo.op_thiriframe_msg);
                 return;
             }
+//            if (!url.startsWith("http")) {
+//                url = DomainUtil.getApiUrl() + url;
+//            }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
-                url = DomainUtil.getApiUrl() + url;
+                String separator;
+                if (DomainUtil.getApiUrl().endsWith("/") && url.startsWith("/")) {
+                    url = url.substring(1);
+                    separator = "";
+                } else if (DomainUtil.getApiUrl().endsWith("/") || url.startsWith("/")) {
+                    separator = "";
+                } else {
+                    separator = File.separator;
+                }
+                url = DomainUtil.getApiUrl() + separator + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
             showWebPayDialog(vo.title, url);
