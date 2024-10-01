@@ -33,5 +33,5 @@
 
   { "id":"506", "title": "XXXX", "picture": "hm_gm_qp_06", "typeId": 506, "pId": 5 ,    	"isH5": true, "cid":43 } ,
 
-  { "id":"601", "title": "XXXX", "picture": "hm_gm_cp_01", "typeId": 601, "pId": 6 ,    	"name": "意昂彩票", "playURL": "webapp/?isNative=1#/alllottery", "isH5": true, "imageName": "XCImage.lottery_CAIPAO" }
+  { "id":"601", "title": "XXXX", "picture": "hm_gm_cp_01", "typeId": 601, "pId": 6 ,    	"name": "意昂3彩票", "playURL": "webapp/?isNative=1#/alllottery", "isH5": true, "imageName": "XCImage.lottery_CAIPAO" }
 ]
