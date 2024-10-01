@@ -364,7 +364,7 @@ public class BrowserDialog extends BottomPopupView {
 
                     @Override
                     public void onCancel() {
-
+                        mUploadCallbackAboveL.onReceiveValue(null);
                     }
                 });
     }

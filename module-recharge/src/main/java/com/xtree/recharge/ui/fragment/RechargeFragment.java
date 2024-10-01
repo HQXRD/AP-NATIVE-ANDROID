@@ -112,6 +112,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     BasePopupView ppw = null; // 底部弹窗
     BasePopupView ppw2 = null; // 底部弹窗 (二层弹窗)
     BasePopupView ppw3 = null; // 极速充值绑定银行卡弹窗
+    BasePopupView bindCardPPW = null;//绑定银行卡PopView
+    public static BasePopupView bindPhonePPW = null;
     String bankId = ""; // 用户绑定的银行卡ID
     String bankCode = ""; // 付款银行编号 (极速充值用) ABC
     String hiWalletUrl; // 一键进入 HiWallet钱包
@@ -617,6 +619,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
         // 加个 isNeedPhone, 解决偶现用户绑手机后,再次点击还会提示绑手机(充值列表接口响应慢,最新的列表还没有回来) 2024-07-11
         boolean isNeedPhone = mProfileVo != null && !mProfileVo.is_binding_phone; // && isNeedPhone
+
         if (vo.phone_needbind && isNeedPhone) {
             binding.llBindInfo.setVisibility(View.VISIBLE);
             binding.tvwBindPhone.setVisibility(View.VISIBLE);
@@ -638,9 +641,15 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             toBindPhoneNumber();
             return;
         }
+       /* if (!vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.phone_needbind ==false){
+            // 绑定手机
+            CfLog.i("****** 绑定手机");
+            toBindPhoneNumber();
+            return;
+        }*/
         //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
         //极速充值在详情里面判断绑卡
-        if (vo.view_bank_card && vo.userBankList.isEmpty()&&!vo.paycode.contains(ONE_PAY_FIX)) {
+        if (vo.view_bank_card && vo.userBankList.isEmpty() && !vo.paycode.contains(ONE_PAY_FIX)) {
             // 绑定YHK
             CfLog.i("****** 绑定YHK");
             toBindCard();
@@ -726,7 +735,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
                     if (userBankList.isEmpty()) {
                         ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
-                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(),"", new TipBindCardDialog.ICallBack() {
+                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), "", new TipBindCardDialog.ICallBack() {
                                     @Override
                                     public void onClickConfirm() {
                                         toBindPage(Constant.BIND_CARD);
@@ -747,7 +756,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     }
                     if (userBankList.isEmpty()) {
                         ppw3 = new XPopup.Builder(getContext()).dismissOnTouchOutside(false)
-                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(),"", new TipBindCardDialog.ICallBack() {
+                                .dismissOnBackPressed(false).asCustom(new TipBindCardDialog(getContext(), "", new TipBindCardDialog.ICallBack() {
                                     @Override
                                     public void onClickConfirm() {
                                         toBindPage(Constant.BIND_CARD);
@@ -780,7 +789,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 binding.edtName.setEnabled(false);
                 binding.ivwClear.setVisibility(View.INVISIBLE);
                 binding.tvwTipName.setVisibility(View.GONE);
-            }else{
+            } else {
                 binding.edtName.setText("");
                 binding.edtName.setEnabled(true);
                 binding.tvwTipName.setVisibility(View.VISIBLE);
@@ -868,55 +877,129 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         ppw.show();
     }
 
-    private void toBindPhoneNumber() {
+    public  void  toBindPhoneNumber() {
+        if (bindPhonePPW == null) {
+            String msg = getString(R.string.txt_rc_bind_phone_pls);
+            String left = getString(R.string.txt_cancel);
+            String right = getString(R.string.txt_rc_bind_phone);
+            MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    if (bindPhonePPW !=null){
+                        bindPhonePPW.dismiss();
+                        bindPhonePPW = null;
+                    }
 
-        String msg = getString(R.string.txt_rc_bind_phone_pls);
-        String left = getString(R.string.txt_cancel);
-        String right = getString(R.string.txt_rc_bind_phone);
-        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
-            @Override
-            public void onClickLeft() {
+                   // bindPhonePPW = null;
+                }
 
-                ppw2.dismiss();
-            }
+                @Override
+                public void onClickRight() {
+                    toBindPhonePage();
+                    if (bindPhonePPW !=null){
+                        bindPhonePPW.dismiss();
+                        bindPhonePPW = null;
+                    }
+                    //bindPhonePPW = null;
+                }
+            });
+            bindPhonePPW = new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+            bindPhonePPW.show();
+        } else {
+            bindPhonePPW.dismiss();
+            bindPhonePPW = null;
+            String msg = getString(R.string.txt_rc_bind_phone_pls);
+            String left = getString(R.string.txt_cancel);
+            String right = getString(R.string.txt_rc_bind_phone);
+            MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    if (bindPhonePPW !=null){
+                        bindPhonePPW.dismiss();
+                        bindPhonePPW = null;
+                    }
+                   /* bindPhonePPW.dismiss();
+                    bindPhonePPW = null;*/
+                }
 
-            @Override
-            public void onClickRight() {
-                toBindPhonePage();
-                ppw2.dismiss();
-            }
-        });
-        ppw2 = new XPopup.Builder(getContext())
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
-                .asCustom(dialog);
-        ppw2.show();
+                @Override
+                public void onClickRight() {
+                    toBindPhonePage();
+                    if (bindPhonePPW !=null){
+                        bindPhonePPW.dismiss();
+                        bindPhonePPW = null;
+                    }
+                   /* bindPhonePPW.dismiss();
+                    bindPhonePPW = null;*/
+                }
+            });
+            bindPhonePPW = new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+            bindPhonePPW.show();
+        }
+
     }
 
     private void toBindCard() {
 
+        CfLog.e("toBindCard ------ is toBindCardl");
         String msg = getString(R.string.txt_rc_bind_bank_card_pls);
-        MsgDialog dialog = new MsgDialog(getContext(), null, msg, new MsgDialog.ICallBack() {
-            @Override
-            public void onClickLeft() {
-                ppw2.dismiss();
-            }
+        if (bindCardPPW == null) {
+            MsgDialog dialog = new MsgDialog(getContext(), null, msg, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    bindCardPPW.dismiss();
+                    bindCardPPW = null;
+                }
 
-            @Override
-            public void onClickRight() {
-                toBindPage(Constant.BIND_CARD);
-                ppw2.dismiss();
-            }
-        });
-        ppw2 = new XPopup.Builder(getContext())
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
-                .asCustom(dialog);
-        ppw2.show();
+                @Override
+                public void onClickRight() {
+                    toBindPage(Constant.BIND_CARD);
+                    bindCardPPW.dismiss();
+
+                }
+            });
+            bindCardPPW = new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+            bindCardPPW.show();
+        } else {
+            CfLog.e("toBindCard ------ is not  null");
+            bindCardPPW = null;
+            MsgDialog dialog = new MsgDialog(getContext(), null, msg, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    bindCardPPW.dismiss();
+                    bindCardPPW = null;
+                }
+
+                @Override
+                public void onClickRight() {
+                    toBindPage(Constant.BIND_CARD);
+                    bindCardPPW.dismiss();
+
+                }
+            });
+            bindCardPPW = new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog);
+            bindCardPPW.show();
+        }
 
     }
 
-    private void toBindPhonePage() {
+    private  void toBindPhonePage() {
         String type = Constant.BIND_PHONE; // VERIFY_BIND_PHONE
         if (mProfileVo != null && mProfileVo.is_binding_email) {
             type = Constant.VERIFY_BIND_PHONE;
@@ -928,6 +1011,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         isNeedRefresh = true;
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
+
+        if (bindCardPPW != null) {
+            bindCardPPW.dismiss();
+
+        }
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
 
@@ -1554,7 +1642,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             //绑定银行卡
             //&&isOnePayFix(vo)  去除银行判定
-            if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+            /* if (vo.view_bank_card && vo.userBankList.isEmpty()) {*/
+
+            if (vo.view_bank_card == false && vo.userBankList.isEmpty()) {
                 // 绑定YHK
                 CfLog.i("****** 绑定YHK");
                 toBindCard();
@@ -1567,7 +1657,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
             curRechargeVo = vo;
             viewModel.curRechargeLiveData.setValue(curRechargeVo);
-
 
             // 极速充值
             if (isOnePayFix(vo)) {
@@ -2151,7 +2240,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 .setAutoDismiss(false);
         GuideBuilder builder1 = new GuideBuilder();
 
-
         builder.addComponent(new RechargeMoneyComponent(new RechargeMoneyComponent.IRechargeMoneyCallback() {
             @Override
             public void rechargeMoneyPrevious() {
@@ -2172,7 +2260,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 showGuideByNext(vo);
             }
 
-
         }));
         moneyGuide = builder.createGuide();
         moneyGuide.show(getActivity());
@@ -2184,7 +2271,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             moneyGuide = null;
         }
     }
-
 
     private Guide nextGuide;
 
@@ -2221,7 +2307,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 dismissNextGuide();
                 startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT_GUI);
             }
-
 
         }));
         nextGuide = builder.createGuide();

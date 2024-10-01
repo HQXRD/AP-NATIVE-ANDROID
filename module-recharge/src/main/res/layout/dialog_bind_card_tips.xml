@@ -49,6 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tvw_title"
         android:src="@mipmap/ic_pop_close" />
+
     <TextView
         android:id="@+id/tvw_title"
         android:layout_width="wrap_content"
