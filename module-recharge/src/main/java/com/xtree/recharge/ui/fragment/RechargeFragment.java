@@ -1148,7 +1148,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         String realName = binding.edtName.getText().toString().trim();
         //if (curRechargeVo.realchannel_status && curRechargeVo.phone_fillin_name) {
-        if (curRechargeVo.phone_fillin_name && curRechargeVo.recharge_pattern == 2) {
+        if (curRechargeVo.phone_fillin_name && curRechargeVo.recharge_pattern == 2 && !curRechargeVo.paycode.equals("ecnyhqppay")) {
             if (TextUtils.isEmpty(realName)) {
                 ToastUtils.showLong(getString(R.string.txt_pls_enter_ur_real_name));
                 return;

@@ -224,7 +224,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
 //        if (url != null && !StringUtils.isStartHttp(url)) {
 //            url = DomainUtil.getApiUrl() + "/" + url;
 //        }
-        if (!url.startsWith("http")) {
+        if (!TextUtils.isEmpty(url)&&!url.startsWith("http")) {
             String separator;
             if (DomainUtil.getApiUrl().endsWith("/") && url.startsWith("/")) {
                 url = url.substring(1);
