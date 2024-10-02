@@ -9,7 +9,9 @@
             name="viewModel"
             type="com.xtree.mine.ui.viewmodel.BindCardViewModel" />
     </data>
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,6 +48,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_main"
@@ -93,5 +98,5 @@
             android:textSize="12sp"
             android:layout_marginLeft="30dp"/>
     </LinearLayout>
-
+    </androidx.core.widget.NestedScrollView>
 </layout>
