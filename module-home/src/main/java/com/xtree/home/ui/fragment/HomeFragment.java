@@ -89,6 +89,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private BasePopupView ppw2 = null; // 底部弹窗
     private BasePopupView closePpw = null; // 禁止该用户玩当前游戏的弹窗
     private BasePopupView updateView = null;
+
+    private BasePopupView showNewRegPopView = null;//显示新注册用户window
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     private boolean needScroll;
     private int position;
@@ -229,6 +231,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 boolean isLogin = getArguments().getBoolean("isLogin", false);
                 if (isLogin) {
                     viewModel.getECLink();
+                }
+                String showRegMsg = SPUtils.getInstance().getString(SPKeyGlobal.USER_CODE_MSG);
+                if (showRegMsg !=null && !TextUtils.isEmpty(showRegMsg)){
+                    //显示注册弹窗
+                    showRegPop(showRegMsg);
                 }
                 return;
             }
@@ -849,6 +856,29 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (diff >= 0 && diff < binding.rcvList.getChildCount()) {
             binding.rcvList.smoothScrollBy(0, binding.rcvList.getChildAt(diff).getTop());
         }
+    }
+
+    /**
+     * 显示注册弹窗
+     * @param message
+     */
+    private void  showRegPop(final String message){
+        String title = getString(R.string.txt_kind_tips);
+        MsgDialog dialog = new MsgDialog(getContext(), title, message, true, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+            }
+
+            @Override
+            public void onClickRight() {
+                showNewRegPopView.dismiss();
+            }
+        });
+        showNewRegPopView = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        showNewRegPopView.show();
     }
 
 }
