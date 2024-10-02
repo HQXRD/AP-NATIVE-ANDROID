@@ -61,6 +61,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         SPUtils.getInstance().remove(SPKeyGlobal.FB_TOKEN);
         SPUtils.getInstance().remove(SPKeyGlobal.PM_TOKEN);
         SPUtils.getInstance().remove(SPKeyGlobal.IS_FIRST_OPEN_BROWSER);
+        SPUtils.getInstance().remove(SPKeyGlobal.USER_CODE_MSG);
         RetrofitClient.init();
         liveDataLogout.setValue(true);
     }
