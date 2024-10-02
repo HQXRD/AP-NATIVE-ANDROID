@@ -224,17 +224,18 @@
                     />
 
             </LinearLayout>
-        </LinearLayout>
-        <LinearLayout style="@style/style_cm_btn_ll">
+            <LinearLayout style="@style/style_cm_btn_ll">
 
-            <TextView
-                android:id="@+id/tvw_back"
-                style="@style/style_btn_short_cancel" />
+                <TextView
+                    android:id="@+id/tvw_back"
+                    style="@style/style_btn_short_cancel" />
 
-            <TextView
-                android:id="@+id/tvw_submit"
-                style="@style/style_btn_short"
-                android:text="@string/txt_next"/>
+                <TextView
+                    android:id="@+id/tvw_submit"
+                    style="@style/style_btn_short"
+                    android:text="@string/txt_next"/>
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 </layout>
