@@ -253,6 +253,9 @@
     <color name="clr_main_33">#FFF1ED</color>
     <color name="clr_main_34">#F9F4FF</color>
 
+    <color name="clr_main_stream_1">#F3A3CA</color>
+    <color name="clr_main_stream_2">#8877ED</color>
+
     <color name="clr_purple_f0">#A797F0</color>
 
     <!-- 按钮背景 左中右/上中下 -->

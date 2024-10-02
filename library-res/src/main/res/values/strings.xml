@@ -313,6 +313,10 @@
     <string name="txt_mine_alipay_nick_name">支付宝昵称</string>
     <string name="txt_alipay_code">支付宝收款码：</string>
 
+    <string name="txt_live_chat_square">广场</string>
+    <string name="txt_live_chat_betting">投注</string>
+    <string name="txt_live_chat_private">主播私聊</string>
+    <string name="txt_live_chat_assistant">主播助理</string>
 
     <!--测速浮窗-->
     <string name="txt_fastest_tip">当前线路网络速度较慢，是否切换</string>
