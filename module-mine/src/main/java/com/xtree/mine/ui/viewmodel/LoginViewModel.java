@@ -304,6 +304,10 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.userName); // 用户名
         // 解决登录后,首页显示为未登录,过2秒才显示登录名和金额的问题
         SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(new ProfileVo(vo.userName, "***")));
+        //存储新注册用户弹窗信息
+        if (vo.inviteCodeSourceMsg instanceof String){
+            SPUtils.getInstance().put(SPKeyGlobal.USER_CODE_MSG, vo.inviteCodeSourceMsg.toString());
+        }
         RetrofitClient.init();
     }
 

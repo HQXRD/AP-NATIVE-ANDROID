@@ -16,6 +16,7 @@ public class LoginResultVo implements Parcelable {
     public ContactsVo contacts; // { } 异地登录 验证
     public String userName; // 登录名, 自己加的
     public String userpass;
+    public Object inviteCodeSourceMsg ;//null 不显示弹窗，有数据就显示
 
     public static class ContactsVo implements Parcelable {
         public String phone; // "132****1233",
