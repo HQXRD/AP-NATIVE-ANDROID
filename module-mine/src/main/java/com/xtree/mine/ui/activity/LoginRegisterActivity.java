@@ -606,11 +606,13 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                         && !TextUtils.isEmpty(registerVerificationCodeVo.key)
                         && verificationTxt != null) {
                     //为获取推广码 使用默认的推广码
-                    //inviteCodeSource 1:系统默认
-                    viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt , 1);
+                    //inviteCodeSource 1:系统默认[去除写死code]
+                   // viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt , 1);
+                    viewModel.register(account, pwd1, "", registerVerificationCodeVo.key, verificationTxt , 1);
                 } else {
-                    //inviteCodeSource 1:系统默认；3：IP获取（接口获取）；4：剪切板
-                    viewModel.register(account, pwd1, "kygprka", "", "" ,1);
+                    //inviteCodeSource 1:系统默认；3：IP获取（接口获取）；4：剪切板去除写死code]
+                    //viewModel.register(account, pwd1, "kygprka", "", "" ,1);
+                    viewModel.register(account, pwd1, "", "", "" ,1);
                 }
             }
         });
