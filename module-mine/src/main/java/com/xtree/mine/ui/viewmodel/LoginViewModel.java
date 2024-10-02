@@ -313,8 +313,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
      * @param code
      * @param validcode
      */
-    public void register(String userName, String pwd, String code, final String key,final String validcode) {
-        HashMap<String, String> map = new HashMap();
+    public void register(String userName, String pwd, String code, final String key,final String validcode ,final int inviteCodeSource) {
+        HashMap<String, Object> map = new HashMap();
         map.put("carryAuth", "false");
 
      /*   if (code == null) {
@@ -327,6 +327,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         }*/
         map.put("code", code);
         map.put("id", code);//
+        //inviteCodeSource 1:系统默认；3：IP获取（接口获取）；4：剪切板
+        map.put("inviteCodeSource",inviteCodeSource);
 
         map.put("nonce", UuidUtil.getID16());
         map.put("username", userName);
@@ -335,6 +337,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         map.put("needCaptcha","1");
 
         CfLog.e("*********** register  code1=" + map);
+
         Disposable disposable = (Disposable) model.getApiService().register(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
