@@ -614,10 +614,10 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                         if (registerVerificationCodeVo !=null
                                 &&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
                             //inviteCodeSource 5
-                            viewModel.register(account, pwd1, promotionCodeVo.domian, registerVerificationCodeVo.key, verificationTxt, 5);
+                            viewModel.register(account, pwd1, promotionCodeVo.domian, registerVerificationCodeVo.key, verificationTxt, 3);
                         }else{
                             //inviteCodeSource 5
-                            viewModel.register(account, pwd1, promotionCodeVo.domian, "", "", 5);
+                            viewModel.register(account, pwd1, promotionCodeVo.domian, "", "", 3);
                         }
                     } else if (settingsVo != null) {
                         if (settingsVo.promption_code !=null && !TextUtils.isEmpty(settingsVo.promption_code)){
