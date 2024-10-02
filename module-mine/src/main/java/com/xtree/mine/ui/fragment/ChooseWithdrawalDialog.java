@@ -42,7 +42,10 @@ import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalQuotaVo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -200,8 +203,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 for (WithdrawalListVo aa : withdrawalListVoArrayList) {
                     CfLog.e(aa.title);
                 }
-                //sortingWithdrawalListByType("1", withdrawalListVoArrayList, bankWithdrawalList);
-                //sortingWithdrawalListByType("2", withdrawalListVoArrayList, usdtWithdrawalList);
+                sortingWithdrawalListByType("1", withdrawalListVoArrayList, bankWithdrawalList);
+                sortingWithdrawalListByType("2", withdrawalListVoArrayList, usdtWithdrawalList);
                 referListUI(sortTypeList(withdrawalListVoArrayList));
 
             } else {
@@ -744,15 +747,26 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      * @return
      */
     private ArrayList<WithdrawalListVo> sortTypeList(ArrayList<WithdrawalListVo> infoList) {
-        Map<String, WithdrawalListVo> map = new LinkedHashMap<>();
+        //列表去重
+//        TreeSet treeSet = new TreeSet(infoList);
+//        infoList.clear();
+//        infoList.addAll(treeSet);
+
+        CfLog.e("sortTypeList  infoList1= " + infoList.size());
+        ArrayList<WithdrawalListVo> arrayList = new ArrayList<WithdrawalListVo>();
         for (int i = 0; i < infoList.size(); i++) {
             //只添加enable为 true状态的，即是开启该提款通道的体况方式
-            if (infoList.get(i).enable) {
-                map.put(infoList.get(i).type, infoList.get(i));
+            if (infoList.get(i).enable == true) {
+                arrayList.add(infoList.get(i));
             }
         }
-        ArrayList<WithdrawalListVo> arrayList = new ArrayList<>(map.values());
-
+//        HashSet set = new HashSet(arrayList);
+//        arrayList.clear();
+//        arrayList.addAll(set);
+//        Collections.reverse(arrayList);
+        //列表排序
+        //Collections.sort(arrayList);
+//        Collections.reverse(arrayList);
         return arrayList;
     }
 
@@ -777,16 +791,21 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
 
     private static ArrayList<WithdrawalListVo> removeDupliByType(ArrayList<WithdrawalListVo> list) {
         ArrayList<WithdrawalListVo> wdList = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            list.stream().forEach(
-                    p -> {
-                        if (!wdList.contains(p)) {
-                            wdList.add(p);
-                        }
-                    }
-            );
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            list.stream().forEach(
+//                    p -> {
+//                        if (!wdList.contains(p)) {
+//                            wdList.add(p);
+//                        }
+//                    }
+//            );
+//        }
+        for (WithdrawalListVo p: list) {
+            if (!wdList.contains(p)) {
+                wdList.add(p);
+            }
         }
-        TreeSet<WithdrawalListVo> treeSet = new TreeSet<>(list);
+        LinkedHashSet<WithdrawalListVo> treeSet = new LinkedHashSet<>(list);
         ArrayList<WithdrawalListVo> newList = new ArrayList<>(treeSet);
         return newList;
     }
