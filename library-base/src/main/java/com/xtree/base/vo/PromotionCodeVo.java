@@ -7,7 +7,7 @@ import me.xtree.mvvmhabit.http.BaseResponse2;
 public class PromotionCodeVo extends BaseResponse2 {
     public String agency_model;
     public String default_skin;
-    public String domian;//回传的code
+    public String domain;//回传的code
     public String  top_id;
     public boolean  verifycodeswitch;
 
@@ -16,7 +16,7 @@ public class PromotionCodeVo extends BaseResponse2 {
         return "PromotionCodeVo{" +
                 "agency_model='" + agency_model + '\'' +
                 ", default_skin='" + default_skin + '\'' +
-                ", domian='" + domian + '\'' +
+                ", domian='" + domain + '\'' +
                 ", top_id='" + top_id + '\'' +
                 ", verifycodeswitch=" + verifycodeswitch +
                 '}';

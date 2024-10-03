@@ -109,10 +109,16 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<LoginResultVo>> loginAndVer(@Body Map<String, String> map);
 
-
-    @POST("/api/register/kygprka")
+/*  *//**
+   * 绑定
+   * client=m&controller=security&action=adduserusdt
+   *//*
+  @POST("/user/user{key}info?")
+  @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+  Flowable<UserUsdtConfirmVo> doBindUsdt(@Path("key") String key, @QueryMap Map<String, String> queryMap, @Body Map<String, String> map);*/
+    @POST("/api/register/{key}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<LoginResultVo>> register(@Body Map<String, Object> map);
+    Flowable<BaseResponse<LoginResultVo>> register(@Path("key") String key,@Body Map<String, Object> map);
     /**
     *获取注册验证码
      */
