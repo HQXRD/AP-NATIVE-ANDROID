@@ -587,16 +587,16 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                         return;
                     }
 
-                    final String netCode =
-                            SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
+                    final String domian =
+                            SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE_REG);
 
                     /**
                      * 1 先读取剪切板 如果有 传inviteCodeSource 为4
                      * 2.  promotionCodeVo  domian        为5
                      * 3. 读取 settingsVo  promption_code不为空 2
                      * 4.读取settingsVo  default_promption_code 为空 3
-                     *
                      */
+
                     //剪切板不为空 且注册验证码不为空
                     if (code != null && !TextUtils.isEmpty(code))
                     {
@@ -609,15 +609,15 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                             viewModel.register(account, pwd1, code, "", "", 4);
                         }
                     }
-                    else if (promotionCodeVo != null && !TextUtils.isEmpty(promotionCodeVo.domian))
+                    else if (domian != null && !TextUtils.isEmpty(domian))
                     {
                         if (registerVerificationCodeVo !=null
                                 &&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
                             //inviteCodeSource 5
-                            viewModel.register(account, pwd1, promotionCodeVo.domian, registerVerificationCodeVo.key, verificationTxt, 3);
+                            viewModel.register(account, pwd1, domian, registerVerificationCodeVo.key, verificationTxt, 3);
                         }else{
                             //inviteCodeSource 5
-                            viewModel.register(account, pwd1, promotionCodeVo.domian, "", "", 3);
+                            viewModel.register(account, pwd1, domian, "", "", 3);
                         }
                     } else if (settingsVo != null) {
                         if (settingsVo.promption_code !=null && !TextUtils.isEmpty(settingsVo.promption_code)){
@@ -640,34 +640,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                             }
                         }
                     }
-
-           /* //剪切板不为空
-            if (code != null && !TextUtils.isEmpty(code)
-                    &&registerVerificationCodeVo !=null
-                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
-                //inviteCodeSource 4：剪切板
-                viewModel.register(account, pwd1, code, registerVerificationCodeVo.key, verificationTxt, 4);
-            } else if ( (netCode != null && !TextUtils.isEmpty(netCode))
-                    &&registerVerificationCodeVo !=null
-                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)) {
-                //inviteCodeSource 3：IP获取（接口获取）
-                viewModel.register(account, pwd1, netCode, registerVerificationCodeVo.key, verificationTxt , 3);
-            } else {
-                //增加
-                if (registerVerificationCodeVo != null
-                        && registerVerificationCodeVo.key != null
-                        && !TextUtils.isEmpty(registerVerificationCodeVo.key)
-                        && verificationTxt != null) {
-                    //为获取推广码 使用默认的推广码
-                    //inviteCodeSource 1:系统默认[去除写死code]
-                   // viewModel.register(account, pwd1, "kygprka", registerVerificationCodeVo.key, verificationTxt , 1);
-                    viewModel.register(account, pwd1, "ppbpbpa", registerVerificationCodeVo.key, verificationTxt , 1);
-                } else {
-                    //inviteCodeSource 1:系统默认；3：IP获取（接口获取）；4：剪切板去除写死code]
-                    //viewModel.register(account, pwd1, "kygprka", "", "" ,1);
-                    viewModel.register(account, pwd1, "ppbpbpa", "", "" ,1);
-                }
-            }*/
         });
         //点击 注册 验证码图片 手动刷新验证码图片
         binding.ivVerification.setOnClickListener(v -> {
@@ -684,6 +656,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             msg.what = HANDLER_INIT_VER_LOGIN;
             sendMessage(msg);
         });
+        viewModel.getPromotion();
     }
 
     private void showAgreementDialog(CheckBox checkBox) {
