@@ -21,6 +21,8 @@ import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
 import com.xtree.mine.vo.RegisterVerificationCodeVo;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -342,7 +344,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
         CfLog.e("*********** register  code1=" + map);
 
-        Disposable disposable = (Disposable) model.getApiService().register(map)
+        Disposable disposable = (Disposable) model.getApiService().register(code,map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<LoginResultVo>() {
@@ -419,7 +421,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
                         SPUtils.getInstance().put(SPKeyGlobal.PUBLIC_KEY, public_key);
                         SPUtils.getInstance().put("customer_service_url", vo.customer_service_url);
-                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, vo.promption_code);//推广code
+                        //SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, vo.promption_code);//推广code
 
                         liveDataSettings.setValue(vo);
                     }
@@ -443,7 +445,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
                     @Override
                     public void onResult(PromotionCodeVo promotionCodeVo) {
-                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, promotionCodeVo.domian);//推广code
+                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE_REG, promotionCodeVo.domain);//推广code
                         promotionCodeVoMutableLiveData.setValue(promotionCodeVo);
                     }
 
