@@ -787,7 +787,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                     targetList.add(vo);
                 }
             }
-            removeDupliByType(targetList);
+//            removeDupliByType(targetList);
         }
     }
 
