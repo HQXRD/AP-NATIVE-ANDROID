@@ -589,12 +589,20 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
                     final String domian =
                             SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE_REG);
+                    String default_promption_code = null;
+                    if (settingsVo !=null && !TextUtils.isEmpty(settingsVo.default_promption_code)){
+                        default_promption_code = settingsVo.default_promption_code;
+                    }
+
 
                     /**
-                     * 1 先读取剪切板 如果有 传inviteCodeSource 为4
-                     * 2.  promotionCodeVo  domian        为5
-                     * 3. 读取 settingsVo  promption_code不为空 2
-                     * 4.读取settingsVo  default_promption_code 为空 3
+                     剪贴板 =4  =  剪贴板
+
+                     promotion 接口 =2 =   系统设置（来源：default/promotioncode接口）
+
+                     promption_code  = 2 = 系统设置（来源：setting接口）
+
+                     default_promption_code = 1 =  系统默认 （来源：setting接口）
                      */
 
                     //剪切板不为空 且注册验证码不为空
@@ -611,32 +619,37 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     }
                     else if (domian != null && !TextUtils.isEmpty(domian))
                     {
-                        if (registerVerificationCodeVo !=null
+                        if (domian.equals(default_promption_code) &&
+                                registerVerificationCodeVo !=null
                                 &&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
-                            //inviteCodeSource 5
-                            viewModel.register(account, pwd1, domian, registerVerificationCodeVo.key, verificationTxt, 3);
-                        }else{
-                            //inviteCodeSource 5
-                            viewModel.register(account, pwd1, domian, "", "", 3);
+                            viewModel.register(account, pwd1, domian, registerVerificationCodeVo.key, verificationTxt, 2);
+                        } else if (domian.equals(default_promption_code)
+                                && (registerVerificationCodeVo ==null ||TextUtils.isEmpty(registerVerificationCodeVo.key))) {
+                            viewModel.register(account, pwd1, domian, "", "", 2);
+                        } else{
+                            if (registerVerificationCodeVo !=null
+                                    &&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
+                                viewModel.register(account, pwd1, domian, registerVerificationCodeVo.key, verificationTxt, 2);
+                            }else{
+                                viewModel.register(account, pwd1, domian, "", "", 2);
+                            }
                         }
                     } else if (settingsVo != null) {
                         if (settingsVo.promption_code !=null && !TextUtils.isEmpty(settingsVo.promption_code)){
                             if (registerVerificationCodeVo !=null
                                     &&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
-                                //inviteCodeSource 5
-                                viewModel.register(account, pwd1, settingsVo.promption_code, registerVerificationCodeVo.key, verificationTxt, 1);
+                                viewModel.register(account, pwd1, settingsVo.promption_code, registerVerificationCodeVo.key, verificationTxt, 2);
                             }else{
-                                //inviteCodeSource 5
-                                viewModel.register(account, pwd1, settingsVo.promption_code, "", "", 1);
+                                viewModel.register(account, pwd1, settingsVo.promption_code, "", "", 2);
                             }
                         } else if (settingsVo.default_promption_code !=null && !TextUtils.isEmpty(settingsVo.default_promption_code)) {
                             if (registerVerificationCodeVo !=null
                                     &&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
                                 //inviteCodeSource 5
-                                viewModel.register(account, pwd1, settingsVo.default_promption_code, registerVerificationCodeVo.key, verificationTxt, 2);
+                                viewModel.register(account, pwd1, settingsVo.default_promption_code, registerVerificationCodeVo.key, verificationTxt, 1);
                             }else{
                                 //inviteCodeSource 5
-                                viewModel.register(account, pwd1, settingsVo.default_promption_code, "", "", 2);
+                                viewModel.register(account, pwd1, settingsVo.default_promption_code, "", "", 1);
                             }
                         }
                     }
