@@ -624,19 +624,19 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                             if (registerVerificationCodeVo !=null
                                     &&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
                                 //inviteCodeSource 5
-                                viewModel.register(account, pwd1, settingsVo.promption_code, registerVerificationCodeVo.key, verificationTxt, 2);
+                                viewModel.register(account, pwd1, settingsVo.promption_code, registerVerificationCodeVo.key, verificationTxt, 1);
                             }else{
                                 //inviteCodeSource 5
-                                viewModel.register(account, pwd1, settingsVo.promption_code, "", "", 2);
+                                viewModel.register(account, pwd1, settingsVo.promption_code, "", "", 1);
                             }
                         } else if (settingsVo.default_promption_code !=null && !TextUtils.isEmpty(settingsVo.default_promption_code)) {
                             if (registerVerificationCodeVo !=null
                                     &&!TextUtils.isEmpty(registerVerificationCodeVo.key)){
                                 //inviteCodeSource 5
-                                viewModel.register(account, pwd1, settingsVo.default_promption_code, registerVerificationCodeVo.key, verificationTxt, 3);
+                                viewModel.register(account, pwd1, settingsVo.default_promption_code, registerVerificationCodeVo.key, verificationTxt, 2);
                             }else{
                                 //inviteCodeSource 5
-                                viewModel.register(account, pwd1, settingsVo.default_promption_code, "", "", 3);
+                                viewModel.register(account, pwd1, settingsVo.default_promption_code, "", "", 2);
                             }
                         }
                     }
