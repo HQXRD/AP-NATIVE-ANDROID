@@ -767,6 +767,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         //列表排序
         //Collections.sort(arrayList);
 //        Collections.reverse(arrayList);
+        removeDupliByType(arrayList);
         return arrayList;
     }
 
@@ -789,7 +790,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         }
     }
 
-    private static ArrayList<WithdrawalListVo> removeDupliByType(ArrayList<WithdrawalListVo> list) {
+    private static  void removeDupliByType(ArrayList<WithdrawalListVo> list) {
         ArrayList<WithdrawalListVo> wdList = new ArrayList<>();
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            list.stream().forEach(
@@ -800,14 +801,17 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
 //                    }
 //            );
 //        }
+        HashSet<String> seenTypes = new HashSet<>(); // 用于存储已见过的类型
         for (WithdrawalListVo p: list) {
-            if (!wdList.contains(p)) {
+            if (!seenTypes.contains(p.type)) { // 根据 type 字段去重
                 wdList.add(p);
+                seenTypes.add(p.type); // 将该类型标记为已见
             }
         }
-        LinkedHashSet<WithdrawalListVo> treeSet = new LinkedHashSet<>(list);
-        ArrayList<WithdrawalListVo> newList = new ArrayList<>(treeSet);
-        return newList;
+//        LinkedHashSet<WithdrawalListVo> treeSet = new LinkedHashSet<>(list);
+//        ArrayList<WithdrawalListVo> newList = new ArrayList<>(treeSet);
+        list.clear();
+        list.addAll(wdList);
     }
 
 }
