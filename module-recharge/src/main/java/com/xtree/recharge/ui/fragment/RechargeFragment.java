@@ -3,6 +3,9 @@ package com.xtree.recharge.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.text.HtmlCompat;
 import androidx.core.widget.TextViewCompat;
@@ -21,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -55,6 +60,7 @@ import com.xtree.recharge.vo.ProcessingDataVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -380,40 +386,41 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         return vo.paycode.contains(ONE_PAY_FIX) && isNotEmpty;
     }
 
-//    Handler mHandler = new Handler(Looper.getMainLooper()) {
-//        @Override
-//        public void handleMessage(@NonNull Message msg) {
-//            //super.handleMessage(msg);
-//            switch (msg.what) {
-//                case MSG_CLICK_CHANNEL:
-//                    if (binding.rcvPayChannel.getAdapter().getItemCount() > 0) {
-//                        RechargeVo vo = (RechargeVo) msg.obj;
-//                        View child = binding.rcvPayChannel.findViewWithTag(vo.bid);
-//                        if (child != null) {
-//                            child.performClick();
-//                        }
-//                        for (int i = 0; i < curPaymentTypeVo.payChannelList.size(); i++) {
-//                            if (curPaymentTypeVo.payChannelList.get(i).bid.equals(vo.bid)) {
-//                                binding.rcvPayChannel.scrollToPosition(i); // 自动滑动到选中的充值渠道
-//                                return;
-//                            }
-//                        }
-//                    }
-//                    break;
-//                case MSG_ADD_PAYMENT:
-//                    SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
-//                    break;
-//                default:
-//                    CfLog.i("****** default");
-//                    break;
-//            }
-//        }
-//    };
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            //super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_CLICK_CHANNEL:
+                    if (binding.rcvPayChannel.getAdapter().getItemCount() > 0) {
+                        RechargeVo vo = (RechargeVo) msg.obj;
+                        View child = binding.rcvPayChannel.findViewWithTag(vo.bid);
+                        if (child != null) {
+                            child.performClick();
+                        }
+                        for (int i = 0; i < curPaymentTypeVo.payChannelList.size(); i++) {
+                            if (curPaymentTypeVo.payChannelList.get(i).bid.equals(vo.bid)) {
+                                binding.rcvPayChannel.scrollToPosition(i); // 自动滑动到选中的充值渠道
+                                return;
+                            }
+                        }
+                    }
+                    break;
+                case MSG_ADD_PAYMENT:
+                    SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+                    break;
+                default:
+                    CfLog.i("****** default");
+                    break;
+            }
+        }
+    };
 
     private void onClickPaymentType(PaymentTypeVo vo) {
         CfLog.i(vo.toInfo());
         CfLog.d("size: " + vo.payChannelList.size());
         curPaymentTypeVo = vo;
+        binding.llCurPmtParent.setVisibility(View.VISIBLE);
         binding.llCurPmt.setVisibility(View.VISIBLE);
         binding.tvwCurPmt.setText(vo.dispay_title);
         String url = DomainUtil.getDomain2() + vo.un_selected_image; // 未选中 彩色图片
@@ -434,14 +441,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         } else {
             binding.rcvPayChannel.setVisibility(View.VISIBLE);
 
-//            // 非跳转三方的,默认选中第一个
-//            RechargeVo vo2 = vo.payChannelList.get(0);
-//            if (!(vo2.op_thiriframe_use && !vo2.phone_needbind)) {
-//                Message msg2 = new Message();
-//                msg2.what = MSG_CLICK_CHANNEL;
-//                msg2.obj = vo2;
-//                mHandler.sendMessageDelayed(msg2, 350L);
-//            }
+            // 非跳转三方的,默认选中第一个
+            RechargeVo vo2 = vo.payChannelList.get(0);
+            if (!(vo2.op_thiriframe_use && !vo2.phone_needbind)) {
+                Message msg2 = new Message();
+                msg2.what = MSG_CLICK_CHANNEL;
+                msg2.obj = vo2;
+                mHandler.sendMessageDelayed(msg2, 350L);
+            }
         }
 
     }
@@ -579,7 +586,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void onClickPayment2(RechargeVo vo) {
-        CfLog.i("****** " + vo.title);
+        CfLog.i(" ---- > ****** " + vo.title);
         bankId = "";
         bankCode = "";
         //binding.tvwCurPmt.setText(vo.title); // 用大类的名字
@@ -612,9 +619,19 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             toBindPhoneNumber();
             return;
         }
+       /* //增加银行卡充值判断绑卡绑卡逻辑  暂时作废
+        if (vo.view_bank_card && vo.userBankList.size() == 0) {
+            binding.llBindInfo.setVisibility(View.VISIBLE);
+            binding.tvwBindYhk.setVisibility(View.VISIBLE);
 
-        //支付宝和微信不判断银行卡绑定信息
-        if (!vo.paycode.contains("zfb") && !vo.paycode.contains("wx")) {
+            // 绑定YHK
+            CfLog.i("****** 绑定YHK");
+            toBindCard();
+            return;
+        }*/
+
+        //支付宝和微信判断银行卡绑定信息
+        if (vo.paycode.contains("zfb")|| vo.paycode.contains("wx")) {
             //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
             if (vo.view_bank_card && vo.userBankList.isEmpty()) {
 
@@ -672,7 +689,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
             } else if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
                 TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
-                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getDomain2() + vo.op_thiriframe_url;
+//                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getDomain2() + vo.op_thiriframe_url;
+                String url = vo.op_thiriframe_url;
+                if (!url.startsWith("http")) {
+                    String separator;
+                    if (DomainUtil.getApiUrl().endsWith("/") && url.startsWith("/")) {
+                        url = url.substring(1);
+                        separator = "";
+                    } else if (DomainUtil.getApiUrl().endsWith("/") || url.startsWith("/")) {
+                        separator = "";
+                    } else {
+                        separator = File.separator;
+                    }
+                    url = DomainUtil.getApiUrl() + separator + url;
+                }
                 showWebPayDialog(vo.title, url);
             } else if (vo.paycode.contains(ONE_PAY_FIX)) {
                 // 极速充值
@@ -1122,7 +1152,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         String realName = binding.edtName.getText().toString().trim();
         //if (curRechargeVo.realchannel_status && curRechargeVo.phone_fillin_name) {
-        if (curRechargeVo.phone_fillin_name && curRechargeVo.recharge_pattern == 2) {
+        if (curRechargeVo.phone_fillin_name && curRechargeVo.recharge_pattern == 2 && !curRechargeVo.paycode.equals("ecnyhqppay")) {
             if (TextUtils.isEmpty(realName)) {
                 ToastUtils.showLong(getString(R.string.txt_pls_enter_ur_real_name));
                 return;
@@ -1447,9 +1477,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 ToastUtils.showError(vo.op_thiriframe_msg);
                 return;
             }
+//            if (!url.startsWith("http")) {
+//                url = DomainUtil.getApiUrl() + url;
+//            }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
-                url = DomainUtil.getApiUrl() + url;
+                String separator;
+                if (DomainUtil.getApiUrl().endsWith("/") && url.startsWith("/")) {
+                    url = url.substring(1);
+                    separator = "";
+                } else if (DomainUtil.getApiUrl().endsWith("/") || url.startsWith("/")) {
+                    separator = "";
+                } else {
+                    separator = File.separator;
+                }
+                url = DomainUtil.getApiUrl() + separator + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
             showWebPayDialog(vo.title, url);

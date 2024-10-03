@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
-import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.showTextView.setText(arrayList.get(position).name);
+        viewHolder.showTextView.setText(arrayList.get(position).title);
         if (arrayList.get(position).flag) {
             viewHolder.showLayout.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
         } else {

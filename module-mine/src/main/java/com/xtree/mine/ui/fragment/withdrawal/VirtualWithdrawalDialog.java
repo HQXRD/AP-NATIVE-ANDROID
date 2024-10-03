@@ -23,7 +23,6 @@ import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
-import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -32,7 +31,6 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalVirtualBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
-import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
@@ -124,7 +122,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     private void initView() {
         binding = DialogBankWithdrawalVirtualBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwTitle.setText(listVo.name);
+        binding.tvwTitle.setText(listVo.title);
         refreshUI(infoVo);
 
     }
@@ -235,7 +233,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         // 验证当前渠道信息 错误信息
         viewModel.verifyVoErrorData.observe(owner, vo -> {
             final String message = vo;
-            if (message != null && !TextUtils.isEmpty(message)) {
+            if (!TextUtils.isEmpty(message)) {
                 showErrorDialog(message);
             } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));

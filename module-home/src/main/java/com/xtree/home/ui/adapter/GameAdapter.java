@@ -95,7 +95,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     private void jump(GameVo vo, boolean isLeft) {
         CfLog.d(vo.toString());
         // 非正常状态 (且 非debug模式下 方便调试),不跳转
-        if (vo.status != 1 && !BuildConfig.DEBUG) {
+        if (vo.status != 1) {
             // 0是维护, 1是正常, 2是下架
             return;
         }
@@ -141,7 +141,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             // 拼装URL
             if (vo.id.equals("601")) {
                 //playGame(DomainUtil.getDomain() + vo.playURL, vo.name, true); //
-                playGame(DomainUtil.getDomain()+ vo.playURL, vo.name, vo.id.equals("601"));
+                playGame(DomainUtil.getApiUrl()+ "/" + vo.playURL, vo.name, vo.id.equals("601"));
             } else {
                 playGame(DomainUtil.getDomain() + vo.playURL, vo.name);
             }
