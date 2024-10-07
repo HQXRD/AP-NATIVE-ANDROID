@@ -242,57 +242,69 @@
                         android:visibility="gone"
                         android:background="@mipmap/bt_ic_bt_delete" />
 
-                    <RelativeLayout
-                        android:id="@+id/rl_confirm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <Button
+                        android:id="@+id/bt_bet"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
                         android:layout_centerInParent="true"
                         android:layout_marginStart="15dp"
                         android:layout_toLeftOf="@+id/iv_bt"
-                        android:layout_toRightOf="@+id/iv_delete">
-                        <ImageView
-                            android:id="@+id/iv_bt_bg"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bt_btn_bg_cg_selector"/>
-                        <TextView
-                            android:id="@+id/tv_bt_opton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/iv_confirm"
-                            android:paddingStart="5dp"
-                            android:text="@string/bt_bt_confirm_option"
-                            android:textColor="@color/bt_color_under_bg_primary_text"
-                            android:textSize="@dimen/bt_text_15sp" />
+                        android:layout_toRightOf="@+id/iv_delete"
+                        android:background="@drawable/bt_btn_bg_cg_selector"
+                        android:text="@string/bt_bt_confirm_option"
+                        android:textColor="@color/bt_color_under_bg_primary_text"
+                        android:textSize="16sp" />
+<!--                    <RelativeLayout-->
+<!--                        android:id="@+id/rl_confirm"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_centerInParent="true"-->
+<!--                        android:layout_marginStart="15dp"-->
+<!--                        android:layout_toLeftOf="@+id/iv_bt"-->
+<!--                        android:layout_toRightOf="@+id/iv_delete">-->
+<!--                        <ImageView-->
+<!--                            android:id="@+id/iv_bt_bg"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@drawable/bt_btn_bg_cg_selector"/>-->
+<!--                        <TextView-->
+<!--                            android:id="@+id/tv_bt_opton"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:layout_toRightOf="@+id/iv_confirm"-->
+<!--                            android:paddingStart="5dp"-->
+<!--                            android:text="@string/bt_bt_confirm_option"-->
+<!--                            android:textColor="@color/bt_color_under_bg_primary_text"-->
+<!--                            android:textSize="@dimen/bt_text_15sp" />-->
 
-                        <TextView
-                            android:id="@+id/tv_bt_amount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="5dp"
-                            android:layout_toRightOf="@+id/tv_bt_opton"
-                            android:textColor="@color/bt_color_bt_pay"
-                            android:textSize="@dimen/bt_text_12sp"
-                            tools:text="合计999" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/tv_bt_amount"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:layout_marginStart="5dp"-->
+<!--                            android:layout_toRightOf="@+id/tv_bt_opton"-->
+<!--                            android:textColor="@color/bt_color_bt_pay"-->
+<!--                            android:textSize="@dimen/bt_text_12sp"-->
+<!--                            tools:text="合计999" />-->
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="15dp"
-                            android:background="@mipmap/bt_ic_confirmation_group" />
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_alignParentRight="true"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:layout_marginEnd="15dp"-->
+<!--                            android:background="@mipmap/bt_ic_confirmation_group" />-->
 
-                        <com.xtree.bet.weight.DraggableImageView
-                            android:id="@+id/iv_confirm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="5dp"
-                            android:background="@mipmap/bt_ic_confirmation_arrow" />
-                    </RelativeLayout>
+<!--                        <com.xtree.bet.weight.DraggableImageView-->
+<!--                            android:id="@+id/iv_confirm"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:layout_marginStart="5dp"-->
+<!--                            android:background="@mipmap/bt_ic_confirmation_arrow" />-->
+<!--                    </RelativeLayout>-->
 
                     <ImageView
                         android:id="@+id/iv_bt"

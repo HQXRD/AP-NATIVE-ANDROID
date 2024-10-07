@@ -134,7 +134,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         keyboardView.setParent(binding.nsvOption);
         mBanlance = SPUtils.getInstance().getString(SPKeyGlobal.WLT_CENTRAL_BLC, "-1");
         binding.tvBalance.setText(NumberUtils.formatDown(Double.valueOf(mBanlance), 2));
-        binding.ivConfirm.setCallBack(() -> {
+        binding.btBet.setOnClickListener(v -> {
             int acceptOdds = binding.cbAccept.isChecked() ? 1 : 2;
             if (TextUtils.equals(mBanlance, "-1")) {
                 ToastUtils.showLong("正在获取余额信息，请稍候");
@@ -271,12 +271,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }
 
             if (hasCloseOption) {
-                binding.ivConfirm.setEnabled(false);
-                binding.ivBtBg.setEnabled(false);
+                binding.btBet.setEnabled(false);
                 binding.ivBt.setEnabled(false);
             } else {
-                binding.ivConfirm.setEnabled(true);
-                binding.ivBtBg.setEnabled(true);
+                binding.btBet.setEnabled(true);
                 binding.ivBt.setEnabled(true);
             }
 
