@@ -101,14 +101,14 @@ android {
                     ";https://h61.xuanwujx.com:16801" +
                     ";https://h61.yhlims.com:16801" +
                     ";https://h61.bfangwang.com:16801"
-            resValue "string", "domain_url_list_third", "https://cn2app.e2f9f5.com/xc/app_config.json" +
-                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
-                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
-                    ";https://cn2app.v2a1c6.com/xc/app_config.json" +
-                    ";https://scdnapp.i2q9r4.com/xc/app_config.json" +
-                    ";https://scdnapp.o6j6r6.com/xc/app_config.json" +
-                    ";https://aliapp.v9u4a4.com/xc/app_config.json" +
-                    ";https://aliapp.l2r1l7.com/xc/app_config.json"
+            resValue "string", "domain_url_list_third", "https://cn2app.y4k6sj.xyz/xc/app_config.json" +
+                    ";https://cn2app.q4e9qn.xyz/xc/app_config.json" +
+                    ";https://cn2app.x1e5qk.xyz/xc/app_config.json" +
+                    ";https://cn2app.v1e9qj.xyz/xc/app_config.json" +
+                    ";https://scdnapp.n4h7ot.xyz/xc/app_config.json" +
+                    ";https://scdnapp.e3z6uo.xyz/xc/app_config.json" +
+                    ";https://aliapp.x8d8zi.xyz/xc/app_config.json" +
+                    ";https://aliapp.r2z5zy.xyz/xc/app_config.json"
             multiDexEnabled true
             dimension "channelName"
         }
