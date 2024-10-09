@@ -45,6 +45,7 @@ import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
+import com.xtree.base.widget.AppUpdateErrorDialog;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.ImageDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -89,6 +90,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private BasePopupView ppw2 = null; // 底部弹窗
     private BasePopupView closePpw = null; // 禁止该用户玩当前游戏的弹窗
     private BasePopupView updateView = null;
+    private BasePopupView showUpdateErrorView ;//显示下载失败
 
     private BasePopupView showNewRegPopView = null;//显示新注册用户window
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
@@ -811,7 +813,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
      * @param vo           UpdateVo
      */
     private void showUpdate(final boolean isWeakUpdate, final AppUpdateVo vo) {
-        if (ppw != null && ppw.isShow()) {
+        if (updateView != null && updateView.isShow()) {
             return;
         }
         AppUpdateDialog dialog = new AppUpdateDialog(getContext(), isWeakUpdate, vo, new AppUpdateDialog.IAppUpdateCallBack() {
@@ -823,6 +825,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void onUpdateForce() {
             }
+
+            @Override
+            public void onDownloadError(String downUrl) {
+                showUpdateErrorDialog(isWeakUpdate , downUrl);
+                updateView.dismiss();
+            }
         });
 
         updateView = new XPopup.Builder(getContext())
@@ -830,6 +838,45 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 .dismissOnTouchOutside(false)
                 .asCustom(dialog);
         updateView.show();
+    }
+
+    private void  showUpdateErrorDialog(final boolean isWeakUpdate , final String downUrl){
+        showUpdateErrorView = null ;
+        AppUpdateErrorDialog updateErrorDialog = null ;
+        if (isWeakUpdate){
+            //弱更
+            updateErrorDialog = new AppUpdateErrorDialog(getContext(), downUrl, false, new AppUpdateErrorDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    showUpdateErrorView.dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    showUpdateErrorView.dismiss();
+                }
+            });
+
+        }else{
+            //刚更
+            updateErrorDialog = new AppUpdateErrorDialog(getContext(), downUrl, true, new AppUpdateErrorDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    showUpdateErrorView.dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    showUpdateErrorView.dismiss();
+                }
+            });
+        }
+
+        showUpdateErrorView = new XPopup.Builder(getContext())
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(updateErrorDialog);
+        showUpdateErrorView.show();
     }
 
     private void smoothToPositionTop(int position) {

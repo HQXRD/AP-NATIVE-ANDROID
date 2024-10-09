@@ -64,6 +64,8 @@ public class AppUpdateDialog extends CenterPopupView {
         void onUpdateCancel();
 
         void onUpdateForce(); //强制更新
+
+        void onDownloadError(final String downUrl);//下载失败 外跳URL
     }
 
     public AppUpdateDialog(@NonNull Context context) {
@@ -167,6 +169,7 @@ public class AppUpdateDialog extends CenterPopupView {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case DOWN_START:
+                    mCallBack.onDownloadError(vo.download_url);
                     downloadApk();
                     break;
                 case DOWN_UPDATE:
@@ -183,7 +186,9 @@ public class AppUpdateDialog extends CenterPopupView {
                     break;
                 case DOWN_FAIL:
                     ToastUtils.showSuccess(getContext().getString(R.string.txt_update_down_fail_tip));
-                    dismiss();
+                    mCallBack.onDownloadError(vo.download_url);
+
+                    //dismiss();
                     break;
                 default:
                     break;
