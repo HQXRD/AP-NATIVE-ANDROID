@@ -4,6 +4,7 @@
     <application>
         <activity
             android:name="com.xtree.bet.ui.activity.MainActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.xtree.bet.ui.activity.BtDetailActivity"

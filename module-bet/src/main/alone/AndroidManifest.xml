@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme"
         android:exported="true">
         <activity android:name="com.xtree.bet.ui.activity.MainActivity"
+            android:launchMode="singleTop"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -149,5 +149,6 @@ public class RouterFragmentPath {
         public static final String PAGER_BET_TUTORIAL = BET + "/tutorial";
         public static final String PAGER_BET_ANNOUNCEMENT = BET + "/announcement";
         public static final String PAGER_BET_AT = BET + "/at";
+        public static final String PAGER_BET_RESULT = BET + "/result";
     }
 }

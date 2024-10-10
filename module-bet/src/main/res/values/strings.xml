@@ -44,6 +44,7 @@
     <string name="bt_bt_btn_colse">关 闭</string>
     <string name="bt_bt_tip_success">注单已确认</string>
     <string name="bt_bt_tip_failed">投注失败</string>
+    <string name="bt_bt_menu_result">赛果</string>
     <string name="bt_bt_menu_course">公告&amp;教程</string>
     <string name="bt_bt_menu_setting">设置菜单</string>
     <string name="bt_bt_menu_unbet">未结注单</string>
