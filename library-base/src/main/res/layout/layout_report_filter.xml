@@ -29,6 +29,7 @@
             android:text="@string/txt_easter_top_count"
             android:textColor="@color/clr_white"
             android:textSize="12sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/tvw_return_money_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,6 +60,7 @@
             android:text="0"
             android:textColor="@color/clr_white"
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/tvw_return_count_title"
             app:layout_constraintStart_toStartOf="@id/tvw_return_count_title"
             app:layout_constraintTop_toBottomOf="@id/tvw_return_count_title" />
@@ -253,9 +255,9 @@
                 android:id="@+id/edt_input"
                 style="@style/style_filter_info_value"
                 android:background="@color/white"
-                android:textCursorDrawable="@color/clr_transparent"
                 android:lines="1"
                 android:textColorHint="@color/clr_gray_1"
+                android:textCursorDrawable="@color/clr_transparent"
                 tools:hint="user name" />
         </LinearLayout>
 

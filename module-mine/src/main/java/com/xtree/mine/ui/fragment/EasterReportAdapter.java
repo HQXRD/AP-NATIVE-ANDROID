@@ -6,16 +6,19 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.lxj.xpopup.XPopup;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ItemEasterReportBinding;
+import com.xtree.mine.ui.dialog.MemberDialog;
 import com.xtree.mine.vo.EasterReportItemVo;
 
 public class EasterReportAdapter extends CachedAutoRefreshAdapter<EasterReportItemVo> {
     Context ctx;
     ItemEasterReportBinding binding;
     ICallBack mCallBack;
+    int maxNum = 26;
 
     public interface ICallBack {
         void onClick(String member);
@@ -38,27 +41,24 @@ public class EasterReportAdapter extends CachedAutoRefreshAdapter<EasterReportIt
         EasterReportItemVo vo = get(position);
         binding = ItemEasterReportBinding.bind(holder.itemView);
 
-        binding.tvwDate.setText(vo.updatetime);
-        if (vo.status == 0) {
-            binding.tvwStatus.setText(ctx.getString(R.string.txt_not_give_lottery));
-            binding.tvwStatus.setTextColor(ctx.getResources().getColor(R.color.clr_green_01));
-        } else if (vo.status == 1) {
-            binding.tvwStatus.setText(ctx.getString(R.string.txt_give_lottery));
-            binding.tvwStatus.setTextColor(ctx.getResources().getColor(R.color.clr_green_01));
-        } else if (vo.status == 2) {
-            binding.tvwStatus.setText(ctx.getString(R.string.txt_cancel_lottery));
-            binding.tvwStatus.setTextColor(ctx.getResources().getColor(R.color.textColorHint));
+        binding.tvwDate.setText(vo.time);
+        binding.tvwName.setText(vo.username);
+        binding.tvwTime.setText(vo.recordsCount);
+        binding.tvwReturnMoney.setText(vo.total_sum);
+        if (vo.user_str.isEmpty()) {
+            binding.tvwTouchMember.setText("--");
+        } else if (vo.user_str.contains(",")) {
+            if (vo.user_str.length() > maxNum) {
+                String detailString = vo.user_str.substring(0, maxNum) + "..>>";
+                binding.tvwTouchMember.setText(detailString);
+            } else {
+                binding.tvwTouchMember.setText(vo.user_str + "..>>");
+            }
+            binding.tvwTouchMember.setOnClickListener(v -> {
+                new XPopup.Builder(ctx).asCustom(new MemberDialog(ctx, vo.username, vo.user_str)).show();
+            });
         } else {
-            binding.tvwStatus.setText("");
+            binding.tvwTouchMember.setText(vo.user_str);
         }
-
-        binding.tvwLottery.setText(vo.lottery);
-        binding.tvwReturnMoney.setText(vo.rebate);
-        binding.tvwOpenNumber.setText(vo.code);
-        binding.tvwEasterNumber.setText(vo.eastereggcode);
-        binding.tvwName.setText(vo.tousername);
-        binding.tvwMemberName.setText(vo.fromusername);
-
-        binding.tvwMemberName.setOnClickListener(v -> mCallBack.onClick(vo.fromusername));
     }
 }
