@@ -221,8 +221,20 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
 
         //成功状态
         String url = infoVo.fast_iframe_url;
-        if (url != null && !StringUtils.isStartHttp(url)) {
-            url = DomainUtil.getApiUrl() + "/" + url;
+//        if (url != null && !StringUtils.isStartHttp(url)) {
+//            url = DomainUtil.getApiUrl() + "/" + url;
+//        }
+        if (!TextUtils.isEmpty(url)&&!url.startsWith("http")) {
+            String separator;
+            if (DomainUtil.getApiUrl().endsWith("/") && url.startsWith("/")) {
+                url = url.substring(1);
+                separator = "";
+            } else if (DomainUtil.getApiUrl().endsWith("/") || url.startsWith("/")) {
+                separator = "";
+            } else {
+                separator = File.separator;
+            }
+            url = DomainUtil.getApiUrl() + separator + url;
         }
         jumpUrl = url;
 
