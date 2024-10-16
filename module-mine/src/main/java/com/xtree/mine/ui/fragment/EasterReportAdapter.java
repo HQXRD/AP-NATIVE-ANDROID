@@ -18,7 +18,7 @@ public class EasterReportAdapter extends CachedAutoRefreshAdapter<EasterReportIt
     Context ctx;
     ItemEasterReportBinding binding;
     ICallBack mCallBack;
-    int maxNum = 26;
+    int maxNum = 17;
 
     public interface ICallBack {
         void onClick(String member);
