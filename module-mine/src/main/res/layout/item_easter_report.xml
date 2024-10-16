@@ -14,146 +14,106 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvw_date"
+            android:id="@+id/tvw_date_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin"
-            android:drawablePadding="3dp"
-            android:text="2024-07-11 13:30:25"
-            android:textColor="@color/clr_black"
-            android:textSize="@dimen/bt_text_16sp"
+            android:text="日期："
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvw_status"
+            android:id="@+id/tvw_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/layout_margin"
-            android:text="已发放"
-            android:textColor="@color/clr_green_01"
-            android:textSize="@dimen/bt_text_16sp"
-            app:layout_constraintBottom_toBottomOf="@id/tvw_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvw_date" />
-
-        <TextView
-            android:id="@+id/tvw_lottery_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/layout_margin"
-            android:text="彩种："
-            app:layout_constraintStart_toStartOf="@id/tvw_date"
-            app:layout_constraintTop_toBottomOf="@id/tvw_date" />
-
-        <TextView
-            android:id="@+id/tvw_lottery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="北京pk拾"
+            android:text="2024-07-11 13:30:25"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/tvw_lottery_title"
-            app:layout_constraintStart_toEndOf="@id/tvw_lottery_title"
-            app:layout_constraintTop_toTopOf="@id/tvw_lottery_title" />
-
-        <TextView
-            android:id="@+id/tvw_return_money_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="返比金额："
-            app:layout_constraintStart_toStartOf="@id/tvw_lottery_title"
-            app:layout_constraintTop_toBottomOf="@id/tvw_lottery_title" />
-
-        <TextView
-            android:id="@+id/tvw_return_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0.0891"
-            android:textColor="@color/clr_red_01"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@id/tvw_return_money_title"
-            app:layout_constraintStart_toEndOf="@id/tvw_return_money_title"
-            app:layout_constraintTop_toTopOf="@id/tvw_return_money_title" />
-
-        <TextView
-            android:id="@+id/tvw_open_number_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="开奖号码："
-            app:layout_constraintStart_toStartOf="@id/tvw_return_money_title"
-            app:layout_constraintTop_toBottomOf="@id/tvw_return_money_title" />
-
-        <TextView
-            android:id="@+id/tvw_open_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="07 02 05 01 06 03 08 09 10 04"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/tvw_open_number_title"
-            app:layout_constraintTop_toTopOf="@+id/tvw_open_number_title" />
-
-        <TextView
-            android:id="@+id/tvw_easter_number_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="彩蛋号码："
-            app:layout_constraintStart_toStartOf="@id/tvw_open_number_title"
-            app:layout_constraintTop_toBottomOf="@id/tvw_open_number_title" />
-
-        <TextView
-            android:id="@+id/tvw_easter_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5,6"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/tvw_easter_number_title"
-            app:layout_constraintTop_toTopOf="@+id/tvw_easter_number_title" />
+            app:layout_constraintBottom_toBottomOf="@id/tvw_date_title"
+            app:layout_constraintStart_toEndOf="@id/tvw_date_title"
+            app:layout_constraintTop_toTopOf="@id/tvw_date_title" />
 
         <TextView
             android:id="@+id/tvw_name_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="用户名："
-            app:layout_constraintStart_toStartOf="@id/tvw_easter_number_title"
-            app:layout_constraintTop_toBottomOf="@id/tvw_easter_number_title" />
+            android:text="代理名："
+            app:layout_constraintStart_toStartOf="@id/tvw_date_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_date_title" />
 
         <TextView
             android:id="@+id/tvw_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:text="ydcd008"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/clr_red_01"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvw_name_title"
             app:layout_constraintStart_toEndOf="@id/tvw_name_title"
-            app:layout_constraintTop_toTopOf="@+id/tvw_name_title" />
+            app:layout_constraintTop_toTopOf="@id/tvw_name_title" />
 
         <TextView
-            android:id="@+id/tvw_member_name_title"
+            android:id="@+id/tvw_time_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="会员账号："
+            android:text="彩蛋次数："
             app:layout_constraintStart_toStartOf="@id/tvw_name_title"
             app:layout_constraintTop_toBottomOf="@id/tvw_name_title" />
 
         <TextView
-            android:id="@+id/tvw_member_name"
+            android:id="@+id/tvw_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="hycd0086"
-            android:textColor="@color/clr_orange_01"
+            android:text="2"
+            android:textColor="@color/colorPrimary"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/tvw_member_name_title"
-            app:layout_constraintTop_toTopOf="@+id/tvw_member_name_title" />
+            app:layout_constraintStart_toEndOf="@id/tvw_time_title"
+            app:layout_constraintTop_toTopOf="@+id/tvw_time_title" />
+
+        <TextView
+            android:id="@+id/tvw_return_money_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="反比金额："
+            app:layout_constraintStart_toStartOf="@id/tvw_time_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_time_title" />
+
+        <TextView
+            android:id="@+id/tvw_return_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3.5670"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/tvw_return_money_title"
+            app:layout_constraintTop_toTopOf="@+id/tvw_return_money_title" />
+
+        <TextView
+            android:id="@+id/tvw_touch_member_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="触发会员："
+            app:layout_constraintStart_toStartOf="@id/tvw_return_money_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_return_money_title" />
+
+        <TextView
+            android:id="@+id/tvw_touch_member"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:gravity="left"
+            android:maxLength="30"
+            android:singleLine="true"
+            android:text="hycd0086"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvw_touch_member_title"
+            app:layout_constraintTop_toTopOf="@+id/tvw_touch_member_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
