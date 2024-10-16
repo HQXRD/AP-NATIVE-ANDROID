@@ -375,7 +375,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
 
     public void getEasterReport(HashMap map) {
         Disposable disposable = (Disposable) model.getApiService().getEasterReport(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<EasterReportVo>() {
                     @Override

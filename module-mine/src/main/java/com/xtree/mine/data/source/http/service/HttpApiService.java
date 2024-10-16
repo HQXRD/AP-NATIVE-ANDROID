@@ -772,6 +772,5 @@ public interface HttpApiService {
      * 彩蛋报表
      */
     @GET("/api/report/easteregg?")
-    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<EasterReportVo>> getEasterReport(@QueryMap Map<String, Object> qMap);
 }

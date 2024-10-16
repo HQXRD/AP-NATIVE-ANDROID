@@ -11,29 +11,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
-import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentEasterReportBinding;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.mine.vo.LotteryItemVo;
-import com.xtree.mine.vo.StatusVo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_EASTER_REPORT)
 public class EasterReportFragment extends BaseFragment<FragmentEasterReportBinding, MineViewModel> {
-    List<FilterView.IBaseVo> listType = new ArrayList<>();
-    List<FilterView.IBaseVo> listStatus = new ArrayList<>();
-    int curPage = 1;
     EasterReportAdapter adapter;
 
     private String starttime;
@@ -45,25 +36,9 @@ public class EasterReportFragment extends BaseFragment<FragmentEasterReportBindi
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
-        binding.fvMain.setVisibility(View.GONE, View.VISIBLE, View.GONE, View.VISIBLE, View.VISIBLE);
+        binding.fvMain.setVisibility(View.GONE, View.GONE, View.GONE, View.GONE, View.VISIBLE);
         binding.fvMain.setTopTotal("0", "0.0000");
-        binding.fvMain.setDefEdit("会员账号", "", "请输入会员账号");
-        viewModel.getLottery();
-
-        listType.add(new StatusVo(-1, getString(R.string.txt_lottery_all_kind)));
-
-        listStatus.add(new StatusVo(-1, getString(R.string.txt_all_lottery)));
-        listStatus.add(new StatusVo(0, getString(R.string.txt_not_give_lottery)));
-        listStatus.add(new StatusVo(1, getString(R.string.txt_give_lottery)));
-        listStatus.add(new StatusVo(2, getString(R.string.txt_cancel_lottery)));
-
-        binding.fvMain.setData(listType, listStatus);
-        binding.fvMain.setDefStatus(listStatus.get(2));
-
-        binding.fvMain.setTypeTitle(getString(R.string.txt_lottery_kind), null, getString(R.string.txt_status));
-
-        binding.refreshLayout.setEnableLoadMore(false);
-        binding.refreshLayout.setEnableRefresh(false);
+        binding.fvMain.setDefEdit("代理名称", "", "请输入代理名称");
 
         binding.fvMain.setQueryListener(v -> {
             if (ClickUtil.isFastClick()) {
@@ -71,25 +46,14 @@ public class EasterReportFragment extends BaseFragment<FragmentEasterReportBindi
             }
             LoadingDialog.show(getActivity());
             adapter.clear();
-            curPage = 1;
-            requestData(1);
+            requestData();
         });
 
-        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
-            adapter.clear();
-            curPage = 1;
-            requestData(1);
-        });
-        binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            CfLog.i("****** load more");
-            requestData(++curPage);
-        });
 
         adapter = new EasterReportAdapter(getContext(), member -> {
             binding.fvMain.setEdit(member);
             adapter.clear();
-            curPage = 1;
-            requestData(1);
+            requestData();
         });
 
         binding.rcvMain.setAdapter(adapter);
@@ -108,45 +72,26 @@ public class EasterReportFragment extends BaseFragment<FragmentEasterReportBindi
 
     @Override
     public MineViewModel initViewModel() {
-        //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
         return new ViewModelProvider(this, factory).get(MineViewModel.class);
     }
 
     @Override
     public void initViewObservable() {
-        viewModel.liveDataLotteryAll.observe(this, vo -> {
-            for (LotteryItemVo item : vo) {
-                listType.add(new StatusVo(item.lotteryid, item.cnname));
-            }
-            binding.fvMain.setData(listType, listStatus);
-            binding.fvMain.setDefStatus(listStatus.get(2));
-        });
-
         viewModel.liveDataEasterReport.observe(this, vo -> {
-            binding.refreshLayout.finishRefresh();
-            binding.refreshLayout.finishLoadMore();
-            binding.fvMain.setTopTotal(vo.mobile_page.recordsCount, vo.mobile_page.total_sum);
+            binding.fvMain.setTopTotal("0", vo.total);
 
-            if (!vo.list.isEmpty()) {
+            if (!vo.data.isEmpty()) {
                 binding.tvwNoData.setVisibility(View.GONE);
 
-                if (vo.maxPage == curPage) {
-                    binding.refreshLayout.setEnableLoadMore(false);
-                    binding.refreshLayout.setEnableRefresh(true);
-                } else {
-                    binding.refreshLayout.setEnableLoadMore(true);
-                    binding.refreshLayout.setEnableRefresh(true);
-                }
-
-                adapter.addAll(vo.list);
+                adapter.addAll(vo.data);
             } else {
                 binding.tvwNoData.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    private void requestData(int page) {
+    private void requestData() {
         starttime = binding.fvMain.getStartDate();
         endtime = binding.fvMain.getEndDate();
         typeId = binding.fvMain.getTypeId("");
@@ -165,10 +110,10 @@ public class EasterReportFragment extends BaseFragment<FragmentEasterReportBindi
         map.put("from", starttime);
         map.put("to", endtime);
         map.put("username", userName);
-        map.put("lotteryid", typeId);
+        map.put("lotteryid", "");
         map.put("currencytype", "0");
-        map.put("status", status); // ""-全部 0-未发放, 1-已发放, 2-已测回
-        map.put("page", "" + page);
+        map.put("status", "1"); // ""-全部 0-未发放, 1-已发放, 2-已测回
+        map.put("page", "1");
 
         viewModel.getEasterReport(map);
     }
