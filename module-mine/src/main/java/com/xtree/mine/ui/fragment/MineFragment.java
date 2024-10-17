@@ -547,11 +547,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             public void onUpdateForce() {
             }
 
-            @Override
+          /*  @Override
             public void onDownloadError(String downUrl) {
-                showUpdateErrorDialog(isWeakUpdate , downUrl);
-                updateView.dismiss();
-            }
+               *//* showUpdateErrorDialog(isWeakUpdate , downUrl);
+                updateView.dismiss();*//*
+            }*/
         });
 
         updateView = new XPopup.Builder(getContext())
@@ -560,7 +560,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 .asCustom(dialog);
         updateView.show();
     }
-    private void  showUpdateErrorDialog(final boolean isWeakUpdate , final String downUrl){
+    /*private void  showUpdateErrorDialog(final boolean isWeakUpdate , final String downUrl){
         showUpdateErrorView = null ;
         AppUpdateErrorDialog updateErrorDialog = null ;
         if (isWeakUpdate){
@@ -597,7 +597,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 .dismissOnTouchOutside(false)
                 .asCustom(updateErrorDialog);
         showUpdateErrorView.show();
-    }
+    }*/
     /**
      * 判断用户是否登陆
      */

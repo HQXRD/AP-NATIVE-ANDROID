@@ -85,7 +85,7 @@ public class AppUpdateErrorDialog extends CenterPopupView {
                 CfLog.e("****************  download url is null *********** ");
             }
         });
-
+        CfLog.e("****************  download url is null ***********  --- 》 "  + jumpUrl);
     }
 
 
