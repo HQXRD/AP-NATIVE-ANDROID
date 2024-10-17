@@ -105,7 +105,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     //是否可以取消订单 true 可以
     public MutableLiveData<Boolean> cancleOrderStatus = new MutableLiveData<>(false);
     //是否可以取消匹配 true 可以
-    public MutableLiveData<Boolean> cancleOrderWaitStatus = new MutableLiveData<>(false);
+    public MutableLiveData<Boolean> cancleOrderWaitStatus = new MutableLiveData<>(true);
     //凭证图片
     public MutableLiveData<Uri> voucher = new MutableLiveData<>();
     //订单生成信息
@@ -1105,7 +1105,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
         canonicalName = null;
         showBankEdit.setValue(false);
-        cancleOrderWaitStatus.setValue(false);
+        cancleOrderWaitStatus.setValue(true);
         cancleOrderStatus.setValue(false);
         bankNumberOfPayment.setValue(null);
         bankNameOfPayment.setValue(null);
