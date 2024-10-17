@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="project.tqyb.com.library_service">
+
+    <application>
+        <service
+            android:name="com.xtree.service.WebSocketService"
+            android:process=":websocket" />
+    </application>
+</manifest>

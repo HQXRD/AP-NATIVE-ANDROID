@@ -2,9 +2,11 @@ package com.xtree.main.data.source;
 
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
+import com.xtree.base.vo.WsToken;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -40,4 +42,9 @@ public interface MainApiService {
     @POST("/api/sports/obgzy/getToken?cachedToken=1")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<PMService>> getPMXCGameTokenApi();
+
+    //==========websocket=============
+    @GET("/api/ws/token")
+    Flowable<BaseResponse<WsToken>> getWsToken();
+    //==========websocket=============
 }

@@ -1,5 +1,7 @@
 package com.xtree.mine.ui.viewmodel;
 
+import static com.xtree.base.utils.EventConstant.EVENT_LOG_OUT;
+
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -14,6 +16,7 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.AppUpdateVo;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.base.vo.BalanceVo;
@@ -21,6 +24,8 @@ import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.RewardVo;
 import com.xtree.mine.vo.VipInfoVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
+
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -65,6 +70,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         SPUtils.getInstance().remove(SPKeyGlobal.PROMOTION_CODE);
         SPUtils.getInstance().remove(SPKeyGlobal.PROMOTION_CODE_REG);
         RetrofitClient.init();
+        EventBus.getDefault().post(new EventVo(EVENT_LOG_OUT, ""));
         liveDataLogout.setValue(true);
     }
 

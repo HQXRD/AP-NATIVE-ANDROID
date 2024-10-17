@@ -21,3 +21,4 @@ include ":gsyVideoPlayer",
 
 //include ':module-sign', ':module-work', ':module-msg', ':module-user'
 include ':LocalRepo:VisitorLBS'
+include ':library-service'
