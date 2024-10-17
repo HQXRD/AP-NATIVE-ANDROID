@@ -32,6 +32,7 @@ import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
+import com.xtree.base.widget.AppUpdateErrorDialog;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -60,6 +61,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     BasePopupView ppw;
     private AppUpdateVo updateVo;
     private BasePopupView updateView;
+    private BasePopupView showUpdateErrorView ;
 
     /**
      * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
@@ -544,6 +546,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             @Override
             public void onUpdateForce() {
             }
+
+            @Override
+            public void onDownloadError(String downUrl) {
+                showUpdateErrorDialog(isWeakUpdate , downUrl);
+                updateView.dismiss();
+            }
         });
 
         updateView = new XPopup.Builder(getContext())
@@ -552,7 +560,44 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 .asCustom(dialog);
         updateView.show();
     }
+    private void  showUpdateErrorDialog(final boolean isWeakUpdate , final String downUrl){
+        showUpdateErrorView = null ;
+        AppUpdateErrorDialog updateErrorDialog = null ;
+        if (isWeakUpdate){
+            //弱更
+            updateErrorDialog = new AppUpdateErrorDialog(getContext(), downUrl, false, new AppUpdateErrorDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    showUpdateErrorView.dismiss();
+                }
 
+                @Override
+                public void onClickRight() {
+                    showUpdateErrorView.dismiss();
+                }
+            });
+
+        }else{
+            //刚更
+            updateErrorDialog = new AppUpdateErrorDialog(getContext(), downUrl, true, new AppUpdateErrorDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    showUpdateErrorView.dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    showUpdateErrorView.dismiss();
+                }
+            });
+        }
+
+        showUpdateErrorView = new XPopup.Builder(getContext())
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(updateErrorDialog);
+        showUpdateErrorView.show();
+    }
     /**
      * 判断用户是否登陆
      */
