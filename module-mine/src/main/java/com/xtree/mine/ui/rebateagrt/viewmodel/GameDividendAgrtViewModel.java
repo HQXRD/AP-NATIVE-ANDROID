@@ -363,6 +363,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                         gameDividendAgrtModel.setCycle(headModel.cyclyData.get().getShowName());
                                         //设置契约状态
                                         gameDividendAgrtModel.setPayStatu(dataDTO.getPay_status());
+                                        gameDividendAgrtModel.setContractStatus(dataDTO.getContract_status());
                                         for (Map.Entry<String, String> entry : vo.getBillStatus().entrySet()) {
                                             if (entry.getKey().equals(gameDividendAgrtModel.getPayStatu())) {
                                                 gameDividendAgrtModel.setPayStatuText(entry.getValue());
