@@ -1,7 +1,5 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
-import android.text.TextUtils;
-
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.mine.R;
@@ -32,6 +30,7 @@ public class GameDividendAgrtModel extends BindModel {
     private int payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
     private String userid = "";
     private String checkName = "";
+    private String contractStatus = "0";
     //连续亏损周期
     private String loseStreak = "-";
 
@@ -53,30 +52,23 @@ public class GameDividendAgrtModel extends BindModel {
         if (ClickUtil.isFastClick()) {
             return;
         }
-        switch (payStatu) {
-            case "1": //未结清:
-            case "2": //已结清
-            case "3": //无分红
-            case "4": //分红取消
-                if (checkDeedCallBack != null) {
-                    try {
-                        checkDeedCallBack.accept(this);
-                    } catch (Throwable e) {
-                        throw new RuntimeException(e);
-                    }
+        if (contractStatus.equals("1")) {
+            if (checkDeedCallBack != null) {
+                try {
+                    checkDeedCallBack.accept(this);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
                 }
-                break;
-            default:
-                if (createDeedCallBack != null) {
-                    try {
-                        createDeedCallBack.accept(this);
-                    } catch (Throwable e) {
-                        throw new RuntimeException(e);
-                    }
+            }
+        } else {
+            if (createDeedCallBack != null) {
+                try {
+                    createDeedCallBack.accept(this);
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
                 }
-                break;
+            }
         }
-
     }
 
     public String getPayStatu() {
@@ -84,30 +76,37 @@ public class GameDividendAgrtModel extends BindModel {
     }
 
     public void setPayStatu(String payStatu) {
+        if (payStatu == null) {
+            payStatu = "";
+        }
         this.payStatu = payStatu;
-        if (TextUtils.isEmpty(payStatu)) {
-            payStatuColor = R.color.bg_main;
-            checkName = BaseApplication.getInstance().getString(R.string.txt_create_deed);
+        switch (payStatu) {
+            case "1": //未结清:
+                payStatuColor = R.color.color_rebateagrt_state_bg_unsettled;
+                break;
+            case "2": //已结清
+                payStatuColor = R.color.color_rebateagrt_state_bg_settled;
+                break;
+            case "3": //无分红
+            case "4": //分红取消
+                payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
+                break;
+            default:
+                payStatuColor = R.color.bg_main;
+                break;
+        }
+    }
+
+    public String getContractStatus() {
+        return contractStatus;
+    }
+
+    public void setContractStatus(String contractStatus) {
+        this.contractStatus = contractStatus;
+        if (contractStatus.equals("1")) {
+            checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
         } else {
-            switch (payStatu) {
-                case "1": //未结清:
-                    payStatuColor = R.color.color_rebateagrt_state_bg_unsettled;
-                    checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
-                    break;
-                case "2": //已结清
-                    payStatuColor = R.color.color_rebateagrt_state_bg_settled;
-                    checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
-                    break;
-                case "3": //无分红
-                case "4": //分红取消
-                    payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
-                    checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
-                    break;
-                default:
-                    payStatuColor = R.color.bg_main;
-                    checkName = BaseApplication.getInstance().getString(R.string.txt_create_deed);
-                    break;
-            }
+            checkName = BaseApplication.getInstance().getString(R.string.txt_create_deed);
         }
     }
 
