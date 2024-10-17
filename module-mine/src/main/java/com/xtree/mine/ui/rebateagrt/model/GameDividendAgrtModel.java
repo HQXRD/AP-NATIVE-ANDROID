@@ -52,18 +52,18 @@ public class GameDividendAgrtModel extends BindModel {
         if (ClickUtil.isFastClick()) {
             return;
         }
-        if (contractStatus.equals("1")) {
-            if (checkDeedCallBack != null) {
+        if (contractStatus.equals("0") || contractStatus.equals("4") || contractStatus.isEmpty()) {
+            if (createDeedCallBack != null) {
                 try {
-                    checkDeedCallBack.accept(this);
+                    createDeedCallBack.accept(this);
                 } catch (Throwable e) {
                     throw new RuntimeException(e);
                 }
             }
         } else {
-            if (createDeedCallBack != null) {
+            if (checkDeedCallBack != null) {
                 try {
-                    createDeedCallBack.accept(this);
+                    checkDeedCallBack.accept(this);
                 } catch (Throwable e) {
                     throw new RuntimeException(e);
                 }
@@ -103,10 +103,10 @@ public class GameDividendAgrtModel extends BindModel {
 
     public void setContractStatus(String contractStatus) {
         this.contractStatus = contractStatus;
-        if (contractStatus.equals("1")) {
-            checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
-        } else {
+        if (contractStatus.equals("0") || contractStatus.equals("4") || contractStatus.isEmpty()) {
             checkName = BaseApplication.getInstance().getString(R.string.txt_create_deed);
+        } else {
+            checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
         }
     }
 
