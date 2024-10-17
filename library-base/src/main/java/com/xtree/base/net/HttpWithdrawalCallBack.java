@@ -1,10 +1,15 @@
 package com.xtree.base.net;
 
+import static com.xtree.base.utils.EventConstant.EVENT_LOG_OUT;
+
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.widget.LoadingDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.http.BaseResponse3;
@@ -112,6 +117,7 @@ public abstract class HttpWithdrawalCallBack<T> extends DisposableSubscriber<T> 
                 RetrofitClient.init();
                 ToastUtils.showShort("请重新登录");
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+                EventBus.getDefault().post(new EventVo(EVENT_LOG_OUT, ""));
                 break;
             case HttpWithdrawalCallBack.CodeRule.CODE_20208:
             case HttpWithdrawalCallBack.CodeRule.CODE_30018:
