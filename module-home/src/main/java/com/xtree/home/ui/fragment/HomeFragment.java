@@ -826,11 +826,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             public void onUpdateForce() {
             }
 
-            @Override
+          /*  @Override
             public void onDownloadError(String downUrl) {
                 showUpdateErrorDialog(isWeakUpdate , downUrl);
                 updateView.dismiss();
-            }
+            }*/
         });
 
         updateView = new XPopup.Builder(getContext())
