@@ -4,8 +4,6 @@ import com.xtree.base.utils.CfLog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -29,8 +27,7 @@ public class DecompressInterceptor implements Interceptor {
         Response response = chain.proceed(request);
 
         // 检查响应是否成功且是否包含需要解压缩的内容
-        if (response.isSuccessful() && response.body() != null && response.header("X-Crypto") != null &&
-                response.header("X-Crypto").equalsIgnoreCase("yes")) {
+        if (response.isSuccessful() && response.body() != null && response.header("X-Crypto") != null && response.header("X-Crypto").equalsIgnoreCase("yes")) {
             ResponseBody decompressedBody = decompressResponseBody(response.body());
             return response.newBuilder().body(decompressedBody).build();
         }
@@ -76,27 +73,8 @@ public class DecompressInterceptor implements Interceptor {
             outputStream.close();
         }
 
-        String str = outputStream.toString("UTF-8").replace("\\/", "/");
-        str = unicodeToCn(str);
+        String str = outputStream.toString("UTF-8");
         CfLog.i(str);
         return str;
     }
-
-    /**
-     * unicode 转中文
-     *
-     * @param str 源字符串
-     * @return 转换后的字符串
-     */
-    private String unicodeToCn(String str) {
-        Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
-        Matcher matcher = pattern.matcher(str);
-        char ch;
-        while (matcher.find()) {
-            ch = (char) Integer.parseInt(matcher.group(2), 16);
-            str = str.replace(matcher.group(1), ch + "");
-        }
-        return str;
-    }
-
 }
