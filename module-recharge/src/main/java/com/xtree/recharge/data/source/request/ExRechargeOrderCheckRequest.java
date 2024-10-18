@@ -9,9 +9,17 @@ public class ExRechargeOrderCheckRequest {
     //pid=176
 
     private String pid;
-
+    private String source="11";
     public ExRechargeOrderCheckRequest(String pid) {
         this.pid = pid;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getPid() {

@@ -999,7 +999,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      */
     private void goNext2() {
         TagUtils.tagEvent(getContext(), "rc", curRechargeVo.bid); // 打点
-        LoadingDialog.show(getContext()); // Loading
+//        LoadingDialog.show(getContext()); // Loading
 
         String realName = binding.edtName.getText().toString().trim();
         String txt = binding.tvwRealAmount.getText().toString();
@@ -1015,7 +1015,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         map.put("payName", realName); // 付款人
         map.put("nonce", UuidUtil.getID16());
         CfLog.i(map.toString());
-        viewModel.createOrder(map);
+        viewModel.createOrderCheck(map,getContext());
     }
 
     private void goHiWallet() {
