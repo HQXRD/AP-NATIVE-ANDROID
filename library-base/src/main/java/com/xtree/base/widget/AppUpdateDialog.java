@@ -65,7 +65,7 @@ public class AppUpdateDialog extends CenterPopupView {
 
         void onUpdateForce(); //强制更新
 
-        void onDownloadError(final String downUrl);//下载失败 外跳URL
+        //void onDownloadError(final String downUrl);//下载失败 外跳URL
     }
 
     public AppUpdateDialog(@NonNull Context context) {
@@ -116,7 +116,7 @@ public class AppUpdateDialog extends CenterPopupView {
         if (!vo.download_url.startsWith("http")) {
             vo.download_url = DomainUtil.getH5Domain2() + vo.download_url;
         }
-        CfLog.i("download_url: " + vo.download_url);
+        CfLog.e("2--------------------》download_url: " + vo.download_url);
 
         CfLog.i("apkFile: " + apkFile.getAbsolutePath());
         binding = DialogUpdateBinding.bind(findViewById(R.id.ll_root_update));
@@ -151,6 +151,10 @@ public class AppUpdateDialog extends CenterPopupView {
             binding.dialogUpdateTip.setOnClickListener(v1 -> {
                 if (!TextUtils.isEmpty(vo.download_url)) {
                     AppUtil.goBrowser(getContext(), vo.download_url);
+                    if(isWeakUpdate){
+                        //弱更 外挑之后 取消弹窗
+                        dismiss();
+                    }
                 } else {
                     CfLog.e("****************  download url is null *********** ");
                 }
@@ -169,7 +173,7 @@ public class AppUpdateDialog extends CenterPopupView {
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
                 case DOWN_START:
-                    mCallBack.onDownloadError(vo.download_url);
+                   // mCallBack.onDownloadError(vo.download_url);
                     downloadApk();
                     break;
                 case DOWN_UPDATE:
@@ -186,7 +190,7 @@ public class AppUpdateDialog extends CenterPopupView {
                     break;
                 case DOWN_FAIL:
                     ToastUtils.showSuccess(getContext().getString(R.string.txt_update_down_fail_tip));
-                    mCallBack.onDownloadError(vo.download_url);
+                    //mCallBack.onDownloadError(vo.download_url);
 
                     //dismiss();
                     break;
@@ -286,6 +290,10 @@ public class AppUpdateDialog extends CenterPopupView {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         context.startActivity(intent);
+        if (isWeakUpdate){
+            dismiss();
+        }
+
         //修复 HQAP2-4223 待验证
         //android.os.Process.killProcess(android.os.Process.myPid());
 
