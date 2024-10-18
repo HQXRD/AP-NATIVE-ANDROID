@@ -69,8 +69,10 @@
             android:text="*系统正在加急安排您本次充值申请，请耐心等候"
             android:textColor="@color/clr_grey_09" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
             android:layout_height="wrap_content">
 
             <TextView
@@ -97,7 +99,7 @@
                 android:textColor="@color/clr_txt_black"
                 android:visibility="@{model.pairedTimeStatus?View.VISIBLE:View.GONE}"/>
 
-        </FrameLayout>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvw_ok"
