@@ -716,4 +716,8 @@ public class BrowserActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
         }
     }
+
+    public boolean isGame() {
+        return isGame;
+    }
 }

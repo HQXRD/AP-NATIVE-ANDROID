@@ -59,19 +59,26 @@ public class MsgFragment extends BaseFragment<FragmentMsgBinding, MsgViewModel> 
 
         MsgListFragment bindMsgFragment = new MsgListFragment();
         MsgPersonListFragment bindMsgPersonFragment = new MsgPersonListFragment();
+        MsgPersonListFragment bindMsgSysFragment = new MsgPersonListFragment();
 
         String txtMsg = getString(R.string.txt_msg_message);
         String txtMsgPerson = getString(R.string.txt_msg_message_person);
+        String txtMsgPromote= getString(R.string.txt_msg_message_promote);
+        String txtMsgSys= getString(R.string.txt_msg_message_sys);
 
         fragmentList.add(bindMsgFragment);
         fragmentList.add(bindMsgPersonFragment);
+        fragmentList.add(bindMsgSysFragment);
         tabList.add(txtMsg);
-        tabList.add(txtMsgPerson);
+        tabList.add(txtMsgPromote);
+        tabList.add(txtMsgSys);
 
         mAdapter.notifyDataSetChanged();
         int isMsgPerson = getArguments().getInt("isMsgPerson", 0);
         if (isMsgPerson == 1) {
             binding.vpMain.setCurrentItem(1);
+        }else if (isMsgPerson == 2){
+            binding.vpMain.setCurrentItem(2);
         }
     }
 

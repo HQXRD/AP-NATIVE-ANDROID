@@ -63,10 +63,10 @@
             android:layout_marginTop="0dp"
             android:padding="2dp"
             app:tabBackground="@color/white"
-            app:tabGravity="center"
             app:tabIndicatorColor="@color/clr_purple_01"
-            app:tabMode="scrollable"
             app:tabPadding="2dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
             app:tabSelectedTextColor="@color/clr_purple_01"
             app:tabTextColor="@color/black">
 

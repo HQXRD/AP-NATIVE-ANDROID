@@ -61,6 +61,7 @@ public class MessageType {
     public enum Output {
         // Define output-related properties or methods here
         OBTAIN_LINK(1),
+        REMOTE_MSG(2),
         ; //
 
         private final int code;
