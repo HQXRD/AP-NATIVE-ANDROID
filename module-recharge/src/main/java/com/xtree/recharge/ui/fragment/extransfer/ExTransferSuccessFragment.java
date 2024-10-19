@@ -75,7 +75,7 @@ public class ExTransferSuccessFragment extends BaseFragment<FragmentExtransferSu
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return R.layout.layout_rc_exp_bank_6;
+        return R.layout.fragment_extransfer_success;
     }
 
     @Override
