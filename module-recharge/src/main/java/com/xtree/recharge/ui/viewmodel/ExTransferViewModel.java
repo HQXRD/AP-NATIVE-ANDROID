@@ -52,6 +52,7 @@ import com.xtree.recharge.ui.fragment.extransfer.ExTransferCommitFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferConfirmFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferFailFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferPayeeFragment;
+import com.xtree.recharge.ui.fragment.extransfer.ExTransferSuccessFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferVoucherFragment;
 import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.ui.widget.Comm100ChatWindows;
@@ -1148,6 +1149,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     fa.finish();
                 }
                 if (fragment.getClass().getCanonicalName().equals(ExTransferFailFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferSuccessFragment.class.getCanonicalName())) {
                     fa.finish();
                 }
                 if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
