@@ -52,6 +52,7 @@ import com.xtree.recharge.ui.fragment.extransfer.ExTransferCommitFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferConfirmFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferFailFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferPayeeFragment;
+import com.xtree.recharge.ui.fragment.extransfer.ExTransferSuccessFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferVoucherFragment;
 import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.ui.widget.Comm100ChatWindows;
@@ -73,6 +74,7 @@ import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
+import io.reactivex.functions.Cancellable;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -218,18 +220,20 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         checkCancleWaitState();
         checkOrderStatus();
 
-        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
-        bankInfo.setBankAccount(data.getBankAccount());
-        bankInfo.setBankArea(data.getBankArea());
-        bankInfo.setBankCode(data.getBankCode());
-        bankInfo.setBankName(data.getBankName());
-        bankInfo.setBankAccountName(data.getBankAccountName());
-        bankInfo.setMerchantOrder(data.getMerchantOrder());
-        bankInfo.setPayAmount(data.getPayAmount());
-        bankInfo.setAllowCancel(data.getAllowCancel());
-        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
-        bankInfo.setExpireTime(data.getExpireTime());
-        bankInfoData.setValue(bankInfo);
+        if (!TextUtils.isEmpty(data.getBankAccount())) {
+            ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+            bankInfo.setBankAccount(data.getBankAccount());
+            bankInfo.setBankArea(data.getBankArea());
+            bankInfo.setBankCode(data.getBankCode());
+            bankInfo.setBankName(data.getBankName());
+            bankInfo.setBankAccountName(data.getBankAccountName());
+            bankInfo.setMerchantOrder(data.getMerchantOrder());
+            bankInfo.setPayAmount(data.getPayAmount());
+            bankInfo.setAllowCancel(data.getAllowCancel());
+            bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+            bankInfo.setExpireTime(data.getExpireTime());
+            bankInfoData.setValue(bankInfo);
+        }
 
         deadlinesData.setValue("请于 " + data.getExpireTime() + " 内完成支付");
         cancleWaitTimeKeeping();
@@ -490,7 +494,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         if (pvalue.getStatus().equals("11") && pvalue.getAllowCancel() == 1) {
             if (getDifferenceTimeByNow(pvalue.getAllowCancelTime()) > 0) {
                 cancleOrderStatus.setValue(false);
+                CfLog.i(pvalue.getAllowCancelTime()+"当时的时间1"+Calendar.getInstance().getTime());
             } else {
+                CfLog.i(pvalue.getAllowCancelTime()+"当时的时间2"+Calendar.getInstance().getTime());
                 cancleOrderStatus.setValue(true);
             }
         } else {
@@ -508,9 +514,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         }
         if (pvalue.getStatus().equals("13") && pvalue.getAllowCancelWait() == 1) {
             if (getDifferenceTimeByNow(pvalue.getCancelWaitTime()) > 0) {
-                cancleOrderStatus.setValue(true);
+                cancleOrderWaitStatus.setValue(true);
             } else {
-                cancleOrderStatus.setValue(false);
+                cancleOrderWaitStatus.setValue(false);
             }
         } else {
             cancleOrderWaitStatus.setValue(false);
@@ -1144,6 +1150,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     fa.finish();
                 }
                 if (fragment.getClass().getCanonicalName().equals(ExTransferFailFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferSuccessFragment.class.getCanonicalName())) {
                     fa.finish();
                 }
                 if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
