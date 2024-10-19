@@ -373,6 +373,123 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
+    /**
+     * 极速充值下单前查一遍未完成状态
+     */
+    public void createOrderCheck(Map<String, String> map,Context context){
+        final String[] id = {map.get("pid")};
+
+        BasePopupView loadingDialog = new XPopup.Builder(context)
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(true)
+                .asCustom(new LoadingDialog(context))
+                .show();
+
+        //先检查极速充值渠道是否有正在进行的订单
+        Disposable disposable = (Disposable) model.getApiService().getPaymentsTypeList()
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        if (loadingDialog != null) {
+                            loadingDialog.show();
+                        }
+                    }
+                })
+                .flatMap(new Function<BaseResponse<PaymentDataVo>, Publisher<?>>() {
+                    @Override
+                    public Publisher<?> apply(BaseResponse<PaymentDataVo> paymentDataVoBaseResponse) throws Exception {
+
+                        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(id[0]);
+
+                        if (paymentDataVoBaseResponse.getData() != null) {
+                            //如果存在充值中的订单，则使用订单的渠道查询订单
+                            if (paymentDataVoBaseResponse.getData().pendingOnepayfixBid > 0) {
+                                String pendingOnepayfixBid = String.valueOf(paymentDataVoBaseResponse.getData().pendingOnepayfixBid);
+                                request.setPid(pendingOnepayfixBid);
+                                id[0] = pendingOnepayfixBid;
+                            }
+                        }
+
+                        return model.rechargeOrderCheck(request);
+                    }
+                })
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        if (loadingDialog.isShow()) {
+                            loadingDialog.dismiss();
+                        }
+                        if (liveDataExpNoOrder.getValue() == true) {
+                            createOrder(map);
+                            LoadingDialog.show(context);
+                        }
+                    }
+                })
+                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+                    @Override
+                    public void onResult(ExRechargeOrderCheckResponse vo) {
+                        CfLog.d(vo.toString());
+
+                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
+                        if (data != null) {
+                            vo.getData().setBid(id[0]); // 跳转要用
+                            String status = data.getStatus();
+                            switch (status) {
+                                case "00": //成功
+                                case "03": //失败
+                                    liveDataExpNoOrder.setValue(true);
+                                    break;
+                                default:
+                                    long differenceInSeconds = 0;
+                                    try {
+                                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        Date now = Calendar.getInstance().getTime();
+                                        Date end = null;
+                                        end = format.parse(vo.getData().getExpireTime());
+                                        differenceInSeconds = (now.getTime() - end.getTime());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    CfLog.i("sec: " + differenceInSeconds);
+                                    if (differenceInSeconds < 0) {
+                                        liveDataCurOrder.setValue(vo);
+                                        liveDataExpNoOrder.setValue(false);
+                                    } else {
+                                        liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
+                                    }
+                                    break;
+                            }
+                        } else {
+                            CfLog.w("no order...");
+                            liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                        super.onError(t);
+                        liveDataExpNoOrder.setValue(true);
+                        if (loadingDialog.isShow()) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e(t.toString());
+                        super.onFail(t);
+                        liveDataExpNoOrder.setValue(true);
+                        if (loadingDialog.isShow()) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
     public void getPayment(String bid) {
         getPaymentDetail(bid, liveDataRecharge);
     }
