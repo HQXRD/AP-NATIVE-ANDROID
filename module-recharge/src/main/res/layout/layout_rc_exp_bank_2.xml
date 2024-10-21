@@ -233,8 +233,9 @@
                 style="@style/style_btn_short_cancel"
                 android:text="@string/txt_cancel"
                 android:onClick="@{() -> model.cancleOrder()}"
-                android:visibility="@{model.cancleOrderStatus?View.VISIBLE:View.GONE}"
+                android:enabled="@{model.cancleOrderStatus}"
                 app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tvw_right"/>
