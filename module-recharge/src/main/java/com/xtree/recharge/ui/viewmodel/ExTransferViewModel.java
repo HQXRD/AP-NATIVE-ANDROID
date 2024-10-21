@@ -74,7 +74,6 @@ import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Cancellable;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -87,14 +86,6 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * Describe: 极速转账viewModel
  */
 public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
-    public ExTransferViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public ExTransferViewModel(@NonNull Application application, RechargeRepository model) {
-        super(application, model);
-    }
-
     //倒计时 剩余时间
     public MutableLiveData<String> leftTimeData = new MutableLiveData<>();
     //截止時間
@@ -126,14 +117,20 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     //充值提示
     public MutableLiveData<SpannableString> tip1 = new MutableLiveData<>();
     public MutableLiveData<SpannableString> tip2 = new MutableLiveData<>();
-    private WeakReference<FragmentActivity> mActivity = null;
     public String canonicalName;
-    private BasePopupView loadingDialog = null;
     public MutableLiveData<RechargeViewModel> rechargeLiveData = new MutableLiveData<>();
     //标题
     public MutableLiveData<String> titleLiveData = new MutableLiveData<>("小额网银");
+    private WeakReference<FragmentActivity> mActivity = null;
+    private BasePopupView loadingDialog = null;
     @SuppressLint("StaticFieldLeak")
     private Comm100ChatWindows serviceChatFlow = null;
+    public ExTransferViewModel(@NonNull Application application) {
+        super(application);
+    }
+    public ExTransferViewModel(@NonNull Application application, RechargeRepository model) {
+        super(application, model);
+    }
 
     public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
@@ -701,6 +698,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             loadingDialog.dismiss();
                         }
                     }
+
                     @Override
                     public void onFail(BusinessException t) {
                         super.onFail(t);
@@ -776,6 +774,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         }
 
                     }
+
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
@@ -1168,7 +1167,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     /**
      * 跳过极速引导引导
      */
-    public void skipGuide(){
+    public void skipGuide() {
         Disposable disposable = (Disposable) model.skipGuide()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
