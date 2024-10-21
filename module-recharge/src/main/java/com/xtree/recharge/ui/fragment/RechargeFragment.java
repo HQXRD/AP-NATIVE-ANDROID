@@ -649,7 +649,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }*/
         //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
         //极速充值在详情里面判断绑卡
-        if (vo.view_bank_card && vo.userBankList.isEmpty() && !vo.paycode.contains(ONE_PAY_FIX)) {
+        if (vo.view_bank_card && vo.userBankList.isEmpty() && !vo.paycode.contains(viewModel.ONE_PAY_FIX)) {
             // 绑定YHK
             CfLog.i("****** 绑定YHK");
             toBindCard();
