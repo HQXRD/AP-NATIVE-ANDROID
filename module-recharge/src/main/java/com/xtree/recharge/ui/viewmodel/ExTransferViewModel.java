@@ -494,9 +494,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         if (pvalue.getStatus().equals("11") && pvalue.getAllowCancel() == 1) {
             if (getDifferenceTimeByNow(pvalue.getAllowCancelTime()) > 0) {
                 cancleOrderStatus.setValue(false);
-                CfLog.i(pvalue.getAllowCancelTime()+"当时的时间1"+Calendar.getInstance().getTime());
             } else {
-                CfLog.i(pvalue.getAllowCancelTime()+"当时的时间2"+Calendar.getInstance().getTime());
                 cancleOrderStatus.setValue(true);
             }
         } else {
