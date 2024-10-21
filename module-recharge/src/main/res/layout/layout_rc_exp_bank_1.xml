@@ -86,7 +86,7 @@
                 android:gravity="center"
                 android:text="@{model.waitTime}"
                 android:textColor="@color/clr_purple_02"
-                android:visibility="@{TextUtils.isEmpty(model.waitTime)?View.GONE:View.VISIBLE}"/>
+                android:visibility="@{TextUtils.isEmpty(model.waitTime)?View.GONE:(model.cancleOrderWaitStatus?View.VISIBLE:View.GONE)}"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                 android:gravity="center"
                 android:text="@{model.pairedTimeData}"
                 android:textColor="@color/clr_txt_black"
-                android:visibility="@{model.pairedTimeStatus?View.VISIBLE:View.GONE}"/>
+                android:visibility="@{model.pairedTimeStatus&amp;&amp;model.cancleOrderWaitStatus==false?View.VISIBLE:View.GONE}"/>
 
         </LinearLayout>
 
