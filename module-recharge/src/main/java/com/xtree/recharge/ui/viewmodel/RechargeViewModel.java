@@ -2,6 +2,7 @@ package com.xtree.recharge.ui.viewmodel;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
@@ -43,7 +44,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -59,6 +62,8 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  * 充值页 ViewModel
  */
 public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
+    public static final String ONE_PAY_FIX = "onepayfix"; // 极速充值包含的关键字
+
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
     public SingleLiveData<PaymentVo> liveDataPayment = new SingleLiveData<>(); // (从接口加载用)
     public SingleLiveData<PaymentDataVo> liveDataPaymentData = new SingleLiveData<>(); // (从接口加载用)
@@ -83,7 +88,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<ExRechargeOrderCheckResponse> liveDataCurOrder = new SingleLiveData<>(); // 极速充值 未完成的订单(跳到订单页)
     public SingleLiveData<Boolean> liveDataExpNoOrder = new SingleLiveData<>(); // 极速充值 没有未完成的订单 (显示银行/姓名/金额/下一步)
     public SingleLiveData<String> liveDataExpTitle = new SingleLiveData<>(); // 极速充值流程渠道标题
-    public SingleLiveData<Object>liveSkipGuideData = new SingleLiveData<>();//跳过引导接口
+    public SingleLiveData<Object> liveSkipGuideData = new SingleLiveData<>();//跳过引导接口
 
     public RechargeViewModel(@NonNull Application application) {
         super(application);
@@ -261,6 +266,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
         final String[] id = {bid};
 
+        //原生未完成充值订单详情
+        AtomicReference<RechargeVo> rechargeVoAtomicReference = new AtomicReference<>();
+
         BasePopupView loadingDialog = new XPopup.Builder(context)
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(true)
@@ -277,23 +285,47 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                         }
                     }
                 })
-                .flatMap(new Function<BaseResponse<PaymentDataVo>, Publisher<?>>() {
-                    @Override
-                    public Publisher<?> apply(BaseResponse<PaymentDataVo> paymentDataVoBaseResponse) throws Exception {
+                .<Pair<BaseResponse<RechargeVo>, ExRechargeOrderCheckResponse>>flatMap(paymentDataVoBaseResponse -> {
+                    if (paymentDataVoBaseResponse.getData() != null) {
+                        // 如果存在充值中的订单，则使用订单的渠道查询订单
+                        if (paymentDataVoBaseResponse.getData().pendingOnepayfixBid > 0) {
+                            String pendingOnepayfixBid = String.valueOf(paymentDataVoBaseResponse.getData().pendingOnepayfixBid);
+                            id[0] = pendingOnepayfixBid;
+                        }
+                    }
 
+                    // 如果不相等，说明有正在进行中的订单
+                    if (!bid.equals(id[0])) {
+                        return model.getApiService().getPayment(id[0]).map(response -> new Pair<>(response, null));
+                    } else {
                         ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(id[0]);
+                        return model.rechargeOrderCheck(request).map(response -> new Pair<>(null, response));
+                    }
+                })
+                .flatMap(pair -> {
+                    BaseResponse<RechargeVo> rechargeVoBaseResponse = pair.first;
+                    ExRechargeOrderCheckResponse exRechargeOrderCheck = pair.second;
 
-                        if (paymentDataVoBaseResponse.getData() != null) {
-                            //如果存在充值中的订单，则使用订单的渠道查询订单
-                            if (paymentDataVoBaseResponse.getData().pendingOnepayfixBid > 0) {
-                                String pendingOnepayfixBid = String.valueOf(paymentDataVoBaseResponse.getData().pendingOnepayfixBid);
-                                request.setPid(pendingOnepayfixBid);
-                                id[0] = pendingOnepayfixBid;
+                    if (rechargeVoBaseResponse != null) {
+                        // 处理 BaseResponse<RechargeVo>
+                        if (rechargeVoBaseResponse.getData() != null) {
+                            if (isOnePayFix(rechargeVoBaseResponse.getData())) {
+                                rechargeVoAtomicReference.set(rechargeVoBaseResponse.getData());
+                                //如果是原生极速充值
+                                ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(id[0]);
+                                return model.rechargeOrderCheck(request);
+                            } else {
+                                liveDataExpNoOrder.postValue(false);
+                                getPayment(id[0]);
                             }
                         }
-
-                        return model.rechargeOrderCheck(request);
+                        return Flowable.empty(); // 返回处理后的结果
+                    } else if (exRechargeOrderCheck != null) {
+                        // 处理 ExRechargeOrderCheckResponse
+                        return Flowable.just(exRechargeOrderCheck); // 直接返回处理后的结果
                     }
+                    // 如果都为空，返回空的 Flowable
+                    return Flowable.empty();
                 })
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
@@ -336,6 +368,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                     }
                                     CfLog.i("sec: " + differenceInSeconds);
                                     if (differenceInSeconds < 0) {
+                                        if (rechargeVoAtomicReference.get() != null) {
+                                            curRechargeLiveData.setValue(rechargeVoAtomicReference.get());
+                                        }
                                         liveDataCurOrder.setValue(vo);
                                         liveDataExpNoOrder.setValue(false);
                                     } else {
@@ -376,8 +411,11 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     /**
      * 极速充值下单前查一遍未完成状态
      */
-    public void createOrderCheck(Map<String, String> map,Context context){
-        final String[] id = {map.get("pid")};
+    public void createOrderCheck(Map<String, String> map, Context context) {
+        String bid = map.get("pid");
+        final String[] id = {bid};
+        //原生未完成充值订单详情
+        AtomicReference<RechargeVo> rechargeVoAtomicReference = new AtomicReference<>();
 
         BasePopupView loadingDialog = new XPopup.Builder(context)
                 .dismissOnTouchOutside(false)
@@ -395,23 +433,47 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                         }
                     }
                 })
-                .flatMap(new Function<BaseResponse<PaymentDataVo>, Publisher<?>>() {
-                    @Override
-                    public Publisher<?> apply(BaseResponse<PaymentDataVo> paymentDataVoBaseResponse) throws Exception {
+                .<Pair<BaseResponse<RechargeVo>, ExRechargeOrderCheckResponse>>flatMap(paymentDataVoBaseResponse -> {
+                    if (paymentDataVoBaseResponse.getData() != null) {
+                        // 如果存在充值中的订单，则使用订单的渠道查询订单
+                        if (paymentDataVoBaseResponse.getData().pendingOnepayfixBid > 0) {
+                            String pendingOnepayfixBid = String.valueOf(paymentDataVoBaseResponse.getData().pendingOnepayfixBid);
+                            id[0] = pendingOnepayfixBid;
+                        }
+                    }
 
+                    // 如果不相等，说明有正在进行中的订单
+                    if (!bid.equals(id[0])) {
+                        return model.getApiService().getPayment(id[0]).map(response -> new Pair<>(response, null));
+                    } else {
                         ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(id[0]);
+                        return model.rechargeOrderCheck(request).map(response -> new Pair<>(null, response));
+                    }
+                })
+                .flatMap(pair -> {
+                    BaseResponse<RechargeVo> rechargeVoBaseResponse = pair.first;
+                    ExRechargeOrderCheckResponse exRechargeOrderCheck = pair.second;
 
-                        if (paymentDataVoBaseResponse.getData() != null) {
-                            //如果存在充值中的订单，则使用订单的渠道查询订单
-                            if (paymentDataVoBaseResponse.getData().pendingOnepayfixBid > 0) {
-                                String pendingOnepayfixBid = String.valueOf(paymentDataVoBaseResponse.getData().pendingOnepayfixBid);
-                                request.setPid(pendingOnepayfixBid);
-                                id[0] = pendingOnepayfixBid;
+                    if (rechargeVoBaseResponse != null) {
+                        // 处理 BaseResponse<RechargeVo>
+                        if (rechargeVoBaseResponse.getData() != null) {
+                            if (isOnePayFix(rechargeVoBaseResponse.getData())) {
+                                rechargeVoAtomicReference.set(rechargeVoBaseResponse.getData());
+                                //如果是原生极速充值
+                                ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(id[0]);
+                                return model.rechargeOrderCheck(request);
+                            } else {
+                                liveDataExpNoOrder.postValue(false);
+                                getPayment(id[0]);
                             }
                         }
-
-                        return model.rechargeOrderCheck(request);
+                        return Flowable.empty(); // 返回处理后的结果
+                    } else if (exRechargeOrderCheck != null) {//没有订单，直接返回上一次的查单结果
+                        // 处理 ExRechargeOrderCheckResponse
+                        return Flowable.just(exRechargeOrderCheck); // 直接返回处理后的结果
                     }
+                    // 如果都为空，返回空的 Flowable
+                    return Flowable.empty();
                 })
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
@@ -454,6 +516,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                     }
                                     CfLog.i("sec: " + differenceInSeconds);
                                     if (differenceInSeconds < 0) {
+                                        if (rechargeVoAtomicReference.get() != null) {
+                                            curRechargeLiveData.setValue(rechargeVoAtomicReference.get());
+                                        }
                                         liveDataCurOrder.setValue(vo);
                                         liveDataExpNoOrder.setValue(false);
                                     } else {
@@ -490,6 +555,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
         addSubscribe(disposable);
     }
+
     public void getPayment(String bid) {
         getPaymentDetail(bid, liveDataRecharge);
     }
@@ -582,6 +648,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                     CfLog.i("sec: " + differenceInSeconds);
                                     if (differenceInSeconds < 0) {
                                         liveDataCurOrder.setValue(vo);
+                                        liveDataExpNoOrder.setValue(false);
                                     } else {
                                         liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
                                     }
@@ -859,11 +926,12 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                 });
         addSubscribe(disposable);
     }
+
     /**
      * 新增跳过引导接口
      * 点击跳过引导时 使用【需要与账号配合联调 暂未联调】
      */
-    public void skipGuide(){
+    public void skipGuide() {
         Disposable disposable = (Disposable) model.getApiService().skipGuide().
                 compose(RxUtils.schedulersTransformer()).
                 compose(RxUtils.exceptionTransformer())
@@ -893,5 +961,27 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
             }
         }
         return null;
+    }
+
+    /**
+     * 是否极速充值 2024-06-05
+     *
+     * @param vo 充值渠道详情
+     * @return true:是 false:否
+     */
+    public boolean isOnePayFix(RechargeVo vo) {
+        RechargeVo.OpBankListDTO bk = vo.getOpBankList();
+        if (bk == null) {
+            return false;
+        }
+
+        boolean isNotEmpty = (bk.getTop() != null && !bk.getTop().isEmpty())
+                || (bk.getOthers() != null && !bk.getOthers().isEmpty())
+                || (bk.getUsed() != null && !bk.getUsed().isEmpty())
+                || (bk.getHot() != null && !bk.getHot().isEmpty());
+        if (vo.paycode.contains(ONE_PAY_FIX) && isNotEmpty) {
+            return true;
+        }
+        return false;
     }
 }

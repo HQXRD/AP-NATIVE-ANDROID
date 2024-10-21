@@ -95,7 +95,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private static final int MSG_CLICK_CHANNEL = 1001;
     private static final int MSG_ADD_PAYMENT = 1002;
     private static final long REFRESH_DELAY = 30 * 60 * 1000L; // 刷新间隔等待时间(如果长时间没刷新)
-    private static final String ONE_PAY_FIX = "onepayfix"; // 极速充值包含的关键字
     private static final String KEY_MANUAL = "manual"; // 人工充值
 
     private Method method;
@@ -405,7 +404,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             // 下一步
             if (curRechargeVo.paycode.equals(KEY_MANUAL)) {
                 goNextManual(); // 人工充值
-            } else if (isOnePayFix(curRechargeVo)) {
+            } else if (viewModel.isOnePayFix(curRechargeVo)) {
                 goNext2(); // 极速充值
             } else if (curRechargeVo.paycode.contains("hiwallet")) {
                 goHiWallet(); // 嗨钱包
@@ -676,7 +675,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (vo.op_thiriframe_use && !vo.phone_needbind) {
             CfLog.d(vo.title + ", jump: " + vo.op_thiriframe_url);
             binding.llDown.setVisibility(View.GONE); // 下面的部分隐藏
-            if (isOnePayFix(vo)) {
+            if (viewModel.isOnePayFix(vo)) {
                 onClickPayment3(vo);
                 viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
             } else if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
@@ -696,7 +695,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     url = DomainUtil.getApiUrl() + separator + url;
                 }
                 showWebPayDialog(vo.title, url);
-            } else if (vo.paycode.contains(ONE_PAY_FIX)) {
+            } else if (vo.paycode.contains(viewModel.ONE_PAY_FIX)) {
                 // 极速充值
                 CfLog.i(vo.bid + " , " + vo.title + " , " + vo.paycode);
 //                viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
@@ -736,7 +735,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (vo.view_bank_card) {
             binding.llBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setOnClickListener(v -> showBankCard(vo)); // 选择银行卡
-            if (isOnePayFix(vo)) {
+            if (viewModel.isOnePayFix(vo)) {
                 if (vo.getOpBankList() != null && vo.getOpBankList().getUsed() != null
                         && !vo.getOpBankList().getUsed().isEmpty()) {
                     //去掉工商银行
@@ -858,7 +857,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         setPrePay(vo, amount); // 设置预计支付
         setNextButton();
         //只有是极速充值 才显示充值引导
-        if (isOnePayFix(vo)) {
+        if (viewModel.isOnePayFix(vo))
+        {
             if (ppw3 != null && ppw3.isShow()) {
                 return;
             }
@@ -1257,7 +1257,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        if (isOnePayFix(vo)) {
+        if (viewModel.isOnePayFix(vo)) {
             // 极速充值
             showBankCardExDialog(vo);
         } else {
@@ -1335,7 +1335,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             RechargeOrderVo vo = getArguments().getParcelable("obj");
             CfLog.i("RechargeOrderVo: " + (vo != null));
             // 极速充值 带有onepayfix且bankId非空
-            if (vo != null && vo.sysParamPrefix.contains(ONE_PAY_FIX) && !TextUtils.isEmpty(vo.bankId)) {
+            if (vo != null && vo.sysParamPrefix.contains(viewModel.ONE_PAY_FIX) && !TextUtils.isEmpty(vo.bankId)) {
                 if (TextUtils.isEmpty(vo.orderurl)) {
                     CfLog.i("RechargeOrderVo, bankId: " + vo.bankId);
                     LoadingDialog.show(getContext());
@@ -1674,7 +1674,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             viewModel.curRechargeLiveData.setValue(curRechargeVo);
 
             // 极速充值
-            if (isOnePayFix(vo)) {
+            if (viewModel.isOnePayFix(vo)) {
                 // 银行列表,搜索页会用到
                 onClickPayment3(vo);
                 return;
@@ -1822,24 +1822,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         super.onDestroyView();
     }
 
-    /**
-     * 是否极速充值 2024-06-05
-     *
-     * @param vo 充值渠道详情
-     * @return true:是 false:否
-     */
-    private boolean isOnePayFix(RechargeVo vo) {
-        RechargeVo.OpBankListDTO bk = vo.getOpBankList();
-        if (bk == null) {
-            return false;
-        }
-
-        boolean isNotEmpty = (bk.getTop() != null && !bk.getTop().isEmpty())
-                || (bk.getOthers() != null && !bk.getOthers().isEmpty())
-                || (bk.getUsed() != null && !bk.getUsed().isEmpty())
-                || (bk.getHot() != null && !bk.getHot().isEmpty());
-        return vo.paycode.contains(ONE_PAY_FIX) && isNotEmpty;
-    }
 
     /**
      * 显示网页版的充值界面 <br/>
