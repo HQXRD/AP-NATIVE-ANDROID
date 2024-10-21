@@ -15,7 +15,7 @@ import io.sentry.Sentry;
 
 public abstract class InputMessenger implements IInputMessenger {
 
-    private Messenger messenger;
+    private Messenger replyMessenger;
 
     public InputMessenger() {
     }
@@ -30,7 +30,7 @@ public abstract class InputMessenger implements IInputMessenger {
                 MessageType.Input inputType = MessageType.Input.fromCode(msg.what);
                 switch (inputType) {
                     case CONNECT:
-                        messenger = msg.replyTo;
+                        replyMessenger = msg.replyTo;
                         break;
                     default:
                         InputMessenger.this.handleMessage(msg);
@@ -46,7 +46,7 @@ public abstract class InputMessenger implements IInputMessenger {
             Message msg = Message.obtain();
             msg.what = outputType.getCode(); // 将 enum 的 code 作为 what 值
             msg.obj = obj;
-            messenger.send(msg);
+            replyMessenger.send(msg);
         } catch (Exception e) {
             e.printStackTrace();
             Sentry.captureException(e);

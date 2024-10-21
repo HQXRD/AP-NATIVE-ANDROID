@@ -6,6 +6,7 @@ import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
 import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
 import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.gyf.immersionbar.ImmersionBar;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnCancelListener;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.fastest.ChangeH5LineUtil;
 import com.xtree.base.net.fastest.FastestTopDomainUtil;
@@ -33,6 +37,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.EventVo;
+import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.base.widget.SpecialMenuItemView;
 import com.xtree.main.BR;
@@ -56,10 +61,12 @@ import java.util.List;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
+import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
@@ -262,6 +269,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                             webSocketViewModel.getWsToken();
                         }
                         break;
+                    case REMOTE_MSG://后端的消息
+                        if (msg.obj != null && msg.obj instanceof Bundle) {
+                            MainActivity.this.handleRemoteMessage((Bundle) msg.obj);
+                        }
+                        break;
                 }
             }
         });
@@ -300,5 +312,30 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 pushServiceConnection.sendMessageToService(MessageType.Input.LINK, obj);
             }
         });
+    }
+
+    private void handleRemoteMessage(Bundle obj) {
+        //1，判断用户在游戏场馆内的时候使用toast提示
+        //2，判断用户在非游戏场馆页面的时候用prompt提示
+
+        String message="";
+        String title="";
+        Activity currentActivity = AppManager.getAppManager().currentActivity();
+        boolean isGame = false;
+        if (currentActivity instanceof BrowserActivity) {
+            isGame = ((BrowserActivity) currentActivity).isGame();
+        }
+        if (isGame) {//弹toast
+            ToastUtils.showShort(message);
+        } else {//弹dialog
+
+            new XPopup.Builder(currentActivity).asConfirm(title, message, getString(R.string.cancel), getString(R.string.ok), () -> {//确定
+                Bundle bundle = new Bundle();
+                bundle.putInt("isMsgPerson", 1);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG, bundle);
+            }, () -> {//取消
+
+            },false).show();
+        }
     }
 }

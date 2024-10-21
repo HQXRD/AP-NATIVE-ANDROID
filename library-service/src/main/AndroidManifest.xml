@@ -4,6 +4,6 @@
     <application>
         <service
             android:name="com.xtree.service.WebSocketService"
-            android:process=":websocket" />
+            android:process=":push" />
     </application>
 </manifest>

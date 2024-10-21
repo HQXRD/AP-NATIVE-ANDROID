@@ -320,8 +320,10 @@
     <string name="txt_choose_withdrawal_usdt">USDT介绍及提款教程</string>
     <string name="txt_bank_card_withdrawal">银行卡提款</string>
     <string name="txt_set_bank_card">1.设置提款请求</string>
-    <string name="txt_msg_message">公告</string>
+    <string name="txt_msg_message">通知公告</string>
     <string name="txt_msg_message_person">站内信</string>
+    <string name="txt_msg_message_promote">推广活动</string>
+    <string name="txt_msg_message_sys">系统消息</string>
     <string name="txt_will_u_logout">您确定要退出吗？</string>
     <string name="txt_enter_google_code">输入Google验证码</string>
     <string name="txt_auth_code">请输入谷歌验证码</string>
