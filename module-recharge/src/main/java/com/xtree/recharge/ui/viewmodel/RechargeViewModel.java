@@ -44,6 +44,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
@@ -265,6 +266,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
         final String[] id = {bid};
 
+        //原生未完成充值订单详情
+        AtomicReference<RechargeVo> rechargeVoAtomicReference = new AtomicReference<>();
+
         BasePopupView loadingDialog = new XPopup.Builder(context)
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(true)
@@ -299,13 +303,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     }
                 })
                 .flatMap(pair -> {
-                    BaseResponse<RechargeVo> rechargeVo = pair.first;
+                    BaseResponse<RechargeVo> rechargeVoBaseResponse = pair.first;
                     ExRechargeOrderCheckResponse exRechargeOrderCheck = pair.second;
 
-                    if (rechargeVo != null) {
+                    if (rechargeVoBaseResponse != null) {
                         // 处理 BaseResponse<RechargeVo>
-                        if (rechargeVo.getData() != null) {
-                            if (isOnePayFix(rechargeVo.getData())) {
+                        if (rechargeVoBaseResponse.getData() != null) {
+                            if (isOnePayFix(rechargeVoBaseResponse.getData())) {
+                                rechargeVoAtomicReference.set(rechargeVoBaseResponse.getData());
                                 //如果是原生极速充值
                                 ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(id[0]);
                                 return model.rechargeOrderCheck(request);
@@ -363,6 +368,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                     }
                                     CfLog.i("sec: " + differenceInSeconds);
                                     if (differenceInSeconds < 0) {
+                                        if (rechargeVoAtomicReference.get() != null) {
+                                            curRechargeLiveData.setValue(rechargeVoAtomicReference.get());
+                                        }
                                         liveDataCurOrder.setValue(vo);
                                         liveDataExpNoOrder.setValue(false);
                                     } else {
@@ -404,8 +412,10 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
      * 极速充值下单前查一遍未完成状态
      */
     public void createOrderCheck(Map<String, String> map, Context context) {
-        String bid=map.get("pid");
+        String bid = map.get("pid");
         final String[] id = {bid};
+        //原生未完成充值订单详情
+        AtomicReference<RechargeVo> rechargeVoAtomicReference = new AtomicReference<>();
 
         BasePopupView loadingDialog = new XPopup.Builder(context)
                 .dismissOnTouchOutside(false)
@@ -441,13 +451,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     }
                 })
                 .flatMap(pair -> {
-                    BaseResponse<RechargeVo> rechargeVo = pair.first;
+                    BaseResponse<RechargeVo> rechargeVoBaseResponse = pair.first;
                     ExRechargeOrderCheckResponse exRechargeOrderCheck = pair.second;
 
-                    if (rechargeVo != null) {
+                    if (rechargeVoBaseResponse != null) {
                         // 处理 BaseResponse<RechargeVo>
-                        if (rechargeVo.getData() != null) {
-                            if (isOnePayFix(rechargeVo.getData())) {
+                        if (rechargeVoBaseResponse.getData() != null) {
+                            if (isOnePayFix(rechargeVoBaseResponse.getData())) {
+                                rechargeVoAtomicReference.set(rechargeVoBaseResponse.getData());
                                 //如果是原生极速充值
                                 ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(id[0]);
                                 return model.rechargeOrderCheck(request);
@@ -505,6 +516,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                     }
                                     CfLog.i("sec: " + differenceInSeconds);
                                     if (differenceInSeconds < 0) {
+                                        if (rechargeVoAtomicReference.get() != null) {
+                                            curRechargeLiveData.setValue(rechargeVoAtomicReference.get());
+                                        }
                                         liveDataCurOrder.setValue(vo);
                                         liveDataExpNoOrder.setValue(false);
                                     } else {
@@ -634,6 +648,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                     CfLog.i("sec: " + differenceInSeconds);
                                     if (differenceInSeconds < 0) {
                                         liveDataCurOrder.setValue(vo);
+                                        liveDataExpNoOrder.setValue(false);
                                     } else {
                                         liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
                                     }
