@@ -21,6 +21,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.MsgDialog;
@@ -135,6 +136,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         mBanlance = SPUtils.getInstance().getString(SPKeyGlobal.WLT_CENTRAL_BLC, "-1");
         binding.tvBalance.setText(NumberUtils.formatDown(Double.valueOf(mBanlance), 2));
         binding.btBet.setOnClickListener(v -> {
+            //5秒内禁止重复投注，防止弱网情况重复投注
+            if (ClickUtil.isFastClick(5000)) {
+                return;
+            }
             int acceptOdds = binding.cbAccept.isChecked() ? 1 : 2;
             if (TextUtils.equals(mBanlance, "-1")) {
                 ToastUtils.showLong("正在获取余额信息，请稍候");
