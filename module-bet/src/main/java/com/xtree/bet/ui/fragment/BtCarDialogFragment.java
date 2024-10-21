@@ -136,8 +136,8 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         mBanlance = SPUtils.getInstance().getString(SPKeyGlobal.WLT_CENTRAL_BLC, "-1");
         binding.tvBalance.setText(NumberUtils.formatDown(Double.valueOf(mBanlance), 2));
         binding.btBet.setOnClickListener(v -> {
-            //5秒内禁止重复投注，防止弱网情况重复投注
-            if (ClickUtil.isFastClick(5000)) {
+            //4秒内禁止重复投注，防止弱网情况重复投注
+            if (ClickUtil.isFastClick(4000)) {
                 return;
             }
             int acceptOdds = binding.cbAccept.isChecked() ? 1 : 2;
