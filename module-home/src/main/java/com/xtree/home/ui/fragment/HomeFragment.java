@@ -103,7 +103,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private boolean isSelectedGame = false;
     private int gameGroup = -1;
 
-    private static  final  int MSG_REFRESH_NOTICE = 1001;//刷新公告
+    private static final int MSG_REFRESH_NOTICE = 1001;//刷新公告
     //刷新公共Handler
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -119,7 +119,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         }
     };
-
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -233,7 +232,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     viewModel.getECLink();
                 }
                 String showRegMsg = SPUtils.getInstance().getString(SPKeyGlobal.USER_CODE_MSG);
-                if (showRegMsg !=null && !TextUtils.isEmpty(showRegMsg)){
+                if (showRegMsg != null && !TextUtils.isEmpty(showRegMsg)) {
                     //显示注册弹窗
                     showRegPop(showRegMsg);
                 }
@@ -860,9 +859,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     /**
      * 显示注册弹窗
+     *
      * @param message
      */
-    private void  showRegPop(final String message){
+    private void showRegPop(final String message) {
         String title = getString(R.string.txt_kind_tips);
         MsgDialog dialog = new MsgDialog(getContext(), title, message, true, new MsgDialog.ICallBack() {
             @Override

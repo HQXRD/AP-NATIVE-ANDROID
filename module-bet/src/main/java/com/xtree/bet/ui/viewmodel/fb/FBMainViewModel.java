@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.xtree.base.net.FBHttpCallBack;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
@@ -19,6 +18,7 @@ import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.MatchListRsp;
 import com.xtree.bet.bean.response.fb.MatchTypeInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeStatisInfo;
+import com.xtree.bet.bean.response.fb.ResultBean;
 import com.xtree.bet.bean.response.fb.StatisticalInfo;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
@@ -44,7 +44,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -439,11 +438,10 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 .subscribeWith(new FBHttpCallBack<StatisticalInfo>() {
                     @Override
                     public synchronized void onResult(StatisticalInfo statisticalInfo) {
-
-                        mStatisticalInfo = statisticalInfo;
                         if (mMatchGames.isEmpty()) {
                             mMatchGames = FBConstants.getMatchGames();
                         }
+                        mStatisticalInfo = statisticalInfo;
                         for (MatchTypeInfo matchTypeInfo : statisticalInfo.sl) {
                             //"6", "1", "4", "2", "7"; 只有"今日", "滚球", "早盘", "串关", "冠军"数据才添加，提升效率
                             if (matchTypeInfo.ty == 6 || matchTypeInfo.ty == 1 || matchTypeInfo.ty == 4 || matchTypeInfo.ty == 2 || matchTypeInfo.ty == 7) {
@@ -509,6 +507,98 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             leagueList.add(new LeagueFb(leagueInfo));
                         }
                         settingLeagueData.postValue(leagueList);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取赛果配置参数
+     */
+    public void postMerchant() {
+        Map<String, String> map = new HashMap<>();
+        map.put("languageType", "CMN");
+        Disposable disposable = (Disposable) model.getApiService().postMerchant(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new FBHttpCallBack<ResultBean>() {
+                    @Override
+                    public void onResult(ResultBean resultBean) {
+                        List<SportTypeItem> list1 = new ArrayList<>();
+                        for (int i : resultBean.getSss()) {
+                            if (FBConstants.getMatchGames().get(i) == null) {
+                                continue;
+                            }
+                            SportTypeItem item = new SportTypeItem();
+                            item.id = i;
+                            list1.add(item);
+                        }
+                        List<SportTypeItem> list2 = new ArrayList<>();
+                        for (int i : resultBean.getOss()) {
+                            if (FBConstants.getMatchGames().get(i) == null) {
+                                continue;
+                            }
+                            SportTypeItem item = new SportTypeItem();
+                            item.id = i;
+                            list2.add(item);
+                        }
+                        ConcurrentHashMap<String, List<SportTypeItem>> sportMap = new ConcurrentHashMap<>();
+                        sportMap.put("1", list1);
+                        sportMap.put("2", list2);
+                        resultData.setValue(sportMap);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取赛事赛果列表
+     */
+    public void matchResultPage(String beginTime, String endTime, int playMethodPos, String sportId) {
+        Map<String, String> map = new HashMap<>();
+        map.put("beginTime", beginTime);
+        map.put("endTime", endTime);
+        map.put("languageType", "CMN");
+        map.put("current", "1");
+        map.put("size", "300");
+        String matchType = "";
+        if (playMethodPos == 0) {
+            matchType = "2";
+        } else if (playMethodPos == 1) {
+            matchType = "1";
+        }
+        map.put("matchType", matchType);//1：冠军  2：体育
+        map.put("sportId", sportId);
+        Disposable disposable = (Disposable) model.getApiService().matchResultPage(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new FBHttpCallBack<MatchListRsp>() {
+                    @Override
+                    public void onResult(MatchListRsp resultBean) {
+                        ArrayList<League> leagues = new ArrayList<League>();
+                        Map<String, League> mapLeague = new HashMap<>();
+                        for (MatchInfo matchInfo : resultBean.records) {
+                            Match matchFb = new MatchFb(matchInfo);
+                            //一个父item对应多个子item
+                            League league = mapLeague.get(String.valueOf(matchInfo.lg.id));
+                            if (league == null) {
+                                league = new LeagueFb(matchInfo.lg);
+                                mapLeague.put(String.valueOf(matchInfo.lg.id), league);
+                                leagues.add(league);
+                            }
+                            league.getMatchList().add(matchFb);
+                        }
+                        resultLeagueData.setValue(leagues);
                     }
 
                     @Override
@@ -672,7 +762,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 });
         addSubscribe(disposable);
     }
-
 
     @Override
     public void onDestroy() {

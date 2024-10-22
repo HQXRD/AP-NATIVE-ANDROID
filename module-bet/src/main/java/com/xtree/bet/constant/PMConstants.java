@@ -29,7 +29,7 @@ public class PMConstants {
             MATCH_GAMES.put(20, new SportTypeItem(20, "americanfootball", "美式足球", 8, R.drawable.bt_match_item_mszq_selector, 40213));
             MATCH_GAMES.put(16, new SportTypeItem(16, "tabletennis", "乒乓球", 9, R.drawable.bt_match_item_bbq_selector, 40209));
             MATCH_GAMES.put(18, new SportTypeItem(18, "icehockey", "冰球", 10, R.drawable.bt_match_item_iceq_selector, 40211));
-            MATCH_GAMES.put(22, new SportTypeItem(22, "rugby", "联合式橄榄球", 20, R.drawable.bt_match_item_glq_selector, 40262));
+            MATCH_GAMES.put(22, new SportTypeItem(22, "rugby", "英式橄榄球", 20, R.drawable.bt_match_item_glq_selector, 40262));
             MATCH_GAMES.put(43, new SportTypeItem(43, "handball", "手球", 11, R.drawable.bt_match_item_sq_selector, 40215));
             MATCH_GAMES.put(52, new SportTypeItem(52, "golf", "高尔夫", 12, R.drawable.bt_match_item_golf_selector, 40254));
             MATCH_GAMES.put(20037, new SportTypeItem(20037, "cricket", "板球", 13, R.drawable.bt_match_item_wbq_selector, 40260));

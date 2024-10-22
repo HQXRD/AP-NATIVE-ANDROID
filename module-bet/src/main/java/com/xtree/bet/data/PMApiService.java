@@ -1,6 +1,5 @@
 package com.xtree.bet.data;
 
-import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.request.pm.BtCarCgReq;
 import com.xtree.bet.bean.request.pm.BtCarReq;
 import com.xtree.bet.bean.request.pm.BtCashOutBetReq;
@@ -19,6 +18,7 @@ import com.xtree.bet.bean.response.pm.LeagueAreaInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
+import com.xtree.bet.bean.response.pm.PMResultBean;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
 import com.xtree.bet.bean.response.pm.VideoAnimationInfo;
 import com.xtree.bet.bean.ui.CategoryPm;
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
-import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.PMBaseResponse;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -94,6 +93,14 @@ public interface PMApiService {
     @GET("/yewu11/v1/w/matchDetail/getMatchDetailPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<MatchInfo>> getMatchDetail(@QueryMap Map<String, String> map);
+
+    /**
+     * 详情页获取赛果详情信息
+     * @return
+     */
+    @GET("/yewu11/v1/m/matchDetail/getMatchDetailPB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<MatchInfo>> getMatchDetailResult(@QueryMap Map<String, String> map);
 
     /**
      * 获取详情玩法集
@@ -187,4 +194,18 @@ public interface PMApiService {
     @POST("/yewu11/v2/notice/frontListPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<FrontListInfo>> frontListPB();
+
+    /**
+     * 赛果菜单统计
+     */
+    @GET("/yewu11/v2/m/menu/resultMenuPB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<List<PMResultBean>>> resultMenuPB(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取赛果信息赛事列表
+     */
+    @POST("/yewu11/v1/m/matcheResultPB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<List<MatchInfo>>> matcheResultPB(@Body Map<String, String> map);
 }

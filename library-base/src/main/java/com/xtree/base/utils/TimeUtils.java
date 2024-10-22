@@ -14,8 +14,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import me.xtree.mvvmhabit.utils.SPUtils;
-
 //@SuppressLint("SimpleDateFormat")
 public class TimeUtils {
     public final static String FORMAT_MM_DD = "MM/dd";
@@ -147,7 +145,6 @@ public class TimeUtils {
     public static String getCurDate() {
         return android.text.format.DateFormat.format("yyyyMMdd", new Date()).toString();
     }
-
 
     /**
      * 返回几号 两位数字
@@ -281,6 +278,19 @@ public class TimeUtils {
         for (int i = 0; i < daysToAdd; i++) {
             dateList.add(strFormatDate(parseTime(calendar.getTime(), FORMAT_YY_MM_DD), FORMAT_YY_MM_DD));
             calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        return dateList;
+    }
+
+    public static List<Date> getLastDays(int daysToAdd) {
+        List<Date> dateList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        for (int i = 0; i < daysToAdd; i++) {
+            dateList.add(strFormatDate(parseTime(calendar.getTime(), FORMAT_YY_MM_DD), FORMAT_YY_MM_DD));
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
         }
 
         return dateList;

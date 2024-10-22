@@ -20,7 +20,7 @@
             android:layout_marginBottom="5dp"
             android:background="@color/bt_page_bg"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent">
 
             <RelativeLayout
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bt_bg_league_top"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView

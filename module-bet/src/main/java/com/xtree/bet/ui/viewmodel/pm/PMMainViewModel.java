@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.fb.FBAnnouncementInfo;
@@ -24,6 +23,7 @@ import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
+import com.xtree.bet.bean.response.pm.PMResultBean;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeaguePm;
 import com.xtree.bet.bean.ui.Match;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Handler;
+import java.util.concurrent.ConcurrentHashMap;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
@@ -684,6 +684,94 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      */
     public void getOnSaleLeagues(int sportId, int type) {
 
+    }
+
+    /**
+     * 获取赛果配置参数
+     */
+    public void postMerchant() {
+        Map<String, String> map = new HashMap<>();
+        map.put("languageType", "CMN");
+        Disposable disposable = (Disposable) model.getPMApiService().resultMenuPB(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<List<PMResultBean>>() {
+                    @Override
+                    public void onResult(List<PMResultBean> list) {
+                        List<SportTypeItem> list1 = new ArrayList<>();
+                        for (PMResultBean i : list) {
+                            if (PMConstants.getMatchGames().get(i.getMenuType()) == null) {
+                                continue;
+                            }
+                            SportTypeItem item = new SportTypeItem();
+                            item.id = i.getMenuType();
+                            item.menuId = Integer.parseInt(i.getMenuId());
+                            list1.add(item);
+                        }
+                        ConcurrentHashMap<String, List<SportTypeItem>> sportMap = new ConcurrentHashMap<>();
+                        sportMap.put("1", list1);
+                        sportMap.put("2", new ArrayList<>());
+                        resultData.setValue(sportMap);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取赛果信息赛事列表
+     */
+    public void matchResultPage(String beginTime, String endTime, int playMethodPos, String sportId) {
+        Map<String, String> map = new HashMap<>();
+        map.put("euid", sportId);
+        map.put("type", "28");
+        map.put("sort", "2");
+        map.put("device", "v2_h5_st");
+        map.put("tid", "");
+        map.put("md", beginTime);
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (TextUtils.equals(platform, PLATFORM_PMXC)) {
+            map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID));
+        } else {
+            map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
+        }
+        Disposable disposable = (Disposable) model.getPMApiService().matcheResultPB(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<List<MatchInfo>>() {
+                    @Override
+                    public void onResult(List<MatchInfo> data) {
+
+                        ArrayList<League> leagues = new ArrayList<League>();
+                        Map<String, League> mapLeague = new HashMap<>();
+                        for (MatchInfo matchInfo : data) {
+                            Match match = new MatchPm(matchInfo);
+                            League league = mapLeague.get(String.valueOf(matchInfo.tid));
+                            if (league == null) {
+                                LeagueInfo leagueInfo = new LeagueInfo();
+                                leagueInfo.picUrlthumb = matchInfo.lurl;
+                                leagueInfo.nameText = matchInfo.tn;
+                                leagueInfo.tournamentId = Long.parseLong(matchInfo.tid);
+                                league = new LeaguePm(leagueInfo);
+                                mapLeague.put(String.valueOf(matchInfo.tid), league);
+                                leagues.add(league);
+                            }
+                            league.getMatchList().add(match);
+
+                        }
+                        resultLeagueData.setValue(leagues);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     @Override

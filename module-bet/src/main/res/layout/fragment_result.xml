@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@mipmap/cm_icon_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!-- 体育/冠军-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_play_method"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_back"
+            app:layout_constraintStart_toEndOf="@+id/iv_back"
+            app:layout_constraintTop_toTopOf="@+id/iv_back"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="80dp"
+            app:tabMinWidth="20dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="5dp"
+            app:tabPaddingStart="5dp"
+            app:tabRippleColor="@android:color/transparent" />
+
+        <ImageView
+            android:id="@+id/ivw_game_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:padding="8dp"
+            android:src="@mipmap/ic_game_search"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_back" />
+        <!-- 彩种-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tab_sport_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bt_page_up_bg"
+            app:layout_constraintTop_toBottomOf="@+id/iv_back" />
+
+        <!-- 日期-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_search_date"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/clr_grey_07"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/tab_sport_type"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="60dp"
+            app:tabMinWidth="20dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="5dp"
+            app:tabPaddingStart="5dp"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="@color/bt_tab_textcolor_selected"
+            app:tabTextColor="@color/bt_text_color_primary" />
+
+        <com.xtree.bet.weight.AnimatedExpandableListViewMax
+            android:id="@+id/rv_league"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:childIndicator="@null"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:defaultFocusHighlightEnabled="false"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:groupIndicator="@null"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_search_date" />
+
+        <include
+            android:id="@+id/ll_empty"
+            layout="@layout/bt_layout_match_list_empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@+id/rv_league"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_league"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

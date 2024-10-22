@@ -291,43 +291,6 @@
                                 android:listSelector="@android:color/transparent"
                                 android:scrollbars="none" />
 
-                            <RelativeLayout
-                                android:id="@+id/rl_league"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="2dp"
-                                android:layout_marginEnd="2dp"
-                                android:background="@drawable/bt_bg_league_top"
-                                android:visibility="gone"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <ImageView
-                                    android:id="@+id/iv_icon"
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginStart="10dp" />
-
-                                <TextView
-                                    android:id="@+id/tv_league_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/iv_icon"
-                                    android:padding="5dp"
-                                    android:textColor="@color/bt_text_color_primary_1"
-                                    android:textSize="@dimen/bt_text_15sp"
-                                    android:textStyle="bold"
-                                    tools:text="墨西哥甲级联赛" />
-
-                                <ImageView
-                                    android:id="@+id/group_indicator"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginEnd="10dp" />
-
-                            </RelativeLayout>
                         </RelativeLayout>
 
                     </com.scwang.smart.refresh.layout.SmartRefreshLayout>

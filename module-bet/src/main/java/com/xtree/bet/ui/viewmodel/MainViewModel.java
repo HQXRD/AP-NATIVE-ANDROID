@@ -51,6 +51,16 @@ public interface MainViewModel {
     void getOnSaleLeagues(int sportId, int type);
 
     /**
+     * 获取赛果配置参数
+     */
+    void postMerchant();
+
+    /**
+     * 获取赛事赛果列表
+     */
+    void matchResultPage(String beginTime, String endTime, int playMethodPos, String sportId) ;
+
+    /**
      * 获取玩法类型列表
      * @return
      */
