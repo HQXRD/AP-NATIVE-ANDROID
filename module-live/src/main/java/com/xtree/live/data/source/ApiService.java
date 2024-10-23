@@ -57,4 +57,6 @@ public interface ApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> qmap, @Body Map<String, Object> map);
 
+    @GET("api/secret/getReviseHot")
+    Flowable<ResponseBody> getReviseHot();
 }

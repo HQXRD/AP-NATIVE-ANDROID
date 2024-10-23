@@ -1,20 +1,19 @@
 package com.xtree.live.ui.main.viewmodel;
 
 import android.app.Application;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import com.drake.brv.BindingAdapter;
 import com.google.android.material.tabs.TabLayout;
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.live.R;
 import com.xtree.live.data.LiveRepository;
+import com.xtree.live.data.source.request.LiveTokenRequest;
+import com.xtree.live.data.source.response.LiveTokenResponse;
 import com.xtree.live.ui.main.model.anchor.LiveAnchorModel;
 import com.xtree.live.ui.main.model.hot.LiveHotModel;
 
@@ -22,6 +21,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.utils.RxUtils;
 
 /**
  * Created by KAKA on 2024/9/9.
@@ -71,9 +71,7 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
 
 
     public void initData(FragmentActivity mActivity) {
-
         setActivity(mActivity);
-
         datas.setValue(bindModels);
     }
 
@@ -83,7 +81,23 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+        model.getLiveToken(new LiveTokenRequest())
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribe(new HttpCallBack<LiveTokenResponse>() {
+                    @Override
+                    public void onResult(LiveTokenResponse data) {
+                        if (data.getAppApi() != null && !data.getAppApi().isEmpty()) {
+                            model.setLive(data);
+                        }
+                    }
 
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        t.toString();
+                    }
+                });
     }
 
     @Override

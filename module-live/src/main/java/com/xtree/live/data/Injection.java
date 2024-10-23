@@ -1,6 +1,7 @@
 package com.xtree.live.data;
 
 
+import com.xtree.base.net.live.LiveClient;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.live.data.source.ApiService;
 import com.xtree.live.data.source.HttpDataSource;
@@ -15,8 +16,9 @@ public class Injection {
     public static LiveRepository provideRechargeRepository() {
         //网络API服务
         ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+        ApiService liveService = LiveClient.getInstance().create(ApiService.class);
         //网络数据源
-        HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService);
+        HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService, liveService);
         //本地数据源
         LocalDataSource localDataSource = LocalDataSourceImpl.getInstance();
         //两条分支组成一个数据仓库
