@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bt_page_bg"
+        android:orientation="vertical">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                app:elevation="0dp">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/ctl_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/bt_detail_bg_mszq_default_top"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:titleEnabled="false"
+                    app:toolbarId="@+id/toolbar">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/ll_main"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/iv_logo_main"
+                                android:layout_width="38dp"
+                                android:layout_height="38dp" />
+
+                            <TextView
+                                android:id="@+id/tv_team_main"
+                                android:layout_width="140dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_logo_main"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="5dp"
+                                android:layout_toStartOf="@+id/tv_time"
+                                android:gravity="center"
+                                android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:textSize="@dimen/bt_text_14sp"
+                                tools:text="湖人" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:textSize="@dimen/bt_text_12sp"
+                                tools:text="上半场 02：54" />
+
+                            <TextView
+                                android:id="@+id/tv_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="15dp"
+                                android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:textSize="@dimen/bt_text_16sp"
+                                android:textStyle="bold"
+                                tools:text="2-1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/iv_logo_visitor"
+                                android:layout_width="38dp"
+                                android:layout_height="38dp" />
+
+                            <TextView
+                                android:id="@+id/tv_team_visisor"
+                                android:layout_width="140dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/iv_logo_main"
+                                android:layout_centerInParent="true"
+                                android:layout_marginTop="5dp"
+                                android:layout_toStartOf="@+id/tv_time"
+                                android:gravity="center"
+                                android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:textSize="@dimen/bt_text_14sp"
+                                tools:text="火箭" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_data"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ll_main"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="50dp"
+                            android:orientation="horizontal" />
+
+                    </RelativeLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:background="#cc000000"
+                        android:visibility="visible"
+                        app:layout_collapseMode="pin">
+
+                        <ImageView
+                            android:id="@id/iv_back"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:padding="8dp"
+                            android:src="@mipmap/cm_icon_back"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ctl_toolbar_league"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/tv_league_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:textSize="@dimen/bt_text_14sp"
+                                android:visibility="visible"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="NBA职业篮球联赛" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rl_toolbar_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="visible">
+
+                            <ImageView
+                                android:id="@+id/iv_logo_main_top"
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:layout_marginStart="50dp"
+                                android:layout_marginTop="30dp" />
+
+                            <TextView
+                                android:id="@+id/tv_score_main_top"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="44dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_toStartOf="@+id/tv_time_top"
+                                android:text="2"
+                                android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:textSize="@dimen/bt_text_14sp" />
+
+                            <TextView
+                                android:id="@+id/tv_time_top"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="45dp"
+                                android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:textSize="@dimen/bt_text_12sp"
+                                tools:text="上半场 02：54" />
+
+                            <TextView
+                                android:id="@+id/tv_score_visitor_top"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="44dp"
+                                android:layout_toEndOf="@+id/tv_time_top"
+                                android:paddingStart="15dp"
+                                android:text="1"
+                                android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:textSize="@dimen/bt_text_14sp" />
+
+                            <ImageView
+                                android:id="@+id/iv_logo_visitor_top"
+                                android:layout_width="38dp"
+                                android:layout_height="38dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginEnd="50dp" />
+                        </RelativeLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bt_page_bg"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <RelativeLayout
+                    android:id="@+id/rl_play_method"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@color/bt_page_up_bg">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_category_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_toLeftOf="@+id/iv_expand"
+                        android:textSize="10sp"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabIndicatorHeight="0dp"
+                        app:tabMode="scrollable"
+                        app:tabPaddingEnd="0dp"
+                        app:tabPaddingStart="0dp"
+                        app:tabRippleColor="@android:color/transparent" />
+
+                    <ImageView
+                        android:id="@+id/iv_expand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@mipmap/bt_ic_list_expand" />
+                </RelativeLayout>
+
+                <FrameLayout
+                    android:id="@+id/fl_option"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <include
+                    android:id="@+id/ll_end"
+                    layout="@layout/bt_layout_match_ended" />
+
+            </LinearLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

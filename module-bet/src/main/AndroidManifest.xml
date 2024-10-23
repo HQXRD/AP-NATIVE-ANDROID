@@ -11,6 +11,10 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.xtree.bet.ui.activity.BtDetailResultActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.xtree.bet.ui.activity.ExpandActivity"
             android:screenOrientation="portrait" />
     </application>

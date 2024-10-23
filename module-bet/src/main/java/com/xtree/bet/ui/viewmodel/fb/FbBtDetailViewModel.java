@@ -84,6 +84,37 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
 
     }
 
+    public void getMatchDetailResult(long matchId) {
+        //mMatchId = matchId;
+        //Map<String, String> map = new HashMap<>();
+        //map.put("languageType", "CMN");
+        //map.put("matchId", String.valueOf(matchId));
+        //
+        //Disposable disposable = (Disposable) model.getApiService().getMatchDetailResult(map)
+        //        .compose(RxUtils.schedulersTransformer()) //线程调度
+        //        .compose(RxUtils.exceptionTransformer())
+        //        .subscribeWith(new FBHttpCallBack<MatchInfo>() {
+        //            @Override
+        //            public void onResult(MatchInfo matchInfo) {
+        //                //Match match = new MatchFb(matchInfo);
+        //                //matchDataResult.postValue(match);
+        //                //KLog.i("mCategories", "1");
+        //                //List<Category> list = getCategoryList(matchInfo);
+        //                //KLog.i("mCategories", list);
+        //                //categoryResultListData.postValue(list);
+        //            }
+        //
+        //            @Override
+        //            public void onError(Throwable t) {
+        //                if (((ResponseThrowable) t).code == CODE_14010) {
+        //                    getGameTokenApi();
+        //                }
+        //            }
+        //        });
+        //addSubscribe(disposable);
+
+    }
+
     public List<Category> getCategoryList(MatchInfo matchInfo) {
         Map<String, Category> categoryMap = new HashMap<>();
         List<Category> categoryList = new ArrayList<>();

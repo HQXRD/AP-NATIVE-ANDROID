@@ -1,6 +1,8 @@
 package com.xtree.bet.ui.adapter;
 
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
@@ -28,6 +32,7 @@ import com.xtree.bet.databinding.BtFbMatchLrBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailResultActivity;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
+import com.xtree.bet.ui.fragment.NoDataDialog;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.DiscolourTextView;
 import com.xtree.bet.weight.PageHorizontalScrollView;
@@ -47,6 +52,7 @@ public class LeagueResultAdapter extends AnimatedExpandableListViewMax.AnimatedE
     private int noLiveHeaderPosition;
 
     private PageHorizontalScrollView.OnScrollListener mOnScrollListener;
+    private BasePopupView noDataDialog;
 
     public void setOnScrollListener(PageHorizontalScrollView.OnScrollListener onScrollListener) {
         this.mOnScrollListener = onScrollListener;
@@ -256,50 +262,30 @@ public class LeagueResultAdapter extends AnimatedExpandableListViewMax.AnimatedE
 
         binding.tvTeamNameMain.setText(match.getTeamMain());
         binding.tvTeamNameVisitor.setText(match.getTeamVistor());
-        if (match.needCheckHomeSide() && match.isGoingon()) {
-            if (match.isHomeSide()) {
-                binding.tvTeamNameMain.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.bt_bg_server), null);
-                binding.tvTeamNameVisitor.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-            } else {
-                binding.tvTeamNameMain.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-                binding.tvTeamNameVisitor.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.bt_bg_server), null);
-            }
-        } else {
-            binding.tvTeamNameMain.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-            binding.tvTeamNameVisitor.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        }
 
         List<Integer> scoreList = match.getScore(Constants.getScoreType());
-        if (!match.isGoingon()) {
-            binding.tvScoreMain.setText("");
-            binding.tvScoreVisitor.setText("");
-        } else if (scoreList != null && scoreList.size() > 1) {
-            binding.tvScoreMain.setText(String.valueOf(scoreList.get(0)));
-            binding.tvScoreVisitor.setText(String.valueOf(scoreList.get(1)));
-        }
 
-        // 比赛未开始
-        if (!match.isGoingon()) {
-            binding.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
-        } else {
-            String mc = match.getStage();
-            if (mc != null) {
-                if (TextUtils.equals(Constants.getFbSportId(), match.getSportId()) || TextUtils.equals(Constants.getBsbSportId(), match.getSportId())) { // 足球和篮球
-                    if (mc.contains("休息") || mc.contains("结束")) {
-                        binding.tvMatchTime.setText(match.getStage());
-                    } else {
-                        binding.tvMatchTime.setText(mc + " " + match.getTime());
-                    }
-                } else {
-                    binding.tvMatchTime.setText(match.getStage());
-                }
-            }
-        }
+        binding.tvScoreMain.setText(String.valueOf(scoreList.get(0)));
+        binding.tvScoreVisitor.setText(String.valueOf(scoreList.get(1)));
+        binding.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
 
         binding.btDetail.setOnClickListener(view1 -> {
-            BtDetailResultActivity.start(mContext, match);
+            if (TextUtils.equals(platform, PLATFORM_PMXC) || TextUtils.equals(platform, PLATFORM_PM)) {
+                BtDetailResultActivity.start(mContext, match);
+            } else {
+                showNoDataDialog();
+            }
         });
         return convertView;
+    }
+
+    private void showNoDataDialog() {
+        if (noDataDialog == null) {
+            noDataDialog = new XPopup.Builder(mContext)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(new NoDataDialog(mContext));
+        }
+        noDataDialog.show();
     }
 
     private void setPlayTypeGroup(Match match, ViewGroup parent, LinearLayout rootPlayType, PlayType playType) {

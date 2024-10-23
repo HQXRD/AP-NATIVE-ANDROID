@@ -53,6 +53,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
     private boolean isFirst = true;
     private List<PlayType> mPlayTypeList;
     private MatchInfo mMatchInfo;
+    private MatchInfo mMatchResultInfo;
     private long mMatchId;
     private String mSportId;
 
@@ -78,6 +79,40 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         if(mMatchInfo.mid != null) {
                             videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Video");
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        ResponseThrowable error = (ResponseThrowable) t;
+                        if (error.code == CODE_401026 || error.code == CODE_401013) {
+                            getGameTokenApi();
+                        }else {
+                            ToastUtils.showShort(error.message);
+                        }
+                    }
+                });
+        addSubscribe(disposable);
+
+    }
+
+    public void getMatchDetailResult(long matchId) {
+        mMatchId = matchId;
+        Map<String, String> map = new HashMap<>();
+        map.put("mid", String.valueOf(matchId));
+        map.put("type", String.valueOf(1));
+
+        Disposable disposable = (Disposable) model.getPMApiService().getMatchDetailResult(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<MatchInfo>() {
+                    @Override
+                    public void onResult(MatchInfo matchInfo) {
+                        if(matchInfo == null){
+                            return;
+                        }
+                        mMatchResultInfo = matchInfo;
+                        MatchPm match = new MatchPm(mMatchResultInfo);
+                        matchDataResult.postValue(match);
                     }
 
                     @Override

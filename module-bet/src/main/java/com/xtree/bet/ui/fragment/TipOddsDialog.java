@@ -18,6 +18,11 @@ public class TipOddsDialog extends CenterPopupView {
         void onClick();
     }
 
+    public TipOddsDialog(@NonNull Context context) {
+        super(context);
+    }
+
+
     public TipOddsDialog(@NonNull Context context, ICallBack mCallBack) {
         super(context);
         this.mCallBack = mCallBack;

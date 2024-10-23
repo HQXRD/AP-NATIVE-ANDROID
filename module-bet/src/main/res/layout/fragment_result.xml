@@ -18,21 +18,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <!-- 体育/冠军-->
-        <com.google.android.material.tabs.TabLayout
+        <!--        <com.google.android.material.tabs.TabLayout-->
+        <!--            android:id="@+id/tab_play_method"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:textSize="18sp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/iv_back"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/iv_back"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/iv_back"-->
+        <!--            app:tabIndicatorHeight="0dp"-->
+        <!--            app:tabMaxWidth="80dp"-->
+        <!--            app:tabMinWidth="20dp"-->
+        <!--            app:tabMode="scrollable"-->
+        <!--            app:tabPaddingEnd="5dp"-->
+        <!--            app:tabPaddingStart="5dp"-->
+        <!--            app:tabRippleColor="@android:color/transparent" />-->
+
+        <TextView
             android:id="@+id/tab_play_method"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="体育"
+            android:textColor="@color/bt_tab_textcolor_selected"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_back"
             app:layout_constraintStart_toEndOf="@+id/iv_back"
-            app:layout_constraintTop_toTopOf="@+id/iv_back"
-            app:tabIndicatorHeight="0dp"
-            app:tabMaxWidth="80dp"
-            app:tabMinWidth="20dp"
-            app:tabMode="scrollable"
-            app:tabPaddingEnd="5dp"
-            app:tabPaddingStart="5dp"
-            app:tabRippleColor="@android:color/transparent" />
+            app:layout_constraintTop_toTopOf="@+id/iv_back" />
 
         <ImageView
             android:id="@+id/ivw_game_search"

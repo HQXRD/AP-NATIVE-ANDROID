@@ -73,51 +73,51 @@ public class BtResultFragment extends BaseFragment<FragmentResultBinding, Templa
     @Override
     public void initView() {
         binding.ivBack.setOnClickListener(v -> requireActivity().finish());
-        String[] titleList = {"体育", "冠军"};
-        for (int i = 0; i < titleList.length; i++) {
-            TextView textView = new TextView(requireContext());
-            textView.setText(titleList[i]);
-            ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
-            textView.setTextColor(colorStateList);
-            if (i == 0) {
-                textView.setTextSize(16);
-            } else {
-                textView.setTextSize(14);
-            }
-            binding.tabPlayMethod.addTab(binding.tabPlayMethod.newTab().setCustomView(textView));
-        }
-        binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                ((TextView) tab.getCustomView()).setTextSize(16);
-                if (playMethodPos != tab.getPosition()) {
-                    if (tab.getPosition() == 1 && (TextUtils.equals(mPlatform, PLATFORM_PMXC) || TextUtils.equals(mPlatform, PLATFORM_PM))) {
-                        binding.tabSearchDate.setVisibility(View.GONE);
-                        binding.tabSportType.setVisibility(View.GONE);
-                    } else {
-                        binding.tabSearchDate.setVisibility(View.VISIBLE);
-                        binding.tabSportType.setVisibility(View.VISIBLE);
-                    }
-                    autoClickItem(binding.tabSportType, 0);
-                    playMethodPos = tab.getPosition();
-                    if (playMethodPos == 0) {
-                        tabSportAdapter.setList(mResult.get("1"));
-                    } else if (playMethodPos == 1) {
-                        tabSportAdapter.setList(mResult.get("2"));
-                    }
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                ((TextView) tab.getCustomView()).setTextSize(14);
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        //String[] titleList = {"体育"};
+        //for (int i = 0; i < titleList.length; i++) {
+        //    TextView textView = new TextView(requireContext());
+        //    textView.setText(titleList[i]);
+        //    ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
+        //    textView.setTextColor(colorStateList);
+        //    if (i == 0) {
+        //        textView.setTextSize(16);
+        //    } else {
+        //        textView.setTextSize(14);
+        //    }
+        //    binding.tabPlayMethod.addTab(binding.tabPlayMethod.newTab().setCustomView(textView));
+        //}
+        //binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        //    @Override
+        //    public void onTabSelected(TabLayout.Tab tab) {
+        //        ((TextView) tab.getCustomView()).setTextSize(16);
+        //        if (playMethodPos != tab.getPosition()) {
+        //            if (tab.getPosition() == 1 && (TextUtils.equals(mPlatform, PLATFORM_PMXC) || TextUtils.equals(mPlatform, PLATFORM_PM))) {
+        //                binding.tabSearchDate.setVisibility(View.GONE);
+        //                binding.tabSportType.setVisibility(View.GONE);
+        //            } else {
+        //                binding.tabSearchDate.setVisibility(View.VISIBLE);
+        //                binding.tabSportType.setVisibility(View.VISIBLE);
+        //            }
+        //            autoClickItem(binding.tabSportType, 0);
+        //            playMethodPos = tab.getPosition();
+        //            if (playMethodPos == 0) {
+        //                tabSportAdapter.setList(mResult.get("1"));
+        //            } else if (playMethodPos == 1) {
+        //                tabSportAdapter.setList(mResult.get("2"));
+        //            }
+        //        }
+        //    }
+        //
+        //    @Override
+        //    public void onTabUnselected(TabLayout.Tab tab) {
+        //        ((TextView) tab.getCustomView()).setTextSize(14);
+        //    }
+        //
+        //    @Override
+        //    public void onTabReselected(TabLayout.Tab tab) {
+        //
+        //    }
+        //});
         tabSportAdapter = new TabSportResultAdapter(new ArrayList<>(), viewModel.getMatchGames());
         binding.tabSportType.setAdapter(tabSportAdapter);
         binding.tabSportType.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
@@ -179,22 +179,22 @@ public class BtResultFragment extends BaseFragment<FragmentResultBinding, Templa
         });
     }
 
-    private void autoClickItem(RecyclerView recyclerView, int position) {
-        // 找到指定位置的ViewHolder
-        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
-        if (viewHolder != null) {
-            // 获取itemView并模拟点击
-            viewHolder.itemView.performClick();
-        } else {
-            // 如果ViewHolder为空，可能是因为RecyclerView还没有完全渲染或item不可见，需要滚动到该位置并再尝试
-            recyclerView.post(() -> {
-                RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(position);
-                if (vh != null) {
-                    vh.itemView.performClick();
-                }
-            });
-        }
-    }
+    //private void autoClickItem(RecyclerView recyclerView, int position) {
+    //    // 找到指定位置的ViewHolder
+    //    RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+    //    if (viewHolder != null) {
+    //        // 获取itemView并模拟点击
+    //        viewHolder.itemView.performClick();
+    //    } else {
+    //        // 如果ViewHolder为空，可能是因为RecyclerView还没有完全渲染或item不可见，需要滚动到该位置并再尝试
+    //        recyclerView.post(() -> {
+    //            RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(position);
+    //            if (vh != null) {
+    //                vh.itemView.performClick();
+    //            }
+    //        });
+    //    }
+    //}
 
     @Override
     public void initData() {
