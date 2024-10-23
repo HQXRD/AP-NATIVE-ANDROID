@@ -14,6 +14,9 @@ public class MessageCenterThread {
     private WebSocket webSocket;
 
     public void startThread(WebSocket webSocket, long checkInterval) {
+        if (this.webSocket != null) {
+            tryCloseWebsocket();
+        }
         this.webSocket = webSocket;
         handler.start(checkInterval);
     }
@@ -82,6 +85,20 @@ public class MessageCenterThread {
         return handler.isRunning();
     }
 
+    private void tryCloseWebsocket() {
+        if (webSocket != null) {
+            int code = 1000; // 1000 表示正常关闭
+            String reason = "Closing the connection by client";
+            try {
+                webSocket.close(code, reason); // 优雅关闭 WebSocket
+            } catch (Exception e) {
+                e.printStackTrace();
+                KLog.e(e.getMessage());
+                Sentry.captureException(e);
+            }
+        }
+    }
+
     private final LooperHeartHandler handler = new LooperHeartHandler() {
         @Override
         public void handleMessage(Message msg) {
@@ -102,17 +119,7 @@ public class MessageCenterThread {
                         break;
                     case STOP: // 停止消息
                         if (!(msg.obj instanceof Boolean)) {
-                            if (webSocket != null) {
-                                int code = 1000; // 1000 表示正常关闭
-                                String reason = "Closing the connection by client";
-                                try {
-                                    webSocket.close(code, reason); // 优雅关闭 WebSocket
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    KLog.e(e.getMessage());
-                                    Sentry.captureException(e);
-                                }
-                            }
+                            tryCloseWebsocket();
                         }
                         handler.stop();
                         break;
@@ -128,5 +135,6 @@ public class MessageCenterThread {
             sendHeart();
         }
     };
+
 
 }
