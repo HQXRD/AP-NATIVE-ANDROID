@@ -28,7 +28,7 @@ public class LiveShareDialog extends CenterPopupView {
 
     public interface ILiveShareCallback {
 
-        void onClickShare(); //强制更新
+        void onClickShare(); //分享复制
     }
     private DialogLiveShareBinding binding;
     private String shareUrl ;//分享url
