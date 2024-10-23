@@ -72,15 +72,7 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
 
     public void initData(FragmentActivity mActivity) {
         setActivity(mActivity);
-        datas.setValue(bindModels);
-    }
 
-    public void setActivity(FragmentActivity mActivity) {
-        this.mActivity = new WeakReference<>(mActivity);
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
         model.getLiveToken(new LiveTokenRequest())
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
@@ -89,15 +81,23 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
                     public void onResult(LiveTokenResponse data) {
                         if (data.getAppApi() != null && !data.getAppApi().isEmpty()) {
                             model.setLive(data);
+                            datas.setValue(bindModels);
                         }
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        t.toString();
                     }
                 });
+    }
+
+    public void setActivity(FragmentActivity mActivity) {
+        this.mActivity = new WeakReference<>(mActivity);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
     }
 
     @Override
