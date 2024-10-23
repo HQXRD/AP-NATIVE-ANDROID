@@ -2,6 +2,7 @@ package com.xtree.service.message;
 
 import android.os.Message;
 
+import com.xtree.base.utils.CfLog;
 import com.xtree.service.LooperHeartHandler;
 
 import io.sentry.Sentry;
@@ -12,7 +13,10 @@ public class MessageCenterThread {
 
     private WebSocket webSocket;
 
-    public void startThread(WebSocket webSocket,long checkInterval) {
+    public void startThread(WebSocket webSocket, long checkInterval) {
+        if (this.webSocket != null) {
+            tryCloseWebsocket();
+        }
         this.webSocket = webSocket;
         handler.start(checkInterval);
     }
@@ -47,16 +51,25 @@ public class MessageCenterThread {
     /**
      * 发送心跳消息
      */
-    private void sendHeart() {
+    public void sendHeart() {
         Message msg = handler.obtainMessage();
+        if (msg == null) {
+            CfLog.i("消息未创建成功");
+            Sentry.captureException(new Exception("sendHeart消息未创建成功"));
+            return;
+        }
         msg.what = MessageType.Socket.HEART.getCode(); // 发送心跳消息
         msg.obj = MessageCrater.createHeart();
         handler.sendMessage(msg);
-
     }
 
     public void sendMessage(String message) {
         Message msg = handler.obtainMessage();
+        if (msg == null) {
+            CfLog.i("消息未创建成功");
+            Sentry.captureException(new Exception("sendMessage消息未创建成功"));
+            return;
+        }
         msg.what = MessageType.Socket.MESSAGE.getCode(); // 发送实体消息，一般都是json字符串，需要使用MessageCrater统一创建
         msg.obj = message;
         handler.sendMessage(msg);
@@ -70,6 +83,20 @@ public class MessageCenterThread {
      */
     public boolean isRunning() {
         return handler.isRunning();
+    }
+
+    private void tryCloseWebsocket() {
+        if (webSocket != null) {
+            int code = 1000; // 1000 表示正常关闭
+            String reason = "Closing the connection by client";
+            try {
+                webSocket.close(code, reason); // 优雅关闭 WebSocket
+            } catch (Exception e) {
+                e.printStackTrace();
+                KLog.e(e.getMessage());
+                Sentry.captureException(e);
+            }
+        }
     }
 
     private final LooperHeartHandler handler = new LooperHeartHandler() {
@@ -92,23 +119,14 @@ public class MessageCenterThread {
                         break;
                     case STOP: // 停止消息
                         if (!(msg.obj instanceof Boolean)) {
-                            if (webSocket != null) {
-                                int code = 1000; // 1000 表示正常关闭
-                                String reason = "Closing the connection by client";
-                                try {
-                                    webSocket.close(code, reason); // 优雅关闭 WebSocket
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    KLog.e(e.getMessage());
-                                    Sentry.captureException(e);
-                                }
-                            }
+                            tryCloseWebsocket();
                         }
+                        handler.stop();
                         break;
                 }
             } catch (Exception e) {
-               e.printStackTrace();
-               Sentry.captureException(e);
+                e.printStackTrace();
+                Sentry.captureException(e);
             }
         }
 
@@ -117,5 +135,6 @@ public class MessageCenterThread {
             sendHeart();
         }
     };
+
 
 }

@@ -21,14 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnCancelListener;
-import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.fastest.ChangeH5LineUtil;
 import com.xtree.base.net.fastest.FastestTopDomainUtil;
@@ -37,6 +36,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.EventVo;
+import com.xtree.base.vo.WsToken;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.base.widget.SpecialMenuItemView;
@@ -84,6 +84,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
     private boolean mIsDomainSpeedChecked;
     private PushServiceConnection pushServiceConnection;
+    private Observer<WsToken> pushObserver;
+    private WebSocketViewModel webSocketViewModel;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -137,6 +139,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         }
         if (pushServiceConnection.isBound()) {
             unbindService(pushServiceConnection);
+        }
+        if (pushObserver != null && webSocketViewModel != null) {
+            webSocketViewModel.getWsTokenLiveData.removeObserver(pushObserver);
         }
     }
 
@@ -282,7 +287,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         Intent intent = new Intent(this, WebSocketService.class);
         bindService(intent, pushServiceConnection, Context.BIND_AUTO_CREATE);
 
-        webSocketViewModel.getWsTokenLiveData.observe(this, wsToken -> {
+        pushObserver = wsToken -> {
             if (wsToken != null && !TextUtils.isEmpty(wsToken.getToken())) {
                 String token = wsToken.getToken();
                 long checkInterval = SPUtils.getInstance().getLong(SPKeyGlobal.WS_CHECK_INTERVAL, 30);
@@ -311,15 +316,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 obj.putLong("expireTime", expireTime);
                 pushServiceConnection.sendMessageToService(MessageType.Input.LINK, obj);
             }
-        });
+        };
+        webSocketViewModel.getWsTokenLiveData.observeForever(pushObserver);
     }
 
     private void handleRemoteMessage(Bundle obj) {
         //1，判断用户在游戏场馆内的时候使用toast提示
         //2，判断用户在非游戏场馆页面的时候用prompt提示
 
-        String message="";
-        String title="";
+        String message = "";
+        String title = "";
         Activity currentActivity = AppManager.getAppManager().currentActivity();
         boolean isGame = false;
         if (currentActivity instanceof BrowserActivity) {
@@ -335,7 +341,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG, bundle);
             }, () -> {//取消
 
-            },false).show();
+            }, false).show();
         }
     }
 }

@@ -93,7 +93,9 @@ public class WebSocketService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mHandler.start(30 * 1000);
+
+        //默认10s检测一次心跳
+        mHandler.start(10 * 1000);
 
     }
 
