@@ -11,7 +11,13 @@ import com.xtree.home.R
 import me.xtree.mvvmhabit.utils.ConvertUtils
 import me.xtree.mvvmhabit.utils.KLog
 
-class ECAnimDialog(context: Context, private val url: String) : BasePopupView(context) {
+class ECAnimDialog : BasePopupView {
+    constructor(context: Context) : super(context)
+    constructor(context: Context, url: String) : super(context) {
+        this.url = url;
+    }
+
+    private lateinit var url: String
 
     override fun onCreate() {
         super.onCreate()
