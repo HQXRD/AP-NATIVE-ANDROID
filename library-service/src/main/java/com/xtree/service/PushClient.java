@@ -1,5 +1,8 @@
 package com.xtree.service;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -29,6 +32,13 @@ public class PushClient implements IWebSocket {
             @Override
             public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
                 messageCenter.startThread(webSocket, checkInterval);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        messageCenter.sendHeart();
+                    }
+                },2000);
+
             }
 
             @Override
@@ -44,7 +54,7 @@ public class PushClient implements IWebSocket {
                     CfLog.i("socket message:" + text);
                     switch (remoteMessage.getType()) {
                         case "open":
-                            CfLog.i("长链接连接成功" + text);
+                            CfLog.i("长链接消息确认成功" + text);
                             break;
                         case "close"://服务端返回失败，主动断开
                             if (messageCenter != null) {
@@ -68,7 +78,7 @@ public class PushClient implements IWebSocket {
             @Override
             public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, @Nullable Response response) {
                 messageCenter.stopThread(false);
-                CfLog.i(String.format("服务失败"));
+                CfLog.i(String.format("服务失败%s,%s", t,response));
             }
         });
     }
