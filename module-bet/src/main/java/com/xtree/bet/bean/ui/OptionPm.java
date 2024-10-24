@@ -16,7 +16,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class OptionPm implements Option{
     private String className;
     private int change;
-    private OptionInfo optionInfo;
+    public OptionInfo optionInfo;
 
     private String code;
 

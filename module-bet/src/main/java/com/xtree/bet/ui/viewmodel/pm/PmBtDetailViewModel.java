@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
@@ -27,7 +28,6 @@ import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.bean.ui.PlayTypePm;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
-import com.xtree.base.utils.BtDomainUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,11 +72,11 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 .subscribeWith(new PMHttpCallBack<MatchInfo>() {
                     @Override
                     public void onResult(MatchInfo matchInfo) {
-                        if(matchInfo == null){
+                        if (matchInfo == null) {
                             return;
                         }
                         mMatchInfo = matchInfo;
-                        if(mMatchInfo.mid != null) {
+                        if (mMatchInfo.mid != null) {
                             videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Video");
                         }
                     }
@@ -86,7 +86,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         ResponseThrowable error = (ResponseThrowable) t;
                         if (error.code == CODE_401026 || error.code == CODE_401013) {
                             getGameTokenApi();
-                        }else {
+                        } else {
                             ToastUtils.showShort(error.message);
                         }
                     }
@@ -107,7 +107,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 .subscribeWith(new PMHttpCallBack<MatchInfo>() {
                     @Override
                     public void onResult(MatchInfo matchInfo) {
-                        if(matchInfo == null){
+                        if (matchInfo == null) {
                             return;
                         }
                         mMatchResultInfo = matchInfo;
@@ -120,7 +120,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         ResponseThrowable error = (ResponseThrowable) t;
                         if (error.code == CODE_401026 || error.code == CODE_401013) {
                             getGameTokenApi();
-                        }else {
+                        } else {
                             ToastUtils.showShort(error.message);
                         }
                     }
@@ -144,15 +144,15 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 .subscribeWith(new PMHttpCallBack<VideoAnimationInfo>() {
                     @Override
                     public void onResult(VideoAnimationInfo videoAnimationInfo) {
-                        if(mMatchInfo != null && mMatchInfo.mid != null) {
+                        if (mMatchInfo != null && mMatchInfo.mid != null) {
                             if (TextUtils.equals(type, "Video")) {
-                                if(videoAnimationInfo.videoUrlVOList != null) {
+                                if (videoAnimationInfo.videoUrlVOList != null) {
                                     mMatchInfo.vs = videoAnimationInfo.videoUrlVOList;
                                 }
                                 videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Animation");
                             }
                             if (TextUtils.equals(type, "Animation")) {
-                                if(!TextUtils.isEmpty(videoAnimationInfo.animationUrl)) {
+                                if (!TextUtils.isEmpty(videoAnimationInfo.animationUrl)) {
                                     mMatchInfo.as.clear();
                                     mMatchInfo.as.add(videoAnimationInfo.animationUrl);
                                 }
@@ -166,7 +166,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        if(mMatchInfo != null) {
+                        if (mMatchInfo != null) {
                             Match match = new MatchPm(mMatchInfo);
                             mMatch = match;
                             matchData.postValue(match);
@@ -175,6 +175,38 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 });
         addSubscribe(disposable);
 
+    }
+
+    public void getCategoryListResult(String matchId, String sportId) {
+        mSportId = sportId;
+        Map<String, String> map = new HashMap<>();
+        map.put("mid", matchId);
+
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (TextUtils.equals(platform, PLATFORM_PMXC)) {
+            map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID));
+        } else {
+            map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
+        }
+        Disposable disposable = (Disposable) model.getPMApiService().getMatchResultPB(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<List<PlayTypeInfo>>() {
+                    @Override
+                    public void onResult(List<PlayTypeInfo> categoryPms) {
+                        List<PlayType> list = new ArrayList<>();
+                        for (PlayTypeInfo playTypeInfo : categoryPms) {
+                            list.add(new PlayTypePm(playTypeInfo));
+                        }
+                        categoryResultListData.postValue(list);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     @Override
@@ -196,7 +228,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                             categoryList.add(category);
                             categoryMap.put(category.getId(), category);
                         }
-                        if(mCategoryMap.isEmpty()) {
+                        if (mCategoryMap.isEmpty()) {
                             mCategoryMap = categoryMap;
                             mCategoryList = categoryList;
                         } else {
@@ -221,7 +253,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
         map.put("mid", mid);
         map.put("mcid", mcid);
         map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
-        if(TextUtils.equals(platform, PLATFORM_PMXC)){
+        if (TextUtils.equals(platform, PLATFORM_PMXC)) {
             map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID));
         }
 
@@ -232,7 +264,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                     @Override
                     public void onResult(List<PlayTypeInfo> playTypeList) {
 
-                        if(playTypeList == null || playTypeList.isEmpty()){
+                        if (playTypeList == null || playTypeList.isEmpty()) {
                             mCategoryList.clear();
                             mCategoryMap.clear();
                             isFirst = false;
@@ -248,31 +280,31 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         }
 
                         if (isFirst) {
-                            for(Category category : mCategoryList){
+                            for (Category category : mCategoryList) {
                                 for (PlayType playType : playTypes) {
                                     CategoryPm categoryPm = (CategoryPm) category;
-                                    if(categoryPm.getPlays().contains(Integer.valueOf(playType.getId()))){
+                                    if (categoryPm.getPlays().contains(Integer.valueOf(playType.getId()))) {
                                         category.addPlayTypeList(playType);
                                     }
                                 }
                             }
-                        }else {
+                        } else {
                             // 设置赔率变化
                             setOptionOddChange(mid, playTypes);
-                            for(Category category : mTmpCategoryList){
+                            for (Category category : mTmpCategoryList) {
                                 for (PlayType playType : playTypes) {
                                     CategoryPm categoryPm = (CategoryPm) category;
-                                    if(categoryPm.getPlays().contains(Integer.valueOf(playType.getId()))){
+                                    if (categoryPm.getPlays().contains(Integer.valueOf(playType.getId()))) {
                                         category.addPlayTypeList(playType);
                                     }
                                 }
                             }
-                            if(mTmpCategoryList.size() <= mCategoryMap.size()) {
+                            if (mTmpCategoryList.size() <= mCategoryMap.size()) {
                                 for (String key : mCategoryMap.keySet()) {
                                     Category oldCategory = mCategoryMap.get(key);
                                     int index = mCategoryList.indexOf(oldCategory);
                                     Category newCategory = mTmpCategoryMap.get(key);
-                                    if(index > -1) {
+                                    if (index > -1) {
                                         mCategoryList.set(index, newCategory);
                                         mCategoryMap.put(key, newCategory);
                                     }
@@ -389,7 +421,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                             BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
                         }
                         getMatchDetail(mMatchId);
-                        if(TextUtils.isEmpty(mSportId)) {
+                        if (TextUtils.isEmpty(mSportId)) {
                             getCategoryList(String.valueOf(mMatchId), mSportId);
                         }
                     }

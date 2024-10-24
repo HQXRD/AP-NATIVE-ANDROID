@@ -10,16 +10,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
-import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtLayoutDetailOptionBinding;
 import com.xtree.bet.ui.activity.BtDetailActivity;
+import com.xtree.bet.ui.activity.BtDetailResultActivity;
 import com.xtree.bet.ui.adapter.MatchDetailAdapter;
 import com.xtree.bet.ui.viewmodel.BtDetailOptionViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.bet.weight.BaseDetailDataView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +31,6 @@ import me.xtree.mvvmhabit.base.BaseFragment;
 public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBinding, BtDetailOptionViewModel> {
     private final static String KEY_PLAY_TYPE = "KEY_PLAY_TYPE";
     private final static String KEY_MATCH = "KEY_MATCH";
-    private List<Category> mCategories;
-
-    private BaseDetailDataView fbDataView;
 
     private MatchDetailAdapter detailPlayTypeAdapter;
 
@@ -43,12 +39,14 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
     private Match match;
 
     private boolean isExpand = true;
+    private boolean isResult;
 
-    public static BtDetailOptionFragment getInstance(Match match, ArrayList<PlayType> playTypeList) {
+    public static BtDetailOptionFragment getInstance(Match match, ArrayList<PlayType> playTypeList, Boolean isResult) {
         BtDetailOptionFragment instance = new BtDetailOptionFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(KEY_PLAY_TYPE, playTypeList);
         bundle.putParcelable(KEY_MATCH, match);
+        bundle.putBoolean("isResult", isResult);
         instance.setArguments(bundle);
         return instance;
     }
@@ -87,13 +85,13 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
     @Override
     public void initView() {
 
-
     }
 
     @Override
     public void initData() {
         match = getArguments().getParcelable(KEY_MATCH);
         playTypeList = getArguments().getParcelableArrayList(KEY_PLAY_TYPE);
+        isResult = getArguments().getBoolean("isResult");
         viewModel.addSubscription();
         updateOptionData();
 
@@ -104,7 +102,7 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
      */
     private void updateOptionData() {
         if (detailPlayTypeAdapter == null) {
-            detailPlayTypeAdapter = new MatchDetailAdapter(getContext(), match, playTypeList);
+            detailPlayTypeAdapter = new MatchDetailAdapter(getContext(), match, playTypeList, isResult);
             binding.aelOption.setAdapter(detailPlayTypeAdapter);
             for (int i = 0; i < binding.aelOption.getExpandableListAdapter().getGroupCount(); i++) {
                 binding.aelOption.expandGroup(i);
@@ -131,7 +129,11 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
         viewModel.betContractListData.observe(this, betContract -> {
             if (betContract.action == BetContract.ACTION_OPTION_CHANGE) {
                 playTypeList = (List<PlayType>) betContract.getData();
-                match = ((BtDetailActivity) getContext()).getmMatch();
+                if (isResult) {
+                    match = ((BtDetailResultActivity) getContext()).getmMatch();
+                } else {
+                    match = ((BtDetailActivity) getContext()).getmMatch();
+                }
                 updateOptionData();
             }
         });

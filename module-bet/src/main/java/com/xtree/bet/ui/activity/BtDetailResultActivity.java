@@ -4,11 +4,8 @@ import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,11 +16,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gyf.immersionbar.ImmersionBar;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
-import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.PlayType;
@@ -49,7 +44,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 public class BtDetailResultActivity extends BaseActivity<BtLayoutDetailResultBinding, PmBtDetailViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private final static String KEY_MATCH = "KEY_MATCH_ID";
-    private List<Category> mCategories = new ArrayList<>();
+    private List<PlayType> mCategories = new ArrayList<>();
 
     private BaseDetailDataView mScoreDataView;
 
@@ -156,8 +151,8 @@ public class BtDetailResultActivity extends BaseActivity<BtLayoutDetailResultBin
         mMatch = gson.fromJson(SPUtils.getInstance().getString(KEY_MATCH), MatchPm.class);
         KLog.i(new Gson().toJson(mMatch));
         viewModel.getMatchDetailResult(mMatch.getId());
-        viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
-        //viewModel.addSubscription();
+        viewModel.getCategoryListResult(String.valueOf(mMatch.getId()), mMatch.getSportId());
+        viewModel.addSubscription();
     }
 
     /**
@@ -176,7 +171,7 @@ public class BtDetailResultActivity extends BaseActivity<BtLayoutDetailResultBin
     private void updateOptionData() {
         if (fragment == null) {
             if (mCategories != null && !mCategories.isEmpty()) {
-                fragment = BtDetailOptionFragment.getInstance(mMatch, (ArrayList<PlayType>) mCategories.get(tabPos).getPlayTypeList());
+                fragment = BtDetailOptionFragment.getInstance(mMatch, (ArrayList<PlayType>) mCategories, true);
                 FragmentTransaction trans = getSupportFragmentManager()
                         .beginTransaction();
                 trans.replace(R.id.fl_option, fragment);
@@ -185,7 +180,7 @@ public class BtDetailResultActivity extends BaseActivity<BtLayoutDetailResultBin
         } else {
             if (mCategories != null && !mCategories.isEmpty()) {
                 if (tabPos < mCategories.size()) {
-                    RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPTION_CHANGE, mCategories.get(tabPos).getPlayTypeList()));
+                    RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPTION_CHANGE, mCategories));
                 }
             }
         }
@@ -255,7 +250,7 @@ public class BtDetailResultActivity extends BaseActivity<BtLayoutDetailResultBin
 
         });
         viewModel.updateCagegoryListData.observe(this, categories -> {
-            mCategories = categories;
+            //mCategories = categories;
         });
         viewModel.categoryResultListData.observe(this, categories -> {
             if (categories.isEmpty()) {
@@ -270,40 +265,40 @@ public class BtDetailResultActivity extends BaseActivity<BtLayoutDetailResultBin
             //if (mCategories.size() != categories.size()) {
             mCategories = categories;
             KLog.i("mCategories   ", mCategories);
-            if (binding.tabCategoryType.getTabCount() == 0) {
-                for (int i = 0; i < categories.size(); i++) {
-                    View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
-                    TextView tvName = view.findViewById(R.id.tab_item_name);
-                    String name = categories.get(i) == null ? "" : categories.get(i).getName();
-
-                    tvName.setText(name);
-                    ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
-                    tvName.setTextColor(colorStateList);
-
-                    binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
-
-                }
-            } else {
-                for (int i = 0; i < categories.size(); i++) {
-                    try {
-                        if (binding.tabCategoryType == null) {
-                            CfLog.e("=========binding.tabCategoryType == null=========");
-                        }
-                        if (categories.get(i) == null && binding.tabCategoryType != null && i < binding.tabCategoryType.getTabCount()) {
-                            binding.tabCategoryType.removeTabAt(i);
-                            if (binding.tabCategoryType.getTabCount() == 0) {
-                                binding.rlPlayMethod.setVisibility(View.GONE);
-                                binding.flOption.setVisibility(View.GONE);
-                                binding.llEnd.llEmpty.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    } catch (Exception e) {
-                        CfLog.e("binding.tabCategoryType.getTabCount()-------" + binding.tabCategoryType.getTabCount() + "-----" + i);
-                        CfLog.e(e.getMessage());
-                    }
-                }
-                viewModel.updateCategoryData();
-            }
+            //if (binding.tabCategoryType.getTabCount() == 0) {
+            //    for (int i = 0; i < categories.size(); i++) {
+            //        View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
+            //        TextView tvName = view.findViewById(R.id.tab_item_name);
+            //        String name = categories.get(i) == null ? "" : categories.get(i).getName();
+            //
+            //        tvName.setText(name);
+            //        ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
+            //        tvName.setTextColor(colorStateList);
+            //
+            //        binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
+            //
+            //    }
+            //} else {
+            //    for (int i = 0; i < categories.size(); i++) {
+            //        try {
+            //            if (binding.tabCategoryType == null) {
+            //                CfLog.e("=========binding.tabCategoryType == null=========");
+            //            }
+            //            if (categories.get(i) == null && binding.tabCategoryType != null && i < binding.tabCategoryType.getTabCount()) {
+            //                binding.tabCategoryType.removeTabAt(i);
+            //                if (binding.tabCategoryType.getTabCount() == 0) {
+            //                    binding.rlPlayMethod.setVisibility(View.GONE);
+            //                    binding.flOption.setVisibility(View.GONE);
+            //                    binding.llEnd.llEmpty.setVisibility(View.VISIBLE);
+            //                }
+            //            }
+            //        } catch (Exception e) {
+            //            CfLog.e("binding.tabCategoryType.getTabCount()-------" + binding.tabCategoryType.getTabCount() + "-----" + i);
+            //            CfLog.e(e.getMessage());
+            //        }
+            //    }
+            //    viewModel.updateCategoryData();
+            //}
             updateOptionData();
             /*} else {
                 mCategories = categories;

@@ -111,7 +111,7 @@ public class MatchInfo implements BaseBean {
     /**
      * 是否中立场 1：中立场，0：非中立场
      */
-    public int mng;
+    public String mng;
     /**
      * 赛节配置 足球： 0：default（默认90分钟）
      * 2 x 45 minutes，1：2 x 40 minutes，
@@ -242,7 +242,7 @@ public class MatchInfo implements BaseBean {
         dest.writeInt(this.mo);
         dest.writeInt(this.mp);
         dest.writeInt(this.ms);
-        dest.writeInt(this.mng);
+        dest.writeString(this.mng);
         dest.writeInt(this.mle);
         dest.writeInt(this.mvs);
         dest.writeStringList(this.malu);
@@ -289,7 +289,7 @@ public class MatchInfo implements BaseBean {
         this.mo = source.readInt();
         this.mp = source.readInt();
         this.ms = source.readInt();
-        this.mng = source.readInt();
+        this.mng = source.readString();
         this.mle = source.readInt();
         this.mvs = source.readInt();
         this.malu = source.createStringArrayList();
@@ -339,7 +339,7 @@ public class MatchInfo implements BaseBean {
         this.mo = in.readInt();
         this.mp = in.readInt();
         this.ms = in.readInt();
-        this.mng = in.readInt();
+        this.mng = in.readString();
         this.mle = in.readInt();
         this.mvs = in.readInt();
         this.malu = in.createStringArrayList();

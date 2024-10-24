@@ -105,6 +105,7 @@
             layout="@layout/bt_layout_match_list_empty"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@+id/rv_league"
             app:layout_constraintBottom_toBottomOf="@+id/rv_league"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

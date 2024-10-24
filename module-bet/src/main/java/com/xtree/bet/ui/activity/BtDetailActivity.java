@@ -330,7 +330,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     private void updateOptionData() {
         if (fragment == null) {
             if (mCategories != null && !mCategories.isEmpty()) {
-                fragment = BtDetailOptionFragment.getInstance(mMatch, (ArrayList<PlayType>) mCategories.get(tabPos).getPlayTypeList());
+                fragment = BtDetailOptionFragment.getInstance(mMatch, (ArrayList<PlayType>) mCategories.get(tabPos).getPlayTypeList(),false);
                 FragmentTransaction trans = getSupportFragmentManager()
                         .beginTransaction();
                 trans.replace(R.id.fl_option, fragment);

@@ -34,10 +34,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
-/**
- * Created by goldze on 2017/6/15.
- */
-
 public interface PMApiService {
     /**
      * 获取 PM赛事列表
@@ -101,6 +97,14 @@ public interface PMApiService {
     @GET("/yewu11/v1/m/matchDetail/getMatchDetailPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<MatchInfo>> getMatchDetailResult(@QueryMap Map<String, String> map);
+
+
+    /**
+     * 获取详情玩法集
+     */
+    @GET("/yewu11/v1/m/matchDetail/getMatchResultPB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<List<PlayTypeInfo>>> getMatchResultPB(@QueryMap Map<String, String> map);
 
     /**
      * 获取详情玩法集

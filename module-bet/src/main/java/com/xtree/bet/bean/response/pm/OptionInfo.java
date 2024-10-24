@@ -21,6 +21,14 @@ public class OptionInfo implements BaseBean {
      */
     public String on;
     /**
+     * 	投注项对应的title
+     */
+    public String ott;
+    /**
+     * 	赛果(2是走水，3-输，4-赢，5-半赢，6-半输，7赛事取消，8赛事延期)
+     */
+    public Integer result;
+    /**
      * 投注项列表页名称展示值
      */
     public String onb;

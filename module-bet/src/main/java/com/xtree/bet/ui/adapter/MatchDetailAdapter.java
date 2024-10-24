@@ -26,11 +26,13 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
     private List<PlayType> mDatas;
     private Match match;
     private Context mContext;
+    private final boolean isResult;
 
-    public MatchDetailAdapter(Context context, Match match, List<PlayType> datas) {
+    public MatchDetailAdapter(Context context, Match match, List<PlayType> datas, boolean isResult) {
         this.mDatas = datas;
         this.mContext = context;
         this.match = match;
+        this.isResult = isResult;
     }
 
     public void setData(List<PlayType> mLeagueList) {
@@ -73,7 +75,7 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
 
     @Override
     public int getRealChildrenCount(int groupPosition) {
-        if(mDatas.get(groupPosition) != null) {
+        if (mDatas.get(groupPosition) != null) {
             return mDatas.get(groupPosition).getOptionLists().size();
         }
         return 0;
@@ -144,10 +146,9 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
     @Override
     public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-
         ChildHolder holder;
 
-        OptionList optionList = ((OptionList)getChild(groupPosition, childPosition));
+        OptionList optionList = ((OptionList) getChild(groupPosition, childPosition));
 
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.bt_fb_detail_item_play_type_child, null);
@@ -160,11 +161,15 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         binding.rvOptionList.setHasFixedSize(true);
         int spanCount = optionList.getOptionList().size() >= 3 ? 3 : optionList.getOptionList().size();
         binding.rvOptionList.setLayoutManager(new GridLayoutManager(mContext, spanCount));
-        OptionAdapter optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList, optionList.getOptionList());
-        binding.rvOptionList.setAdapter(optionAdapter);
+        if (isResult) {
+            OptionResultAdapter optionAdapter = new OptionResultAdapter(mContext, optionList.getOptionList());
+            binding.rvOptionList.setAdapter(optionAdapter);
+        } else {
+            OptionAdapter optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList, optionList.getOptionList());
+            binding.rvOptionList.setAdapter(optionAdapter);
+        }
         return convertView;
     }
-
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -175,6 +180,7 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         public GroupHolder(View view) {
             itemView = view.findViewById(R.id.cl_root);
         }
+
         View itemView;
 
     }

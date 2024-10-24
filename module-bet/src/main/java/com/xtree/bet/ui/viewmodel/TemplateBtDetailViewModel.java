@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchPm;
+import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 
@@ -31,7 +32,7 @@ public abstract class TemplateBtDetailViewModel extends BaseViewModel<BetReposit
     public List<Category> mCategoryList = new ArrayList<>();
     public Map<String, Category> mCategoryMap = new HashMap<>();
     public SingleLiveData<List<Category>> categoryListData = new SingleLiveData<>();
-    public SingleLiveData<List<Category>> categoryResultListData = new SingleLiveData<>();
+    public SingleLiveData<List<PlayType>> categoryResultListData = new SingleLiveData<>();
     public SingleLiveData<List<Category>> updateCagegoryListData = new SingleLiveData<>();
     public SingleLiveData<Match> matchData = new SingleLiveData<>();
     public SingleLiveData<MatchPm> matchDataResult = new SingleLiveData<>();
