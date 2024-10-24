@@ -1,6 +1,6 @@
 package com.xtree.live.data.source.request;
 
-import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.net.live.X9LiveInfo;
 
 /**
  * Created by KAKA on 2024/10/22.
@@ -11,7 +11,7 @@ public class LiveTokenRequest {
     private String device_type = "android";
 
     public String getFingerprint() {
-        return UuidUtil.getID16();
+        return X9LiveInfo.INSTANCE.getOaid();
     }
 
     public void setFingerprint(String fingerprint) {

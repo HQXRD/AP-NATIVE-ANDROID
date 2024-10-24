@@ -72,7 +72,6 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
 
     public void initData(FragmentActivity mActivity) {
         setActivity(mActivity);
-
         model.getLiveToken(new LiveTokenRequest())
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
@@ -98,6 +97,7 @@ public class LiveViewModel extends BaseViewModel<LiveRepository> implements TabL
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+
     }
 
     @Override

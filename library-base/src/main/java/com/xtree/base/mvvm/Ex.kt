@@ -273,10 +273,18 @@ fun ViewPager2.init(
     offLimit?.let { offscreenPageLimit = it }
 
     attachView?.let {
-        if (it is TabLayout) {
-            TabLayoutMediator(
-                it, this
-            ) { tab: TabLayout.Tab?, position: Int -> tab?.text = itemData[position].tag.toString()}.attach()
+        try {
+            if (it is TabLayout) {
+                TabLayoutMediator(
+                    it, this
+                ) { tab: TabLayout.Tab?, position: Int ->
+                    if (itemData.isNotEmpty()) {
+                        tab?.text = itemData[position].tag.toString()
+                    }
+                }.attach()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }
