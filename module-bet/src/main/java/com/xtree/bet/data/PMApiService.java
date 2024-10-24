@@ -100,7 +100,7 @@ public interface PMApiService {
 
 
     /**
-     * 获取详情玩法集
+     * 获取赛果详情玩法
      */
     @GET("/yewu11/v1/m/matchDetail/getMatchResultPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})

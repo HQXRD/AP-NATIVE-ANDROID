@@ -271,7 +271,13 @@ public class LeagueResultAdapter extends AnimatedExpandableListViewMax.AnimatedE
 
         binding.btDetail.setOnClickListener(view1 -> {
             if (TextUtils.equals(platform, PLATFORM_PMXC) || TextUtils.equals(platform, PLATFORM_PM)) {
-                BtDetailResultActivity.start(mContext, match);
+                String sportId = match.getSportId();
+                //英雄联盟、DOTA2、王者荣耀禁止进入赛事详情
+                if (TextUtils.equals(sportId, "100") || TextUtils.equals(sportId, "101") || TextUtils.equals(sportId, "103")) {
+                    showNoDataDialog();
+                } else {
+                    BtDetailResultActivity.start(mContext, match);
+                }
             } else {
                 showNoDataDialog();
             }

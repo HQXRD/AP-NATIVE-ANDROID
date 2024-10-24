@@ -107,6 +107,7 @@ public class BtDetailResultActivity extends BaseActivity<BtLayoutDetailResultBin
                 binding.toolbar.setBackgroundResource(R.color.bt_color_detail_top_toolbar);
             } else if (Math.abs(verticalOffset) == 0) {//展开
                 binding.rlToolbarTime.setVisibility(View.GONE);
+                binding.ctlToolbarLeague.setVisibility(View.VISIBLE);
                 binding.llData.setVisibility(View.VISIBLE);
                 binding.toolbar.setBackgroundResource(android.R.color.transparent);
             } else {

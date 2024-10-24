@@ -166,17 +166,19 @@ public class MatchPm implements Match {
     @Override
     public List<Integer> getScore(String... type) {
         List<Integer> sc = new ArrayList<>();
-        for (String str : matchInfo.msc) {
-            if (str.contains(type[0] + "|") && matchInfo.msc != null && !matchInfo.msc.isEmpty()) {
-                String score = str;
-                if (!TextUtils.isEmpty(score) && score.contains("|")) {
-                    score = score.substring(score.indexOf("|") + 1, score.length());
-                    if (!TextUtils.isEmpty(score) && score.contains(":") && score.split(":").length > 1) {
-                        sc.add(Double.valueOf(score.split(":")[0]).intValue()); // 修复小数转换整数异常
-                        sc.add(Double.valueOf(score.split(":")[1]).intValue());
+        if (matchInfo.msc != null) {
+            for (String str : matchInfo.msc) {
+                if (str.contains(type[0] + "|") && matchInfo.msc != null && !matchInfo.msc.isEmpty()) {
+                    String score = str;
+                    if (!TextUtils.isEmpty(score) && score.contains("|")) {
+                        score = score.substring(score.indexOf("|") + 1, score.length());
+                        if (!TextUtils.isEmpty(score) && score.contains(":") && score.split(":").length > 1) {
+                            sc.add(Double.valueOf(score.split(":")[0]).intValue()); // 修复小数转换整数异常
+                            sc.add(Double.valueOf(score.split(":")[1]).intValue());
+                        }
                     }
+                    return sc;
                 }
-                return sc;
             }
         }
         sc.add(0);
@@ -468,6 +470,7 @@ public class MatchPm implements Match {
 
     /**
      * 获取赛制
+     *
      * @return
      */
     @Override
@@ -482,6 +485,7 @@ public class MatchPm implements Match {
 
     /**
      * 是否需要显示发球方图标
+     *
      * @return
      */
     @Override
@@ -498,6 +502,7 @@ public class MatchPm implements Match {
 
     /**
      * 是否篮球上下半场赛节配置
+     *
      * @return
      */
     @Override
